@@ -1,0 +1,25 @@
+.connectionitem {
+  background-color: $color-primary;
+  border-radius: $border-radius;
+  display: flex;
+  font-size: $font-size-small2;
+  font-weight: bold;
+  height: 24px;
+  line-height: 24px;
+  padding-left: $gridspacing;
+
+  a {
+    color: $color-light1;
+    display: block;
+  }
+
+  button {
+    background: url('#{$base-path}images/connectionitem.svg') center center no-repeat;
+    color: transparent;
+    overflow: hidden;
+    padding: $gridspacing $gridspacing + 2px;
+    user-select: none;
+    width: 8px;
+  }
+
+}

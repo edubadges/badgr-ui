@@ -1,0 +1,77 @@
+.badgeButton {
+  background-color: $color-light1;
+  border: 1px solid $color-dark4;
+  border-radius: 0px;
+  color: black;
+  display: block;
+  font-weight: normal;
+  padding-left: 81px;
+  position: relative;
+  height: 56px;
+  text-align: left;
+  text-transform: none;
+  //width:288px;
+  width: 100%;
+
+  &::before {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: '';
+    display: block;
+    height: 32px;
+    left: 12px;
+    position: absolute;
+    top: 10px;
+    width: 45px;
+  }
+
+  &.badgeButton-icon-pasteJson {
+    &::before {
+      background-image: url('#{$base-path}images/badgeButton-paste-json-icon.svg');
+    }
+
+    //&:hover::before,
+    &.badgeButton-is-selected::before {
+      background-image: url('#{$base-path}images/badgeButton-paste-json-icon-selected.svg');
+    }
+
+  }
+
+  &.badgeButton-icon-pasteUrl {
+    &::before {
+      background-image: url('#{$base-path}images/badgeButton-paste-url-icon.svg');
+    }
+
+    //&:hover::before,
+    &.badgeButton-is-selected::before {
+      background-image: url('#{$base-path}images/badgeButton-paste-url-icon-selected.svg');
+    }
+  }
+
+  &.badgeButton-icon-badgeUpload {
+    &::before {
+      background-image: url('#{$base-path}images/badgeButton-upload-icon.svg');
+    }
+
+  }
+  &.badgeButton-icon-plus {
+    &::before {
+      background-image: url('#{$base-path}images/badgeButton-plus.svg');
+    }
+  }
+
+  &.badgeButton-is-selected {
+    background-color: $color-badgeButton-light;
+    color: $color-primary;
+  }
+
+  @media (min-width: $media-tablet) {
+    display: inline-block;
+    padding-left: 64px;
+    width: 234px;
+  }
+  &.badgeButton-wide {
+  width: 100%;
+  }
+}

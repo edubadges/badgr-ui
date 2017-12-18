@@ -1,0 +1,33 @@
+.l-childrenvertical {
+
+  > *:not(:last-child) {
+    margin-bottom: $gridspacing * 1.75;
+
+    &.l-childrenvertical-x-offset {
+      margin-bottom: $gridspacing * 3.5;
+    }
+
+  }
+
+  @media (min-width: $media-tablet) {
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 3;
+    }
+
+    &.l-childrenvertical-is-smalldesktop {
+
+      > *:not(:last-child) {
+        margin-bottom: $gridspacing * 2;
+
+        &.l-childrenvertical-x-offset {
+          margin-bottom: $gridspacing * 3.5;
+        }
+
+      }
+
+    }
+
+  }
+
+}

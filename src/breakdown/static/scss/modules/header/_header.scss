@@ -1,0 +1,31 @@
+.header {
+  align-items: center;
+  background-color: $color-light1;
+  border-bottom: $border;
+  box-shadow: 0 2px 0 0 $color-dark4;
+  box-sizing: border-box;
+  display: flex;
+  height: $headerheight;
+  justify-content: space-between;
+  width: 100%;
+  z-index: $z-index-high;
+
+  .header-x-menu {
+    background: url('#{$base-path}images/header-menu.svg') center center no-repeat;
+    color: transparent;
+    display: block;
+    height: 24px;
+    overflow: hidden;
+    user-select: none;
+    width: 24px;
+  }
+
+  @media (min-width: $media-tablet) {
+
+    .header-x-menu {
+      display: none;
+    }
+
+  }
+
+}

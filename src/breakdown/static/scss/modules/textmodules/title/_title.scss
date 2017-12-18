@@ -1,0 +1,93 @@
+.title {
+  color: $color-secondary;
+  font-size: $font-size-large2;
+  font-weight: 600;
+  line-height: 1;
+
+  span {
+    color: $color-dark2;
+    font-size: $font-size-small1;
+    font-weight: normal;
+  }
+
+  @media (max-width: #{$media-tablet - 1px}) {
+
+    &.title-is-smallmobile {
+      font-size: $font-size;
+    }
+
+  }
+
+}
+
+.title-bold {
+  font-weight: bold;
+}
+
+.title-bordered {
+  border-left: $gridspacing solid $color-quaternary;
+  font-size: $font-size-large1;
+  font-weight: bold;
+  line-height: $line-height-large2;
+  padding-left: $gridspacing * 1.5;
+}
+
+.title-margin-bottom-2x {
+  margin-bottom: $gridspacing * 2;
+}
+
+.title-ruled,
+.title-ruledadd {
+  border-bottom: 1px solid $color-dark4;
+  font-size: $font-size;
+  font-weight: bold;
+  line-height: $line-height-large3;
+  padding-bottom: $gridspacing * 2;
+  text-transform: uppercase;
+
+  span {
+    font-size: $font-size;
+    font-weight: bold;
+    line-height: $line-height-large3;
+    text-transform: none;
+  }
+
+}
+
+.title-ruledadd {
+  padding-left: 24px + $gridspacing * 1.5;
+  position: relative;
+
+  &::before {
+    background: url('#{$base-path}images/title-ruledadd.svg') center center no-repeat;
+    background-size: contain;
+    content: '';
+    display: block;
+    height: 24px;
+    left: 0;
+    position: absolute;
+    top: 5px;
+    width: 24px;
+  }
+
+}
+
+.title-small {
+  font-size: $font-size;
+}
+
+.title-small-2x {
+  color: $color-dark2;
+  font-size: $font-size-small1;
+  font-weight: 600;
+}
+
+.title-small-3x {
+  color: $color-secondary;
+  font-size: $font-size-small2;
+  text-transform: uppercase;
+}
+
+.title-uppercase {
+  text-transform: uppercase;
+}

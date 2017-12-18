@@ -1,0 +1,150 @@
+.tooltip {
+  opacity: 0;
+  padding-top: $gridspacing * 1.5 + 3px;
+  pointer-events: none;
+  position: relative;
+  transition: opacity $transition-duration $transition-easing;
+  width: 320px;
+  will-change: opacity;
+  z-index: $z-index-highest;
+
+  .tooltip-x-content {
+    background-color: $color-light1;
+    border-radius: 6px;
+    box-shadow: 0 0 6px 0 rgba($color-dark1, .5);
+    box-sizing: border-box;
+    font-size: $font-size;
+    line-height: $line-height-large1;
+    padding: $gridspacing * 2;
+    position: relative;
+
+    > button {
+      background: url('#{$base-path}images/tooltip-close.svg') center center no-repeat;
+      color: transparent;
+      height: 24px;
+      overflow: hidden;
+      position: absolute;
+      right: $gridspacing * 2;
+      top: $gridspacing * 2;
+      user-select: none;
+      width: 24px;
+    }
+
+    li {
+      margin: $gridspacing/2 0;
+    }
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $gridspacing;
+    padding-right: 24px;
+  }
+
+  h1 {
+    font-size: $font-size-small2;
+    font-weight: bold;
+    line-height: $line-height;
+    order: 2;
+  }
+
+  h2 {
+    font-size: $font-size-small2;
+    margin-bottom: $gridspacing / 2;
+    order: 1;
+  }
+
+  p {
+    font-size: $font-size-small1;
+    line-height: $line-height-large2;
+    margin-bottom: $gridspacing * 2;
+  }
+
+  footer {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tooltip-x-arrow {
+    display: block;
+    height: $gridspacing * 1.5 + 3px;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    transform: translateX(-50%);
+    width: $gridspacing * 3;
+    z-index: $z-index-high;
+
+    &::after {
+      background-color: $color-light1;
+      box-shadow: 0 0 6px 0 rgba($color-dark1, .5);
+      content: '';
+      display: block;
+      height: $gridspacing * 3;
+      left: 50%;
+      position: absolute;
+      top: 3px;
+      transform: rotate(45deg);
+      transform-origin: top left;
+      width: $gridspacing * 3;
+    }
+
+  }
+
+  &.tooltip-is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  &.tether-target-attached-top {
+
+  }
+
+  &.tether-target-attached-bottom {
+    .tooltip-x-arrow {
+      top: 0;
+      left: 50%;
+    }
+  }
+
+  &.tether-target-attached-left{
+    .tooltip-x-arrow {
+      bottom: 0px;
+      height: 50px;
+      width: 32px;
+      right: -46px;
+
+      &::after {
+        top: 25px;
+        height: 25px;
+        width: 25px;
+        left: -50%;
+        transform: rotate(-45deg);
+        transform-origin: top left;
+      }
+
+    }
+  }
+
+  &.tether-target-attached-right {
+    .tooltip-x-arrow {
+      bottom: 0px;
+      height: 50px;
+      width: 30px;
+      left: -15px;
+
+      &::after {
+        top: 25px;
+        height: 25px;
+        width: 25px;
+        left: 50%;
+        transform: rotate(-45deg);
+        transform-origin: top left;
+      }
+
+    }
+
+  }
+
+}

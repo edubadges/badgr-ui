@@ -1,0 +1,15 @@
+<div class="{{render '@l-auth'}}">
+  {{render '@title--bold' titleContext merge=true}}
+  {{render '@text--quiet' textContext merge=true}}
+  <form class="{{render '@l-form--span'}}" role="form" aria-labelledby="heading-form">
+    <fieldset role="group" aria-labelledby="heading-completesignup">
+      <legend class="{{render '@visuallyhidden'}}" id="heading-completesignup">Required fields for Badgr account completion</legend>
+      {{#fields}}
+        {{render '@formfield' context merge=true}}
+      {{/fields}}
+    </fieldset>
+    <div class="l-form-x-offset {{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--right'}}">
+      {{render '@button' buttonSubmitContext merge=true}}
+    </div>
+  </form>
+</div>

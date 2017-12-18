@@ -1,0 +1,51 @@
+.l-fullscreenPage {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $color-light2;
+  z-index: 100;
+
+  > header {
+    position: absolute;
+    top: 0;
+    height: $gridspacing * 8;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    text-transform: uppercase;
+
+    > nav {
+      padding-left: $gridspacing*6;
+
+      a {
+        img {
+          margin-right: $gridspacing*2;
+        }
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        font-weight: bold;
+        font-size: 90%;
+      }
+    }
+  }
+
+  > section {
+    position: absolute;
+    top: $gridspacing * 8;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
+}

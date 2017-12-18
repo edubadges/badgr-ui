@@ -1,0 +1,41 @@
+/*
+
+
+Default - Not used
+.state-is-error - Error
+.state-is-pending - Pending
+.state-is-success - Success
+.state-pill - Alternate styling white text
+.state-pill.state-is-error - Error
+.state-pill.state-is-pending - Pending
+.state-pill.state-is-success - Success
+*/
+
+.state {
+  font-weight: 600;
+
+  @each $state, $color in $states {
+    &.state-is-#{$state} {
+      color: $color;
+    }
+  }
+
+}
+
+.state-pill {
+  border-radius: $border-radius;
+  color: $color-light1;
+  font-size: $font-size-small2;
+  font-weight: bold;
+  line-height: 1;
+  padding: 5px;
+  text-transform: uppercase;
+
+  @each $state, $color in $states {
+    &.state-is-#{$state} {
+      background-color: $color;
+      color: $color-light1;
+    }
+  }
+
+}

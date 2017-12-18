@@ -1,0 +1,51 @@
+.bordered {
+  border: $border;
+
+  @media (max-width: #{$media-desktop - 1px}) {
+
+    // Used on integrations detail view
+
+    &.bordered-is-desktoponly {
+      border: 0;
+    }
+
+  }
+
+}
+
+.bordered-rounded {
+  border-radius: $gridspacing / 2;
+}
+
+.bordered-light {
+  border-color: $color-dark4;
+}
+
+.bordered-dark {
+  border-color: $color-dark3;
+}
+
+.bordered-top {
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.bordered-right {
+  border-bottom: 0;
+  border-left: 0;
+  border-top: 0;
+}
+
+.bordered-bottom {
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+
+.bordered-left {
+  border-bottom: 0;
+  border-right: 0;
+  border-top: 0;
+}
+

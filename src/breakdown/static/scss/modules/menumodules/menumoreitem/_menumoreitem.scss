@@ -1,0 +1,66 @@
+.menumoreitem {
+  position: relative;
+  z-index: $z-index-med;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $color-dark4;
+  }
+
+  a,
+  button {
+    box-sizing: border-box;
+    color: $color-primary;
+    display: block;
+    font-size: $font-size-small1;
+    font-weight: bold;
+    line-height: 1.42;
+    padding: $gridspacing;
+    text-align: left;
+    text-transform: uppercase;
+    transition: background-color $transition-duration $transition-easing,
+                color $transition-duration $transition-easing;
+    width: 100%;
+  }
+
+  &:hover {
+
+    a,
+    button {
+      background-color: $color-primary;
+      color: $color-light1;
+    }
+
+  }
+
+  &[disabled],
+  &.menumoreitem-is-disabled {
+
+    a,
+    button {
+      opacity: .5;
+      pointer-events: none;
+    }
+
+  }
+
+  &:first-of-type {
+
+    a,
+    button {
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+    }
+
+  }
+
+  &:last-of-type {
+
+    a,
+    button {
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+  }
+
+}

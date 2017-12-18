@@ -1,0 +1,58 @@
+ .progress {
+  align-items: center;
+  display: flex;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: $font-size-small2;
+    font-weight: bold;
+    line-height: $line-height;
+    margin-right: $gridspacing * 2;
+  }
+
+  ul {
+    align-items: center;
+    color: transparent;
+    display: flex;
+    user-select: none;
+  }
+
+  li {
+    background-color: $color-dark4;
+    border-radius: 100%;
+    height: 9px;
+    position: relative;
+    width: 9px;
+
+    &:not(:first-child) {
+      margin-left: $gridspacing * 2;
+
+      &::after {
+        background-color: $color-dark4;
+        content: '';
+        display: block;
+        height: 1px;
+        position: absolute;
+        right: 100%;
+        top: 50%;
+        width: $gridspacing * 2;
+      }
+
+    }
+
+  }
+
+  .progress-x-complete {
+    background-color: $color-primary;
+
+    &:not(:first-child)::after {
+      background-color: $color-primary;
+    }
+
+  }
+
+}

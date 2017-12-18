@@ -1,0 +1,27 @@
+.article {
+
+  > * {
+    margin-bottom: $gridspacing * 3;
+  }
+
+  > h1 {
+    color: $color-secondary;
+    font-size: $font-size-large2;
+    font-weight: 600;
+  }
+
+  > p {
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+
+  > img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  > table {
+    max-width: 785px;
+  }
+
+}

@@ -1,0 +1,265 @@
+.formfield {
+  display: block; // Required for angular components
+
+  > label,
+  .formfield-x-label {
+    align-items: center;
+    color: $color-dark2;
+    display: flex;
+    font-size: $font-size-small2;
+    font-weight: bold;
+    justify-content: space-between;
+    letter-spacing: .5px;
+    margin-bottom: $gridspacing;
+    text-shadow: 1px 1px 1px rgba($color-light1, .5);
+    text-transform: uppercase;
+
+    span {
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    a {
+      font-size: $font-size-small1;
+      font-weight: normal;
+      text-transform: none;
+    }
+
+    button {
+      color: $color-dark2;
+      font-size: $font-size-small1;
+    }
+
+  }
+
+  .formfield-x-action > input,
+  > input:not([type='checkbox']),
+  > select,
+  > textarea {
+    background: $color-light1;
+    border: 1px solid $color-dark4;
+    border-radius: $border-radius;
+    box-sizing: border-box;
+    display: block;
+    font-size: $font-size; // Anything less than 16px will cause automatic zooming on Safari for iOS
+    line-height: $line-height-large1;
+    min-width: 150px; // Needed for tables that have expanding th rows
+    outline: none;
+    padding: $gridspacing $gridspacing * 2;
+    transition: border-color $transition-duration $transition-easing,
+                box-shadow $transition-duration $transition-easing,
+                color $transition-duration $transition-easing;
+    width: 100%;
+
+    &::placeholder,
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder {
+      color: $color-dark3;
+    }
+
+    &[disabled] {
+      background-color: $color-light4;
+      border-color: $color-light4;
+      color: $color-dark3;
+    }
+
+    &:hover:not([readonly]):not([disabled]) {
+      border-color: $color-dark3;
+    }
+
+    &:focus:not([readonly]):not([disabled]) {
+      border-color: $color-dark3;
+      box-shadow: 0 0 4px 0 $color-quaternary;
+    }
+
+  }
+
+  > select {
+    appearance: none;
+    background-image: url('#{$base-path}images/form-dropdown.svg');
+    background-position: calc(100% - #{$gridspacing * 2}) center;
+    background-repeat: no-repeat;
+    color: $color-secondary;
+    font-size: $font-size-small1;
+    letter-spacing: 0.58;
+    padding-right: $gridspacing * 4;
+
+    &::-ms-expand {
+      display: none;
+    }
+
+  }
+
+  > textarea {
+    min-height: 144px;
+    resize: vertical;
+  }
+
+  .formfield-x-action {
+    display: flex;
+
+    input:not([type='checkbox']),
+    select,
+    textarea {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    a,
+    button {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+
+  }
+
+  .formfield-x-description {
+    font-size: $font-size-small2;
+    margin-bottom: $gridspacing;
+  }
+
+  .formfield-x-error {
+    color: map-get($states, error);
+    display: none;
+    font-size: $font-size-small2;
+    font-weight: bold;
+    margin-top: $gridspacing;
+    transition: opacity $transition-duration / 2 $transition-easing;
+  }
+
+  // TODO This seems to be a submodule or state, not an x-selector
+
+  &.formfield-x-badgePasteJson-text-height{
+
+    textarea {
+      min-height: 209px;
+    }
+
+  }
+
+  // TODO This makes more sense as its own layout module, rather than an x-selector
+
+  .formfield-x-buttongrid {
+    align-items: baseline;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: -$gridspacing;
+
+    > * {
+      margin: $gridspacing;
+      max-width: 488px;
+      min-width: 220px;
+      flex-grow: 1;
+    }
+
+  }
+
+  &.formfield-is-error {
+
+    > label,
+    .formfield-x-label {
+      color: map-get($states, error);
+    }
+
+    > input,
+    > select,
+    > textarea {
+      border-color: map-get($states, error);
+      color: map-get($states, error);
+
+      &:hover:not([readonly]):not([disabled]),
+      &:focus:not([readonly]):not([disabled]) {
+        border-color: map-get($states, error);
+      }
+
+    }
+
+    .formfield-x-error {
+      display: block;
+    }
+
+  }
+
+
+}
+
+// Icon inputs
+
+.formfield-link,
+.formfield-locked {
+
+  > input:not([type='checkbox']),
+  > select,
+  > textarea {
+    background: $color-light1 $gridspacing * 1.25 center no-repeat;
+    padding-left: $gridspacing * 2 + 16px;
+  }
+
+}
+
+.formfield-link {
+
+  > input:not([type='checkbox']),
+  > select,
+  > textarea {
+    background-image: url('#{$base-path}images/formfield-link.svg');
+  }
+
+}
+
+.formfield-locked {
+
+  > input:not([type='checkbox']),
+  > select,
+  > textarea {
+    background-image: url('#{$base-path}images/formfield-locked.svg');
+  }
+
+}
+
+// TODO This should be a module that consumes a .formfield with a hidden label, rather than a submodule
+
+.formfield-image {
+  border: 1px solid $color-dark4;
+  border-radius: 4px;
+  padding: 16px;
+
+  label {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $gridspacing * 2;
+  }
+
+}
+
+.formfield-inlinelabel {
+
+  > label {
+    justify-content: flex-start;
+
+    span {
+      display: block;
+      margin-left: $gridspacing;
+    }
+
+  }
+
+}
+
+.formfield-limitedtextarea {
+
+  > textarea {
+    min-height: 88px;
+    resize: none;
+  }
+
+}
+
+.formfield-monospaced {
+  > textarea, > input, > select {
+    font-family: monospace;
+  }
+}

@@ -1,0 +1,27 @@
+.search {
+  background: $color-light1 url('#{$base-path}images/search.svg') calc(100% - #{$gridspacing}) center no-repeat;
+  border: $border;
+  border-radius: $border-radius;
+  box-sizing: border-box;
+  display: block;
+  min-width: 264px;
+  outline: none;
+  padding: $gridspacing 24px + $gridspacing * 2 $gridspacing $gridspacing * 2;
+  transition: border-color $transition-duration $transition-easing,
+              background $transition-duration $transition-easing;
+  width: 100%;
+
+  &:hover {
+    border-color: $color-secondary;
+  }
+
+  &:focus {
+    background-image: url('#{$base-path}images/search-focus.svg');
+    border-color: $color-secondary;
+  }
+
+  @media (min-width: $media-tablet) {
+    width: auto;
+  }
+
+}

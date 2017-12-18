@@ -1,0 +1,43 @@
+.formaddinput {
+  background: $color-light1;
+  border: 1px solid $color-dark4;
+  border-radius: $border-radius;
+  display: flex;
+  padding: 5px;
+
+  input {
+    appearance: none;
+    border: 0;
+    flex: 1 1 100%;
+    padding: 0;
+  }
+
+  button {
+    background: url('#{$base-path}images/formaddinput-button.svg') center center no-repeat $color-dark2;
+    border-radius: $border-radius;
+    color: transparent;
+    display: block;
+    height: 30px;
+    margin-left: $gridspacing;
+    outline: none;
+    overflow: none;
+    transition: background-color $transition-duration $transition-easing,
+                box-shadow $transition-duration $transition-easing;
+    user-select: none;
+    width: 30px;
+
+    &:active:focus {
+      background-color: $color-secondary;
+    }
+
+    &:hover {
+      background-color: $color-dark1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 4px 1px $color-quaternary;
+    }
+
+  }
+
+}

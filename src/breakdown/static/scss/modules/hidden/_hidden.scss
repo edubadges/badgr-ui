@@ -1,0 +1,30 @@
+.hidden {
+
+  // !important lets us only apply display: none without having to worry about undoing it (flex, block, inline, table-cell?) via an override
+
+  @media (max-width: #{$media-tablet - 1px}) {
+
+    &.hidden-is-tablet {
+      display: none !important;
+    }
+
+  }
+
+  @media (min-width: #{$media-desktop}) {
+
+    &.hidden-is-lessThen-desktop {
+      display: none !important;
+    }
+
+  }
+
+
+  @media (max-width: #{$media-desktop - 1px}) {
+
+    &.hidden-is-desktop {
+      display: none !important;
+    }
+
+  }
+
+}

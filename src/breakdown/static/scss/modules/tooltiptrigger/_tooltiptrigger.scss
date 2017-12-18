@@ -1,0 +1,19 @@
+.tooltiptrigger {
+  display: inline-block;
+  height: 15px;
+  line-height: 15px;
+  position: relative;
+  width: 15px;
+
+  span {
+    background-image: url('#{$base-path}images/tooltiptrigger.svg');
+    color: transparent;
+    display: inline-block;
+    height: 15px;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    width: 15px;
+  }
+
+}

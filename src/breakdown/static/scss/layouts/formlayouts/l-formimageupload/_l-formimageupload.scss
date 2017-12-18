@@ -1,0 +1,26 @@
+.l-formimageupload {
+
+  .l-formimageupload-x-inputs {
+    margin-top: $gridspacing * 3;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 3;
+    }
+
+  }
+
+  @media (min-width: $media-tablet) {
+    display: flex;
+
+    .l-formimageupload-x-upload {
+      flex: 0 0 208px;
+    }
+
+    .l-formimageupload-x-inputs {
+      flex: 1 1 100%;
+      margin-top: 0;
+    }
+
+  }
+
+}

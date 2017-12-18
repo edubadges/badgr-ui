@@ -1,0 +1,23 @@
+.l-formsectionnested {
+  padding: $gridspacing $gridspacing $gridspacing * 2 $gridspacing;
+  position: relative;
+
+  > *:not(:last-child) {
+    margin-bottom: $gridspacing * 3;
+  }
+
+  > *:nth-last-child(2) {
+    margin-bottom: $gridspacing;
+  }
+
+  .l-formsectionnested-x-remove {
+    position: absolute;
+    right: $gridspacing;
+    top: $gridspacing;
+  }
+
+  @media (min-width: $media-tablet) {
+    padding: $gridspacing * 2;
+  }
+
+}

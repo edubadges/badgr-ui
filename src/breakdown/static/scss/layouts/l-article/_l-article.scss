@@ -1,0 +1,37 @@
+.l-article {
+
+  > :first-child {
+    margin-bottom: $gridspacing * 4;
+  }
+
+  > :last-child {
+
+    > * {
+      margin-bottom: $gridspacing * 3;
+    }
+
+    > h1 {
+      margin-bottom: $gridspacing;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+    display: flex;
+    justify-content: space-between;
+
+    > :first-child {
+      flex-basis: 67%;
+      margin-bottom: 0;
+      min-width: 0;
+    }
+
+    > :last-child {
+      flex-basis: 30%;
+      min-width: 0;
+      padding-top: $gridspacing * 2;
+    }
+
+  }
+
+}

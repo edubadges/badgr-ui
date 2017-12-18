@@ -1,0 +1,23 @@
+<div class="{{render '@l-auth'}}">
+  {{render '@authlink' authLinkContext merge=true}}
+  <table class="l-auth-x-permissions {{render '@table'}}">
+    <thead>
+      <tr>
+        <th scope="col">Digital Promise would like to</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="table-x-wrap">{{render '@permission--personal' permissionPersonalContext merge=true}}</td>
+      </tr>
+      <tr>
+        <td class="table-x-wrap">{{render '@permission--profile' permissionProfileContext merge=true}}</td>
+      </tr>
+    </tbody>
+  </table>
+  {{render '@text--quiet' textContext merge=true}}
+  <form class="l-auth-x-buttons {{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--right'}}">
+    {{render '@button--secondary' buttonCancelContext merge=true}}
+    {{render '@button' buttonAuthorizeContext merge=true}}
+	</form>
+</div>

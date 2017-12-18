@@ -1,0 +1,53 @@
+.badge {
+  box-sizing: border-box;
+  display: inline-block;
+  padding: $gridspacing / 2;
+  position: relative;
+  transition: background-color $transition-duration $transition-easing,
+              box-shadow $transition-duration $transition-easing;
+
+
+
+  img {
+    display: block;
+    transition: filter $transition-duration $transition-easing;
+  }
+
+  &.badge-is-active {
+    background-color: $color-light1;
+    box-shadow: 0 0 0 1px $color-dark3;
+  }
+
+  &.badge-is-noMargin {
+    padding: 0;
+  }
+
+  &.badge-is-disabled img {
+    filter: grayscale(100%);
+    opacity: .6;
+  }
+
+  &.badge-is-locked::after {
+    position: absolute;
+    color: $color-dark2;
+    top: 0;
+    right: 0;
+    content: "\f023";
+    //font: normal normal normal 14px/1 FontAwesome;
+  }
+
+  .badge-x-awardedIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+:checked + label .badge {
+  background: $color-light1;
+  box-shadow: 0 0 0 1px $color-dark3;
+}
+
+.badge-flat {
+  padding: 0;
+}

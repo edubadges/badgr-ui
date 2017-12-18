@@ -1,0 +1,18 @@
+.rule {
+  border: 0;
+  display: block;
+  height: 1px;
+  position: relative;
+  width: 100%;
+
+  &::after {
+    @include pseudobase;
+    background: $color-dark4;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+}

@@ -1,0 +1,31 @@
+<button class="button" aria-controls="dialog{{#if dialog.classList?}}{{dialog.classList?}}{{/if}}">Open Dialog</button>
+
+<dialog class="dialog{{#if dialog.classList?}} {{dialog.classList?}}{{/if}}" id="dialog{{#if dialog.classList?}}{{dialog.classList?}}{{/if}}">
+	<button class="dialog-x-close" aria-controls="dialog{{#if dialog.classList?}}{{dialog.classList?}}{{/if}}"><span class="icon icon-notext icon-close">Close</span></button>
+	<div class="dialog-x-content">
+		<h1 class="title">Add Badge</h1>
+		<p>Add a badge you've already received by utilizing one of the options below.</p>
+		<div class="formfield">
+			<p class="formfield-x-label">Upload Badge Image</p>
+			<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--small"}}">
+				<button class="button">Choose File</button>
+				<p class="small">No file choosen</p>
+			</div>
+		</div>
+		{{> @titledivider}}
+		<div class="formfield">
+			<label>Paste Badge URL</label>
+			<input type="text" placeholder="Enter URL">
+		</div>
+		<button class="button button-secondaryghost l-offsetleft" type="button">Show Advanced</button>
+		<div class="formfield">
+			<label>Paste Badge JSON</label>
+			<textarea></textarea>
+		</div>
+		<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--small"}} {{render "@l-childrenhorizontal--right"}}">
+			<button class="button button-primaryghost" type="button">Cancel</button>
+			<button class="button">Add Badge</button>
+		</div>
+		{{render '@formmessage--formmessage-is-error'}}
+	</div>
+</dialog>

@@ -1,0 +1,21 @@
+.social {
+  background: $color-secondary center center no-repeat;
+  border-radius: $border-radius;
+  color: transparent;
+  height: 24px;
+  overflow: hidden;
+  user-select: none;
+  width: 24px;
+}
+
+.social-facebook {
+  background-image: url('#{$base-path}images/social-facebook.svg');
+}
+
+.social-linkedin {
+  background-image: url('#{$base-path}images/social-linkedin.svg');
+}
+
+.social-twitter {
+  background-image: url('#{$base-path}images/social-twitter.svg');
+}

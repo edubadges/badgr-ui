@@ -1,0 +1,187 @@
+.markdowneditor {
+  padding-bottom: 36px;
+  position: relative;
+  line-height: $line-height-large1;
+
+  .markdowneditor-x-editor{
+    textarea {
+      min-height: 144px;
+    }
+  }
+
+  .markdowneditor-x-display {}
+
+  .markdowneditor-x-preview {
+    padding: $gridspacing;
+    border: 1px solid rgba($color-secondary, .38);
+    border-radius: $border-radius;
+  }
+
+  .markdowneditor-x-tabbar {
+    display:flex;
+    height: 36px;
+    justify-content:flex-end;
+    margin-bottom: 40px;
+    margin-top: -1px;
+    position: absolute;
+    padding-left: 15px;
+    width: 100%;
+
+
+    span {
+      float: right;
+      padding-right: 17px;
+      padding-top: 10px;
+      position: relative;
+      text-align: right;
+
+      button {
+        color: transparent;
+        font-family: "Open Sans";
+        font-size: $font-size-small1;
+        line-height: 20px;
+        overflow: hidden;
+        text-decoration: underline;
+        user-select: none;
+        width: 26px;
+
+        &::before{
+          display: inline-block;
+          background-image: url('#{$base-path}images/markdown-mark-solid.svg');
+          background-repeat: no-repeat;
+          background-size: contain;
+          content: '';
+          height: 16px;
+          padding-right: $gridspacing;
+          position: relative;
+          top:2px;
+          width: 26px;
+        }
+      }
+    }
+  }
+
+  .markdowneditor-x-tab{
+    background-color: $color-light3;
+    border: 1px solid $color-dark3;
+    box-sizing: border-box;
+    height: 36px;
+    padding-top: 5px;
+    position: absolute;
+    text-align: center;
+    width: 72px;
+    cursor: pointer;
+  }
+  .markdowneditor-x-tab-is-active{
+    background-color: $color-light1;
+    border-top-color: $color-light1;
+  }
+
+  .markdowneditor-x-writebutton {
+    border-radius: 0 0 0 4px;
+    left:15px;
+  }
+
+  .markdowneditor-x-previewbutton {
+    border-radius: 0 0 4px 0;
+    left: 86px;
+  }
+
+  .markdowneditor-x-active {
+    background-color: $color-light1;
+  }
+
+  /* un-reset css */
+  .markdowneditor-x-preview,
+  .markdowneditor-x-display {
+    box-sizing: border-box !important;
+
+    // style the generated html
+    em {
+      font-style: italic !important;
+    }
+    ul {
+      list-style-type: disc !important;
+      list-style-position: inside !important;
+    }
+    ol {
+      list-style-type: decimal !important;
+      list-style-position: inside !important;
+    }
+    ul ul, ol ul {
+      list-style-type: circle !important;
+      list-style-position: inside !important;
+      margin-left: 15px !important;
+    }
+    ol ol, ul ol {
+      list-style-type: lower-latin !important;
+      list-style-position: inside !important;
+      margin-left: 15px !important;
+    }
+
+    @mixin baseh{
+      display: block !important;
+      font-weight: bold !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      color: black !important;
+    }
+
+    h1 {
+      @include baseh;
+      font-size: 2em !important;
+      margin-top: 0.67em !important;
+      margin-bottom: 0.67em !important;
+    }
+    h2 {
+      @include baseh;
+      font-size: 1.5em !important;
+      margin-top: 0.83em !important;
+      margin-bottom: 0.83em !important;
+    }
+    h3 {
+      @include baseh;
+      font-size: 1.17em !important;
+      margin-top: 1em !important;
+      margin-bottom: 1em !important;
+    }
+    h4 {
+      @include baseh;
+      margin-top: 1.33em !important;
+      margin-bottom: 1.33em !important;
+    }
+    h5 {
+      @include baseh;
+      font-size: .83em !important;
+      margin-top: 1.67em !important;
+      margin-bottom: 1.67em !important;
+    }
+    h6 {
+      @include baseh;
+      font-size: .67em !important;
+      margin-top: 2.33em !important;
+      margin-bottom: 2.33em !important;
+    }
+  }
+
+  @media (min-width: $media-tablet) {
+
+    .markdowneditor-x-tabbar {
+
+
+      span {
+
+        button {
+          color: $color-secondary;
+          overflow: visible;
+          user-select: all;
+          width: auto;
+        }
+
+      }
+
+    }
+
+  }
+
+}

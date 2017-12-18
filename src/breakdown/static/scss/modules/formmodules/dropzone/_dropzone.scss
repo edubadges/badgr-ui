@@ -1,0 +1,114 @@
+.dropzone {
+  align-items: center;
+  border: 2px dashed $color-dark4;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: $color-dark1;
+  display: flex;
+  flex-direction: column;
+  font-size: $font-size-small1;
+  font-weight: bold;
+  justify-content: center;
+  line-height: 1.3;
+  min-height: 230px;
+  outline: none;
+  padding: $gridspacing * 2;
+  text-align: center;
+  text-transform: uppercase;
+  transition: border-color $transition-duration $transition-easing;
+  width: 100%;
+
+  &::before {
+    background: url('#{$base-path}images/dropzone-add.svg') no-repeat;
+    background-size: contain;
+    content: '';
+    display: block;
+    height: 58px;
+    margin-bottom: $gridspacing * 2;
+    width: 58px;
+  }
+
+  &:hover,
+  &:focus,
+  &.is-active {
+    border-color: $color-primary-light;
+    box-shadow: none;
+    color: $color-dark1;
+  }
+
+}
+
+.dropzone-alt1 {
+  background-color: $color-light1;
+  border-radius: $border-radius;
+  height: 160px;
+  min-height: 0;
+  padding: 0;
+  width: 160px;
+
+  &::before {
+    background-image: url('#{$base-path}images/dropzone-alt1.svg');
+    height: 60px;
+    order: 2;
+    transition: background-image $transition-duration $transition-easing;
+    width: 50px;
+  }
+
+  .dropzone-x-text {
+    color: $color-dark2;
+    font-size: $font-size-small2;
+    margin-bottom: $gridspacing * 2;
+    order: 1;
+    transition: color $transition-duration $transition-easing;
+  }
+
+  &:hover, &.dropzone-is-dragging {
+    border-color: $color-quaternary;
+
+    &::before {
+      background-image: url('#{$base-path}images/dropzone-alt1-hover.svg');
+    }
+
+  }
+
+  &.dropzone-is-dropped {
+    border-color: transparent;
+
+    &::before {
+      display: none;
+    }
+
+    .dropzone-x-text {
+      display: none;
+    }
+
+  }
+
+  &.dropzone-is-error {
+    border-color: map-get($states, error);
+
+    &::before {
+      background-image: url('#{$base-path}images/dropzone-alt1-error.svg');
+    }
+
+    .dropzone-x-text {
+      color: map-get($states, error);
+    }
+
+  }
+
+}
+
+.dropzone-inline {
+  flex-direction: row;
+  justify-content: flex-start;
+  min-height: 0;
+
+  &::before {
+    height: 24px;
+    margin-bottom: 0;
+    margin-right: $gridspacing * 2;
+    width: 24px;
+  }
+
+}

@@ -1,0 +1,86 @@
+<div class="{{#if xSelector}}{{xSelector}} {{/if}}markdowneditor">
+	{{#is markdowneditor.x-selector? "markdowneditor-x-preview"}}
+	<div class="markdowneditor-x-preview">
+		<h3>Results of markdown</h3>
+		<p> This is an example of the user entered markdown displayed as html.</p>
+		<br>
+		<ul>
+			<li>list 1 </li>
+			<li>list 2</li>
+			<li>list 3</li>
+		</ul>
+		<br>
+		<p>Another line of user entered text.</p>
+	</div>
+	{{else}}
+		<div class="markdowneditor-x-editor">
+			{{render "@formfield--withtextareaexample" formFieldContext merge=true}}
+		</div>
+		<div class="markdowneditor-x-tabbar">
+			<div class="markdowneditor-x-tab markdowneditor-x-writebutton">write</div>
+			<div class="markdowneditor-x-tab markdowneditor-x-previewbutton">preview</div>
+			<span><button class="trigger">Markdown Supported</button></span>
+		</div>
+		{{^hideTooltip}}
+		<div class="{{render "@tooltip--default"}}">
+			<header></header>
+			<span class="tooltip-x-arrow"></span>
+			<div class="tooltip-x-content">
+				<ul>
+					<li>###This is an H3###</li>
+					<li>_These are italics_</li>
+					<li>**This is bold**</li>
+					<li>[Title](url)</li>
+					<li>* Unordered (bulleted) list item1</li>
+					<li>* Unordered (bulleted) list item2</li>
+					<li># Ordered (numbered) list item1</li>
+					<li># Ordered (numbered) list item2</li>
+				</ul>
+				<footer>
+					<a href="//daringfireball.net/projects/markdown/basics" target="_new">Learn More</a>
+				</footer>
+			</div>
+		</div>
+		{{/hideTooltip}}
+	{{/is}}
+</div>
+
+
+<!-- NOTE: THe following javascript is for styleguide functionality only.-->
+<script type="text/javascript">
+	if(!document.querySelector(".markdowneditor")
+			.classList.contains("markdowneditor-x-preview")
+	){
+		document.querySelector(".tooltip")
+			.classList.add("tooltip-is-active")
+	}
+</script>
+
+
+<!-- NOTE: THe following javascript is for styleguide functionality only. -->
+<script type="text/javascript">
+	var isOpen = false;
+	var markdowneditorContainer = document.getElementsByClassName("markdowneditor")[0];
+	var btn = markdowneditorContainer.getElementsByClassName("trigger")[0];
+
+	close();
+
+	btn.addEventListener("click",function(){
+		isOpen = !isOpen;
+		toggleOpen();
+	})
+
+	function toggleOpen(){
+		isOpen ?  open() : close();
+	}
+
+	function open(){
+		markdowneditorContainer.getElementsByClassName("tooltip")[0]
+			.classList.add("tooltip-is-active");
+	}
+
+	function close(){
+		markdowneditorContainer.getElementsByClassName("tooltip")[0]
+			.classList.remove("tooltip-is-active");
+	}
+</script>

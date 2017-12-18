@@ -1,0 +1,30 @@
+.l-controls {
+  padding-bottom: $gridspacing * 2;
+  padding-top: $gridspacing * 2;
+
+  > :first-child {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  > :last-child {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (min-width: $media-tablet) {
+    display: flex;
+
+    > :first-child {
+      flex: 0 1 auto;
+      margin-bottom: 0;
+      margin-right: $gridspacing * 3;
+    }
+
+    > :last-child {
+      flex: 1 0 auto;
+    }
+
+  }
+
+}

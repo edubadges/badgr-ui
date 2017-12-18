@@ -1,0 +1,119 @@
+.l-formsection {
+  padding: $gridspacing * 2 $gridspacing * 2 $gridspacing * 4;
+  position: relative;
+
+  &:not(:first-of-type) {
+    margin-top: $gridspacing * 4;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: $gridspacing * 4;
+  }
+
+  .l-formsection-x-container {
+    margin-top: $gridspacing * 2;
+  }
+
+  .l-formsection-x-help {
+    box-sizing: border-box;
+    margin-bottom: $gridspacing * 3;
+    position: relative;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 2;
+    }
+
+  }
+
+  .l-formsection-x-inputs {
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 2;
+    }
+
+  }
+
+  .l-formsection-x-inputoffset:not(:last-child) {
+    margin-bottom: $gridspacing * 3;
+  }
+
+  .l-formsection-x-maxwidthinput {
+    max-width: 420px;
+  }
+
+  .l-formsection-x-remove {
+    position: absolute;
+    right: $gridspacing * 2;
+    top: $gridspacing * 2;
+  }
+
+  .l-formsection-x-checkbox {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @media (min-width: $media-tablet) {
+    padding-left: $gridspacing * 3;
+    padding-right: $gridspacing * 3;
+
+    .l-formsection-x-help {
+
+      button {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+
+    .l-formsection-x-container {
+      display: flex;
+      margin-top: 0;
+    }
+
+    // This is finicky - works in IE 11 + though
+
+    .l-formsection-x-help {
+      flex: 0 0 auto;
+      margin-left: $gridspacing * 6;
+      order: 2;
+      padding-right: $gridspacing * 6;
+      width: 280px;
+
+      button {
+        position: relative;
+        right: auto;
+        top: auto;
+      }
+
+    }
+
+    .l-formsection-x-inputs {
+      flex: 1 1 100%;
+      margin-top: $gridspacing * 2;
+      order: 1;
+    }
+
+    .l-formsection-x-legend {
+      width: calc(100% - #{280px + $gridspacing * 6})
+    }
+
+  }
+
+}
+
+.l-formsection-span {
+
+  @media (min-width: $media-desktop) {
+
+    .l-formsection-x-legend {
+      width: auto;
+    }
+
+  }
+
+}

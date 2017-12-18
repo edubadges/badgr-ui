@@ -1,0 +1,62 @@
+.l-overflowlist {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  > header {
+    flex: 1 0 auto;
+    padding: $gridspacing * 2;
+  }
+
+  > footer {
+    flex: 1 0 auto;
+
+    > div:last-of-type {
+      padding: $gridspacing * 2;
+    }
+
+  }
+
+  .l-overflowlist-x-list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+
+  .l-overflowlist-x-selected {
+    padding: $gridspacing * 2 $gridspacing * 2 0;
+
+    > h1 {
+      margin-bottom: $gridspacing;
+    }
+
+    > p {
+      padding-top: $gridspacing;
+    }
+
+    > div {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: $gridspacing * 2;
+      max-height: 112px;
+      overflow-y: auto;
+      padding-top: $gridspacing; // Allows for remove buttons to appear within overflow
+
+      > * {
+        margin: 0 $gridspacing * 2 $gridspacing * 2 0;
+      }
+
+    }
+
+  }
+
+  @media (min-width: $media-tablet) {
+    height: auto;
+
+    .l-overflowlist-x-list {
+      max-height: 312px;
+    }
+
+  }
+
+}

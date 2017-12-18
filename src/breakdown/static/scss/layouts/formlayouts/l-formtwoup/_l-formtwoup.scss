@@ -1,0 +1,26 @@
+.l-formtwoup {
+
+  > *:first-child {
+    margin-bottom: $gridspacing;
+  }
+
+  @media (min-width: $media-tablet) {
+    display: flex;
+
+    > * {
+
+      &:first-child {
+        flex: 1 1 24.6835%;
+        margin-bottom: 0;
+        margin-right: $gridspacing;
+      }
+
+      &:last-child {
+        flex: 1 1 100%;
+      }
+
+    }
+
+  }
+
+}

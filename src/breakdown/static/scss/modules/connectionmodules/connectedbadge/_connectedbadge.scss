@@ -1,0 +1,35 @@
+.connectedbadge {
+  align-items: flex-start;
+  border: 1px solid $color-dark4;
+  border-radius: $border-radius;
+  box-sizing: border-box;
+  color: $color-dark1;
+  display: flex;
+  font-size: $font-size-small1;
+  min-height: 130px;
+  padding: $gridspacing * 3;
+  position: relative;
+
+  h1 {
+    color: $color-dark1;
+    font-weight: 600;
+    margin-bottom: $gridspacing;
+  }
+
+  p {
+    line-height: $line-height-large1;
+  }
+
+  > div:first-of-type {
+    margin-right: $gridspacing * 2;
+  }
+
+  > div:last-of-type {
+    margin-top: $gridspacing / 2;
+  }
+
+  &:hover {
+    color: $color-dark1;
+  }
+
+}

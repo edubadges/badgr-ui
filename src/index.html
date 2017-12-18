@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base href="/">
+
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title><%= metadata.title %></title>
+
+  <meta name="description" content="<%= metadata.title %>">
+
+  <%= htmlWebpackPlugin.options.configImport %>
+
+  <% if (webpackConfig.htmlElements.headTags) { %>
+  <!-- Configured Head Tags  -->
+  <%= webpackConfig.htmlElements.headTags %>
+  <% } %>
+
+  <!-- Expose the list of available css assets -->
+  <script type="text/javascript">
+    window.webpackCssFiles = <%= JSON.stringify(htmlWebpackPlugin.files.css) %>;
+  </script>
+
+  <style type="text/css">
+    @keyframes loading-fade {
+      0% { opacity: .4; }
+      50% { opacity: 1; }
+      100% { opacity: .4; }
+    }
+  </style>
+</head>
+
+<body>
+  <app></app>
+
+  <!-- Inline style so loading shows up before css and theming is ready -->
+  <div id="initial-loading-indicator"
+       style="align-items: center;
+              display: flex;
+              height: 100%;
+              justify-content: center;
+              left: 0;
+              position: fixed;
+              top: 0;
+              width: 100%;
+              background: white;
+              z-index: 1000;
+">
+    <img class="initial-loading-image" style="animation: loading-fade 1.25s ease-out infinite;" />
+  </div>
+  
+  <% if (metadata.isDevServer) { %>
+  <!-- Webpack Dev Server reload -->
+  <script src="/webpack-dev-server.js"></script>
+  <% } %>
+</body>
+</html>

@@ -1,0 +1,64 @@
+.buttonicon {
+  align-items: center;
+  display: flex;
+  font-size: $font-size-small1;
+  font-weight: bold;
+  line-height: $line-height-large2;
+  outline: none;
+  user-select: none;
+
+  &::before {
+    background: center center no-repeat $color-dark2;
+    border-radius: $border-radius;
+    content: '';
+    display: block;
+    height: 18px;
+    margin-right: $gridspacing;
+    transition: background-color $transition-duration $transition-easing,
+                box-shadow $transition-duration $transition-easing;
+    width: 18px;
+  }
+
+  &:active:focus {
+
+    &::before {
+      background-color: $color-secondary;
+    }
+
+  }
+
+  &:hover {
+
+    &::before {
+      background-color: $color-dark1;
+    }
+
+  }
+
+  &:focus {
+
+    &::before {
+      box-shadow: 0 0 4px 1px $color-quaternary;
+    }
+
+  }
+
+  &[disabled] {
+    color: $color-light4;
+    pointer-events: none;
+
+    &::before {
+      background-color: $color-light4;
+    }
+
+  }
+
+}
+
+.buttonicon-add {
+
+  &::before {
+    background-image: url('#{$base-path}images/buttonicon-add.svg');
+  }
+
+}

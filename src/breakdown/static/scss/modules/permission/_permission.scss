@@ -1,0 +1,51 @@
+.permission {
+  font-size: $font-size;
+  line-height: $line-height-large2;
+  padding-left: 24px + $gridspacing * 2;
+  position: relative;
+
+  &::before {
+    background: center center no-repeat;
+    background-size: contain;
+    content: '';
+    display: block;
+    height: 24px;
+    left: 0;
+    position: absolute;
+    top: $gridspacing / 4;
+    width: 24px;
+  }
+
+}
+
+.permission-personal {
+
+  &::before {
+    background-image: url('#{$base-path}images/permission-personal.svg');
+  }
+
+}
+
+.permission-profile {
+
+  &::before {
+    background-image: url('#{$base-path}images/permission-profile.svg');
+  }
+
+}
+
+.permission-issuer {
+
+  &::before {
+    background-image: url('#{$base-path}images/permission-issuer.svg');
+  }
+
+}
+
+.permission-assertion {
+
+  &::before {
+    background-image: url('#{$base-path}images/permission-assertion.svg');
+  }
+
+}

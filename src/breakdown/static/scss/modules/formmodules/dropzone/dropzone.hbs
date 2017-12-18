@@ -1,0 +1,9 @@
+<{{^element}}button{{/element}}{{element}} class="dropzone{{#if modifier}} {{modifier}}{{/if}}" {{^element}}type="button"{{/element}} {{#if label}}aria-labelledby="{{label}}"{{/if}}>
+  {{^image}}
+    <span class="dropzone-x-text">{{text}}</span>
+  {{/image}}
+  {{#image}}
+    <!-- NOTE: Alt text should describe the image -->
+    <img src="http://placehold.it/125x110" alt="see note">
+  {{/image}}
+</{{^element}}button{{/element}}{{element}}>

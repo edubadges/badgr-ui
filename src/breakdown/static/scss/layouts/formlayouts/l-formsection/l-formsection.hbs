@@ -1,0 +1,39 @@
+<div class="l-formsection{{#if modifier}} {{modifier}}{{/if}} {{render '@wrap'}} {{render '@wrap--well'}}" role="group" aria-labelledby="{{label}}">
+  {{render '@title--ruled' titleRuledContext merge=true}}
+  <div class="l-formsection-x-container">
+    {{^hideHelp}}
+      <div class="l-formsection-x-help">
+        {{render '@title--bordered' titleBorderedContext merge=true}}
+        {{render '@text--small' textContext merge=true}}
+        {{render '@button--tertiaryghost' buttonContext merge=true}}
+      </div>
+    {{/hideHelp}}
+    <div class="l-formsection-x-inputs">
+      {{#tags}}
+        {{render '@l-tags' context merge=true}}
+      {{/tags}}
+      {{#markdownEditor}}
+        {{render '@markdowneditor' context merge=true}}
+      {{/markdownEditor}}
+      {{#formFields}}
+        {{render '@formfield' context merge=true}}
+      {{/formFields}}
+      {{#formCheckbox}}
+        <div class="l-formsection-x-checkbox">
+          {{render '@formcheckbox' context merge=true}}
+        </div>
+      {{/formCheckbox}}
+      {{#formSectionNested}}
+        {{render '@l-formsectionnested' formSectionNestedContext}}
+        {{render '@buttonicon--add' buttonIconContext merge=true}}
+      {{/formSectionNested}}
+      {{#badge}}
+        {{render '@l-formimageupload'}}
+      {{/badge}}
+      {{#squareIconCards}}
+        {{render '@l-squareiconcards' context}}
+      {{/squareIconCards}}
+    </div>
+  </div>
+  {{#if removeable}}{{render '@formsectionremove' formSectionRemoveContext merge=true}}{{/if}}
+</div>

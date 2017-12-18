@@ -1,0 +1,30 @@
+.menu {
+  background-color: $color-secondary;
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-top: $gridspacing * 4;
+
+  @media (min-width: $media-tablet) {
+    background-color: transparent;
+    min-height: 0;
+    padding-right: $gridspacing * 5;
+    padding-top: 0;
+
+    > ul {
+      align-items: center;
+      display: flex;
+      height: $headerheight;
+
+      > li {
+        margin-left: $gridspacing;
+      }
+
+    }
+
+  }
+
+  @media (min-width: $media-desktop + $gridspacing * 8) {
+    padding-right: calc(50vw - #{$media-desktop / 2});
+  }
+
+}

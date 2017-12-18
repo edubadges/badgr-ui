@@ -1,0 +1,62 @@
+.connectedcard {
+  align-items: stretch;
+  display: flex;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: box-shadow $transition-duration $transition-easing,
+                opacity $transition-duration $transition-easing;
+    width: 100%;
+    z-index: $z-index-low;
+  }
+
+  > button {
+    background-image: url('#{$base-path}images/connectedcard-remove.svg');
+    color: transparent;
+    height: 24px;
+    overflow: hidden;
+    position: absolute;
+    right: $gridspacing * 2;
+    top: $gridspacing * 2.75;
+    width: 24px;
+    z-index: $z-index-high;
+
+    &:hover + * {
+      opacity: .5;
+    }
+
+  }
+
+  > :last-child {
+    flex: 1 1 auto;
+    min-width: 0;
+    position: relative;
+    transition: opacity $transition-duration $transition-easing;
+    z-index: $z-index-med;
+  }
+
+  &:hover {
+
+    &::after {
+      box-shadow: $box-shadow;
+    }
+
+  }
+
+}
+
+
+
+.connectedcard-light {
+
+  > button {
+    background-image: url('#{$base-path}images/connectedcard-remove-light.svg');
+  }
+
+}

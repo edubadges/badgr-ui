@@ -1,0 +1,318 @@
+.table {
+  border-collapse: collapse;
+  border-radius: $border-radius;
+  box-shadow: 0 0 0 1px $color-dark4 inset;
+  display: table;
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+
+  td,
+  .table-x-td,
+  th,
+  .table-x-th {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  thead,
+  .table-x-thead {
+    display: table-header-group;
+
+    th,
+    .table-x-th {
+      background-color: $color-secondary;
+      box-sizing: border-box;
+      font-size: $font-size-small2;
+      font-weight: bold;
+      height: 48px;
+      padding: $gridspacing * 2;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    th:not(.table-x-hidetext),
+    .table-x-th:not(.table-x-hidetext) {
+      color: $color-light1;
+    }
+
+  }
+
+  tbody,
+  .table-x-tbody {
+    display: table-row-group;
+
+    td,
+    .table-x-td,
+    th,
+    .table-x-th {
+      border-top: $border;
+      box-sizing: border-box;
+      height: 65px;
+      padding: $gridspacing $gridspacing * 2;
+    }
+
+    th,
+    .table-x-th {
+      width: 100%;
+    }
+
+    td,
+    .table-x-td {
+      font-size: $font-size-small1;
+      white-space: nowrap;
+    }
+
+    tr:first-child,
+    .table-x-tr:first-child {
+
+      td,
+      .table-x-td,
+      th,
+      .table-x-th {
+        border-top: 0;
+      }
+
+    }
+
+  }
+
+  .table-x-tr {
+    display: table-row;
+  }
+
+  .table-x-actions {
+    min-width: 400px;
+  }
+
+  .table-x-hidetext {
+    color: transparent;
+    user-select: none;
+  }
+
+  .table-x-date {
+    font-size: $font-size-small2;
+    white-space: nowrap;
+  }
+
+  .table-x-inlineheader {
+    background-color: $color-dark4;
+    border: 0;
+    color: $color-secondary;
+    font-size: $font-size;
+    height: auto;
+    line-height: $line-height-large2;
+    padding-bottom: $gridspacing;
+    padding-top: $gridspacing;
+  }
+
+  .table-x-active {
+
+    th,
+    .table-x-th,
+    td,
+    .table-x-td {
+      background-color: $color-dark4;
+      box-shadow: rgba($color-secondary, .12) 0 -1px 0 0 inset;
+
+      &:first-child {
+        box-shadow: rgba($color-secondary, .12) 1px -1px 0 0 inset;
+      }
+
+      &:last-child {
+        box-shadow: rgba($color-secondary, .12) -1px -1px 0 0 inset;;
+      }
+
+    }
+
+  }
+
+  .table-x-wrap {
+    white-space: normal;
+  }
+
+}
+
+.table-aligntop {
+
+  td,
+  .table-x-td,
+  th,
+  .table-x-th {
+    vertical-align: top;
+  }
+
+  .table-x-input {
+    padding-top: $gridspacing * 2;
+  }
+
+}
+
+.table-dialog {
+  border-radius: 0;
+  box-shadow: none;
+  white-space: normal;
+
+  tbody,
+  .table-x-tbody {
+
+    tr *,
+    .table-x-tr * {
+      user-select: none;
+    }
+
+    td,
+    .table-x-td {
+      padding: 0;
+    }
+
+  }
+
+  // These x-selectors add padding
+
+  .table-x-badge,
+  .table-x-input,
+  .table-x-padded,
+  .table-x-title,
+  .table-x-inlineheader {
+    padding: $gridspacing $gridspacing * 2;
+  }
+
+  // These x-selectors are inputs and need the cursor
+
+  .table-x-badge,
+  .table-x-input,
+  .table-x-title,
+  .table-x-stack {
+    cursor: pointer;
+  }
+
+  // These x-selectors have special styling based on the design
+
+  .table-x-span {
+    width: 100%;
+  }
+
+  .table-x-badge {
+    display: block;
+    padding-right: $gridspacing;
+    width: 40px;
+  }
+
+  .table-x-input {
+    padding-right: 0;
+    width: 16px;
+
+    * {
+      cursor: pointer;
+    }
+
+  }
+
+  .table-x-title {
+    display: block;
+    padding-left: 0;
+  }
+
+  .table-x-issued {
+    min-width: 163px;
+    padding-right: 16px;
+  }
+
+}
+
+.table-import {
+  color: $color-dark2;
+  max-width: 1024px;
+  min-width: 736px;
+
+  tbody{
+
+    tr:first-of-type {
+      background: $color-dark4;
+
+      td {
+        color: black;
+        font-size: 12px;
+        font-weight: bold;
+        height: 50px;
+        line-height: 16px;
+        max-width: 175px;
+        text-transform: uppercase;
+      }
+
+    }
+
+  }
+
+}
+
+// TODO: Needs example component
+.table-issues {
+  color: $color-dark2;
+  max-width: 1024px;
+  min-width: 736px;
+
+  thead {
+
+    tr {
+
+      th:last-of-type{}
+
+    }
+
+  }
+
+  tbody {
+
+    tr {
+
+      td {
+        color: $color-dark5;
+        font-size: 12px;
+        font-weight: bold;
+        height: 50px;
+        line-height: 16px;
+        min-width: 300px;
+        padding-bottom: $gridspacing * 2;
+        padding-right: 0;
+        padding-top: $gridspacing * 2;
+        vertical-align: top;
+      }
+
+      td:last-of-type{
+        max-width: 100px;
+        padding-right: $gridspacing * 2;
+        text-align: right;
+      }
+
+    }
+
+  }
+
+  .table-issues-x-confirmation {
+    padding-bottom: 0;
+    padding-top: 0;
+    vertical-align: middle;
+  }
+
+  .table-issues-x-confirmationText {
+    color: $color-dark2;
+    font-weight: normal;
+  }
+
+}
+
+// TODO : Need example Component
+.table-staffeditor {
+
+  td,
+  th {
+    min-width: 200px;
+  }
+
+  .table-staffeditor-x-role {
+    max-width: 200px;
+  }
+
+}

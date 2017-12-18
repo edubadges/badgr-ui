@@ -1,0 +1,56 @@
+@keyframes emptyillustration {
+
+  0% {
+    opacity: 0;
+    transform: scale3d(.75, .75, .75);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+
+}
+
+.emptyillustration {
+  color: $color-secondary;
+  font-size: $font-size-large2;
+  font-weight: bold;
+  padding-bottom: $gridspacing * 20;
+  text-align: center;
+
+  h1 {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  div{
+    font-size: $font-size;
+    font-weight: normal;
+    line-height: $line-height-large2;
+    margin-bottom: $gridspacing * 3;
+    max-width: 725px;
+  }
+
+  img {
+    animation: emptyillustration $transition-duration $transition-easing forwards;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  @media (min-width: $media-tablet) {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    //height: 645px;
+    justify-content: space-between;
+    padding-bottom: $gridspacing * 25;
+
+    img {
+      max-width: 736px;
+    }
+
+  }
+
+}

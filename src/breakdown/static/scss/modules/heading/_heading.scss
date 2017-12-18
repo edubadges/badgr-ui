@@ -1,0 +1,297 @@
+.heading {
+  align-items: flex-start;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  .heading-x-image {
+    align-items: center;
+    align-self: flex-start;
+    display: flex;
+    flex: 0 0 40px;
+    height: 40px;
+    justify-content: center;
+    margin-bottom: $gridspacing * 2;
+    margin-right: $gridspacing * 2;
+    max-width: 40px;
+    width: 40px;
+
+    a {
+      display: block;
+      width: 100%;
+    }
+
+    img {
+      display: block;
+      height: auto;
+      max-height: 100%;
+      max-width: 100%;
+      width: 100%;
+    }
+
+  }
+
+  .heading-x-aside {
+    padding-bottom: $gridspacing * 2;
+    width: 200px;
+
+    div {
+      align-items: center;
+      display: flex;
+      padding-bottom: $gridspacing;
+
+      strong {
+        padding-left: $gridspacing;
+      }
+
+    }
+
+    p {
+      padding-bottom: $gridspacing;
+    }
+
+  }
+
+  .heading-x-imageLarge {
+    align-items: center;
+    align-self: flex-start;
+    display: flex;
+    flex: 0 0 200px;
+    height: 200px;
+    justify-content: center;
+    margin-bottom: $gridspacing * 2;
+    margin-right: $gridspacing * 4;
+    max-width: 200px;
+    width: 200px;
+
+    a {
+      display: block;
+      width: 100%;
+    }
+
+    img {
+      display: block;
+      height: auto;
+      max-height: 100%;
+      max-width: 100%;
+      width: 100%;
+    }
+
+  }
+
+
+  .heading-x-text {
+    align-self: stretch;
+    flex: 1 1 auto;
+
+    section {
+      line-height: $line-height-large1;
+      margin-bottom: $gridspacing * 2;
+      padding: 0;
+
+      h1 {
+        color: $color-dark2;
+        font-size: $font-size;
+        font-weight: bold;
+        line-height: $font-size;
+        margin-bottom: $gridspacing;
+      }
+
+    }
+
+    > h1,
+    > p {
+      margin-bottom: $gridspacing;
+    }
+
+    > h2,
+    > div,
+    > a { // > a is a .stack pattern, usually an issuer
+      margin-bottom: $gridspacing * 4;
+    }
+
+    > p {
+      white-space: pre-line;
+
+      a {
+        color: $color-primary;
+      }
+
+    }
+
+    small {
+      color: $color-dark2;
+      font-size: $font-size-small1;
+    }
+
+    > h1 {
+      color: $color-secondary;
+      font-size: $font-size-large2;
+      font-weight: 600;
+      line-height: $line-height-large3;
+
+      span {
+        color: $color-dark2;
+        font-size: $font-size-small1;
+        font-weight: normal;
+      }
+
+      &:only-child {
+        margin-bottom: 0;
+      }
+
+    }
+
+    > h2 {
+      align-items: center;
+      color: $color-dark2;
+      display: flex;
+      font-size: $font-size-small2;
+      max-width: 560px;
+
+      &::after {
+        background-color: $color-dark4;
+        content: '';
+        display: block;
+        flex: 1 1 0;
+        height: 1px;
+        margin-left: $gridspacing;
+      }
+
+    }
+
+    > h3 {
+      align-items: center;
+      color: $color-dark2;
+      display: flex;
+      font-size: $font-size-small1;
+      line-height: $line-height-large2;
+      max-width: 560px;
+    }
+
+    > p,
+    > ul,
+    > ol {
+      font-size: $font-size-small1;
+      line-height: 1.5;
+      max-width: 560px;
+    }
+
+  }
+
+  .heading-x-edit {
+    background: url('#{$base-path}images/heading-edit.svg') left center no-repeat;
+    color: rgba($color-secondary, .38);
+    display: inline-block;
+    font-size: $font-size-small1;
+    font-weight: bold;
+    padding-left: $gridspacing * 3;
+    text-transform: uppercase;
+  }
+
+  .heading-x-actions {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: $gridspacing * 2;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing;
+    }
+
+  }
+
+  .heading-x-meta {
+    color: rgba($color-secondary, .38);
+  }
+
+  @media (min-width: $media-tablet) {
+
+    .heading-x-text {
+
+      h1 {
+        font-size: $font-size-large3;
+        font-weight: bold;
+        line-height: $line-height-large4;
+
+        span {
+          font-size: $font-size;
+        }
+
+      }
+
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+    flex-direction: row;
+    justify-content: space-between;
+
+    .heading-x-image {
+      flex: 0 0 70px;
+      height: 70px;
+      margin-right: $gridspacing * 3;
+      max-width: 70px;
+      padding-top: $gridspacing * 2;
+      width: 70px;
+    }
+
+    .heading-x-text {
+      flex: 1 1 60%;
+    }
+
+    .heading-x-actions {
+      align-items: flex-end;
+      flex: 1 1 0;
+      flex-direction: column;
+      margin-top: 0;
+    }
+
+  }
+
+}
+
+.heading-small {
+  align-items: flex-start;
+
+  .heading-x-text {
+    margin-bottom: $gridspacing * 2;
+
+    h1,
+    p {
+      font-size: $font-size-small1;
+    }
+
+  }
+
+  @media (min-width: $media-tablet) {
+
+    .heading-x-image {
+      align-self: flex-start;
+    }
+
+    .heading-x-text {
+      margin-bottom: 0;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+
+    .heading-x-text {
+
+      h1 {
+        font-size: $font-size-large2;
+        line-height: $line-height-large3;
+      }
+
+      p {
+        font-size: $font-size;
+      }
+
+    }
+
+  }
+
+}

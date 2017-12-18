@@ -1,0 +1,32 @@
+.connectionadd {
+  color: $color-primary;
+  display: block;
+  font-size: $font-size-small1;
+  height: 24px;
+  line-height: 24px;
+  padding-right: $gridspacing * 2 + 24px;
+  position: relative;
+
+  &::after {
+    background: url('#{$base-path}images/connectionadd.svg') center center no-repeat;
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 1px $color-primary inset;
+    box-sizing: border-box;
+    content: '';
+    display: block;
+    height: 24px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 24px;
+  }
+
+  &.connectionadd-is-added {
+    color: transparent;
+    overflow: hidden;
+    padding-right: 24px;
+    user-select: none;
+    width: 0;
+  }
+
+}

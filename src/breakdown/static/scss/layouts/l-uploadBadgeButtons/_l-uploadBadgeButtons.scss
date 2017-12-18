@@ -1,0 +1,14 @@
+.l-uploadBadgeButtons{
+
+  button:not(:last-of-type){
+    margin-bottom: 12px;
+
+  }
+
+  @media (min-width: $media-tablet) {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+  }
+
+}

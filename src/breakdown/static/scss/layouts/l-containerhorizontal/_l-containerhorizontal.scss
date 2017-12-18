@@ -1,0 +1,14 @@
+.l-containerhorizontal {
+  box-sizing: border-box;
+  display: block; // Often main acts as the container, IE edge needs this
+  padding-left: $gridspacing * 2;
+  padding-right: $gridspacing * 2;
+
+  @media (min-width: $media-tablet) {
+    padding-left: $gridspacing * 4;
+    padding-right: $gridspacing * 4;
+  }
+
+  @include container;
+
+}

@@ -1,0 +1,26 @@
+.l-heading {
+  padding-bottom: $gridspacing * 3;
+  padding-top: $gridspacing * 3;
+
+  // Breadcrumbs
+
+  > nav {
+    display: none;
+  }
+
+  @media (min-width: $media-tablet) {
+    padding-bottom: $gridspacing * 4;
+    padding-top: 1px;
+
+    > nav {
+      display: block;
+      margin-top: $gridspacing * 3;
+    }
+
+    > :last-child {
+      margin-top: $gridspacing * 4;
+    }
+
+  }
+
+}

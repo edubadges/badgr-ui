@@ -1,0 +1,30 @@
+.formsectiontoggle {
+
+   + label {
+     cursor: pointer;
+     transition: box-shadow $transition-duration $transition-easing;
+     user-select: none;
+
+    .formsectiontoggle-x-hidetext {
+      display: none;
+    }
+
+  }
+
+  &:focus + label {
+    box-shadow: 0 0 4px 1px $color-quaternary;
+  }
+
+  &:checked + label {
+
+    .formsectiontoggle-x-showtext {
+      display: none;
+    }
+
+    .formsectiontoggle-x-hidetext {
+      display: inline;
+    }
+
+  }
+
+}

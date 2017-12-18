@@ -1,0 +1,21 @@
+.loadingerror {
+  display: block;
+  text-align: center;
+  padding: $gridspacing * 6;
+
+  p {
+    display: inline-block;
+    border: 1px solid $color-primary;
+    box-sizing: border-box;
+    color: $color-primary;
+    font-size: $font-size-large2;
+    font-weight: 600;
+    position: relative;
+    text-align: center;
+    z-index: $z-index-med;
+    margin: auto;
+
+    line-height: 1.5;
+    padding: $gridspacing * 6;
+  }
+}

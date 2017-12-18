@@ -1,0 +1,58 @@
+$carat: 'images/menuitem-desktop.svg';
+
+.showmore {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  > .showmore-x-button {
+    color: $color-dark2;
+    text-decoration: none;
+    font-size: $font-size-small1;
+    font-weight: bold;
+    transition: box-shadow $transition-duration $transition-easing;
+    text-align: center;
+    position: relative;
+    padding-right: 20px;
+    margin: auto;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &::after {
+      display: inline-block;
+      content: "▾";
+      transition: transform $transition-duration $transition-easing;
+      transform-origin: 50% 50%;
+    }
+  }
+
+  > .showmore-x-container {
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    transition: mask-image $transition-duration $transition-easing,
+                max-height $transition-duration $transition-easing;
+  }
+
+  &.showmore-is-unnecessary {
+    > .showmore-x-container {
+      mask-image: none;
+    }
+    > .showmore-x-button {
+      display: none;
+    }
+  }
+
+  &.showmore-is-open {
+    > .showmore-x-button {
+      &::after {
+        transform: rotate(-180deg);
+      }
+    }
+
+    > .showmore-x-container {
+      mask-image: none;
+    }
+  }
+}

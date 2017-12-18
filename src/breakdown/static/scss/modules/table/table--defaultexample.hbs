@@ -1,0 +1,47 @@
+<table class="{{render '@table' tableContext merge=true}}">
+	<thead>
+		<tr>
+				<th scope="col">Member Name</th>
+				<th scope="col">Email Address</th>
+				<th class="{{> @hidden }} {{render "@hidden--hidden-is-tablet"}}" scope="col">Actions</th>
+				<th class="{{> @hidden }} {{render "@hidden--hidden-is-desktop"}} table-x-hidetext" scope="col">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">
+				Member Name
+			</th>
+			<td>
+				member@members.com
+			</td>
+			<td class="{{> @hidden }} {{render "@hidden--hidden-is-tablet"}}">
+				Actions
+			</td>
+			<td class="table-x-actions {{> @hidden }} {{render "@hidden--hidden-is-desktop"}}">
+				<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--right"}}">
+					{{render "@button--primaryghost" partialData merge=true}}
+					{{render "@button--primaryghost" partialData merge=true}}
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				Member Name
+			</th>
+			<td>
+				member@members.com
+			</td>
+			<td class="{{> @hidden }} {{render "@hidden--hidden-is-tablet"}}">
+				Actions
+			</td>
+			<td class="table-x-actions {{> @hidden }}  {{render "@hidden--hidden-is-desktop"}}">
+				<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--right"}}">
+					{{render "@button--primaryghost" partialData merge=true}}
+					{{render "@button--primaryghost" partialData merge=true}}
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+

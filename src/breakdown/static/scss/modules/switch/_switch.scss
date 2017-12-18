@@ -1,0 +1,115 @@
+.switch {
+  display: none;
+
+  + label {
+    align-items: center;
+    color: $color-dark2;
+    cursor: pointer;
+    display: flex;
+    font-size: $font-size-small2;
+    line-height: 15px;
+    position: relative;
+    user-select: none;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+    }
+
+    &::before {
+      background-color: $color-secondary;
+      border-radius: 500px; // Pill shape
+      height: 15px;
+      margin-right: $gridspacing;
+      transition: background-color $transition-duration / 2 $transition-easing;
+      width: 25px;
+    }
+
+    &::after {
+      background-color: $color-light1;
+      border-radius: 13px;
+      box-shadow: 0 3px 1px 0 rgba($color-dark1, .05), 0 2px 2px 0 rgba($color-dark1, .10), 0 3px 3px 0 rgba($color-dark1, .05);
+      height: 13px;
+      left: 1px;
+      position: absolute;
+      top: 1px;
+      transition: transform $transition-duration / 2 $transition-easing;
+      width: 13px;
+    }
+
+    .switch-x-text {
+      display: block;
+      margin-right: .3em;
+    }
+
+    .switch-x-toggletext {
+      display: block;
+      height: 15px;
+      overflow: hidden;
+      position: relative;
+      width: 45px;
+    }
+
+    .switch-x-unchecked,
+    .switch-x-checked {
+      left: 0;
+      position: absolute;
+      top: 0;
+      transition: transform $transition-duration / 2 $transition-easing,
+                  opacity $transition-duration / 2 $transition-easing;
+    }
+
+
+    .switch-x-unchecked {
+      opacity: 1;
+      transform: none;
+    }
+
+    .switch-x-checked {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+
+    .switch-x-hiddenlabel {
+      position: absolute;
+      visibility: hidden;
+    }
+
+  }
+
+  &:checked + label {
+
+    &::before {
+      background-color: $color-tertiary;
+    }
+
+    &::after {
+      transform: translate3d(10px, 0, 0);
+    }
+
+    .switch-x-unchecked {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
+
+    .switch-x-checked {
+      opacity: 1;
+      transform: none;
+    }
+
+  }
+
+}
+
+.switch-bold {
+
+  + label {
+
+    .switch-x-toggletext {
+      font-weight: bold;
+    }
+
+  }
+
+}

@@ -1,0 +1,78 @@
+.stack {
+  align-items: center;
+  display: flex;
+  max-width: 550px;
+  text-align: left;
+
+  img {
+    display: block;
+    height: auto;
+    width: 100%;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .stack-x-title {
+    color: $color-secondary;
+    display: block;
+    line-height: $line-height-large2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color $transition-duration $transition-easing;
+  }
+
+  small {
+    color: $color-dark2;
+    display: block;
+    font-size: $font-size-small2;
+    line-height: $line-height;
+  }
+
+  .stack-x-text {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .stack-x-image {
+    flex: 0 0 40px;
+    margin-right: $gridspacing * 2;
+  }
+
+  .stack-x-new {
+    @include newlabel;
+    display: inline-block;
+    margin-right: $gridspacing;
+  }
+
+}
+
+.stack-small {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .stack-x-title {
+    color: $color-secondary;
+    font-size: $font-size-small2;
+    line-height: $line-height;
+  }
+
+}
+
+.stack-list {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .stack-x-title {
+    color: $color-primary;
+  }
+
+}

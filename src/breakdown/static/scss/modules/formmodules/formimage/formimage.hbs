@@ -1,0 +1,13 @@
+<div class="formimage {{#if formimage.classList?}} {{formimage.classList?}}{{/if}}">
+	{{^hideLabel}}<p>Issuer Image</p>{{/hideLabel}}
+	<input type="file" accept="image/*" name="issuer_image" id="issuer_image">
+	<label for="issuer_image">
+    <span class="formimage-x-image">
+      <img src="http://placehold.it/80x80" alt="Placeholder image" width="80" height="80">
+    </span>
+		<span class="formimage-x-text">
+      <span class="formimage-x-label">Drop image or <span>browse</span>.</span>
+      <span class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
+    </span>
+	</label>
+</div>

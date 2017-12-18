@@ -1,0 +1,8 @@
+<div class="l-formsectiontoggle">
+  {{render '@formsectiontoggle' formSectionToggleContext merge=true}}
+  <div class="l-formsectiontoggle-x-hidden">
+    {{#formFields}}
+      {{render '@formfield' context merge=true}}
+    {{/formFields}}
+  </div>
+</div>

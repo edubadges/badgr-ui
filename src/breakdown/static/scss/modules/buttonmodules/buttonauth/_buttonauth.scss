@@ -1,0 +1,69 @@
+.buttonauth {
+  border: 0;
+  border-radius: 3px;
+  color: transparent;
+  height: 40px;
+  position: relative;
+  user-select: none;
+
+  &::after {
+    content: '';
+    background: no-repeat center center;
+    background-size: contain;
+    bottom: $gridspacing;
+    left: $gridspacing;
+    position: absolute;
+    right: $gridspacing;
+    top: $gridspacing;
+  }
+
+}
+
+// TODO These colors and images need to be cleaned up
+
+.buttonauth-facebook {
+  background: #4767aa;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-facebook.svg');
+  }
+
+}
+
+.buttonauth-google {
+  background: #fff;
+  border: 1px solid #e1e0e5;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-google.svg');
+  }
+
+}
+
+
+.buttonauth-kony {
+  background: #303e48;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-kony.svg');
+  }
+
+}
+
+.buttonauth-linkedin_oauth2 {
+  background: #0077b5;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-linkedin.svg');
+  }
+
+}
+
+.buttonauth-twitter {
+  background: #00ACEC;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-twitter.svg');
+  }
+
+}

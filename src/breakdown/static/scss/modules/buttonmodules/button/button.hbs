@@ -1,0 +1,11 @@
+<{{^element}}button{{/element}}{{element}}
+	class="button{{#if modifier}} {{modifier}}{{/if}}"
+	{{#eq element 'a'}}href="#"{{/eq}}
+	{{^element}}type="{{^type}}button{{/type}}{{type}}"{{/element}}
+	{{#if label}}aria-labelledby="{{label}}"{{/if}}>
+
+	{{~#contains modifier 'button-is-loading'}}<span class="button-x-loading">{{/contains}}
+		{{~text~}}
+	{{#contains modifier 'button-is-loading'}}</span>{{/contains~}}
+
+</{{^element}}button{{/element}}{{element}}>

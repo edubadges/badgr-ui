@@ -1,0 +1,40 @@
+<div class="{{#if xSelector}}{{xSelector}} {{/if}}formfield{{#if modifier}} {{modifier}}{{/if}}">
+  <{{^labelElement}}label{{/labelElement}}{{labelElement}} class="{{#labelElement}}formfield-x-label{{/labelElement}} {{#hideLabel}}{{render '@visuallyhidden'}}{{/hideLabel}}" {{^labelElement}}for="{{id}}"{{/labelElement}}>
+    {{~{label}}}{{~#if labelNote}}<span>{{{labelNote}}}</span>{{/if~}}
+  </{{^labelElement}}label{{/labelElement}}{{labelElement}}>
+	{{#inputAction}}
+		<div class="formfield-x-action">
+			<input id="{{id}}" type="text" value="{{value}}" readonly>
+			{{render '@button--major' buttonContext merge=true}}
+		</div>
+	{{/inputAction}}
+  {{#addInput}}
+    {{render '@formaddinput' context merge=true}}
+  {{/addInput}}
+  {{#formImage}}
+    {{render '@formimage' context merge=true}}
+  {{/formImage}}
+  {{#inputSelect}}
+    <select name="{{id}}" id="{{id}}">
+      {{#options}}
+        <option value="{{value}}">{{text}}</option>
+      {{/options}}
+    </select>
+  {{/inputSelect}}
+	{{#inputTextarea}}
+		<textarea id="{{id}}" name="{{id}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} {{#readonly}}readonly{{/readonly}}>{{value}}</textarea>
+	{{/inputTextarea}}
+	{{#inputText}}
+    <input id="{{id}}" name="{{id}}" type="{{^type}}text{{/type}}{{type}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} {{#disabled}}disabled{{/disabled}} {{#if value}}value="{{value}}"{{/if}} {{#readonly}}readonly{{/readonly}}>
+  {{/inputText}}
+  {{#inputAuthButtons}}
+    {{render '@l-authbuttons'}}
+  {{/inputAuthButtons}}
+  {{#dropzoneInput}}
+    {{render '@l-dropzoneinput' context merge=true}}
+  {{/dropzoneInput}}
+  {{#formTwoUp}}
+    {{render '@l-formtwoup' context merge=true}}
+  {{/formTwoUp}}
+	{{~#if errorText}}<p class="formfield-x-error">{{errorText}}</p>{{/if~}}
+</div>

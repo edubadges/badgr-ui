@@ -1,0 +1,29 @@
+.l-gridtwo {
+  margin-bottom: -$gridspacing;
+
+  > * {
+    margin-bottom: $gridspacing;
+  }
+
+  @media (min-width: $media-tablet) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: -$gridspacing * 2;
+
+    > * {
+      align-items: stretch;
+      display: flex;
+      margin-bottom: $gridspacing * 2;
+      min-width: 0;
+      width: 49%;
+
+      > * {
+        flex: 1;
+      }
+
+    }
+
+  }
+
+}

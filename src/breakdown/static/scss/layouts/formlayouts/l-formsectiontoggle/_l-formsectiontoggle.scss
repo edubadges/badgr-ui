@@ -1,0 +1,24 @@
+.l-formsectiontoggle {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+
+  .l-formsectiontoggle-x-hidden {
+    display: none;
+    width: 100%;
+
+    > * {
+      margin-top: $gridspacing * 3;
+    }
+
+  }
+
+  .l-formsectiontoggle-x-toggle {
+
+    &:checked + label + .l-formsectiontoggle-x-hidden {
+      display: block;
+    }
+
+  }
+
+}

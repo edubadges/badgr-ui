@@ -1,0 +1,42 @@
+$l-auth-maxwidth: 420px;
+
+.l-auth {
+  margin: $gridspacing * 3 $gridspacing * 2 $gridspacing * 2;
+
+  .l-auth-x-buttons {
+    margin-top: $gridspacing;
+  }
+
+  .l-auth-x-permissions {
+    margin-top: $gridspacing * 3;
+  }
+
+  .l-auth-x-text {
+    margin-bottom: $gridspacing * 3;
+    margin-top: $gridspacing;
+  }
+
+  .l-auth-x-textconfirm {
+    margin-bottom: $gridspacing * 3;
+    margin-top: $gridspacing * 2;
+  }
+
+  .l-auth-x-title {
+    margin-top: $gridspacing * 3;
+  }
+
+  @media (min-width: #{$l-auth-maxwidth + $gridspacing * 4}) {
+    margin: $gridspacing * 7 auto $gridspacing * 6.5;
+    max-width: $l-auth-maxwidth;
+
+    .l-auth-x-permissions {
+      margin-top: $gridspacing * 7;
+    }
+
+    .l-auth-x-title {
+      margin-top: $gridspacing * 5;
+    }
+
+  }
+
+}

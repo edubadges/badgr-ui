@@ -1,0 +1,6 @@
+<nav class="l-tabs" aria-labelledby="nav-tabs" role="navigation">
+  <h3 class="{{render '@visuallyhidden'}}" id="nav-tabs">{{heading}} Tabs</h3>
+  {{#tabs}}
+    {{render '@tab' context merge=true}}
+  {{/tabs}}
+</nav>

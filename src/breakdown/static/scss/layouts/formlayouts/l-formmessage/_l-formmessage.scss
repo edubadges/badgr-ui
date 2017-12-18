@@ -1,0 +1,15 @@
+.l-formmessage {
+  bottom: $gridspacing * 2;
+  left: $gridspacing * 2;
+  position: fixed;
+  width: calc(100% - #{$gridspacing * 4});
+  z-index: $z-index-high;
+
+  @media (min-width: #{1056px + $gridspacing * 4}) {
+    bottom: $gridspacing * 8;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1056px;
+  }
+
+}

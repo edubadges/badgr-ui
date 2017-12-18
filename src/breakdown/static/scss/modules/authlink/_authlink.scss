@@ -1,0 +1,22 @@
+.authlink {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  > *:not(:last-child) {
+    align-items: center;
+    display: flex;
+    margin-right: $gridspacing * 4;
+
+    &::after {
+      background-image: url('#{$base-path}images/authlink.svg');
+      content: '';
+      display: block;
+      height: 30px;
+      margin-left: $gridspacing * 4;
+      width: 40px;
+    }
+
+  }
+
+}

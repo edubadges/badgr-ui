@@ -1,0 +1,25 @@
+.l-sharepane {
+  padding: $gridspacing * 2 $gridspacing $gridspacing * 3;
+
+  > *:not(:last-child) {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  .l-sharepane-x-preview {
+    padding: $gridspacing * 2;
+  }
+
+  @media (min-width: $media-tablet) {
+    padding-left: $gridspacing * 2;
+    padding-right: $gridspacing * 2;
+  }
+
+}
+
+.l-sharepane-social {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 428px;
+  padding-bottom: $gridspacing * 7;
+  padding-top: $gridspacing * 3;
+}

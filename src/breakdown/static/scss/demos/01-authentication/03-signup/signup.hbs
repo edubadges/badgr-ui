@@ -1,0 +1,18 @@
+<div class="{{render '@l-auth'}}">
+  {{render '@title--bold' titleContext merge=true}}
+  {{render '@text--quiet' textContext merge=true}}
+  <form class="{{render '@l-form--span'}}" role="form" aria-labelledby="heading-form">
+    <fieldset role="group" aria-labelledby="heading-socialsignup">
+      <legend class="{{render '@visuallyhidden'}}" id="heading-socialsignup">Sign up with third-party social account</legend>
+      {{render '@formfield' formFieldSocialContext merge=true}}
+    </fieldset>
+    {{render '@formdivider'}}
+    <fieldset role="group" aria-labelledby="heading-badgrsignup">
+      <legend class="{{render '@visuallyhidden'}}" id="heading-badgrsignup">Sign up for a Badgr account</legend>
+      {{render '@formfield' formFieldEmailContext merge=true}}
+    </fieldset>
+    <div class="l-form-x-offset {{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--right'}}">
+      {{render '@button' buttonSubmitContext merge=true}}
+    </div>
+  </form>
+</div>

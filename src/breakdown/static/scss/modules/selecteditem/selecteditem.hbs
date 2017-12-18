@@ -1,0 +1,8 @@
+<div class="selecteditem{{#if selecteditem.classList?}} {{selecteditem.classList?}}{{/if}}">
+	<button type="button">Remove</button>
+	{{#is selecteditem.classList? "selecteditem-badge"}}
+	{{> "@badge--default"}}
+	{{else}}
+	Career Ladder
+	{{/is}}
+</div>

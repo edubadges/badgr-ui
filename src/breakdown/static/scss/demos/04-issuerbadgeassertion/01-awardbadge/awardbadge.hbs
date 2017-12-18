@@ -1,0 +1,21 @@
+<header class="wrap wrap-light l-containerhorizontal l-heading ">
+
+	<nav>
+		<h2 class="visuallyhidden">Breadcrumbs</h2>
+		{{render '@breadcrumb'}}
+	</nav>
+
+	{{render '@heading' headingContext merge=true}}
+
+</header>
+
+<form class="{{render '@l-containerhorizontal'}} {{render '@l-containervertical'}}">
+	{{#formSections}}
+		{{render '@l-formsection' context merge=true}}
+	{{/formSections}}
+	{{render '@rule' ruleContext merge=true}}
+	<div class="{{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--right'}}">
+		{{render '@button--secondary' buttonCancelContext merge=true}}
+		{{render '@button' buttonCreateBadgeContext merge=true}}
+	</div>
+</form>

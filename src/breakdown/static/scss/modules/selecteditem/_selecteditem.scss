@@ -1,0 +1,67 @@
+/*
+Selected Item
+
+Wraps text (or a module) with a border and a dismissable button
+
+Default - Static state
+.selecteditem-is-removed - Animates out when the close button is clicked
+
+Markup:
+<div class="selecteditem {$modifiers}">
+  <button type="button">Remove</button>
+  Career Ladder
+</div>
+
+*/
+
+.selecteditem {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  font-size: $font-size-small2;
+  line-height: $line-height;
+  text-transform: uppercase;
+  transition: transform $transition-duration $transition-easing,
+              opacity $transition-duration $transition-easing;
+
+  button {
+    background: url('#{$base-path}images/selecteditem-remove.svg') $color-dark2 center center no-repeat;
+    border-radius: 100%;
+    color: transparent;
+    height: 14px;
+    margin-left: $gridspacing / 2;
+    overflow: hidden;
+    width: 14px;
+    z-index: $z-index-med;
+  }
+
+  &.selecteditem-is-removed {
+    opacity: 0;
+    transform: scale3d(0, 0, 0);
+  }
+
+}
+
+/*
+Selected Item Badge
+
+Has less padding when containing a badge.
+
+Markup:
+<div class="selecteditem selecteditem-badge">
+  <button type="button">Remove</button>
+  <sg-insert>3.14-3</sg-insert>
+</div>
+
+*/
+
+.selecteditem-badge {
+  position: relative;
+
+  button {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+
+}

@@ -1,0 +1,27 @@
+.text{
+  font-size: $font-size;
+  line-height: $line-height-large2;
+
+  strong {
+    font-weight: bold;
+  }
+
+  &.text-is-error {
+    color: map-get($states, error);
+    font-size: $font-size-small2;
+    margin-top: $gridspacing;
+    transition: opacity 125ms ease-out;
+  }
+
+}
+
+.text-quiet {
+  color: #78768d; // TODO One-off, should be resolved
+  font-size: $font-size-small1;
+  line-height: 22px;
+}
+
+.text-small {
+  font-size: $font-size-small1;
+  line-height: $line-height-large2;
+}

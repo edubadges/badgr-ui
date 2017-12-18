@@ -1,0 +1,20 @@
+.l-squareiconcards {
+  display: flex;
+  flex-direction: column;
+
+  > *:not(:last-child) {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  @media (min-width: $media-tablet) {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    > *:not(:last-child) {
+      margin-bottom: 0;
+      margin-right: $gridspacing * 2;
+    }
+
+  }
+
+}

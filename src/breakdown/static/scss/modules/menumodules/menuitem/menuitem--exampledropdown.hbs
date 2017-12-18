@@ -1,0 +1,8 @@
+<div class="{{render '@menuitem' menuItemContext merge=true}}">
+	<button>Account</button>
+	<ul>
+		{{#menuItems}}
+			<li class="{{render '@menuitem' context merge=true}}"><a href="#">{{text}}</a></li>
+		{{/menuItems}}
+	</ul>
+</div>

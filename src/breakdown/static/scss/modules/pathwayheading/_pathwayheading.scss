@@ -1,0 +1,28 @@
+.pathwayheading {
+
+  h1,
+  p {
+    max-width: 560px;
+  }
+
+  h1 {
+    line-height: $line-height-large1;
+    margin-bottom: $gridspacing;
+  }
+
+  p {
+    font-size: $font-size-small1;
+    line-height: $line-height-large2;
+  }
+
+  .pathwayheading-x-actions {
+    margin-top: $gridspacing * 3;
+  }
+
+  .pathwayheading-x-or {
+    color: $color-dark3;
+    font-size: $font-size-small1;
+    line-height: 1;
+  }
+
+}

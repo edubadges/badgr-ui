@@ -1,0 +1,36 @@
+.detail {
+
+  article {
+    display: flex;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0 $gridspacing * 1.25 $gridspacing 0;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: $gridspacing;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+    display: flex;
+    flex-wrap: wrap;
+
+    article {
+      margin-right: $gridspacing * 6;
+
+      h1 {
+        margin-bottom: 0;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
+
+    }
+
+  }
+
+}

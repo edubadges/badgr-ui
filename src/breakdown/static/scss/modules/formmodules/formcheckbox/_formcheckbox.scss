@@ -1,0 +1,75 @@
+.formcheckbox {
+  display: block;
+  overflow: hidden;
+  user-select: none;
+
+  input {
+    left: -9999px;
+    position: absolute;
+  }
+
+  .formcheckbox-x-text {
+    align-items: center;
+    color: $color-secondary;
+    cursor: pointer;
+    display: flex;
+    font-size: $font-size-small2;
+    transition: color $transition-duration $transition-easing;
+
+    &::before {
+      background: center center no-repeat $color-light1;
+      border: 1px solid $color-dark4;
+      border-radius: $border-radius;
+      content: '';
+      display: block;
+      height: 16px;
+      margin-right: $gridspacing;
+      max-width: 16px;
+      min-width: 16px;
+      transition: border-color $transition-duration $transition-easing,
+                  background $transition-duration $transition-easing;
+    }
+
+    &:hover::before {
+      border-color: $color-secondary;
+    }
+
+  }
+
+  input:focus + .formcheckbox-x-text::before {
+    border-color: $color-secondary;
+  }
+
+  input:checked + .formcheckbox-x-text {
+
+    &::before {
+      background-color: $color-secondary;
+      background-image: url('#{$base-path}images/formcheckbox-checked.svg');
+      border-color: $color-secondary;
+    }
+
+  }
+
+  &.formcheckbox-is-disabled {
+    opacity: .3;
+    pointer-events: none;
+  }
+
+}
+
+.formcheckbox-notext {
+
+  .formcheckbox-x-text {
+    color: transparent;
+    display: block;
+    height: 18px;
+    overflow: hidden;
+    width: 18px;
+
+    &::before {
+      margin-right: 0;
+    }
+
+  }
+
+}

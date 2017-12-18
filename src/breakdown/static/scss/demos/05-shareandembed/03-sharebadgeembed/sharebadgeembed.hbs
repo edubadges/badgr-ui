@@ -1,0 +1,39 @@
+<dialog class="{{render '@dialog'}} {{render '@dialog--titled'}} {{render '@wrap'}} {{render '@wrap--light'}}">
+  <header class="dialog-x-titlebar">
+		<h1>Share this Badge</h1>
+		<button class="dialog-x-close"><span class="icon icon-notext icon-close">Close</span></button>
+	</header>
+	{{render '@l-tabs' lTabsContext merge=true}}
+  <div class="{{render '@l-sharepane'}}" tabindex="-1" id="sharelinkembed">
+    {{render '@formfield--limitedtextarea' formFieldContext merge=true}}
+    <div class="{{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--spacebetween'}}">
+      <div class="{{render '@l-childrenhorizontal'}} {{render '@l-childrenhorizontal--small'}}">
+        {{render '@formradiobutton' formRadioButtonv1Context merge=true}}
+        {{render '@formradiobutton' formRadioButtonv2Context merge=true}}
+      </div>
+      {{render '@button' buttonCopyContext merge=true}}
+    </div>
+    {{render '@title' titleContext merge=true}}
+    <div class="l-sharepane-x-preview {{render '@wrap'}} {{render '@wrap--light4'}} {{render '@wrap--rounded'}} {{render '@l-childrencentered'}}">
+      <!-- NOTE: This is simply placeholder, will require diffrent code, possibly iframe -->
+      <div class="{{render '@card--largeimage'}}" style="width: 330px">
+					<a class="card-x-main" href="#">
+						<div class="card-x-image">
+							<!-- NOTE: Alt text should describe the image -->
+							<img src="http://placehold.it/160x160" alt="" width="60" height="60">
+						</div>
+						<div class="card-x-text">
+							<h1>Digital Promise</h1>
+              <h2>Pacific Science Center</h2>
+							<p>This application has been granted permisson to sign you in using your Badgr account. …</p>
+						</div>
+					</a>
+					<div class="card-x-actions">
+						<span>Issued: <strong>May 15, 2016</strong></span>
+							{{render '@button--secondaryghost' buttonValidateContext merge=true}}
+					</div>
+				</div>
+    </div>
+  </div>
+</dialog>
+{{render '@preview--scripts-opendialog'}}

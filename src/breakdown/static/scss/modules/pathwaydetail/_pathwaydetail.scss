@@ -1,0 +1,201 @@
+.pathwaydetail {
+
+  background-color: $color-light1;
+  box-shadow: 0 0 0 1px $color-dark4 inset;
+  padding: $gridspacing * 2;
+  position: relative;
+
+  form {
+    max-width: 420px;
+  }
+
+  .pathwaydetail-x-inactive {
+    cursor: not-allowed;
+    user-select: none;
+
+    > * {
+      pointer-events: none;
+    }
+
+  }
+
+  .pathwaydetail-x-body,
+  .pathwaydetail-x-main {
+    display: flex;
+  }
+
+  .pathwaydetail-x-body {
+    align-items: stretch;
+    margin-bottom: $gridspacing * 4;
+  }
+
+  .pathwaydetail-x-main {
+    flex-direction: column;
+  }
+
+  // Appear within .pathwaydetail-x-body
+
+  .pathwaydetail-x-image,
+  .pathwaydetail-x-text {
+    display: block;
+  }
+
+  .pathwaydetail-x-image {
+    flex: 0 0 40px;
+    padding-right: $gridspacing * 2;
+
+    img {
+      display: block;
+      height: auto;
+      width: 100%;
+    }
+
+  }
+
+  .pathwaydetail-x-text {
+
+    h1,
+    p {
+      max-width: 456px;
+    }
+
+    h1 {
+      font-size: $font-size;
+      line-height: $line-height-large2;
+      margin-bottom: $gridspacing;
+      padding-right: $menumorewidth + $gridspacing * 2;
+    }
+
+    p {
+      color: $color-secondary;
+      font-size: $font-size-small2;
+      line-height: $line-height;
+      margin-bottom: $gridspacing * 2;
+    }
+
+    .pathwaydetail-x-children {
+      color: $color-dark3;
+      font-size: $font-size-small1;
+      height: 24px;
+      line-height: 24px;
+      margin-top: $gridspacing * 2;
+    }
+
+  }
+
+  .pathwaydetail-x-menu {
+    position: absolute;
+    right: $gridspacing * 2;
+    top: $gridspacing * 2;
+  }
+
+  .pathwaydetail-x-badges {
+    margin-bottom: -$gridspacing * 2;
+    margin-top: $gridspacing * 4;
+    max-width: 312px;
+
+    h2 {
+      margin-bottom: $gridspacing * 2;
+    }
+
+    > div {
+      display: flex;
+      flex-wrap: wrap;
+
+      > * {
+        margin-bottom: $gridspacing * 2;
+        margin-right: $gridspacing * 3;
+      }
+
+    }
+
+  }
+
+  // Appear within .pathwaydetail-x-footer
+
+  .pathwaydetail-x-footer > *:not(:last-child) {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  .pathwaydetail-x-action {
+    margin-left: -$gridspacing;
+  }
+
+  .pathwaydetail-x-or {
+    color: $color-dark3;
+    font-size: $font-size-small1;
+  }
+
+  @media (min-width: $media-tablet) {
+
+    .pathwaydetail-x-image {
+      flex-basis: 64px;
+    }
+
+    .pathwaydetail-x-text {
+
+      p {
+        font-size: $font-size-small1;
+        line-height: $line-height-large2;
+        white-space: pre-wrap;
+      }
+
+    }
+
+    .pathwaydetail-x-footer {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
+      > *:not(:last-child) {
+        margin-bottom: 0;
+      }
+
+    }
+
+    .pathwaydetail-x-action {
+      margin-left: 0;
+    }
+
+  }
+
+  .pathway-x-required{
+    align-items: center;
+    color: $color-dark2;
+    display: flex;
+
+    &::before {
+      background-image: url('#{$base-path}images/checkmark.svg');
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      content: '';
+      display: inline-block;
+      height: 16px;
+      margin-right: 6px;
+      width: 16px;
+    }
+  }
+
+
+  @media (min-width: $media-desktop) {
+
+    .pathwaydetail-x-main {
+      flex: 1 0 0;
+      flex-direction: row;
+    }
+
+    .pathwaydetail-x-text {
+      box-sizing: border-box;
+      flex: 1 0 0;
+      padding-right: $gridspacing * 10;
+    }
+
+    .pathwaydetail-x-badges {
+      flex: 0 0 312px;
+      margin-top: 28px + $gridspacing;
+    }
+
+  }
+
+}

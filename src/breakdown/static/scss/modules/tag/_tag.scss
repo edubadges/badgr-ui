@@ -1,0 +1,45 @@
+.tag {
+  align-items: center;
+  background-color: $color-dark2;
+  border-radius: $border-radius;
+  color: $color-light1;
+  display: flex;
+  font-size: $font-size-small1;
+  font-weight: bold;
+  line-height: 1;
+  padding: $gridspacing * 1.5 $gridspacing * 1.5 $gridspacing * 1.5 $gridspacing * 2;
+  text-transform: uppercase;
+
+  button {
+    background: url('#{$base-path}images/tag-button.svg') center center no-repeat;
+    border-radius: $border-radius;
+    color: transparent;
+    height: 16px;
+    margin-left: $gridspacing;
+    outline: none;
+    overflow: hidden;
+    transition: background $transition-duration $transition-easing,
+                box-shadow $transition-duration $transition-easing;
+    user-select: none;
+    width: 16px;
+
+    &:active:focus {
+      background-color: $color-secondary;
+      background-image: url('#{$base-path}images/tag-button-active.svg');
+      box-shadow: none;
+    }
+
+    &:hover {
+      background-color: $color-dark1;
+      background-image: url('#{$base-path}images/tag-button-active.svg');
+    }
+
+    &:focus {
+      background-color: $color-light1;
+      background-image: url('#{$base-path}images/tag-button-focus.svg');
+      box-shadow: 0 0 4px 1px $color-quaternary;
+    }
+
+  }
+
+}

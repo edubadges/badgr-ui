@@ -1,0 +1,13 @@
+<div class="l-formsectionnested {{render '@wrap'}} {{render '@wrap--welldark'}}">
+  <h5 class="{{render '@visuallyhidden'}}" id="{{id}}">{{heading}}</h5>
+  {{#markdownEditor}}
+    {{render '@markdowneditor' context merge=true}}
+  {{/markdownEditor}}
+  {{#formFields}}
+    {{render '@formfield' context merge=true}}
+  {{/formFields}}
+  {{^hideToggle}}
+    {{render '@l-formsectiontoggle' merge=true}}
+  {{/hideToggle}}
+  {{render '@formsectionremove' formSectioRemoveContext merge=true}}
+</div>

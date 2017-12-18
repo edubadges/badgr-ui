@@ -1,0 +1,13 @@
+.empty {
+  border-top: $border;
+  color: rgba($color-secondary, .38);
+  font-size: $font-size-small1;
+  line-height: $line-height-large2;
+  padding-top: $gridspacing * 2;
+
+  @media (min-width: $media-tablet) {
+    color: $color-secondary;
+    font-size: $font-size;
+  }
+
+}

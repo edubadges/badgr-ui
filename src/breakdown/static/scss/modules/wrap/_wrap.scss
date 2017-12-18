@@ -1,0 +1,28 @@
+.wrap {
+  background-color: $color-light2;
+  z-index: $z-index-low;
+}
+
+.wrap-light {
+  background-color: $color-light3;
+}
+
+.wrap-light4 {
+  background-color: $color-light4;
+}
+
+.wrap-rounded {
+  border-radius: $border-radius;
+}
+
+.wrap-well {
+  background-color: $color-light3;
+  border-radius: $border-radius;
+  box-shadow: 0 0 0 1px $color-dark4;
+}
+
+.wrap-welldark {
+  background-color: $color-light4;
+  border-radius: $border-radius;
+  box-shadow: 0 0 0 1px $color-dark4;
+}

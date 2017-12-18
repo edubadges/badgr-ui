@@ -1,0 +1,47 @@
+.confirmswitch {
+  position: relative;
+
+  > * {
+    transition: opacity $transition-duration $transition-easing;
+  }
+
+  > :first-child {
+    z-index: $z-index-med;
+  }
+
+  > :last-child {
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    width: 100%;
+    z-index: $z-index-low;
+  }
+
+  &.confirmswitch-is-active {
+
+    > :first-child {
+      height: 100%;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      visibility: hidden;
+      width: 100%;
+      z-index: $z-index-low;
+    }
+
+    > :last-child {
+      left: auto;
+      opacity: 1;
+      position: relative;
+      top: auto;
+      visibility: visible;
+      z-index: $z-index-med;
+    }
+
+  }
+
+}

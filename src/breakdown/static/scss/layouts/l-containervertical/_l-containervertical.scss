@@ -1,0 +1,26 @@
+.l-containervertical {
+  box-sizing: border-box;
+  display: block; // Needed for IE, main often acts as the container
+  padding-bottom: $gridspacing * 2;
+  padding-top: $gridspacing * 2;
+  position: relative;
+  z-index: $z-index-low;
+
+  @media (min-width: $media-tablet) {
+    padding-bottom: $gridspacing * 6;
+    padding-top: $gridspacing * 6;
+  }
+
+}
+
+.l-containervertical-small {
+  min-height: auto;
+  padding-bottom: $gridspacing * 2;
+  padding-top: $gridspacing * 2;
+
+  @media (min-width: $media-tablet) {
+    padding-bottom: $gridspacing * 2;
+    padding-top: $gridspacing * 2;
+  }
+
+}

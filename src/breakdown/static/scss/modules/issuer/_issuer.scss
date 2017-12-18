@@ -1,0 +1,135 @@
+.issuer {
+  border: 2px solid $color-dark4;
+  border-radius: $border-radius;
+
+  a {
+    color: $color-secondary;
+  }
+
+  header {
+    padding: $gridspacing * 2;
+  }
+
+  > section {
+
+    > h1 {
+      border-top: 1px solid $color-dark4;
+      box-sizing: border-box;
+      display: none;
+      padding: $gridspacing * 2;
+      width: 100%;
+    }
+
+  }
+
+  h1 strong {
+    padding-left: $gridspacing * 3;
+  }
+
+  strong {
+    color: map-get($states, success);
+    font-weight: bold;
+  }
+
+  article {
+    border-top: 1px solid $color-dark4;
+    box-sizing: border-box;
+    display: flex;
+    padding: $gridspacing * 2;
+
+    h1,
+    p {
+      line-height: $line-height-large1;
+      margin-bottom: $gridspacing;
+    }
+
+    p:last-child {
+      padding-top: $gridspacing;
+    }
+
+    img {
+      display: block;
+      height: auto;
+      width: 100%;
+    }
+
+    h1 {
+      font-weight: 600;
+    }
+
+    > :first-child {
+      flex: 0 0 40px;
+      margin-right: $gridspacing * 2;
+    }
+
+  }
+
+  @media (min-width: $media-tablet) {
+
+    > section > h1 {
+      display: block;
+    }
+
+    article {
+
+      p:last-child {
+        padding-top: 0;
+      }
+
+      > :first-child {
+        flex-basis: 90px;
+      }
+
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+
+    .issuer-x-badges {
+      display: flex;
+    }
+
+    article {
+      flex: 1;
+
+      > :first-child {
+        flex-basis: 70px;
+      }
+
+      &:not(:last-child) {
+        border-right: $border;
+      }
+
+    }
+
+  }
+
+  @media (min-width: $media-desktop-large) {
+
+    article {
+      padding: $gridspacing * 4;
+
+      > :first-child {
+        flex-basis: 85px;
+        margin-right: $gridspacing * 4;
+      }
+
+    }
+
+    header {
+      margin: $gridspacing * 4;
+    }
+
+    > section {
+
+      > h1 {
+        padding-left: $gridspacing * 4;
+        padding-right: $gridspacing * 4;
+      }
+
+    }
+
+  }
+
+}

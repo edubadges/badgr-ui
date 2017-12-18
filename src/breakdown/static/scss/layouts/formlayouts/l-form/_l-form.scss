@@ -1,0 +1,29 @@
+.l-form {
+
+  fieldset {
+
+    > * {
+      margin-bottom: $gridspacing * 2;
+    }
+
+  }
+
+  // For use when you have some non-form element that needs a little extra spacing inside of a fieldset
+
+  .l-form-x-offset {
+    padding-top: $gridspacing * 2;
+  }
+
+  @media (min-width: $media-tablet) {
+    max-width: 460px;
+  }
+
+}
+
+.l-form-span {
+
+  @media (min-width: $media-tablet) {
+    max-width: 100%;
+  }
+
+}

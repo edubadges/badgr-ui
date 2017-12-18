@@ -1,0 +1,60 @@
+.statusselect {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  padding-left: $gridspacing * 2;
+
+  &::before {
+    border-radius: 8px;
+    content: '';
+    display: none;
+    height: 8px;
+    margin-right: $gridspacing;
+    width: 8px;
+  }
+
+  select {
+    appearance: none;
+    background: url('#{$base-path}images/statusselect.svg') right center transparent no-repeat;
+    border: 0;
+    box-sizing: border-box;
+    flex: 1;
+    padding-right: 10px + $gridspacing * 2;
+
+    &::-ms-expand {
+      display: none;
+    }
+
+  }
+
+  &.statusselect-is-active {
+
+    &::before {
+      background-color: $color-primary;
+      display: block;
+    }
+
+  }
+
+  &.statusselect-is-inactive {
+
+    &::before {
+      background-color: $color-dark4;
+      display: block;
+    }
+
+  }
+
+}
+
+.statusselect-bordered {
+  border: 1px solid $color-primary;
+  border-radius: $border-radius;
+  padding: $gridspacing $gridspacing * 2;
+
+  select {
+    background-image: url('#{$base-path}images/statusselect-bordered.svg');
+    color: $color-primary;
+  }
+
+}

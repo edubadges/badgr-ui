@@ -1,0 +1,45 @@
+.menumore {
+  position: relative;
+
+  > button {
+    background: url('#{$base-path}images/menumore.svg') center center no-repeat;
+    border-radius: $border-radius;
+    color: transparent;
+    display: block;
+    height: 28px;
+    overflow: hidden;
+    transition: box-shadow $transition-duration $transition-easing;
+    user-select: none;
+    width: $menumorewidth;
+
+    &:hover {
+      box-shadow: 0 0 0 1px $color-dark4 inset;
+    }
+
+    &[disabled] {
+      opacity: .3;
+      pointer-events: none;
+    }
+
+  }
+
+  ul {
+    @include dropdown;
+    right: -10px;
+    z-index: $z-index-high;
+
+    &[aria-hidden="true"] {
+      display: none;
+    }
+
+  }
+
+  &.menumore-is-active {
+
+    ul {
+      opacity: 1;
+    }
+
+  }
+
+}

@@ -1,0 +1,16 @@
+@keyframes inactive {
+
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .1;
+  }
+
+}
+
+.inactive {
+  animation: inactive $transition-duration $transition-easing forwards;
+  pointer-events: none;
+}

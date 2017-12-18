@@ -1,0 +1,58 @@
+.integration {
+
+  h1 {
+    font-size: $font-size-large2;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  > ol {
+
+    > li {
+      font-size: $font-size-small1;
+      line-height: 1.7;
+      list-style: decimal outside;
+      margin-bottom: $gridspacing * 3;
+      margin-left: 1em;
+      padding-left: $gridspacing;
+    }
+
+    ol {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      margin-top: $gridspacing;
+
+      li:not(:last-child) {
+        margin-bottom: $gridspacing * 2;
+      }
+
+    }
+
+  }
+
+  > *:not(:last-child) {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  @media (min-width: $media-tablet) {
+
+    > ol ol {
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: -$gridspacing * 2;
+
+      li {
+        margin-bottom: $gridspacing * 2;
+
+        &:not(:last-child) {
+          margin-right: $gridspacing * 2;
+        }
+
+      }
+
+    }
+
+  }
+
+}

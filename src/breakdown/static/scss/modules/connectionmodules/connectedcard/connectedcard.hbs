@@ -1,0 +1,5 @@
+<div class="connectedcard{{#if connectedcard.classList?}} {{connectedcard.classList?}}{{/if}}">
+	<button type="button">Remove</button>
+	{{^connectedcard}}{{render "@connecteditem"}}{{/connectedcard}}
+	{{#is connectedcard.classList? "connectedcard-light"}}{{render "@connectedbadge"}}{{/is}}
+</div>

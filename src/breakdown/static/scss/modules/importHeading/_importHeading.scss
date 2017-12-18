@@ -1,0 +1,20 @@
+.importHeading {
+  padding-bottom: $gridspacing * 2;
+  font-size: $font-size-small1;
+  line-height: $line-height-large1;
+
+  h1,
+  p {
+    max-width: 560px;
+  }
+
+  h1 {
+    margin-bottom: $gridspacing;
+    margin-top: $gridspacing * 4;
+  }
+
+  ul {
+    list-style: disc;
+    padding: 8px 20px;
+  }
+}

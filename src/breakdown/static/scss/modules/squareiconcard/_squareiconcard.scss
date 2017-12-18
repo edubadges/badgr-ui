@@ -1,0 +1,106 @@
+$squareiconcard-submodules:
+  'alignment',
+  'evidence',
+  'narrative',
+  'tags';
+
+.squareiconcard {
+  background-color: $color-light1;
+  border-radius: $border-radius;
+  box-shadow: 0 0 0 3px $color-dark4 inset;
+  display: inline-block;
+  min-width: 256px;
+  outline: none;
+  padding: $gridspacing;
+  transition: box-shadow $transition-duration $transition-easing;
+  user-select: none;
+
+  .squareiconcard-x-container {
+    align-items: center;
+    color: $color-dark2;
+    display: flex;
+    font-weight: bold;
+    line-height: $line-height-large2;
+    text-transform: uppercase;
+
+    &::before {
+      background: center center no-repeat;
+      background-size: 31px;
+      content: '';
+      display: block;
+      height: 48px;
+      margin-right: $gridspacing;
+      transition: background-image $transition-duration $transition-easing,
+                  opacity $transition-duration $transition-easing;
+      width: 48px;
+    }
+
+  }
+
+  &[disabled] {
+    box-shadow: 0 0 0 3px $color-light4 inset;
+    pointer-events: none;
+
+    .squareiconcard-x-container {
+      color: $color-dark4;
+
+      &::before {
+        opacity: .2;
+      }
+
+    }
+
+  }
+
+  &:active:focus {
+    box-shadow: 0 0 0 3px $color-dark4 inset;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 3px $color-dark4 inset,
+                0 0 8px 0 $color-quaternary;
+  }
+
+  @media (min-width: $media-tablet) {
+    height: 160px;
+    min-width: 0;
+    padding: $gridspacing * 2;
+    width: 160px;
+
+
+    .squareiconcard-x-container {
+      flex-direction: column;
+
+      &::before {
+        background-size: 61px;
+        height: 96px;
+        margin-right: 0;
+        width: 96px;
+      }
+
+    }
+
+  }
+
+}
+
+@each $submodule in $squareiconcard-submodules {
+
+  .squareiconcard-#{$submodule} {
+
+    .squareiconcard-x-container::before {
+      background-image: url('#{$base-path}images/squareiconcard-#{$submodule}.svg');
+    }
+
+    &:hover,
+    &:active:focus {
+
+      .squareiconcard-x-container::before {
+        background-image: url('#{$base-path}images/squareiconcard-#{$submodule}-hover.svg');
+      }
+
+    }
+
+  }
+
+}

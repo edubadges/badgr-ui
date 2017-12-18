@@ -1,0 +1,38 @@
+<header class="heading{{#if modifier}} {{modifier}}{{/if}}">
+	{{#if image}}
+		<div>
+			<div class="{{headingXSelector}}">
+				{{#is headingXSelector 'heading-x-imageLarge'}}
+					<img src="http://placehold.it/200x200" src="http://placehold.it/200x200" alt="Web Design and Programming logo">
+				{{else}}
+					<img src="http://placehold.it/140x80" src="http://placehold.it/140x80" alt="Web Design and Programming logo">
+				{{/is}}
+			</div>
+			{{#aside}}
+				<aside class="heading-x-aside">
+					<div>{{> @new}} <strong>Versions</strong></div>
+					<p>
+						Badgr is testing the new version of Open Badges, 2.0 Badges accessed or Downloaded in 2.0 format may not yet be accepted
+						everywhere Open Badges are used.
+					</p>
+					<a><strong>View Version 2.0</strong></a>
+				</aside>
+			{{/aside}}
+		</div>
+	{{/if}}
+	<div class="heading-x-text">
+		<h1 id="{{id}}" {{#if headingId}}id="{{headingId}}"{{/if}}>{{heading}}{{#if headingNote}} <span>{{headingNote}}</span>{{/if}}{{#if headingEdit}} <button class="heading-x-edit" type="button" aria-labelledby="{{id}}">Edit</button>{{/if}}</h1>
+		{{~#if subHeading}}
+			<p class="heading-x-meta">{{{subHeading}}}</p>
+		{{/if}}
+		{{{text}}}
+		{{#if buttonTextContext}}
+			<p>{{render '@button--primaryghost' buttonTextContext merge=true}}</p>
+		{{/if}}
+	</div>
+	{{~#if buttonActionContext}}
+		<div class="heading-x-actions">
+			{{render '@button--major' buttonActionContext merge=true}}
+		</div>
+	{{/if~}}
+</header>

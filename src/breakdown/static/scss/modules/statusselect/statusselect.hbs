@@ -1,0 +1,8 @@
+<div class="statusselect{{#if statusselect.classList?}} {{statusselect.classList?}}{{/if}}{{#if statusselect.state?}} {{statusselect.state?}}{{/if}}">
+	<label class="{{> @visuallyhidden}}" for="statusselect{{#if statusselect.classList?}} {{statusselect.classList?}}{{/if}}{{#if statusselect.state?}} {{statusselect.state?}}{{/if}}">Status</label>
+	<select id="statusselect{{#if statusselect.classList?}}{{statusselect.classList?}}{{/if}}{{#if statusselect.state?}}{{statusselect.state?}}{{/if}}">
+		<option value="null">Status</option>
+		<option value="active">Active</option>
+		<option value="inactive">Inactive</option>
+	</select>
+</div>

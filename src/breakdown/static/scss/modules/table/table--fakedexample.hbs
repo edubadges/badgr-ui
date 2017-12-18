@@ -1,0 +1,46 @@
+<div class="{{render '@table'}}">
+	<div class="table-x-thead">
+		<div class="table-x-tr">
+			<div class="table-x-th">Member Name</div>
+			<div class="table-x-th">Email Address</div>
+			<div class="table-x-th {{> @hidden }} {{render "@hidden--hidden-is-tablet"}}">Actions</div>
+			<div class="table-x-th {{> @hidden }} {{render "@hidden--hidden-is-desktop"}} table-x-hidetext">Actions</div>
+		</div>
+	</div>
+	<div class="table-x-tbody">
+		<div class="table-x-tr">
+			<div class="table-x-th">
+				Member Name
+			</div>
+			<div class="table-x-td">
+				member@members.com
+			</div>
+			<div class="table-x-td  {{> @hidden }} {{render "@hidden--hidden-is-tablet"}}">
+				Actions
+			</div>
+			<div class="table-x-td table-x-actions  {{> @hidden }} {{render "@hidden--hidden-is-desktop"}}">
+				<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--right"}}">
+					{{render "@button--primaryghost" partialData merge=true}}
+					{{render "@button--primaryghost" partialData merge=true}}
+				</div>
+			</div>
+		</div>
+		<div class="table-x-tr">
+			<div class="table-x-th">
+				Member Name
+			</div>
+			<div class="table-x-td">
+				member@members.com
+			</div>
+			<div class="table-x-td {{> @hidden }} {{render "@hidden--hidden-is-tablet"}}">
+				Actions
+			</div>
+			<div class="table-x-td table-x-actions {{> @hidden }} {{render "@hidden--hidden-is-desktop"}}">
+				<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--right"}}">
+					{{render "@button--primaryghost" partialData merge=true}}
+					{{render "@button--primaryghost" partialData merge=true}}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

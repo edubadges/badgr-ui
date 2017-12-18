@@ -1,0 +1,52 @@
+.linklist {
+
+  li {
+    align-items: center;
+    display: flex;
+
+    &:not(:last-child) {
+      margin-bottom: $gridspacing;
+    }
+
+    > *:not(:last-child) {
+      margin-right: $gridspacing * 1.5;
+    }
+
+  }
+
+  a {
+    align-items: center;
+    display: flex;
+  }
+
+  button {
+    color: $color-primary;
+  }
+
+  img {
+    display: block;
+    height: 24px;
+    margin-right: $gridspacing * 1.5;
+    width: 24px;
+  }
+
+  @media (min-width: $media-tablet) {
+    display: flex;
+
+    li {
+
+      &:not(:first-child) {
+        padding-left: $gridspacing * 2;
+      }
+
+      &:not(:last-child) {
+        border-right: 2px solid $color-dark4;
+        margin-bottom: 0;
+        padding-right: $gridspacing * 2;
+      }
+
+    }
+
+  }
+
+}

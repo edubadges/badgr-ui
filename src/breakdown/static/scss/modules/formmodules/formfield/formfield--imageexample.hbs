@@ -1,0 +1,11 @@
+<div class="formfield formfield-image{{#if modifier}} {{modifier}}{{/if}}">
+  <label for="{{id}}">
+      <div>
+        <img src="http://placehold.it/80x80" alt="Placeholder image" width="80" height="80">
+      </div>
+  </label>
+  <input id="{{id}}" name="{{id}}" type="{{^type}}text{{/type}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
+	{{~#if errorText}}
+    <p class="formfield-x-error">{{errorText}}</p>
+  {{/if~}}
+</div>

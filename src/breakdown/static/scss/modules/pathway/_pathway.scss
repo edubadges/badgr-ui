@@ -1,0 +1,154 @@
+/*
+Pathway
+
+Default - Standard pathway state
+.pathway-is-activemove - Pathway is  currently being moved
+.pathway-is-inactivemove - Pathway is currently not being moved
+
+Markup:
+<div class="pathway {$modifiers}">
+  <sg-insert>3.4-1</sg-insert>
+</div>
+
+
+*/
+
+@keyframes pathway-x-move {
+
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+
+}
+
+.pathway {
+  background-color: $color-light3;
+  box-shadow: 0 0 0 1px $color-dark4 inset;
+  display: block;
+  position: relative;
+
+  .pathway-x-move {
+    animation: pathway-x-move $transition-duration $transition-easing forwards;
+    background-color: $color-light1;
+    border: 1px dashed $color-primary;
+    box-shadow: 0 0 $gridspacing * 3 0 rgba($color-primary, .2);
+    box-sizing: border-box;
+    color: $color-primary;
+    font-size: $font-size-small1;
+    font-weight: bold;
+    padding: $gridspacing * 2;
+    text-transform: uppercase;
+    width: 100%;
+  }
+
+  // Do not display pathway actions, or children pathways for small screens
+
+  .pathwaydetail-x-action,
+  > .pathway {
+    display: none;
+  }
+
+  // These two items will animate "up" when in pathway-is-activemove state
+
+  > .pathway-x-content,
+  > .pathway {
+    transition: transform $transition-duration $transition-easing;
+  }
+
+  > .pathway {
+    margin-left: $gridspacing * 7;
+    margin-top: -1px;
+
+    &:nth-child(2)::after {
+      background-image: url('#{$base-path}images/pathway-nested.svg');
+      content: '';
+      display: block;
+      height: $gridspacing * 3;
+      position: absolute;
+      right: calc(100% + #{$gridspacing * 2});
+      top: $gridspacing * 2;
+      width: $gridspacing * 3;
+    }
+
+    &.pathway-is-dropzone,
+    &.pathway-is-addchild {
+      box-shadow: 0 1px 0 0 $color-dark4 inset,
+                  0 -1px 0 0 $color-dark4 inset,
+                  -1px 0 0 0 $color-dark4 inset;
+      padding-bottom: $gridspacing;
+      padding-top: $gridspacing;
+    }
+
+  }
+
+  &.pathway-is-activemove {
+    background: $color-primary-light;
+    border: 1px dashed $color-primary;
+
+    // Displays "cancel move" button if in move mode for small screens
+
+    .pathwaydetail-x-action {
+      display: block;
+    }
+
+    > .pathway-x-content,
+    > .pathway {
+      transform: translateX($gridspacing * 2) translateY(-$gridspacing * 2);
+    }
+
+    .pathway,
+    .pathwaydetail {
+      box-shadow: 0 0 0 1px $color-primary inset;
+    }
+
+    .pathway-is-inactivemove {
+
+      .pathwaydetail {
+        background-color: $color-light1;
+      }
+
+    }
+
+  }
+
+  &.pathway-is-inactivemove {
+    cursor: not-allowed;
+    user-select: none;
+
+    > .pathwaydetail {
+      background-color: transparent;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+
+    // Display pathway actions, and children pathways for desktop
+
+    .pathwaydetail-x-action,
+    > .pathway {
+      display: block;
+    }
+
+  }
+
+}
+
+.pathway-root {
+
+  > .pathway {
+    border-radius: $border-radius;
+    overflow: hidden;
+    position: relative;
+
+    &.pathway-is-activemove {
+      overflow: visible;
+    }
+
+  }
+
+}

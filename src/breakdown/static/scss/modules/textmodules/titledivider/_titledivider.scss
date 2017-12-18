@@ -1,0 +1,15 @@
+.titledivider {
+  align-items: center;
+  color: rgba($color-secondary, .38);
+  display: flex;
+  font-size: $font-size-small2;
+
+  &::after {
+    background-color: rgba($color-secondary, .12);
+    content: '';
+    flex: 1 1 auto;
+    height: 1px;
+    margin-left: $gridspacing;
+  }
+
+}

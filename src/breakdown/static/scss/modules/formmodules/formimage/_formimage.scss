@@ -1,0 +1,139 @@
+.formimage {
+  display: block;
+
+  .formimage-x-title {
+    color: $color-dark1;
+    font-size: $font-size-small2;
+    font-weight: bold;
+    justify-content: space-between;
+    margin-bottom: $gridspacing;
+    text-transform: uppercase;
+
+    span {
+      color: $color-dark2;
+    }
+
+    a {
+      font-size: $font-size-small1;
+      font-weight: normal;
+      text-transform: none;
+    }
+
+    button {
+      color: $color-dark2;
+      font-size: $font-size-small1;
+    }
+
+  }
+
+  input {
+    display: none;
+  }
+
+  label {
+    align-items: center;
+    border: 1px dashed $color-dark3;
+    border-radius: $border-radius;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    padding: $gridspacing * 2;
+    transition: border-color $transition-duration $transition-easing,
+                border-style $transition-duration $transition-easing;
+
+    &:hover,
+    &:focus {
+      border-color: $color-secondary;
+      border-style: solid;
+    }
+  }
+
+  &.formimage-is-error {
+    label {
+      border-color: map-get($states, error);
+      border-style: solid;
+    }
+  }
+
+  &.formimage-is-dragging {
+    label {
+      border-color: $color-secondary;
+      border-style: solid;
+    }
+  }
+
+  .formimage-x-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: $gridspacing * 2;
+
+    width: 80px;
+    height: 80px;
+
+    img {
+      display: block;
+      max-width: 80px;
+      max-height: 80px;
+    }
+
+  }
+  .formimage-x-text {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .formimage-x-error {
+    color: map-get($states, error);
+    font-size: $font-size-small2;
+    margin-top: $gridspacing;
+  }
+
+  .formimage-x-label {
+    font-size: $font-size-small1;
+
+    span {
+      color: $color-primary;
+      font-weight: bold;
+    }
+
+  }
+
+  .formimage-x-button {
+    margin-top: $gridspacing;
+  }
+}
+
+.formimage-badgeUpload {
+  label {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .formimage-x-image {
+    display: inline-block;
+    height: 110px;
+    margin: 0;
+    padding-bottom: 26px;
+    padding-top: 40px;
+    width: 133px;
+    cursor: pointer;
+
+    img {
+      max-height: 110px;
+      max-width: 133px;
+    }
+  }
+
+  .formimage-x-text {
+    display: inline-block;
+  }
+
+  .formimage-x-label{
+    display: inline-block;
+    padding-bottom: 16px;
+  }
+
+}

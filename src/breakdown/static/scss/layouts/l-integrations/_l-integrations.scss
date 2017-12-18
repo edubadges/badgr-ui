@@ -1,0 +1,36 @@
+.l-integrations {
+
+  > * {
+    box-sizing: border-box;
+  }
+
+  > :first-child {
+    margin-bottom: $gridspacing * 6;
+    max-width: 420px;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 2;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+    align-items: flex-start;
+    display: flex;
+
+    > :first-child {
+      flex: 0 0 32%;
+      margin-top: $gridspacing * 6;
+      order: 2;
+      padding: $gridspacing 0 $gridspacing * 3 $gridspacing * 6;
+    }
+
+    > :last-child {
+      flex: 0 0 68%;
+      order: 1;
+      padding-right: $gridspacing * 6;
+    }
+
+  }
+
+}

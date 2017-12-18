@@ -1,0 +1,47 @@
+.formmessage {
+  align-items: center;
+  background-color: $color-secondary;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 5px 0 rgba($color-secondary, .12), 0 0 4px 0 rgba($color-secondary, .12);
+  box-sizing: border-box;
+  color: $color-light1;
+  display: flex;
+  justify-content: space-between;
+  opacity: 0;
+  padding: $gridspacing * 1.5 $gridspacing * 2;
+  pointer-events: none;
+  transition: opacity $transition-duration $transition-easing;
+
+  button {
+    background: url('#{$base-path}images/formmessage-close.svg') center center no-repeat;
+    color: transparent;
+    flex: 0 0 auto;
+    height: 24px;
+    overflow: hidden;
+    user-select: none;
+    width: 24px;
+  }
+
+  p {
+    flex: 1 1 100%;
+    line-height: $line-height-large2;
+    padding-right: $gridspacing * 2;
+  }
+
+  &.formmessage-is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Placeholder for now in case we want a separate animation out
+
+  &.formmessage-is-inactive {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.formmessage-is-error {
+    background-color: map-get($states, error);
+  }
+
+}

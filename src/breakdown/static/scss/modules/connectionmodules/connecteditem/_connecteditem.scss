@@ -1,0 +1,25 @@
+.connecteditem {
+  background: $color-primary;
+  color: $color-light1;
+  display: block;
+  padding: $gridspacing * 2 $gridspacing * 4 + 24px $gridspacing * 2 $gridspacing * 2;
+
+  h1 {
+    font-size: $font-size;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: $gridspacing / 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  p {
+    font-size: $font-size-small1;
+  }
+
+  &:hover {
+    color: $color-light1;
+  }
+
+}

@@ -1,0 +1,20 @@
+<button class="button" aria-controls="dialog{{#if dialog.classList?}}{{dialog.classList?}}{{/if}}">Open Dialog</button>
+
+<dialog class="dialog{{#if dialog.classList?}} {{dialog.classList?}}{{/if}}" id="dialogdialog-titled">
+	<header class="dialog-x-titlebar">
+		<h1>Share Badge</h1>
+		<button class="dialog-x-close" aria-controls="dialog{{#if dialog.classList?}}{{dialog.classList?}}{{/if}}"><span class="icon icon-notext icon-close">Close</span></button>
+	</header>
+	<div class="dialog-x-content">
+		{{render '@formfield--withtextareaexample' merge=true}}
+		<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal"}}">
+		{{> @formradiobutton--default}}{{> @new}}
+		</div>
+		<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--spacebetween"}}">
+			<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--small"}}">
+			{{> @social}}
+			</div>
+			<button class="small">Open link in a new window</button>
+		</div>
+	</div>
+</dialog>

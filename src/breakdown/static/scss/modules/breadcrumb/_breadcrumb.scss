@@ -1,0 +1,61 @@
+.breadcrumb {
+  border-bottom: $border;
+  display: flex;
+  font-size: $font-size-small1;
+  padding-bottom: $gridspacing * 3;
+  width: 100%;
+
+  li {
+    color: $color-dark3;
+    padding-right: $gridspacing * 3;
+    position: relative;
+    text-transform: uppercase;
+
+    &:not(:last-child) {
+
+      &::after {
+        background-color: $color-dark3;
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        right: $gridspacing * 1.25;
+        top: 0;
+        width: 1px;
+      }
+
+    }
+
+    &:last-child {
+
+      a {
+        font-weight: bold;
+      }
+
+    }
+
+  }
+
+  a {
+    color: $color-dark3;
+    font-weight: bold;
+    line-height: 1;
+    text-decoration: none;
+    transition: color $transition-duration $transition-easing;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &:active {
+      color: $color-primary;
+    }
+
+  }
+
+  .breadcrumb-x-current {
+    font-weight: normal;
+    padding-right: 0;
+  }
+
+}

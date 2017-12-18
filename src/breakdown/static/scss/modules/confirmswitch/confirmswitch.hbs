@@ -1,0 +1,12 @@
+<div class="confirmswitch{{#if confirmswitch.classList?}} {{confirmswitch.classList?}}{{/if}}">
+	<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--stackmobile"}}">
+		{{render "@button--primaryghost" partialData.resendButton merge=true}}
+		{{render "@button--primaryghost" partialData.removeButton merge=true}}
+		{{render "@button--primaryghost" partialData.primaryButton merge=true}}
+	</div>
+	<div class="{{> @l-childrenhorizontal }} {{render "@l-childrenhorizontal--right"}} {{render "@l-childrenhorizontal--stackmobile"}}">
+		<p class="l-childrenhorizontal-x-offset"><strong>Are you sure?</strong></p>
+		{{render "@button--default" partialData.confim merge=true}}
+		{{render "@button--default" partialData.cancel merge=true}}
+	</div>
+</div>

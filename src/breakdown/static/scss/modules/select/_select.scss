@@ -1,0 +1,97 @@
+/*
+Select
+
+Standalone select input.
+
+Default - Default
+.select-inputonly - Hides the label
+.select-secondary - Alternative styling, used on pathways
+.select-import - Styling used in import table.
+
+Markup:
+
+*/
+
+.select {
+  align-items: center;
+  color: $color-dark2;
+  display: flex;
+
+  span {
+    cursor: pointer;
+    pointer-events: none;
+  }
+
+  select {
+    appearance: none;
+    background: url('#{$base-path}images/select.svg') calc(100% - #{$gridspacing}) center no-repeat;
+    border: 1px solid $color-dark4;
+    border-radius: $border-radius;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-size: $font-size;
+    margin-left: $gridspacing * 2;
+    outline: none;
+    padding: $gridspacing * 2 17px + $gridspacing * 2 $gridspacing * 2 $gridspacing * 2;
+
+    &::-ms-expand {
+      display: none;
+    }
+
+  }
+
+}
+
+.select-inputonly {
+  color: transparent;
+  overflow: hidden;
+  position: relative;
+
+  span {
+    color: transparent;
+    position: absolute;
+    user-select: none;
+  }
+
+  select {
+    margin-left: 0;
+  }
+
+}
+
+.select-secondary {
+  color: $color-dark3;
+  font-size: $font-size-small1;
+
+  select {
+    background: url('#{$base-path}images/select-secondary.svg') right center no-repeat;
+    border: 0;
+    color: rgba($color-secondary, .54);
+    font-size: $font-size-small1;
+    padding-left: 0;
+    padding-right: $gridspacing + 10px;
+  }
+
+}
+
+.select-import{
+
+  select {
+    appearance: none;
+    background: url('#{$base-path}images/select-import.svg') calc(100% - 10px) center no-repeat;
+    background-color: white;
+    color: $color-primary;
+    font-weight: bold;
+    padding: $gridspacing;
+    min-width: 115px;
+    width: 100%;
+   }
+
+}
+
+.select-csvUpload{
+  & select{
+    padding-right: 25px;
+  }
+}

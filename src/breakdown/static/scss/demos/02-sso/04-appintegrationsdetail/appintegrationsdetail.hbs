@@ -1,0 +1,20 @@
+<header class="wrap wrap-light l-containerhorizontal l-heading">
+	{{render '@heading' headingContext merge=true}}
+</header>
+<div class="{{render '@l-containerhorizontal'}} {{render '@l-containervertical'}} {{render '@l-containervertical--small'}} {{render '@l-childrenvertical'}} {{render '@wrap'}}">
+  <table class="l-auth-x-permissions {{render '@table'}}">
+    <thead>
+      <tr>
+        <th scope="col">Digital Promise has permission to:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="table-x-wrap">{{render '@permission--personal' permissionPersonalContext merge=true}}</td>
+      </tr>
+      <tr>
+        <td class="table-x-wrap">{{render '@permission--profile' permissionProfileContext merge=true}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

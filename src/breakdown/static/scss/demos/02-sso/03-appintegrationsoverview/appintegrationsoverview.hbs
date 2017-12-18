@@ -1,0 +1,30 @@
+<header class="wrap wrap-light l-containerhorizontal l-heading">
+	{{render '@heading' headingContext merge=true}}
+</header>
+<div class="{{render '@l-containerhorizontal'}} {{render '@l-containervertical'}} {{render '@l-containervertical--small'}} {{render '@l-childrenvertical'}} {{render '@wrap'}}">
+  {{render '@text--quiet' textContext merge=true}}
+  <div class="{{render '@l-gridthree'}}">
+    {{#cards}}
+      <div>
+				<div class="{{render '@card--largeimage'}}">
+					<a class="card-x-main" href="#">
+						<div class="card-x-image">
+							<!-- NOTE: Alt text should describe the image -->
+							<img src="http://placehold.it/160x160" alt="" width="60" height="60">
+						</div>
+						<div class="card-x-text">
+							<h1 id="{{id}}">{{heading}}</h1>
+							<p>{{description}} &hellip;</p>
+						</div>
+					</a>
+					<div class="card-x-actions">
+						<span>{{{note}}}</span>
+						{{#if buttonContext}}
+							{{render '@button--secondaryghost' buttonContext merge=true}}
+						{{/if}}
+					</div>
+				</div>
+      </div>
+    {{/cards}}
+  </div>
+</div>

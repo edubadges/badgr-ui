@@ -1,0 +1,52 @@
+<div class="card{{#if card.classList?}} {{card.classList?}}{{/if}}">
+	<a class="card-x-main" href="">
+		{{^card}}
+			<p class="card-x-label">New</p>
+		{{/card}}
+		{{#is card.classList? "card-placeholder"}}
+			<p class="card-x-label">New</p>
+		{{/is}}
+		<div class="card-x-image">
+			{{render '@badge--default' }}
+		</div>
+		<div class="card-x-text">
+		{{^card}}
+			<h1>DCA Training Which Can Be Quite long and span multiple lines</h1>
+			<small>Pacific Science Center Which Can Be Quite long and span multiple lines</small>
+			<p>This badge is awarded to students who have completed the Discovery Corps</p>
+		{{/card}}
+		{{#is card.classList? "card-placeholder"}}
+			<h1>DCA Training</h1>
+			<small>Pacific Science Center</small>
+			<p>This badge is awarded to students who have completed the Discovery Corps</p>
+		{{/is}}
+		{{#is card.classList? "card-large"}}
+			<h1>Galatic Empire</h1>
+			<p>Finest producer of local-to-this-galaxy Deathstars and Super Star Destroyers. Largest employer in the galaxy.</p>
+			{{> @statlist }}
+		{{/is}}
+		{{#is card.classList? "card-action"}}
+			<h1>0 Groups</h1>
+			<small>0 Total Members</small>
+		{{/is}}
+		</div>
+	</a>
+	<div class="card-x-actions">
+		{{^card}}
+			<time datetime="2016-05-11">May 11, 2016</time>
+			{{render "@button--secondaryghost" partialData merge=true}}
+		{{/card}}
+		{{#is card.classList? "card-placeholder"}}
+			<time datetime="2016-05-11">May 11, 2016</time>
+			{{render "@button--secondaryghost" partialData merge=true}}
+		{{/is}}
+		{{#is card.classList? "card-large"}}
+			{{> @titledivider}}
+			{{render "@stack--small"}}
+			{{render "@stack--small"}}
+			{{render "@stack--small"}}
+		{{/is}}
+	</div>
+</div>
+
+

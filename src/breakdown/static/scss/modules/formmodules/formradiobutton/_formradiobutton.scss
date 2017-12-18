@@ -1,0 +1,107 @@
+.formradiobutton {
+
+  input[type=radio] {
+    font-size: 1em;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    width: 2em;
+
+    + label {
+      cursor: pointer;
+      display: inline-block;
+      line-height: 1.5em;
+      margin-left: -2em;
+      transition: color $transition-duration $transition-easing;
+
+      > span:first-child {
+        background: $color-light1;
+        border: .0625em solid $color-dark3;
+        border-radius: 1em;
+        display: inline-block;
+        height: .875em;
+        margin: .25em .5em .25em .25em;
+        transition: background-color $transition-duration $transition-easing,
+                    border-color $transition-duration $transition-easing,
+                    box-shadow $transition-duration $transition-easing;
+        vertical-align: bottom;
+        width: .875em;
+      }
+
+      &:hover {
+
+        > span:first-child {
+          background: $color-light4;
+          border: 1px solid $color-dark2;
+        }
+
+      }
+
+    }
+
+    &[disabled] {
+
+      + label {
+        color: $color-dark4;
+        pointer-events: none;
+
+        > span:first-child {
+          background: $color-light2;
+          border: 1px solid $color-dark4;
+        }
+
+      }
+
+    }
+
+  }
+
+  input[type=radio]:checked,
+  input[type=radio]:checked:focus {
+
+    + label > span:first-child {
+      background: $color-primary;
+      border: .0625em solid $color-primary;
+
+      > span {
+        background: $color-light1;
+        border: .0625em solid $color-primary;
+        border-radius: 1em;
+        display: block;
+        height: .5em;
+        margin: .125em;
+        width: .5em;
+      }
+
+    }
+
+  }
+
+  input[type=radio]:focus {
+
+    + label > span:first-child {
+      background: $color-light1;
+      border: .0625em solid $color-dark2;
+      box-shadow: 0 0 4px 1px $color-quaternary;
+    }
+
+  }
+
+}
+
+.formradiobutton-notext {
+
+  .formradiobutton-x-text {
+    color: transparent;
+    display: block;
+    height: 18px;
+    overflow: hidden;
+    width: 18px;
+
+    &::before {
+      margin-right: 0;
+    }
+
+  }
+
+}

@@ -1,0 +1,74 @@
+.radiobuttons {
+  display: flex;
+  position: relative;
+  z-index: $z-index-low;
+
+  // Hide the actual inputs and put them behind everything.
+
+  input {
+    position: absolute;
+    visibility: hidden;
+    z-index: $z-index-low;
+  }
+
+  label {
+    background: center center no-repeat;
+    border: $border;
+    color: transparent;
+    cursor: pointer;
+    display: block;
+    height: 40px;
+    transition: background $transition-duration $transition-easing,
+                border-color $transition-duration $transition-easing;
+    user-select: none;
+    width: 40px;
+    z-index: $z-index-med;
+
+    &:hover {
+      border-color: $color-secondary;
+    }
+
+    &:first-of-type {
+      border-bottom-left-radius: $border-radius;
+      border-top-left-radius: $border-radius;
+    }
+
+    &:last-of-type {
+      border-bottom-right-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+    }
+
+    &:not(:first-of-type) {
+      margin-left: -1px;
+    }
+
+  }
+
+  .radiobuttons-x-grid {
+    background-image: url('#{$base-path}images/radiobuttons-grid.svg');
+  }
+
+  .radiobuttons-x-list {
+    background-image: url('#{$base-path}images/radiobuttons-list.svg');
+  }
+
+  input:focus + label {
+    border-color: $color-secondary;
+  }
+
+  input:checked + label {
+    background-color: $color-secondary;
+    border-color: $color-secondary;
+    z-index: $z-index-high;
+
+    &.radiobuttons-x-grid {
+      background-image: url('#{$base-path}images/radiobuttons-grid-checked.svg');
+    }
+
+    &.radiobuttons-x-list {
+      background-image: url('#{$base-path}images/radiobuttons-list-checked.svg');
+    }
+
+  }
+
+}

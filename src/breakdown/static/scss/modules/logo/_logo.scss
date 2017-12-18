@@ -1,0 +1,28 @@
+.logo {
+  align-items: center;
+  display: flex;
+  position: relative;
+
+  picture img {
+    max-height: 48px;
+  }
+
+  &::after {
+    opacity: 0;
+    transition: opacity $transition-duration $transition-easing;
+  }
+
+  &.logo-is-loading {
+
+    &::after {
+      @include spinner;
+      height: $gridspacing * 3;
+      margin-left: $gridspacing * 2;
+      margin-top: 5px;
+      opacity: 1;
+      width: $gridspacing * 3;
+    }
+
+  }
+
+}

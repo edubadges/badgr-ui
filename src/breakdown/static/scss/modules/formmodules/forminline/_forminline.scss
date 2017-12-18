@@ -1,0 +1,52 @@
+.forminline {
+  display: flex;
+
+  > :first-child {
+    flex: 1 0 auto;
+  }
+
+  > :last-child {
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: $media-tablet) {
+
+
+    // Assumes first child is an element containing an input
+
+    > :first-child {
+
+      input {
+        border-bottom-right-radius: 0;
+        border-right: 0;
+        border-top-right-radius: 0;
+      }
+
+    }
+
+    // Assumes last child is a button
+
+    > :last-child {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+
+  }
+
+  @media (min-width: $media-tablet) {
+
+    > :first-child {
+      margin-right: $gridspacing * 2;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+
+    > :first-child {
+      flex: 0 0 320px;
+    }
+
+  }
+
+}

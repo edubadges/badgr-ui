@@ -1,0 +1,31 @@
+.l-headeredsection {
+  padding-bottom: $gridspacing * 10;
+  padding-top: $gridspacing * 4;
+
+  > *:not(:last-child) {
+    margin-bottom: $gridspacing * 4;
+  }
+
+  > header:not(:last-child) {
+    margin-bottom: $gridspacing * 2;
+  }
+
+  @media (min-width: $media-tablet) {
+    padding-top: $gridspacing * 5;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 5;
+    }
+
+  }
+
+  @media (min-width: $media-desktop) {
+    padding-bottom: $gridspacing * 13;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 6;
+    }
+
+  }
+
+}

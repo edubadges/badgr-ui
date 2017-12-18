@@ -1,0 +1,11 @@
+<dialog class="{{render '@dialog'}} {{render '@dialog--titled'}} {{render '@wrap'}} {{render '@wrap--light'}}">
+  <header class="dialog-x-titlebar">
+		<h1>Share this Badge</h1>
+		<button class="dialog-x-close"><span class="icon icon-notext icon-close">Close</span></button>
+	</header>
+	{{render '@l-tabs' lTabsContext merge=true}}
+  <div class="{{render '@l-sharepane'}} {{render '@l-sharepane--social'}}" tabindex="-1" id="sharelinksocial">
+    {{render '@l-authbuttons' lAuthButtonsContext}}
+  </div>
+</dialog>
+{{render '@preview--scripts-opendialog'}}

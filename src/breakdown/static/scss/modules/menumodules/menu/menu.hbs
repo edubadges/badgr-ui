@@ -1,0 +1,19 @@
+<nav class="menu" id="menu">
+
+	<h1 class="visuallyhidden">Main Navigation</h1>
+
+	<ul>
+		{{#menuItems}}
+			<li class="{{render '@menuitem' context merge=true}}"><a href="#">{{text}}</a></li>
+		{{/menuItems}}
+		<li class="{{render '@menuitem' merge=true}}">
+			<button onclick="this.parentElement.classList.toggle('menuitem-is-open')">Account</button>
+			<ul>
+				{{#menuItemsDropdown}}
+					<li class="{{render '@menuitem' context merge=true}}"><a href="#">{{text}}</a></li>
+				{{/menuItemsDropdown}}
+			</ul>
+		</li>
+	</ul>
+
+</nav>

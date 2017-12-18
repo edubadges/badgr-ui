@@ -1,0 +1,15 @@
+.l-dropzoneinput {
+  display: flex;
+
+  .l-dropzoneinput-x-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    > *:not(:last-child) {
+      margin-bottom: $gridspacing * 2;
+    }
+
+  }
+
+}

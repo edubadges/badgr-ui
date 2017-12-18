@@ -1,0 +1,42 @@
+.integrationthumb {
+  border: 1px solid rgba($color-secondary, .12);
+  border-radius: $border-radius;
+  display: block;
+  overflow: hidden;
+  position: relative;
+
+  > span {
+    align-items: center;
+    background-color: $color-secondary;
+    bottom: 0;
+    box-sizing: border-box;
+    color: $color-light1;
+    display: flex;
+    font-weight: bold;
+    height: 30px;
+    left: 0;
+    padding-left: $gridspacing;
+    padding-right: $gridspacing;
+    position: absolute;
+    width: 100%;
+
+    span {
+      background: url('#{$base-path}images/integrationthumb.svg') center center no-repeat;
+      color: transparent;
+      height: 20px;
+      position: absolute;
+      right: $gridspacing;
+      top: calc(50% - 10px);
+      user-select: none;
+      width: 20px;
+    }
+
+  }
+
+  img {
+    display: block;
+
+    width: 300px;
+  }
+
+}
