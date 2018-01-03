@@ -14,7 +14,8 @@ export interface PublicApiBadgeAssertion {
 	};
 	evidence: Array<{
 		type: "Evidence";
-		narrative: string;
+		id?: string;
+		narrative?: string;
 	}>;
 	narrative: string;
 	issuedOn: string;

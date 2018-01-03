@@ -137,20 +137,20 @@ import { routerLinkForUrl } from "./public.component";
 	
 							<!-- evidence -->
 							<section>
-								<h1 *ngIf="assertion.evidence_items?.length>0 || assertion.narrative">Evidence</h1>
+								<h1 *ngIf="assertion.evidence?.length>0 || assertion.narrative">Evidence</h1>
 								<show-more *ngIf="assertion.narrative">
 									<markdown-display [value]="assertion.narrative"></markdown-display>
 								</show-more>
 								<div class="bordered l-padding-2x l-marginBottom-2x"
-								     *ngFor="let evidence of assertion.evidence_items; let i=index">
+								     *ngFor="let evidence of assertion.evidence; let i=index">
 									<show-more *ngIf="evidence.narrative">
 										<markdown-display [value]="evidence.narrative"></markdown-display>
 									</show-more>
 									<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 										<a
-											*ngIf="evidence.evidence_url"
+											*ngIf="evidence.id"
 											class="button button-primaryghost"
-											[href]="evidence.evidence_url"
+											[href]="evidence.id"
 											target="_blank">VIEW EVIDENCE URL</a>
 									</div>
 								</div>
