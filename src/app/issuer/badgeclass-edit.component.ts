@@ -18,6 +18,7 @@ import { BadgeStudioComponent } from "./badge-studio.component";
 import { BgFormFieldImageComponent } from "../common/components/formfield-image";
 import { BadgeInstanceManager } from "./services/badgeinstance-manager.service";
 import { BadgeClassInstances, BadgeInstance } from "./models/badgeinstance.model";
+import { EventsService } from "../common/services/events.service";
 
 @Component({
 	selector: 'badgeclass-edit',
@@ -95,6 +96,7 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,
+		protected eventsService: EventsService,
 		protected badgeManager: BadgeClassManager,
 		protected issuerManager: IssuerManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
@@ -122,9 +124,12 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 
 	badgeClassSaved(promise: Promise<BadgeClass>) {
 		promise.then(
-			badgeClass => this.router.navigate([
-				'issuer/issuers', this.issuerSlug, 'badges', badgeClass.slug
-			]),
+			badgeClass => {
+					this.eventsService.recipientBadgesStale.next([]);
+					this.router.navigate([
+						'issuer/issuers', this.issuerSlug, 'badges', badgeClass.slug
+					])
+			},
 			error => this.messageService.reportAndThrowError(
 				`Unable to create Badge Class: ${BadgrApiFailure.from(error).firstMessage}`,
 				error

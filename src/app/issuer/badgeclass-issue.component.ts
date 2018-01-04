@@ -22,6 +22,7 @@ import { BadgrApiFailure } from "../common/services/api-failure";
 import { RecipientIdentifierType } from "./models/badgeinstance-api.model";
 import { typedGroup } from "../common/util/typed-forms";
 import { TelephoneValidator } from "../common/validators/telephone.validator";
+import {EventsService} from "../common/services/events.service";
 
 @Component({
 	selector: 'badgeclass-issue',
@@ -282,6 +283,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	constructor(
 		protected title: Title,
 		protected messageService: MessageService,
+		protected eventsService: EventsService,
 		protected issuerManager: IssuerManager,
 		protected badgeClassManager: BadgeClassManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
@@ -348,6 +350,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		).then(() => this.badge_class.update())
 			.then(() => {
+			this.eventsService.recipientBadgesStale.next([]);
 			this.router.navigate(
 				['issuer/issuers', this.issuerSlug, 'badges', this.badge_class.slug]
 			);

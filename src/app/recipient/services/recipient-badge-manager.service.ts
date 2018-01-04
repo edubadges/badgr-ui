@@ -25,6 +25,9 @@ export class RecipientBadgeManager {
 		eventsService.profileEmailsChanged.subscribe(() => {
 			this.updateIfLoaded();
 		});
+		eventsService.recipientBadgesStale.subscribe(() => {
+			this.updateIfLoaded();
+		});
 	}
 
 	createRecipientBadge(
