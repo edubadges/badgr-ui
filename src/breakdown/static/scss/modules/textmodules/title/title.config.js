@@ -79,5 +79,12 @@ module.exports = {
 			name: 'uppercase',
 			preview: '@preview'
 		},
+		{
+			context:{
+				modifier: 'title-center'
+			},
+			name: 'center',
+			preview: '@preview'
+		},
 	]
 };
