@@ -15,8 +15,11 @@ const staticDir = __dirname + '/src/breakdown/static';
 
 const dist = __dirname + '/dist/styleguide/';
 
-/* Set the title of the project */
-fractal.set('project.title', 'Badgr Pattern Library');
+/* Set the title & version of the project */
+const fs = require('fs');
+const packageJson = JSON.parse(fs.readFileSync(__dirname + '/package.json'));
+fractal.set('project.title', `${packageJson.description} v${packageJson.version}`);
+fractal.set('project.version', packageJson.version);
 
 /* Tell Fractal where the patterns will live */
 fractal.components.set('path', staticDir +'/scss');

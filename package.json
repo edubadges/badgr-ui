@@ -1,6 +1,7 @@
 {
   "name": "badgr-ui",
   "version": "2.8.1",
+  "description": "Badgr UI",
   "scripts": {
     "rimraf": "rimraf",
     "tslint": "tslint",
