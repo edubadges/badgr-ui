@@ -66,6 +66,14 @@ module.exports = {
 		},
 		{
 			context:{
+				modifier: 'title-margin-top-4x'
+			},
+			label: 'Margin Top 4x',
+			name: 'margin-top-4x',
+			preview: '@preview'
+		},
+		{
+			context:{
 				modifier: 'title-margin-bottom-2x'
 			},
 			label: 'Margin Bottom 2x',
