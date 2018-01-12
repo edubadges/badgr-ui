@@ -111,6 +111,13 @@ import { addQueryParamsToUrl } from "../util/url-util";
 						>Twitter
 						</button>
 					</div>
+					<div>
+						<button class="buttonauth buttonauth-portfolium"
+						        type="button"
+						        (click)="openPortfoliumWindow()"
+						>Twitter
+						</button>
+					</div>
 				</div>
 			</div>
 
@@ -225,6 +232,14 @@ export class ShareSocialDialog extends BaseDialog {
 
 	openTwitterWindow() {
 		this.sharingService.shareWithTwitter(
+			this.options.shareObjectType,
+			this.options.shareIdUrl,
+			this.currentShareUrl
+		);
+	}
+
+	openPortfoliumWindow() {
+		this.sharingService.shareWithPortfolium(
 			this.options.shareObjectType,
 			this.options.shareIdUrl,
 			this.currentShareUrl
