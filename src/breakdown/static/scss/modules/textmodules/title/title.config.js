@@ -50,6 +50,13 @@ module.exports = {
 		},
 		{
 			context:{
+				modifier: 'title-line-height-large'
+			},
+			name: 'small',
+			preview: '@preview'
+		},
+		{
+			context:{
 				modifier: 'title-small-2x'
 			},
 			label: 'Small 2x',
@@ -62,22 +69,6 @@ module.exports = {
 			},
 			label: 'Small 3x',
 			name: 'small-3x',
-			preview: '@preview'
-		},
-		{
-			context:{
-				modifier: 'title-margin-top-4x'
-			},
-			label: 'Margin Top 4x',
-			name: 'margin-top-4x',
-			preview: '@preview'
-		},
-		{
-			context:{
-				modifier: 'title-margin-bottom-2x'
-			},
-			label: 'Margin Bottom 2x',
-			name: 'margin-bottom-2x',
 			preview: '@preview'
 		},
 		{
