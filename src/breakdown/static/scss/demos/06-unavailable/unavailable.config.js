@@ -1,4 +1,5 @@
 module.exports = {
+    notes: "Use the badgr-unavailable.svg",
     context: {
         titleContext: {
             text: "Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span>",
