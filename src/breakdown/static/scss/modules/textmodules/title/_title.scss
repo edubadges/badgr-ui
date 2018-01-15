@@ -10,12 +10,29 @@
     font-weight: normal;
   }
 
+  .title-x-linebreak {
+    color: $color-secondary;
+    font-size: $font-size-large2;
+    font-weight: bold;
+  }
+
   @media (max-width: #{$media-tablet - 1px}) {
 
     &.title-is-smallmobile {
       font-size: $font-size;
     }
 
+    &.title-x-linebreak {
+      color: $color-secondary;
+      font-size: $font-size;
+      line-height: $line-height-large2;
+      font-weight: bold;
+      display:block;
+    }
+
+    &.title-line-height-large {
+      line-height: $font-size-large2;
+    }
   }
 
 }
@@ -24,16 +41,16 @@
   font-weight: bold;
 }
 
+.title-line-height-large {
+  line-height: $line-height-large3;
+}
+
 .title-bordered {
   border-left: $gridspacing solid $color-quaternary;
   font-size: $font-size-large1;
   font-weight: bold;
   line-height: $line-height-large2;
   padding-left: $gridspacing * 1.5;
-}
-
-.title-margin-bottom-2x {
-  margin-bottom: $gridspacing * 2;
 }
 
 .title-ruled,
@@ -90,4 +107,8 @@
 
 .title-uppercase {
   text-transform: uppercase;
+}
+
+.title-center {
+  text-align: center;
 }
