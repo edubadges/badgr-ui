@@ -50,7 +50,14 @@ import { detect } from "detect-browser";
 		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
 		</div>
 
-		<router-outlet></router-outlet>
+		<article *ngIf="messageService.hasFatalError" class="emptyillustration l-containervertical">
+			<h1 *ngIf="messageService.message" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{messageService.message.message}}</h1>
+			<h1 *ngIf="!messageService.message" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
+			<h1 *ngIf="!messageService.message" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
+			<img [src]="unavailableImageSrc">
+		</article>
+		
+		<router-outlet *ngIf="!messageService.hasFatalError"></router-outlet>
 
 		<confirm-dialog #confirmDialog></confirm-dialog>
 		<share-social-dialog #shareSocialDialog></share-social-dialog>
@@ -134,6 +141,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
 	}
+
+	readonly unavailableImageSrc = require("../breakdown/static/images/badgr-unavailable.svg");
 
 	constructor(
 		private sessionService: SessionService,
