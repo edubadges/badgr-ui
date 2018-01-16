@@ -50,14 +50,14 @@ import { detect } from "detect-browser";
 		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
 		</div>
 
-		<article *ngIf="messageService.hasFatalError" class="emptyillustration l-containervertical">
-			<h1 *ngIf="messageService.message" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{messageService.message.message}}</h1>
-			<h1 *ngIf="!messageService.message" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
-			<h1 *ngIf="!messageService.message" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
+		<article *ngIf="hasFatalError" class="emptyillustration l-containervertical">
+			<h1 *ngIf="fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{fatalMessage}}</h1>
+			<h1 *ngIf="!fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
+			<h1 *ngIf="!fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
 			<img [src]="unavailableImageSrc">
 		</article>
 		
-		<router-outlet *ngIf="!messageService.hasFatalError"></router-outlet>
+		<router-outlet *ngIf="!hasFatalError"></router-outlet>
 
 		<confirm-dialog #confirmDialog></confirm-dialog>
 		<share-social-dialog #shareSocialDialog></share-social-dialog>
@@ -140,6 +140,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
+	}
+
+	get hasFatalError() : boolean {
+		return this.messageService.hasFatalError
+	}
+	get fatalMessage() : string {
+		return (this.messageService.message ? this.messageService.message.message : undefined);
 	}
 
 	readonly unavailableImageSrc = require("../breakdown/static/images/badgr-unavailable.svg");
