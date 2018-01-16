@@ -167,11 +167,16 @@ export abstract class BaseHttpApiService {
 				this.sessionService.logout();
 				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to Badgr to continue.")}`);
 			}
+			else if (response.status === 0) {
+				this.messageService.reportFatalError(`Badgr Server Unavailable`);
+			}
+			else {
+				throw new BadgrApiError(
+					`Expected 2xx response; got ${response.status}`,
+					response
+				);
+			}
 
-			throw new BadgrApiError(
-				`Expected 2xx response; got ${response.status}`,
-				response
-			);
 		}
 
 		if (isError) {

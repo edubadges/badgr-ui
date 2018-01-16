@@ -24,6 +24,8 @@ export class MessageService {
 
 	private retainMessageOnNextRouteChange = false;
 
+	private fatalErrorPresent: boolean = false;
+
 	get message$(): Observable<FlashMessage> { return this.subject; }
 
 	constructor() {
@@ -121,6 +123,18 @@ export class MessageService {
 
 		// Throw the error so the loading system can catch it
 		throw new Error(message);
+	}
+
+	reportFatalError(
+		message: string,
+		exception?: any
+	) {
+		console.error("Loading Error: " + message, exception);
+		this.fatalErrorPresent = true;
+	}
+
+	get hasFatalError() : boolean {
+		return this.fatalErrorPresent
 	}
 
 	/**
