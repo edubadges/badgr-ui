@@ -63,6 +63,20 @@ export class SharingService {
 		);
 	}
 
+	shareWithPortfolium(
+		objectType: SharedObjectType,
+		objectIdUrl: string,
+		shareUrl: string
+	) {
+		this.reportShare(objectType, objectIdUrl, "Portfolium", shareUrl);
+
+		window.open(
+			`https://portfolium.com/share/badge?source=Badgr&u=${encodeURIComponent(shareUrl)}`,
+			"_blank",
+			"width=550,height=274"
+		);
+	}
+
 	private reportShare(
 		objectType: SharedObjectType,
 		objectIdUrl: string,
@@ -80,5 +94,5 @@ export class SharingService {
 }
 
 export type SharedObjectType = "BadgeInstance" | "BadgeCollection";
-export type ShareServiceType = "Facebook" | "LinkedIn" | "Twitter";
+export type ShareServiceType = "Facebook" | "LinkedIn" | "Twitter" | "Portfolium";
 export type ShareEndPoint = "shareArticle" | "certification";

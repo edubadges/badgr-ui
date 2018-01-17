@@ -67,3 +67,11 @@
   }
 
 }
+
+.buttonauth-portfolium {
+  background: #1B64AC;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-portfolium.svg');
+  }
+}
