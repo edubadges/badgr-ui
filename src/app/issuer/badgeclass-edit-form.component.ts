@@ -24,6 +24,7 @@ import { BadgeClass } from "./models/badgeclass.model";
 @Component({
 	selector: 'badgeclass-edit-form',
 	template: `
+		<form-message></form-message>
 		<form class="l-containerhorizontal l-containervertical"
 		      [formGroup]="badgeClassForm"
 		      (ngSubmit)="onSubmit(badgeClassForm.value)"
@@ -557,6 +558,12 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		if (! this.badgeClassForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.badgeClassForm);
+
+			// fire on next cycle, otherwise the immediate click event will dismiss the formmessage before its viewed
+			setTimeout(() => {
+				window.scrollTo(0,0);
+				this.messageService.reportHandledError("There were errors in your submission. Please review and try again.")
+			});
 		}
 	}
 
