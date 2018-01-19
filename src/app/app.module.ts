@@ -14,6 +14,7 @@ import { BadgrRouteReuseStrategy } from "./common/util/route-reuse-strategy";
 import { ProfileModule } from "./profile/profile.module";
 import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from "./common/guards/auth.guard";
+import {RecipientBadgeApiService} from "./recipient/services/recipient-badges-api.service";
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
@@ -109,6 +110,7 @@ const ROUTE_CONFIG: Routes = [
 	providers: [
 		Angulartics2,
 		Angulartics2GoogleAnalytics,
+		RecipientBadgeApiService,
 		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy}
 	]
 })

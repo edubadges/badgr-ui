@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Angulartics2 } from "angulartics2";
+import {RecipientBadgeApiService} from "../../recipient/services/recipient-badges-api.service";
 
 @Injectable()
 export class SharingService {
 	constructor(
-		private angulartics: Angulartics2
+		private angulartics: Angulartics2,
+		private recipientBadgeApiService: RecipientBadgeApiService
 	) {}
 
 	shareWithFacebook(
@@ -90,6 +92,12 @@ export class SharingService {
 				label: "Share of " + objectIdUrl + " to " + serviceType
 			}
 		});
+		if (objectType == "BadgeInstance") {
+			this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, serviceType);
+		} else
+		if (objectType == "BadgeCollection") {
+			this.recipientBadgeApiService.getCollectionShareUrlForProvider(objectIdUrl, serviceType);
+		}
 	}
 }
 
