@@ -3,6 +3,7 @@
   "version": "2.8.1",
   "description": "Badgr UI",
   "scripts": {
+    "test": "npm run test:ci",
     "rimraf": "rimraf",
     "tslint": "tslint",
     "typedoc": "typedoc",
