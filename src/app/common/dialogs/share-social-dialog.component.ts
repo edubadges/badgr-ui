@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
 import { registerDialog } from "dialog-polyfill/dialog-polyfill";
 
-import { SharingService, SharedObjectType, ShareEndPoint } from "../services/sharing.service";
+import {SharingService, SharedObjectType, ShareEndPoint, ShareServiceType} from "../services/sharing.service";
 import { BaseDialog } from "./base-dialog";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { addQueryParamsToUrl } from "../util/url-util";
@@ -90,28 +90,28 @@ import { addQueryParamsToUrl } from "../util/url-util";
 			<!-- Social Tab -->
 			<div class="l-sharepane l-sharepane-social" tabindex="-1" id="sharelinksocial" *ngIf="currentTabId == 'social'">
 				<div class="l-authbuttons">
-					<div>
+					<div *ngIf="displayShareServiceType('Facebook')">
 						<button class="buttonauth buttonauth-facebook"
 						        type="button"
 						        (click)="openFacebookWindow()"
 						>Facebook
 						</button>
 					</div>
-					<div>
+					<div *ngIf="displayShareServiceType('LinkedIn')">
 						<button class="buttonauth buttonauth-linkedin_oauth2"
 						        type="button"
 						        (click)="openLinkedInWindow()"
 						>LinkedIn
 						</button>
 					</div>
-					<div>
+					<div *ngIf="displayShareServiceType('Twitter')">
 						<button class="buttonauth buttonauth-twitter"
 						        type="button"
 						        (click)="openTwitterWindow()"
 						>Twitter
 						</button>
 					</div>
-					<div>
+					<div *ngIf="displayShareServiceType('Portfolium')">
 						<button class="buttonauth buttonauth-portfolium"
 						        type="button"
 						        (click)="openPortfoliumWindow()"
@@ -334,6 +334,13 @@ export class ShareSocialDialog extends BaseDialog {
 		return this.options.embedOptions && this.options.embedOptions.length;
 	}
 
+	displayShareServiceType(serviceType: ShareServiceType) {
+		if (this.options.excludeServiceTypes) {
+			return this.options.excludeServiceTypes.indexOf(serviceType) == -1;
+		}
+		return true;
+	}
+
 	openTab(tabId: ShareSocialDialogTabId) {
 		this.currentTabId = tabId;
 	}
@@ -378,6 +385,8 @@ export interface ShareSocialDialogOptions {
 	versionOptions?: ShareSocialDialogVersionOption[];
 	versionInfoTitle?: string;
 	versionInfoBody?: string;
+
+	excludeServiceTypes?: ShareServiceType[];
 
 	embedOptions: ShareSocialDialogEmbedOption[];
 }
