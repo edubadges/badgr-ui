@@ -9,11 +9,11 @@ import { EventsService } from "../services/events.service";
 @Component({
 	selector: 'form-message',
 	template: `
-		<div class="l-formmessage formmessage formmessage-is-{{status}}"
+		<div *ngIf="msg" class="l-formmessage formmessage formmessage-is-{{status}}"
 		     [class.formmessage-is-active]="message"
 		     [class.formmessage-is-inactive]="messageDismissed">
-		    <p *ngIf="msg">{{ msg }}</p>
-		    <button type="button" (click)="dismissMessage()">Dismiss</button>
+			<p>{{ msg }}</p>
+			<button type="button" (click)="dismissMessage()">Dismiss</button>
 		</div>
 	`
 })
