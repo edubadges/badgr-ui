@@ -53,8 +53,9 @@ describe('UserProfile', () => {
 	it(
 		'should correctly alias fields',
 		inject(
-			[ CommonEntityManager ],
-			(commonManager: CommonEntityManager) => {
+			[ CommonEntityManager, SessionService ],
+			(commonManager: CommonEntityManager, sessionService: SessionService) => {
+				sessionService.storeToken({token: "testtoken"});
 
 				let userProfile = new UserProfile(commonManager).applyApiModel(apiUserProfile);
 				userProfile.emails.applyApiData(apiProfileEmails);
