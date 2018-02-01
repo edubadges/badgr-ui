@@ -7,9 +7,10 @@ export interface FlashMessage {
 	message: string
 	timestamp: number
 	status: string
+	detail?: string
 }
 
-type MessageStatusType = "success" | "error" | "load-error";
+type MessageStatusType = "success" | "error" | "load-error" | "fatal-error";
 
 /**
  * A service for displaying application-level messages to the user, such notable API results (failure to load or
@@ -127,10 +128,14 @@ export class MessageService {
 
 	reportFatalError(
 		message: string,
+		detail?: string,
 		exception?: any
 	) {
-		console.error("Loading Error: " + message, exception);
 		this.fatalErrorPresent = true;
+		if (message) {
+			this.setMessage(message, "fatal-error");
+			this.message.detail = detail;
+		}
 	}
 
 	get hasFatalError() : boolean {

@@ -13,6 +13,7 @@ import { EmbedService } from "../common/services/embed.service";
 import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url-util";
 import { routerLinkForUrl } from "./public.component";
 import {QueryParametersService} from "../common/services/query-parameters.service";
+import {MessageService} from "../common/services/message.service";
 
 @Component({
 	template: `
@@ -212,6 +213,7 @@ export class PublicBadgeAssertionComponent {
 	constructor(
 		private injector: Injector,
 		public embedService: EmbedService,
+		public messageService: MessageService,
 		public queryParametersService: QueryParametersService
 	) {
 		this.assertionIdParam = new LoadedRouteParam(
@@ -220,7 +222,14 @@ export class PublicBadgeAssertionComponent {
 			paramValue => {
 				const service: PublicApiService = injector.get(PublicApiService);
 				return service.getBadgeAssertion(paramValue).then(assertion => {
-					if (this.showDownload) {
+					if (assertion.revoked) {
+						if (assertion.revocationReason) {
+							messageService.reportFatalError("Assertion has been revoked:", assertion.revocationReason)
+						} else {
+							messageService.reportFatalError("Assertion has been revoked.", "");
+						}
+					}
+					else if (this.showDownload) {
 						let a = document.createElement("a");
 						a.setAttribute("href", assertion.image);
 						a.setAttribute("download", assertion.image);

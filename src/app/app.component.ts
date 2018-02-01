@@ -52,8 +52,9 @@ import { detect } from "detect-browser";
 
 		<article *ngIf="hasFatalError" class="emptyillustration l-containervertical">
 			<h1 *ngIf="fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{fatalMessage}}</h1>
+			<h1 *ngIf="fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">{{fatalMessageDetail}}</h1>
 			<h1 *ngIf="!fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
-			<h1 *ngIf="!fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
+			<h1 *ngIf="!fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
 			<img [src]="unavailableImageSrc">
 		</article>
 		
@@ -147,6 +148,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	}
 	get fatalMessage() : string {
 		return (this.messageService.message ? this.messageService.message.message : undefined);
+	}
+	get fatalMessageDetail() : string {
+		return (this.messageService.message ? this.messageService.message.detail : undefined);
 	}
 
 	readonly unavailableImageSrc = require("../breakdown/static/images/badgr-unavailable.svg");

@@ -20,6 +20,8 @@ export interface PublicApiBadgeAssertion {
 	narrative: string;
 	issuedOn: string;
 	expires?: string;
+	revoked?: boolean;
+	revocationReason?: string;
 	recipient: {
 		salt: string;
 		type: "email" | "url" | "telephone" | "id";
