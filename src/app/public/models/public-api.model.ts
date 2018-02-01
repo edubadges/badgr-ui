@@ -19,6 +19,7 @@ export interface PublicApiBadgeAssertion {
 	}>;
 	narrative: string;
 	issuedOn: string;
+	expires?: string;
 	recipient: {
 		salt: string;
 		type: "email" | "url" | "telephone" | "id";

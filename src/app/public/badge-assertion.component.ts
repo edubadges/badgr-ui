@@ -76,8 +76,14 @@ import {QueryParametersService} from "../common/services/query-parameters.servic
 									<h2>{{ issuer.name }}</h2>
 								</div>
 							</a>
+							<p *ngIf="assertion.expires && isExpired" class="heading-x-meta-callout">
+								Expired on <time [date]="assertion.expires" format="mediumDate"></time>
+							</p>
 							<p class="heading-x-meta">
 								Awarded on <time [date]="assertion.issuedOn" format="mediumDate"></time>
+							</p>
+							<p *ngIf="assertion.expires && !isExpired" class="heading-x-meta">
+								Expires on <time [date]="assertion.expires" format="mediumDate"></time>
 							</p>
 	
 							<p style="font-size: 16px">{{ badgeClass.description }}</p>
@@ -235,6 +241,10 @@ export class PublicBadgeAssertionComponent {
 	get badgeClass(): PublicApiBadgeClass { return this.assertion.badge }
 
 	get issuer(): PublicApiIssuer { return this.assertion.badge.issuer }
+
+	get isExpired(): boolean {
+		return !this.assertion.expires || new Date(this.assertion.expires) < new Date();
+	}
 
 	private get rawJsonUrl() {
 		return stripQueryParamsFromUrl(this.assertion.id) + ".json";

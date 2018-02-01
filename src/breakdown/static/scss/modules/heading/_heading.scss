@@ -205,6 +205,11 @@
     color: rgba($color-secondary, .38);
   }
 
+  .heading-x-meta-callout {
+    color: $color-primary;
+    font-weight: bold;
+  }
+
   @media (min-width: $media-tablet) {
 
     .heading-x-text {
