@@ -106,7 +106,7 @@ import {MessageService} from "../common/services/message.service";
 	
 							<!-- tags -->
 							<section>
-								<h1 *ngIf="badgeClass.tags">Tags</h1>
+								<h1 *ngIf="badgeClass.tags && badgeClass.tags.length">Tags</h1>
 								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 									<span
 										*ngFor="let tag of badgeClass.tags; last as last">
@@ -166,15 +166,17 @@ import {MessageService} from "../common/services/message.service";
 							
 							<!-- URLs -->
 							<section>
-								<a [href]="v1JsonUrl"
-								   class="button button-primaryghost"
-								>v1 JSON</a>
-								<a [href]="v2JsonUrl"
-								   class="button button-primaryghost"
-								>v2.0 JSON</a>
-								<a [href]="assertion.sourceUrl"
-								   *ngIf="assertion.sourceUrl"
-								   class="button button-primaryghost"
+								<h1>v1.1</h1>
+								<a [href]="v1JsonUrl" class="button button-primaryghost">JSON</a>
+								<a [href]="v1BakedUrl" class="button button-primaryghost" download=true target="_blank">Baked Image</a>
+							</section>
+							<section>
+								<h1>v2.0</h1>
+								<a [href]="v2JsonUrl" class="button button-primaryghost">JSON</a>
+								<a [href]="v2BakedUrl" class="button button-primaryghost" download=true target="_blank">Baked Image</a>
+							</section>
+							<section>
+								<a *ngIf="assertion.sourceUrl" [href]="assertion.sourceUrl" class="button button-primaryghost"
 								>View Original</a>
 							</section>
 						</div>
@@ -265,6 +267,18 @@ export class PublicBadgeAssertionComponent {
 
 	get v2JsonUrl() {
 		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
+	}
+
+	get rawBakedUrl() {
+		return stripQueryParamsFromUrl(this.assertion.id) + "/baked";
+	}
+
+	get v1BakedUrl() {
+		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"})
+	}
+
+	get v2BakedUrl() {
+		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"})
 	}
 
 	get verifyUrl() {
