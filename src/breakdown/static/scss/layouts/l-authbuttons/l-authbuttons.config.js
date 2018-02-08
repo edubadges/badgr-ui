@@ -24,6 +24,12 @@ module.exports = {
           modifier: 'buttonauth-google',
           text: 'Google'
         }
+      },
+      {
+        context: {
+          modifier: 'buttonauth-surf_conext',
+          text: 'SURFconext'
+        }
       }
     ]
   },
