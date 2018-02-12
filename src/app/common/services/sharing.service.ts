@@ -74,8 +74,7 @@ export class SharingService {
 
 		window.open(
 			`https://portfolium.com/share/badge?source=Badgr&u=${encodeURIComponent(shareUrl)}`,
-			"_blank",
-			"width=800,height=600"
+			"_blank"
 		);
 	}
 
