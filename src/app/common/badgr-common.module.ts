@@ -55,6 +55,7 @@ import { EmbedService } from "./services/embed.service";
 import { InitialLoadingIndicatorService } from "./services/initial-loading-indicator.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {ExternalToolsApiService} from "../externaltools/services/externaltools-api.service";
+import {ExternalToolLaunchComponent} from "./components/external-tool-launch.component";
 
 
 const DIRECTIVES = [
@@ -87,7 +88,8 @@ const COMPONENTS = [
 	TooltipComponent,
 	MarkdownDisplay,
 	ShowMore,
-	OAuthBannerComponent
+	OAuthBannerComponent,
+	ExternalToolLaunchComponent
 ];
 
 const SERVICES = [
