@@ -53,6 +53,8 @@ import { AuthGuard } from "./guards/auth.guard";
 import { OAuthBannerComponent } from "./components/oauth-banner.component";
 import { EmbedService } from "./services/embed.service";
 import { InitialLoadingIndicatorService } from "./services/initial-loading-indicator.service";
+import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
+import {ExternalToolsApiService} from "../externaltools/services/externaltools-api.service";
 
 
 const DIRECTIVES = [
@@ -103,7 +105,9 @@ const SERVICES = [
 	OAuthManager,
 	OAuthApiService,
 	EmbedService,
-	InitialLoadingIndicatorService
+	InitialLoadingIndicatorService,
+	ExternalToolsApiService,
+	ExternalToolsManager
 ];
 
 const GUARDS = [

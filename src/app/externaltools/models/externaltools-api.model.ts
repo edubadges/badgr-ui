@@ -20,6 +20,10 @@ export interface ApiExternalToolLaunchpoint {
 	label: string;
 }
 
+export interface ApiExternalToolLaunchInfo {
+	launch_url: string;
+	launch_data: object;
+}
 
 export type ExternalToolLaunchpointName =
 	"earner_assertion_action" |

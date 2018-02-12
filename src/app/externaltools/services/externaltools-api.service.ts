@@ -4,7 +4,10 @@ import {BaseHttpApiService} from "../../common/services/base-http-api.service";
 import {SessionService} from "../../common/services/session.service";
 import {SystemConfigService} from "../../common/services/config.service";
 import {MessageService} from "../../common/services/message.service";
-import {ApiExternalTool} from "../models/externaltools-api.model";
+import {
+	ApiExternalTool, ApiExternalToolLaunchInfo,
+	ApiExternalToolLaunchpoint
+} from "../models/externaltools-api.model";
 
 
 @Injectable()
@@ -20,5 +23,9 @@ export class ExternalToolsApiService extends BaseHttpApiService {
 
 	listTools(): Promise<ApiExternalTool[]> {
 		return this.get(`/v1/externaltools/`).then(r => r.json())
+	}
+
+	getLaunchToolInfo(launchpoint: ApiExternalToolLaunchpoint): Promise<ApiExternalToolLaunchInfo> {
+		return this.get(launchpoint.url).then(r => r.json())
 	}
 }
