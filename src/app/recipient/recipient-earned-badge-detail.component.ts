@@ -156,9 +156,9 @@ import { EventsService } from "../common/services/events.service";
 					</div>
 					<div class="heading-x-actions">
 						<button class="button button-major" type="button" (click)="shareBadge()">Share Badge</button>
-						<div *ngFor="let lp of launchpoints">
-							<button class="button button-major" type="button" (click)="clickLaunchpoint(lp)">{{lp.label}}</button>
-						</div>
+						<ng-container *ngIf="launchpoints">
+							<button *ngFor="let lp of launchpoints" class="button button-major" type="button" (click)="clickLaunchpoint(lp)">{{lp.label}}</button>
+						</ng-container>
 					</div>
 				</div>
 
