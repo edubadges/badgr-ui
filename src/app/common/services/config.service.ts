@@ -8,6 +8,7 @@ export interface BadgrConfig {
 	help?: HelpConfig;
 	features?: FeaturesConfig;
 	googleAnalytics?: GoogleAnalyticsConfig;
+	assertionVerifyUrl?: string;
 }
 
 /**
@@ -88,7 +89,8 @@ export class SystemConfigService {
 				},
 				help: {
 					email: "support@badgr.io"
-				}
+				},
+				assertionVerifyUrl: "https://badgecheck.io/"
 			}),
 		];
 
@@ -120,6 +122,10 @@ export class SystemConfigService {
 
 	get googleAnalyticsConfig(): GoogleAnalyticsConfig {
 		return this.getConfig(config => (config.googleAnalytics || { trackingId: null }));
+	}
+
+	get assertionVerifyUrl(): string {
+		return this.getConfig(config => config.assertionVerifyUrl)
 	}
 
 	get currentTheme() {
