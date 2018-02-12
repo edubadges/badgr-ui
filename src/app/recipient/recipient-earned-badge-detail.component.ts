@@ -14,7 +14,7 @@ import { RecipientBadgeCollectionSelectionDialog } from "./recipient-badge-colle
 import { preloadImageURL } from "../common/util/file-util";
 import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../common/util/url-util";
-import {ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
+import {ApiExternalToolLaunchInfo, ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
 import {ExternalToolsManager} from "app/externaltools/services/externaltools-manager.service";
 
 @Component({
@@ -157,6 +157,19 @@ import {ExternalToolsManager} from "app/externaltools/services/externaltools-man
 							<button class="button button-major" type="button" (click)="clickLaunchpoint(lp)">{{lp.label}}</button>
 						</div>
 					</div>
+					<div *ngIf="ltiLaunchInfo">
+						<form #externalToolForm
+							action="{{ltiLaunchInfo.launch_url}}" 
+							method="POST" 
+							encType="application/x-www-form-urlencoded"
+							>
+								<input 
+									*ngFor="let key of objectKeys(ltiLaunchInfo.launch_data)" 
+									type="hidden" 
+									name="{{key}}" 
+									value="{{ltiLaunchInfo.launch_data[key]}}"/>
+						</form>
+					</div>
 				</div>
 
 			</header>
@@ -173,14 +186,19 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	readonly badgeLoadingImageUrl = require('../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../breakdown/static/images/badge-failed.svg');
 
+	objectKeys = Object.keys;
+
 	@ViewChild("collectionSelectionDialog")
 	collectionSelectionDialog: RecipientBadgeCollectionSelectionDialog;
+
+	@ViewChild("externalToolForm") externalToolForm;
 
 	badgesLoaded: Promise<any>;
 	badges: Array<RecipientBadgeInstance> = [];
 	badge: RecipientBadgeInstance;
 	issuerBadgeCount:string;
 	launchpoints: ApiExternalToolLaunchpoint[];
+	ltiLaunchInfo: ApiExternalToolLaunchInfo;
 
 
 	get badgeSlug(): string { return this.route.snapshot.params['badgeSlug']; }
@@ -281,12 +299,17 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	private clickLaunchpoint(launchpoint:ApiExternalToolLaunchpoint) {
-		console.log("launchpoint clicked", launchpoint);
 		this.externalToolsManager.getLaunchInfo(launchpoint).then(launchInfo => {
-			console.log("launch info acquired: ", launchInfo)
+			this.ltiLaunchInfo = launchInfo;
+			setTimeout(_ => this.launchTool());
 		})
 	}
 
+	private launchTool() {
+		if (this.externalToolForm) {
+			this.externalToolForm.nativeElement.submit()
+		}
+	}
 }
 
 export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): ShareSocialDialogOptions {
