@@ -20,6 +20,7 @@ import { preloadImageURL } from "../common/util/file-util";
 import {EventsService} from "../common/services/events.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-api.model";
+import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -154,7 +155,7 @@ import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-
 												<button *ngFor="let lp of launchpoints" 
 															  class="button button-primaryghost" 
 															  type="button" 
-															  (click)="clickLaunchpoint(lp)"
+															  (click)="clickLaunchpoint(lp, instance.slug)"
 												>{{lp.label}}</button>
 											</ng-container>
 										</div>
@@ -341,9 +342,9 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		}
 	}
 
-	private clickLaunchpoint(launchpoint:ApiExternalToolLaunchpoint) {
-		this.externalToolsManager.getLaunchInfo(launchpoint).then(launchInfo => {
-			this.eventService.externalToolLaunch.next(launchInfo);
+	private clickLaunchpoint(launchpoint:ApiExternalToolLaunchpoint, instanceSlug: BadgeInstanceSlug) {
+		this.externalToolsManager.getLaunchInfo(launchpoint, instanceSlug).then(launchInfo => {
+			this.eventService.externalToolLaunch.next(launchInfo, );
 		})
 	}
 }

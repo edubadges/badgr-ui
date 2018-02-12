@@ -25,7 +25,7 @@ export class ExternalToolsApiService extends BaseHttpApiService {
 		return this.get(`/v1/externaltools/`).then(r => r.json())
 	}
 
-	getLaunchToolInfo(launchpoint: ApiExternalToolLaunchpoint): Promise<ApiExternalToolLaunchInfo> {
-		return this.get(launchpoint.url).then(r => r.json())
+	getLaunchToolInfo(launchpoint: ApiExternalToolLaunchpoint, contextId: string): Promise<ApiExternalToolLaunchInfo> {
+		return this.get(`${launchpoint.url}?context_id=${contextId}`).then(r => r.json())
 	}
 }

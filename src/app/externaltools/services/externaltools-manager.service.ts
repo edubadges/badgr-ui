@@ -30,7 +30,7 @@ export class ExternalToolsManager {
 		)
 	}
 
-	getLaunchInfo(launchpoint: ApiExternalToolLaunchpoint): Promise<ApiExternalToolLaunchInfo> {
-		return this.externalToolsApiService.getLaunchToolInfo(launchpoint);
+	getLaunchInfo(launchpoint: ApiExternalToolLaunchpoint, contextId: string): Promise<ApiExternalToolLaunchInfo> {
+		return this.externalToolsApiService.getLaunchToolInfo(launchpoint, contextId);
 	}
 }

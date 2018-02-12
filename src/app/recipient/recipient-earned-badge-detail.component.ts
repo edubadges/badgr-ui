@@ -285,7 +285,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	private clickLaunchpoint(launchpoint:ApiExternalToolLaunchpoint) {
-		this.externalToolsManager.getLaunchInfo(launchpoint).then(launchInfo => {
+		this.externalToolsManager.getLaunchInfo(launchpoint, this.badgeSlug).then(launchInfo => {
 			this.eventService.externalToolLaunch.next(launchInfo);
 		})
 	}
