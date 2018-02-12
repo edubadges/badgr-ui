@@ -17,11 +17,16 @@ import { BadgeClassInstances, BadgeInstance } from "./models/badgeinstance.model
 import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { preloadImageURL } from "../common/util/file-util";
+import {EventsService} from "../common/services/events.service";
+import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
+import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-api.model";
+import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 
 @Component({
 	selector: 'badgeclass-detail',
 	template: `<main *bgAwaitPromises="[issuerLoaded, badgeClassLoaded]">
 		<form-message></form-message>
+		<external-tool-launch></external-tool-launch>
 	
 		<ng-template [ngIf]="badgeClass && issuer">
 	
@@ -146,6 +151,13 @@ import { preloadImageURL } from "../common/util/file-util";
 											<a class="button button-primaryghost" [href]="instance.url" target="_blank">View</a>
 											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke
 											</button>
+											<ng-container *ngIf="launchpoints">
+												<button *ngFor="let lp of launchpoints" 
+															  class="button button-primaryghost" 
+															  type="button" 
+															  (click)="clickLaunchpoint(lp, instance.slug)"
+												>{{lp.label}}</button>
+											</ng-container>
 										</div>
 									</td>
 								</tr>
@@ -168,6 +180,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	private badgeClass: BadgeClass;
 	private allBadgeInstances: BadgeClassInstances;
 	private instanceResults: BadgeInstance[] = [];
+	launchpoints: ApiExternalToolLaunchpoint[];
 
 	private _searchQuery: string = "";
 	get searchQuery() { return this._searchQuery; }
@@ -206,7 +219,9 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
-		protected dialogService: CommonDialogsService
+		protected dialogService: CommonDialogsService,
+		private eventService: EventsService,
+		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, sessionService);
 
@@ -240,6 +255,10 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			issuer => this.issuer = issuer,
 			error => this.messageService.reportLoadingError(`Cannot find issuer ${this.issuerSlug}`, error)
 		);
+
+		this.externalToolsManager.getToolLaunchpoints("issuer_assertion_action").then(launchpoints => {
+			this.launchpoints = launchpoints;
+		})
 	}
 
 	get issuerBadgeCount() {
@@ -321,6 +340,12 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			}).then(() => void 0, () => void 0)
 
 		}
+	}
+
+	private clickLaunchpoint(launchpoint:ApiExternalToolLaunchpoint, instanceSlug: BadgeInstanceSlug) {
+		this.externalToolsManager.getLaunchInfo(launchpoint, instanceSlug).then(launchInfo => {
+			this.eventService.externalToolLaunch.next(launchInfo, );
+		})
 	}
 }
 

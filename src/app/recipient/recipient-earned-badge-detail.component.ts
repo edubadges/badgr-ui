@@ -14,11 +14,16 @@ import { RecipientBadgeCollectionSelectionDialog } from "./recipient-badge-colle
 import { preloadImageURL } from "../common/util/file-util";
 import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../common/util/url-util";
+import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
+import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
+import { EventsService } from "../common/services/events.service";
 
 @Component({
 	selector: 'recipient-earned-badge-detail',
 	template: `
 		<main *bgAwaitPromises="[ badgesLoaded ]">
+		
+			<external-tool-launch></external-tool-launch>
 			<form-message></form-message>
 
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
@@ -151,6 +156,9 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 					</div>
 					<div class="heading-x-actions">
 						<button class="button button-major" type="button" (click)="shareBadge()">Share Badge</button>
+						<ng-container *ngIf="launchpoints">
+							<button *ngFor="let lp of launchpoints" class="button button-major" type="button" (click)="clickLaunchpoint(lp)">{{lp.label}}</button>
+						</ng-container>
 					</div>
 				</div>
 
@@ -175,6 +183,8 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	badges: Array<RecipientBadgeInstance> = [];
 	badge: RecipientBadgeInstance;
 	issuerBadgeCount:string;
+	launchpoints: ApiExternalToolLaunchpoint[];
+
 
 	get badgeSlug(): string { return this.route.snapshot.params['badgeSlug']; }
 	get recipientBadgeInstances() { return this.recipientBadgeManager.recipientBadgeList }
@@ -186,7 +196,9 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		private recipientBadgeManager: RecipientBadgeManager,
 		private title: Title,
 		private messageService: MessageService,
-		private dialogService: CommonDialogsService
+		private eventService: EventsService,
+		private dialogService: CommonDialogsService,
+		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
 
@@ -195,6 +207,10 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 				this.updateBadge(r)
 			})
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));
+
+		this.externalToolsManager.getToolLaunchpoints("earner_assertion_action").then(launchpoints => {
+			this.launchpoints = launchpoints;
+		})
 	}
 
 	ngOnInit() {
@@ -266,6 +282,12 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 			return count == 1 ? "1 Badge" : `${count} Badges`;
 		}
 		this.issuerBadgeCount = issuerBadgeCount();
+	}
+
+	private clickLaunchpoint(launchpoint:ApiExternalToolLaunchpoint) {
+		this.externalToolsManager.getLaunchInfo(launchpoint, this.badgeSlug).then(launchInfo => {
+			this.eventService.externalToolLaunch.next(launchInfo);
+		})
 	}
 }
 
