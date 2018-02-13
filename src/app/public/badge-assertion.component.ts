@@ -41,7 +41,7 @@ import {SystemConfigService} from "../common/services/config.service";
 						   type="button"
 						   target="_blank"
 						   [href]="verifyUrl"
-						>Validate Badge</a>
+						>Verify Badge</a>
 					</div>
 				</div>
 			</div>
@@ -186,7 +186,7 @@ import {SystemConfigService} from "../common/services/config.service";
 							<a class="button button-major button-large" 
 							   target="_blank"
 							   [href]="verifyUrl"
-							>Validate Badge</a>
+							>Verify Badge</a>
 						</div>
 						
 						<div class="heading-x-actions" *ngIf="showDownload">
