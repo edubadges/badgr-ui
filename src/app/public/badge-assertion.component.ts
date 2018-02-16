@@ -210,6 +210,7 @@ export class PublicBadgeAssertionComponent {
 	readonly badgeFailedImageUrl = require('../../breakdown/static/images/badge-failed.svg');
 
 	assertionIdParam: LoadedRouteParam<PublicApiBadgeAssertionWithBadgeClass>;
+	assertionId: string;
 
 	routerLinkForUrl = routerLinkForUrl;
 
@@ -224,6 +225,7 @@ export class PublicBadgeAssertionComponent {
 			injector.get(ActivatedRoute),
 			"assertionId",
 			paramValue => {
+				this.assertionId = paramValue;
 				const service: PublicApiService = injector.get(PublicApiService);
 				return service.getBadgeAssertion(paramValue).then(assertion => {
 					if (assertion.revoked) {
@@ -260,7 +262,7 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	private get rawJsonUrl() {
-		return stripQueryParamsFromUrl(this.assertion.id) + ".json";
+		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}.json`;
 	}
 
 	get v1JsonUrl() {
@@ -272,7 +274,7 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get rawBakedUrl() {
-		return stripQueryParamsFromUrl(this.assertion.id) + "/baked";
+		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}/baked`;
 	}
 
 	get v1BakedUrl() {
@@ -284,6 +286,6 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get verifyUrl() {
-		return `${this.configService.assertionVerifyUrl}?url=${this.v1JsonUrl}`;
+		return `${this.configService.assertionVerifyUrl}?url=${this.assertion.id}`;
 	}
 }
