@@ -7,6 +7,7 @@ dist/
 src/**/*.js
 src/**/*.js.map
 !src/**/*.config.js
+!src/embed/widgets.js
 !src/config.js
 npm-debug.log
 .sass-cache/

@@ -52,7 +52,9 @@ function webpackCommonConfiguration(basePath, themes)
             'themeSetup': basePath+'src/theming/theme-setup.ts',
             'polyfills': basePath+'src/polyfills.browser.ts',
             'vendor': basePath+'src/vendor.browser.ts',
-            'main': basePath+'src/main.browser.ts'
+            'main': basePath+'src/main.browser.ts',
+
+            'widgets': basePath+'src/widgets.browser.ts'
         },
 
         /*
