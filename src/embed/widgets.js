@@ -21,18 +21,20 @@ var sha256 = require('tiny-sha256');
 
     var badges = document.getElementsByClassName("badgr-badge");
 
+
     for (var i = 0; i < badges.length; i++) {
         var badge = badges[i];
 
-        badge.style.border = "1px solid red";
-        badge.style.position = "static";
-        badge.style.width = "300px";
-        badge.style.margin = "0";
-        badge.style["min-width"] = "220px";
+        var els;
 
-        var ps = badge.getElementsByTagName("p");
-        var awardedP = ps.length > 0 ? ps[0] : undefined;
+        els = badge.getElementsByClassName("badgr-badge-date");
+        var dateTag = els.length > 0 ? els[0] : undefined;
 
+        els = badge.getElementsByClassName("badgr-badge-name");
+        var badgenameTag = els.length > 0 ? els[0] : undefined;
+
+        els = badge.getElementsByClassName("badgr-badge-recipient");
+        var recipientTag = els.length > 0 ? els[0] : undefined;
 
         var as = badge.getElementsByTagName("a");
         if (as.length > 0) {
@@ -40,28 +42,82 @@ var sha256 = require('tiny-sha256');
             a.setAttribute("target", "_blank");
             var badge_url = a.getAttribute("href")+"?expand=badge";
 
-            var labels = a.getElementsByTagName("span");
-            var labelSpan = labels.length > 0 ? labels[0] : undefined;
 
             var imgs = a.getElementsByTagName("img");
             var imgTag = imgs.length > 0 ? imgs[0] : undefined;
 
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', badge_url, true)
+            xhr.open('GET', badge_url, true);
             xhr.setRequestHeader('accept', 'application/json');
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
                     console.log("assertion", data);
 
-                    if (labelSpan) {
-                        labelSpan.innerHTML = data.badge.name;
+                    badge.style["max-width"] = "440px";
+                    badge.style["margin"] = "0px";
+                    badge.style["border-radius"] = "4px";
+                    badge.style["border"] = "1px solid #efefef";
+                    badge.style["padding"] = "32px";
+
+                    badge.style["font-family"] = '"OpenSans", Helvetica, Roboto, "Segoe UI", Calibri, sans-serif';
+
+                    badge.style["font-style"] = "normal";
+                    badge.style["font-stretch"] = "normal";
+                    badge.style["letter-spacing"] = "normal";
+                    badge.style["text-align"] = "left";
+
+                    if (badgenameTag) {
+                        badgenameTag.innerHTML = data.badge.name;
+                        badgenameTag.style["color"] = "#05012c";
+                        badgenameTag.style["line-height"] = "1.25";
+                        badgenameTag.style["font-weight"] = "600";
+                        badgenameTag.style["font-size"] = "16px";
+                        badgenameTag.style["padding"] = "4px 0";
+                        badgenameTag.style["margin"] = "0";
                     }
-                    if (awardedP) {
-                        awardedP.innerHTML = "Awarded: "+format_date(data.issuedOn);
+                    if (dateTag) {
+                        dateTag.innerHTML = "";
+                        dateTag.style["line-height"] = "1.67";
+                        dateTag.style["font-weight"] = "600";
+                        dateTag.style["font-size"] = "12px";
+                        dateTag.style["color"] = "#47587f";
+                        dateTag.style["padding"] = "4px 0";
+                        dateTag.style["margin"] = "0";
+
+                        var strong = document.createElement("strong");
+                        strong.innerHTML = "Awarded:";
+                        strong.style["color"] = "#6c6b80";
+                        strong.style["font-weight"] = "bold";
+                        dateTag.appendChild(strong);
+
+                        dateTag.innerHTML += " "+format_date(data.issuedOn);
                     }
                     if (imgTag) {
                         imgTag.src = data.badge.image;
+                        imgTag.style["height"] = "128px";
+                        imgTag.style["width"] = "auto";
+                    }
+                    if (recipientTag) {
+                        if (data.extensions && data.extensions["extensions:RecipientProfile"]) {
+                            recipientTag.innerHTML = "";
+                            recipientTag.style["line-height"] = "1.67";
+                            recipientTag.style["font-weight"] = "600";
+                            recipientTag.style["font-size"] = "12px";
+                            recipientTag.style["color"] = "#47587f";
+                            recipientTag.style["padding"] = "4px 0";
+                            recipientTag.style["margin"] = "0";
+
+                            var strong = document.createElement("strong");
+                            strong.innerHTML = "Awarded To:";
+                            strong.style["color"] = "#6c6b80";
+                            strong.style["font-weight"] = "bold";
+                            recipientTag.appendChild(strong);
+
+                            recipientTag.innerHTML += " " + data.extensions["extensions:RecipientProfile"].name;
+                        } else {
+                            badge.removeChild(recipientTag);
+                        }
                     }
 
 
