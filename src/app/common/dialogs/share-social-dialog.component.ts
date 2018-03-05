@@ -5,6 +5,9 @@ import {SharingService, SharedObjectType, ShareEndPoint, ShareServiceType} from 
 import { BaseDialog } from "./base-dialog";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { addQueryParamsToUrl } from "../util/url-util";
+import {BadgeInstance} from "../../issuer/models/badgeinstance.model";
+import {RecipientBadgeInstance} from "../../recipient/models/recipient-badge.model";
+import {TimeComponent} from "../components/time.component";
 
 @Component({
 	selector: 'share-social-dialog',
@@ -141,6 +144,7 @@ import { addQueryParamsToUrl } from "../util/url-util";
 				<div *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="l-sharepane-x-preview wrap wrap-light4">
 					<p class="label-formfield">Badge Options</p>
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
+
 						<label class="formcheckbox" for="form-checkbox">
 							<input name="form-checkbox" id="form-checkbox" value="value" type="checkbox">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
@@ -164,7 +168,7 @@ import { addQueryParamsToUrl } from "../util/url-util";
 				</div>
 				
 				<p class="label-formfield">Preview</p>
-				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded l-childrencentered" [innerHTML]="currentSafeEmbedHtml"></div>
+				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded" [innerHTML]="currentSafeEmbedHtml"></div>
 				
 				<div class="formfield formfield-limitedtextarea formfield-monospaced">
 					<label class=" " for="emebed-code-box">Embed Code</label>
@@ -223,6 +227,8 @@ export class ShareSocialDialog extends BaseDialog {
 		this.cachedEmbedOption = null;
 		this.cachedEmbedHtml = null;
 		this.currentSafeEmbedHtml = null;
+
+		this.currentEmbedHtml; // trigger html generation before rendering
 
 		return new Promise<void>((resolve, reject) => {
 			this.resolveFunc = resolve;
@@ -311,13 +317,6 @@ export class ShareSocialDialog extends BaseDialog {
 		const outerContainer = document.createElement("div");
 		let containerElem: HTMLElement = outerContainer;
 
-		if (option.embedLinkUrl) {
-			const anchor = document.createElement("a");
-			anchor.href = option.embedLinkUrl;
-			anchor.target = "_blank";
-			outerContainer.appendChild(anchor);
-			containerElem = anchor;
-		}
 
 		// Create the embedded HTML fragment by generating an element and grabbing innerHTML. This avoids us having to
 		// deal with any HTML-escape issues, which are hard to get right, and for which there aren't any built-in functions.
@@ -337,16 +336,64 @@ export class ShareSocialDialog extends BaseDialog {
 			} break;
 
 			case "image": {
-				const img = document.createElement("img");
-				img.src = embedUrlWithParams;
-				img.width = option.embedSize.width;
-				img.height = option.embedSize.height;
 
+				const blockquote = document.createElement("blockquote");
+				blockquote.className = "badgr-badge";
+
+				const a = document.createElement("a");
+				a.href = this.currentShareUrl;
+				const img = document.createElement("img");
+				img.setAttribute("width", "120px");
+				img.setAttribute("height", "120px");
+				img.src = embedUrlWithParams;
 				if (option.embedTitle) {
 					img.alt = option.embedTitle;
 				}
+				a.appendChild(img);
+				blockquote.appendChild(a);
 
-				containerElem.appendChild(img);
+				const nameP = document.createElement("p");
+				nameP.className = "badgr-badge-name";
+				nameP.setAttribute("style", "font-size: 16px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.25; letter-spacing: normal; text-align: left; color: #05012c;");
+				nameP.innerHTML = option.embedBadgeName;
+				blockquote.appendChild(nameP);
+
+				const dateP = document.createElement("p");
+				dateP.className = "badgr-badge-date";
+				const dateStrong = document.createElement("strong");
+				dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
+				dateStrong.innerHTML = "Awarded:";
+				dateP.appendChild(dateStrong);
+				dateP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
+
+				dateP.innerHTML += " "+TimeComponent.datePipe.transform(option.embedAwardDate);
+				blockquote.appendChild(dateP);
+
+				if (option.embedRecipientName) {
+						const recipientP = document.createElement("p");
+						recipientP.className = "badgr-badge-recipient";
+						const recipientStrong = document.createElement("strong");
+						recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
+						recipientStrong.innerHTML = "Awarded To:";
+						recipientP.appendChild(recipientStrong);
+						recipientP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
+						recipientP.innerHTML += " "+option.embedRecipientName;
+						blockquote.appendChild(recipientP);
+				}
+
+				const verifyTag = document.createElement("a");
+				verifyTag.setAttribute("target", "_blank");
+				verifyTag.setAttribute("href", "https://badgecheck.io?url="+this.currentShareUrl);
+				verifyTag.innerHTML = "VERIFY";
+				verifyTag.setAttribute("style", "font-size:14px; font-weight: bold;  width: 48px; height: 20px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
+				blockquote.appendChild(verifyTag);
+
+				const widgetTag = document.createElement("script");
+				widgetTag.setAttribute("async","async");
+				widgetTag.setAttribute("src", "http://localhost:4000/widgets.bundle.js");
+				blockquote.appendChild(widgetTag);
+
+				containerElem.appendChild(blockquote);
 			} break;
 		}
 
@@ -467,6 +514,10 @@ export interface ShareSocialDialogEmbedOption {
 	 * Size of the embedded content. Measured in logical pixels.
 	 */
 	embedSize: { width: number; height: number }
+
+	embedBadgeName?: string;
+	embedAwardDate?: Date;
+	embedRecipientName?: string;
 }
 
 type ShareSocialDialogTabId = "link" | "social" | "embed";

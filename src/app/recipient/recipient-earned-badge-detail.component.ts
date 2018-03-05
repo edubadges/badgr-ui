@@ -334,7 +334,10 @@ export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): Share
 				embedSize: { width: 128, height: 128},
 				embedVersion: 1,
 				embedUrl: badge.image,
-				embedLinkUrl: badge.shareUrl
+				embedLinkUrl: badge.shareUrl,
+				embedAwardDate: badge.issueDate,
+				embedBadgeName: badge.badgeClass.name,
+				embedRecipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name
 			}
 		]
 	}

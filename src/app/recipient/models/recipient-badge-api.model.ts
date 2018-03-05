@@ -43,6 +43,7 @@ export interface ApiRecipientBadgeInstance {
 		id: string
 	}
 	shareUrl?: string;
+	extensions?: object;
 }
 
 export interface ApiRecipientBadgeRecipient {

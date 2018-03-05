@@ -99,4 +99,11 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get criteriaUrl(): string {
 		return this.badgeClass.criteria_url || this.badgeClass.criteria || null;
 	}
+
+	hasExtension(extensionName:string) {
+		return (this.apiModel.extensions && extensionName in this.apiModel.extensions);
+	}
+	getExtension(extensionName:string, defaultValue) {
+		return this.hasExtension(extensionName) ? this.apiModel.extensions[extensionName] : defaultValue;
+	}
 }
