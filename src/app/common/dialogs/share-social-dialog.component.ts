@@ -123,6 +123,49 @@ import { addQueryParamsToUrl } from "../util/url-util";
 
 			<!-- Embed Tab -->
 			<div class="l-sharepane" tabindex="-1" id="sharelinkembed" *ngIf="currentTabId == 'embed'">
+				<div class="l-childrenhorizontal l-childrenhorizontal-small">
+					<div class="formradiobutton" *ngFor="let embedOption of options.embedOptions; let i = index">
+						<input type="radio"
+						       name="embed-type-{{i}}"
+						       id="embed-type-{{i}}"
+						       [value]="embedOption"
+						       [(ngModel)]="selectedEmbedOption"
+						/>
+						<label for="embed-type-{{i}}">
+							<span><span></span></span>
+							<span class="formradiobutton-x-text">{{ embedOption.label }}</span>
+						</label>
+					</div>
+				</div>
+				
+				<div *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="l-sharepane-x-preview wrap wrap-light4">
+					<p class="label-formfield">Badge Options</p>
+					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
+						<label class="formcheckbox" for="form-checkbox">
+							<input name="form-checkbox" id="form-checkbox" value="value" type="checkbox">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
+						</label>
+
+						<label class="formcheckbox" for="form-checkbox2">
+							<input name="form-checkbox2" id="form-checkbox2" value="value2" type="checkbox">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Name</span>
+						</label>
+
+						<label class="formcheckbox" for="form-checkbox5">
+							<input name="form-checkbox5" id="form-checkbox5" value="value5" type="checkbox">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Date Awarded</span>
+						</label>
+
+						<label class="formcheckbox" for="form-checkbox6">
+							<input name="form-checkbox6" id="form-checkbox6" value="value6" type="checkbox">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Verification</span>
+						</label>
+					</div>
+				</div>
+				
+				<p class="label-formfield">Preview</p>
+				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded l-childrencentered" [innerHTML]="currentSafeEmbedHtml"></div>
+				
 				<div class="formfield formfield-limitedtextarea formfield-monospaced">
 					<label class=" " for="emebed-code-box">Embed Code</label>
 					<textarea id="emebed-code-box"
@@ -133,31 +176,15 @@ import { addQueryParamsToUrl } from "../util/url-util";
 					          #embedHtmlInput
 					></textarea>
 				</div>
-				<div class="l-childrenhorizontal l-childrenhorizontal-spacebetween" >
-					<div class="l-childrenhorizontal l-childrenhorizontal-small">
-						<div class="formradiobutton" *ngFor="let embedOption of options.embedOptions; let i = index">
-							<input type="radio"
-							       name="embed-type-{{i}}"
-							       id="embed-type-{{i}}"
-							       [value]="embedOption"
-							       [(ngModel)]="selectedEmbedOption"
-							/>
-							<label for="embed-type-{{i}}">
-								<span><span></span></span>
-								<span class="formradiobutton-x-text">{{ embedOption.label }}</span>
-							</label>
-						</div>
-					</div>
+				
+				<div class="l-childrenhorizontal l-childrenhorizontal-right" >
 					<button class="button"
 					        type="button"
 					        [hidden]="! copySupported"
 					        (click)="copyToClipboard(embedHtmlInput)"
 					>Copy</button>
 				</div>
-				<h3 class="title title-small title-uppercase">Preview</h3>
-				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded l-childrencentered"
-				     [innerHTML]="currentSafeEmbedHtml"
-				></div>
+				
 			</div>
 		</dialog>
 	`
