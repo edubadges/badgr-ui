@@ -33,6 +33,7 @@ export interface ApiBadgeInstanceForCreation {
 	narrative?: string
 	create_notification?: boolean
 	evidence_items?: ApiBadgeInstanceEvidenceItem[]
+	extensions?: object
 }
 
 export type RecipientIdentifierType = 'email' | 'openBadgeId' | 'telephone' | 'url';

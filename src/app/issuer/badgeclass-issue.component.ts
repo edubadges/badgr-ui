@@ -72,6 +72,14 @@ import {EventsService} from "../common/services/events.service";
 						</div>
 						<div class="l-formsection-x-inputs">
 							<div class="formfield">
+								<label>Recipient Name (optional)</label>
+								<bg-formfield-text
+									[control]="issueForm.untypedControls.recipientprofile_name"
+									ariaLabel="Recipient Name (optional)"
+								></bg-formfield-text>
+								<p class="text text-small"><strong>Note</strong>: The Recipient Name will appear in the awarded badge in plain text.</p>
+							</div>
+							<div class="formfield">
 								<label>Identifier</label>
 								<div class="l-formtwoup">
 									<bg-formfield-select ariaLabel="Select Options"
@@ -258,6 +266,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			})
 		})
 		.addControl("recipient_identifier", "", [ Validators.required, this.idValidator ])
+		.addControl("recipientprofile_name", "")
 		.addControl("narrative", "", MdImgValidator.imageTest)
 		.addControl("notify_earner", true)
 		.addArray("evidence_items", typedGroup()
@@ -336,6 +345,15 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		const formState = this.issueForm.value;
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
 
+		const recipientProfileContextUrl = "http://localhost:3000/extensions/RecipientProfile";
+		let extensions = formState.recipientprofile_name ? {
+			"extensions:RecipientProfile": {
+				"@context": recipientProfileContextUrl,
+				"type": ["Extension", "extensions:RecipientProfile"],
+				"name": formState.recipientprofile_name
+			}
+		} : undefined;
+
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
 			this.badgeSlug,
@@ -346,7 +364,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				recipient_identifier: formState.recipient_identifier,
 				narrative: this.narrativeEnabled ? formState.narrative : "",
 				create_notification: formState.notify_earner,
-				evidence_items: this.evidenceEnabled ? cleanedEvidence : []
+				evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
+				extensions: extensions
 			}
 		).then(() => this.badge_class.update())
 			.then(() => {
