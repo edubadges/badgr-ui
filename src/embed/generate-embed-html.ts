@@ -54,8 +54,12 @@ export function generateEmbedHtml(embedOptions) {
         recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
         recipientStrong.innerHTML = "Awarded To:";
         recipientP.appendChild(recipientStrong);
-        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
-        recipientP.innerHTML += " "+options.recipientName;
+        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f; ");
+
+        const recipientSpan = document.createElement("span");
+        recipientSpan.style.display = "block";
+        recipientSpan.innerHTML = options.recipientName;
+        recipientP.appendChild(recipientSpan);
         blockquote.appendChild(recipientP);
     }
 

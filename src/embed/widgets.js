@@ -41,7 +41,6 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                     var data = JSON.parse(xhr.responseText);
 
                     var recipientName = ('extensions:RecipientProfile' in data) ? data['extensions:RecipientProfile']['name'] : undefined;
-                    console.log("assertion", data, recipientName);
 
                     var verified = false;
                     if (data.recipient.type === "url") {
@@ -71,7 +70,7 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                         verified: verified
                     });
                     badge.innerHTML = blockquote.innerHTML;
-                    badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif;');
+                    badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 30px');
                 }
             };
             xhr.send();
