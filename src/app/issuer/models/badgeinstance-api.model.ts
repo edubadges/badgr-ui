@@ -59,6 +59,7 @@ export interface ApiBadgeInstance {
 	created_by: string
 
 	json: ApiBadgeInstanceJsonld
+	extensions?: object
 }
 
 export interface BadgeInstanceBatchAssertion {

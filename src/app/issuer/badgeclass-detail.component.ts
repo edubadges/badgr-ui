@@ -148,7 +148,6 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 									<td><time [date]="instance.issuedOn" format="mediumDate"></time></td>
 									<td class="table-x-actions">
 										<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-stackmobile">
-											<a *ngIf="instance.evidenceUrl" class="button" [href]="instance.evidenceUrl" target="_blank">Evidence</a>
 											<a class="button button-primaryghost" [href]="instance.url" target="_blank">View</a>
 											<button type="button" class="button button-primaryghost" (click)="shareInstance(instance)">Share</button>
 											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke</button>
@@ -360,7 +359,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			badgeClassName: this.badgeClass.name,
 			badgeClassDescription: this.badgeClass.description,
 			issueDate: badge.issuedOn,
-		// 	recipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name,
+			recipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name,
 		});
 	}
 }

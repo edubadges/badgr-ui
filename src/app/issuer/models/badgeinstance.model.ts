@@ -117,4 +117,11 @@ export class BadgeInstance extends ManagedEntity<ApiBadgeInstance, BadgeInstance
 			return this.badgeClassInstances;
 		});
 	}
+
+	hasExtension(extensionName:string) {
+		return (this.apiModel.extensions && extensionName in this.apiModel.extensions);
+	}
+	getExtension(extensionName:string, defaultValue) {
+		return this.hasExtension(extensionName) ? this.apiModel.extensions[extensionName] : defaultValue;
+	}
 }
