@@ -359,10 +359,14 @@ export class ShareSocialDialog extends BaseDialog {
 		}
 
 		this.cachedEmbedOption = this.selectedEmbedOption;
-		this.cachedEmbedHtml = outerContainer.innerHTML;
-		this.currentSafeEmbedHtml = this.domSanitizer.bypassSecurityTrustHtml(this.cachedEmbedHtml);
+		this.cachedEmbedHtml = this.stripStyleTags(outerContainer.innerHTML);
+		this.currentSafeEmbedHtml = this.domSanitizer.bypassSecurityTrustHtml(outerContainer.innerHTML);
 
 		return this.cachedEmbedHtml;
+	}
+
+	stripStyleTags(htmlstr: string): string {
+		return htmlstr.replace(/ ?style="[^"]*"/g, '');
 	}
 
 	get hasEmbedSupport() {

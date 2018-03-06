@@ -14,6 +14,7 @@ export function generateEmbedHtml(embedOptions) {
 
     const blockquote = document.createElement("blockquote");
     blockquote.className = "badgr-badge";
+    blockquote.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif;');
 
     const a = document.createElement("a");
     a.href = options.shareUrl;
@@ -27,7 +28,7 @@ export function generateEmbedHtml(embedOptions) {
     if (options.includeBadgeClassName && options.badgeClassName) {
         const nameP = document.createElement("p");
         nameP.className = "badgr-badge-name";
-        nameP.setAttribute("style", "font-size: 16px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.25; letter-spacing: normal; text-align: left; color: #05012c;");
+        nameP.setAttribute("style", "margin: 0; font-size: 16px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.25; letter-spacing: normal; text-align: left; color: #05012c;");
         nameP.innerHTML = options.badgeClassName;
         blockquote.appendChild(nameP);
     }
@@ -39,7 +40,7 @@ export function generateEmbedHtml(embedOptions) {
         dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
         dateStrong.innerHTML = "Awarded:";
         dateP.appendChild(dateStrong);
-        dateP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
+        dateP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
 
         dateP.innerHTML += " "+options.awardDate;
         blockquote.appendChild(dateP);
@@ -52,7 +53,7 @@ export function generateEmbedHtml(embedOptions) {
         recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
         recipientStrong.innerHTML = "Awarded To:";
         recipientP.appendChild(recipientStrong);
-        recipientP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
+        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
         recipientP.innerHTML += " "+options.recipientName;
         blockquote.appendChild(recipientP);
     }
@@ -63,7 +64,7 @@ export function generateEmbedHtml(embedOptions) {
         verifyTag.setAttribute("target", "_blank");
         verifyTag.setAttribute("href", "https://badgecheck.io?url="+options.shareUrl);
         verifyTag.innerHTML = "VERIFY";
-        verifyTag.setAttribute("style", "font-size:14px; font-weight: bold;  width: 48px; height: 14px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
+        verifyTag.setAttribute("style", "margin: 0; line-height: 14px; font-size:14px; font-weight: bold;  width: 48px; height: 14px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
         blockquote.appendChild(verifyTag);
     }
 

@@ -30,12 +30,11 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
         var as = badge.getElementsByTagName("a");
         if (as.length > 0) {
             var a = as[0];
-            a.setAttribute("target", "_blank");
             var badge_url = a.getAttribute("href");
-            badge_url += (badge_url.indexOf('?') == -1 ? '?' : '&') + 'expand=badge';
+            var expand_badge_url = badge_url + (badge_url.indexOf('?') === -1 ? '?' : '&') + 'expand=badge';
 
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', badge_url, true);
+            xhr.open('GET', expand_badge_url, true);
             xhr.setRequestHeader('accept', 'application/json');
             xhr.onload = function() {
                 if (xhr.status === 200) {
@@ -56,6 +55,7 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                         awardDate: format_date(data.issuedOn)
                     });
                     badge.innerHTML = blockquote.innerHTML;
+                    badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif;');
 
                     if (data.recipient.type === "url") {
                         var verified = false;
