@@ -146,22 +146,22 @@ import {TimeComponent} from "../components/time.component";
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 
 						<label class="formcheckbox" for="form-checkbox">
-							<input name="form-checkbox" id="form-checkbox" value="value" type="checkbox">
+							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
 						</label>
 
-						<label class="formcheckbox" for="form-checkbox2">
-							<input name="form-checkbox2" id="form-checkbox2" value="value2" type="checkbox">
+						<label class="formcheckbox" for="form-checkbox2" *ngIf="selectedEmbedOption.embedRecipientName">
+							<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [value]="includeRecipientName" [(ngModel)]="includeRecipientName" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Name</span>
 						</label>
 
 						<label class="formcheckbox" for="form-checkbox5">
-							<input name="form-checkbox5" id="form-checkbox5" value="value5" type="checkbox">
+							<input name="form-checkbox5" id="form-checkbox5" type="checkbox" [(ngModel)]="includeAwardDate" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Date Awarded</span>
 						</label>
 
 						<label class="formcheckbox" for="form-checkbox6">
-							<input name="form-checkbox6" id="form-checkbox6" value="value6" type="checkbox">
+							<input name="form-checkbox6" id="form-checkbox6" type="checkbox" [(ngModel)]="includeVerify" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Verification</span>
 						</label>
 					</div>
@@ -202,6 +202,11 @@ export class ShareSocialDialog extends BaseDialog {
 	currentTabId: ShareSocialDialogTabId = "link";
 
 	selectedEmbedOption: ShareSocialDialogEmbedOption | null = null;
+
+	includeBadgeClassName: boolean = true;
+	includeRecipientName: boolean = true;
+	includeAwardDate: boolean = true;
+	includeVerify: boolean = true;
 
 	constructor(
 		componentElem: ElementRef,
@@ -352,24 +357,28 @@ export class ShareSocialDialog extends BaseDialog {
 				a.appendChild(img);
 				blockquote.appendChild(a);
 
-				const nameP = document.createElement("p");
-				nameP.className = "badgr-badge-name";
-				nameP.setAttribute("style", "font-size: 16px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.25; letter-spacing: normal; text-align: left; color: #05012c;");
-				nameP.innerHTML = option.embedBadgeName;
-				blockquote.appendChild(nameP);
+				if (this.includeBadgeClassName) {
+						const nameP = document.createElement("p");
+						nameP.className = "badgr-badge-name";
+						nameP.setAttribute("style", "font-size: 16px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.25; letter-spacing: normal; text-align: left; color: #05012c;");
+						nameP.innerHTML = option.embedBadgeName;
+						blockquote.appendChild(nameP);
+				}
 
-				const dateP = document.createElement("p");
-				dateP.className = "badgr-badge-date";
-				const dateStrong = document.createElement("strong");
-				dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
-				dateStrong.innerHTML = "Awarded:";
-				dateP.appendChild(dateStrong);
-				dateP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
+				if (this.includeAwardDate) {
+						const dateP = document.createElement("p");
+						dateP.className = "badgr-badge-date";
+						const dateStrong = document.createElement("strong");
+						dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
+						dateStrong.innerHTML = "Awarded:";
+						dateP.appendChild(dateStrong);
+						dateP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
 
-				dateP.innerHTML += " "+TimeComponent.datePipe.transform(option.embedAwardDate);
-				blockquote.appendChild(dateP);
+						dateP.innerHTML += " "+TimeComponent.datePipe.transform(option.embedAwardDate);
+						blockquote.appendChild(dateP);
+				}
 
-				if (option.embedRecipientName) {
+				if (option.embedRecipientName && this.includeRecipientName) {
 						const recipientP = document.createElement("p");
 						recipientP.className = "badgr-badge-recipient";
 						const recipientStrong = document.createElement("strong");
@@ -381,12 +390,14 @@ export class ShareSocialDialog extends BaseDialog {
 						blockquote.appendChild(recipientP);
 				}
 
-				const verifyTag = document.createElement("a");
-				verifyTag.setAttribute("target", "_blank");
-				verifyTag.setAttribute("href", "https://badgecheck.io?url="+this.currentShareUrl);
-				verifyTag.innerHTML = "VERIFY";
-				verifyTag.setAttribute("style", "font-size:14px; font-weight: bold;  width: 48px; height: 20px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
-				blockquote.appendChild(verifyTag);
+				if (this.includeVerify) {
+						const verifyTag = document.createElement("a");
+						verifyTag.setAttribute("target", "_blank");
+						verifyTag.setAttribute("href", "https://badgecheck.io?url="+this.currentShareUrl);
+						verifyTag.innerHTML = "VERIFY";
+						verifyTag.setAttribute("style", "font-size:14px; font-weight: bold;  width: 48px; height: 20px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
+						blockquote.appendChild(verifyTag);
+				}
 
 				const widgetTag = document.createElement("script");
 				widgetTag.setAttribute("async","async");
@@ -444,6 +455,13 @@ export class ShareSocialDialog extends BaseDialog {
 		} finally {
 			input.disabled = inputWasDisabled;
 		}
+	}
+
+	updatePreview(ev) {
+		this.cachedEmbedOption = null;
+		this.cachedEmbedHtml = null;
+		this.currentSafeEmbedHtml = null;
+		this.currentEmbedHtml; // trigger html generation
 	}
 }
 
