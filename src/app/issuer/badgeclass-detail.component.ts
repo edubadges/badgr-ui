@@ -21,6 +21,8 @@ import {EventsService} from "../common/services/events.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-api.model";
 import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
+import {badgeShareDialogOptions} from "../recipient/recipient-earned-badge-detail.component";
+import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -140,17 +142,16 @@ import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 							</thead>
 							<tbody>
 								<tr *ngFor="let instance of instanceResults">
-									<th scope="row">
+									<th scope="row" class="l-wordwrap">
 										{{ instance.recipientIdentifier }}
 									</th>
 									<td><time [date]="instance.issuedOn" format="mediumDate"></time></td>
 									<td class="table-x-actions">
 										<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-stackmobile">
-											<a *ngIf="instance.evidenceUrl" class="button" [href]="instance.evidenceUrl" target="_blank">View
-												Evidence</a>
+											<a *ngIf="instance.evidenceUrl" class="button" [href]="instance.evidenceUrl" target="_blank">Evidence</a>
 											<a class="button button-primaryghost" [href]="instance.url" target="_blank">View</a>
-											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke
-											</button>
+											<button type="button" class="button button-primaryghost" (click)="shareInstance(instance)">Share</button>
+											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke</button>
 											<ng-container *ngIf="launchpoints">
 												<button *ngFor="let lp of launchpoints" 
 															  class="button button-primaryghost" 
@@ -346,6 +347,21 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		this.externalToolsManager.getLaunchInfo(launchpoint, instanceSlug).then(launchInfo => {
 			this.eventService.externalToolLaunch.next(launchInfo, );
 		})
+	}
+
+	shareInstance(instance: BadgeInstance) {
+		this.dialogService.shareSocialDialog.openDialog(this.badgeShareDialogOptionsFor(instance));
+	}
+
+	badgeShareDialogOptionsFor(badge: BadgeInstance): ShareSocialDialogOptions {
+		return badgeShareDialogOptions({
+			shareUrl: badge.instanceUrl,
+			imageUrl: badge.image,
+			badgeClassName: this.badgeClass.name,
+			badgeClassDescription: this.badgeClass.description,
+			issueDate: badge.issuedOn,
+		// 	recipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name,
+		});
 	}
 }
 

@@ -292,23 +292,44 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 }
 
 export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): ShareSocialDialogOptions {
+	return badgeShareDialogOptions({
+		shareUrl: badge.shareUrl,
+		imageUrl: badge.image,
+		badgeClassName: badge.badgeClass.name,
+		badgeClassDescription: badge.badgeClass.description,
+		issueDate: badge.issueDate,
+		recipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name,
+	});
+}
+
+interface BadgeShareOptions {
+	shareUrl: string;
+	imageUrl: string;
+	badgeClassName: string;
+	badgeClassDescription: string;
+	issueDate: Date;
+	recipientName?: string;
+}
+
+export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialDialogOptions {
 	return {
 		title: "Share Badge",
 		shareObjectType: "BadgeInstance",
-		shareUrl: badge.shareUrl,
-		shareTitle: badge.badgeClass.name,
-		shareIdUrl: badge.url,
-		shareSummary: badge.badgeClass.description,
+		shareUrl: options.shareUrl,
+		shareTitle: options.badgeClassName,
+		// shareIdUrl: badge.url,
+		shareIdUrl: options.shareUrl,
+		shareSummary: options.badgeClassDescription,
 		shareEndpoint: "certification",
 
 		versionOptions: [
 			{
 				label: "v1.1",
-				shareUrl: addQueryParamsToUrl(badge.shareUrl, { v: "1_1" })
+				shareUrl: addQueryParamsToUrl(options.shareUrl, { v: "1_1" })
 			},
 			{
 				label: "v2.0",
-				shareUrl: addQueryParamsToUrl(badge.shareUrl, { v: "2_0" })
+				shareUrl: addQueryParamsToUrl(options.shareUrl, { v: "2_0" })
 			}
 		],
 
@@ -318,26 +339,26 @@ export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): Share
 		embedOptions: [
 			{
 				label: "Card",
-				embedTitle: "Badgr Badge: " + badge.badgeClass.name,
+				embedTitle: "Badgr Badge: " + options.badgeClassName,
 				embedType: "iframe",
 				embedSize: { width: 330, height: 186 },
 				embedVersion: 1,
 				// The UI will show the embedded version because of the embedding params that are included automatically by the dialog
-				embedUrl: badge.shareUrl,
+				embedUrl: options.shareUrl,
 				embedLinkUrl: null
 			},
 
 			{
 				label: "Badge",
-				embedTitle: "Badgr Badge: " + badge.badgeClass.name,
+				embedTitle: "Badgr Badge: " + options.badgeClassName,
 				embedType: "image",
 				embedSize: { width: 128, height: 128},
 				embedVersion: 1,
-				embedUrl: badge.image,
-				embedLinkUrl: badge.shareUrl,
-				embedAwardDate: badge.issueDate,
-				embedBadgeName: badge.badgeClass.name,
-				embedRecipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name
+				embedUrl: options.imageUrl,
+				embedLinkUrl: options.shareUrl,
+				embedAwardDate: options.issueDate,
+				embedBadgeName: options.badgeClassName,
+				embedRecipientName: options.recipientName,
 			}
 		]
 	}
