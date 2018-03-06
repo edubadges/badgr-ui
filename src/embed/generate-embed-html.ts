@@ -1,4 +1,6 @@
 
+const checkmarkSvg = require("../breakdown/static/images/checkmark-circle.svg");
+
 export function generateEmbedHtml(embedOptions) {
     const options = embedOptions || {
         shareUrl: null,
@@ -11,6 +13,8 @@ export function generateEmbedHtml(embedOptions) {
         recipientName: null,
         includeVerifyButton: false,
         verified: false,
+        includeScript: true,
+        staticPrefix: null,
     };
 
     const blockquote = document.createElement("blockquote");
@@ -70,8 +74,9 @@ export function generateEmbedHtml(embedOptions) {
         verifyTag.setAttribute("href", "https://badgecheck.io?url="+options.shareUrl);
         verifyTag.setAttribute("style", "margin: 0; line-height: 14px; font-size:14px; font-weight: bold;  width: 48px; height: 16px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
         if (options.verified) {
+            var svgUrl = (options.staticPrefix || window.location.origin)+checkmarkSvg;
             var checkImg = document.createElement("img");
-            checkImg.src = "http://localhost:4000/icon/checkmark-circle.svg";
+            checkImg.src = svgUrl;
             verifyTag.appendChild(checkImg);
             verifyTag.innerHTML += " VERIFIED!";
             verifyTag.style.width = "90px";
@@ -81,10 +86,13 @@ export function generateEmbedHtml(embedOptions) {
         blockquote.appendChild(verifyTag);
     }
 
-    const widgetTag = document.createElement("script");
-    widgetTag.setAttribute("async","async");
-    widgetTag.setAttribute("src", "http://localhost:4000/widgets.bundle.js");
-    blockquote.appendChild(widgetTag);
+    if (options.includeScript) {
+        var scriptUrl = (options.staticPrefix || window.location.origin)+"/widgets.bundle.js";
+        const widgetTag = document.createElement("script");
+        widgetTag.setAttribute("async","async");
+        widgetTag.setAttribute("src", scriptUrl);
+        blockquote.appendChild(widgetTag);
+    }
 
     return blockquote;
 }

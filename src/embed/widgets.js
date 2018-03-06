@@ -27,6 +27,9 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
         var includeRecipientName = badge.getElementsByClassName("badgr-badge-recipient").length > 0;
         var includeVerifyButton = badge.getElementsByClassName("badgr-badge-verify").length > 0;
 
+        var els = badge.getElementsByTagName("script");
+        var staticPrefix = (els.length > 0) ? els[0].getAttribute("src").replace("widgets.bundle.js",'') : "https://badgr.io/";
+
         var as = badge.getElementsByTagName("a");
         if (as.length > 0) {
             var a = as[0];
@@ -67,7 +70,9 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                         badgeClassName: data.badge.name,
                         recipientName: recipientName,
                         awardDate: format_date(data.issuedOn),
-                        verified: verified
+                        verified: verified,
+                        includeScript: false,
+                        staticPrefix: staticPrefix,
                     });
                     badge.innerHTML = blockquote.innerHTML;
                     badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 30px');

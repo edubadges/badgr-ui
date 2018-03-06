@@ -351,7 +351,8 @@ export class ShareSocialDialog extends BaseDialog {
 					includeVerifyButton: this.includeVerifyButton,
 					badgeClassName: option.embedBadgeName,
 					awardDate: TimeComponent.datePipe.transform(option.embedAwardDate),
-					recipientName: option.embedRecipientName
+					recipientName: option.embedRecipientName,
+					includeScript: true,
 				});
 
 				containerElem.appendChild(blockquote);
