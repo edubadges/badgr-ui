@@ -359,7 +359,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			badgeClassName: this.badgeClass.name,
 			badgeClassDescription: this.badgeClass.description,
 			issueDate: badge.issuedOn,
-			recipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name,
+			recipientName: badge.getExtension('extensions:recipientProfile', {'name': undefined}).name,
 		});
 	}
 }

@@ -298,7 +298,7 @@ export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): Share
 		badgeClassName: badge.badgeClass.name,
 		badgeClassDescription: badge.badgeClass.description,
 		issueDate: badge.issueDate,
-		recipientName: badge.getExtension('extensions:RecipientProfile', {'name': undefined}).name,
+		recipientName: badge.getExtension('extensions:recipientProfile', {'name': undefined}).name,
 	});
 }
 

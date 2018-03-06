@@ -345,9 +345,9 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		const formState = this.issueForm.value;
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
 
-		const recipientProfileContextUrl = "http://localhost:3000/extensions/RecipientProfile";
+		const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 		let extensions = formState.recipientprofile_name ? {
-			"extensions:RecipientProfile": {
+			"extensions:recipientProfile": {
 				"@context": recipientProfileContextUrl,
 				"type": ["Extension", "extensions:RecipientProfile"],
 				"name": formState.recipientprofile_name

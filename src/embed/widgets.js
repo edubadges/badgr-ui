@@ -40,7 +40,7 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
 
-                    var recipientName = ('extensions:RecipientProfile' in data) ? data['extensions:RecipientProfile']['name'] : undefined;
+                    var recipientName = ('extensions:recipientProfile' in data) ? data['extensions:recipientProfile']['name'] : undefined;
 
                     var verified = false;
                     if (data.recipient.type === "url") {
