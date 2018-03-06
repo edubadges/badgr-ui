@@ -1,11 +1,10 @@
 
-// var shajs = require('sha.js');
 var sha256 = require('tiny-sha256');
+var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
 
 (function() {
 
     function _message_to_sha256_hextring(message) {
-        // return shajs('sha256').update(message).digest('hex');
         return sha256(message);
     }
 
@@ -15,36 +14,25 @@ var sha256 = require('tiny-sha256');
         var monthIndex = date.getMonth();
         var year = date.getFullYear();
         var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
         return monthNames[monthIndex] + ' ' + day + ", " + year;
     }
 
     var badges = document.getElementsByClassName("badgr-badge");
 
-
     for (var i = 0; i < badges.length; i++) {
         var badge = badges[i];
 
-        var els;
-
-        els = badge.getElementsByClassName("badgr-badge-date");
-        var dateTag = els.length > 0 ? els[0] : undefined;
-
-        els = badge.getElementsByClassName("badgr-badge-name");
-        var badgenameTag = els.length > 0 ? els[0] : undefined;
-
-        els = badge.getElementsByClassName("badgr-badge-recipient");
-        var recipientTag = els.length > 0 ? els[0] : undefined;
+        var includeAwardDate = badge.getElementsByClassName("badgr-badge-date").length > 0;
+        var includeBadgeName = badge.getElementsByClassName("badgr-badge-name").length > 0;
+        var includeRecipientName = badge.getElementsByClassName("badgr-badge-recipient").length > 0;
+        var includeVerifyButton = badge.getElementsByClassName("badgr-badge-verify").length > 0;
 
         var as = badge.getElementsByTagName("a");
         if (as.length > 0) {
             var a = as[0];
             a.setAttribute("target", "_blank");
-            var badge_url = a.getAttribute("href")+"?expand=badge";
-
-
-            var imgs = a.getElementsByTagName("img");
-            var imgTag = imgs.length > 0 ? imgs[0] : undefined;
+            var badge_url = a.getAttribute("href");
+            badge_url += (badge_url.indexOf('?') == -1 ? '?' : '&') + 'expand=badge';
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', badge_url, true);
@@ -52,74 +40,22 @@ var sha256 = require('tiny-sha256');
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
-                    console.log("assertion", data);
 
-                    badge.style["max-width"] = "440px";
-                    badge.style["margin"] = "0px";
-                    badge.style["border-radius"] = "4px";
-                    badge.style["border"] = "1px solid #efefef";
-                    badge.style["padding"] = "32px";
+                    var recipientName = ('extensions:RecipientProfile' in data) ? data['extensions:RecipientProfile']['name'] : undefined;
+                    console.log("assertion", data, recipientName);
 
-                    badge.style["font-family"] = '"OpenSans", Helvetica, Roboto, "Segoe UI", Calibri, sans-serif';
-
-                    badge.style["font-style"] = "normal";
-                    badge.style["font-stretch"] = "normal";
-                    badge.style["letter-spacing"] = "normal";
-                    badge.style["text-align"] = "left";
-
-                    if (badgenameTag) {
-                        badgenameTag.innerHTML = data.badge.name;
-                        badgenameTag.style["color"] = "#05012c";
-                        badgenameTag.style["line-height"] = "1.25";
-                        badgenameTag.style["font-weight"] = "600";
-                        badgenameTag.style["font-size"] = "16px";
-                        badgenameTag.style["padding"] = "4px 0";
-                        badgenameTag.style["margin"] = "0";
-                    }
-                    if (dateTag) {
-                        dateTag.innerHTML = "";
-                        dateTag.style["line-height"] = "1.67";
-                        dateTag.style["font-weight"] = "600";
-                        dateTag.style["font-size"] = "12px";
-                        dateTag.style["color"] = "#47587f";
-                        dateTag.style["padding"] = "4px 0";
-                        dateTag.style["margin"] = "0";
-
-                        var strong = document.createElement("strong");
-                        strong.innerHTML = "Awarded:";
-                        strong.style["color"] = "#6c6b80";
-                        strong.style["font-weight"] = "bold";
-                        dateTag.appendChild(strong);
-
-                        dateTag.innerHTML += " "+format_date(data.issuedOn);
-                    }
-                    if (imgTag) {
-                        imgTag.src = data.badge.image;
-                        imgTag.style["height"] = "128px";
-                        imgTag.style["width"] = "auto";
-                    }
-                    if (recipientTag) {
-                        if (data.extensions && data.extensions["extensions:RecipientProfile"]) {
-                            recipientTag.innerHTML = "";
-                            recipientTag.style["line-height"] = "1.67";
-                            recipientTag.style["font-weight"] = "600";
-                            recipientTag.style["font-size"] = "12px";
-                            recipientTag.style["color"] = "#47587f";
-                            recipientTag.style["padding"] = "4px 0";
-                            recipientTag.style["margin"] = "0";
-
-                            var strong = document.createElement("strong");
-                            strong.innerHTML = "Awarded To:";
-                            strong.style["color"] = "#6c6b80";
-                            strong.style["font-weight"] = "bold";
-                            recipientTag.appendChild(strong);
-
-                            recipientTag.innerHTML += " " + data.extensions["extensions:RecipientProfile"].name;
-                        } else {
-                            badge.removeChild(recipientTag);
-                        }
-                    }
-
+                    var blockquote = generateEmbedHtml({
+                        shareUrl: badge_url,
+                        imageUrl: data.image,
+                        includeBadgeClassName: includeBadgeName,
+                        includeRecipientName: includeRecipientName && recipientName,
+                        includeAwardDate: includeAwardDate,
+                        includeVerifyButton: includeVerifyButton,
+                        badgeClassName: data.badge.name,
+                        recipientName: recipientName,
+                        awardDate: format_date(data.issuedOn)
+                    });
+                    badge.innerHTML = blockquote.innerHTML;
 
                     if (data.recipient.type === "url") {
                         var verified = false;

@@ -5,9 +5,9 @@ import {SharingService, SharedObjectType, ShareEndPoint, ShareServiceType} from 
 import { BaseDialog } from "./base-dialog";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { addQueryParamsToUrl } from "../util/url-util";
-import {BadgeInstance} from "../../issuer/models/badgeinstance.model";
-import {RecipientBadgeInstance} from "../../recipient/models/recipient-badge.model";
 import {TimeComponent} from "../components/time.component";
+import {generateEmbedHtml} from "../../../embed/generate-embed-html";
+
 
 @Component({
 	selector: 'share-social-dialog',
@@ -161,7 +161,7 @@ import {TimeComponent} from "../components/time.component";
 						</label>
 
 						<label class="formcheckbox" for="form-checkbox6">
-							<input name="form-checkbox6" id="form-checkbox6" type="checkbox" [(ngModel)]="includeVerify" (change)="updatePreview()">
+							<input name="form-checkbox6" id="form-checkbox6" type="checkbox" [(ngModel)]="includeVerifyButton" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Verification</span>
 						</label>
 					</div>
@@ -206,7 +206,7 @@ export class ShareSocialDialog extends BaseDialog {
 	includeBadgeClassName: boolean = true;
 	includeRecipientName: boolean = true;
 	includeAwardDate: boolean = true;
-	includeVerify: boolean = true;
+	includeVerifyButton: boolean = true;
 
 	constructor(
 		componentElem: ElementRef,
@@ -342,67 +342,17 @@ export class ShareSocialDialog extends BaseDialog {
 
 			case "image": {
 
-				const blockquote = document.createElement("blockquote");
-				blockquote.className = "badgr-badge";
-
-				const a = document.createElement("a");
-				a.href = this.currentShareUrl;
-				const img = document.createElement("img");
-				img.setAttribute("width", "120px");
-				img.setAttribute("height", "120px");
-				img.src = embedUrlWithParams;
-				if (option.embedTitle) {
-					img.alt = option.embedTitle;
-				}
-				a.appendChild(img);
-				blockquote.appendChild(a);
-
-				if (this.includeBadgeClassName) {
-						const nameP = document.createElement("p");
-						nameP.className = "badgr-badge-name";
-						nameP.setAttribute("style", "font-size: 16px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.25; letter-spacing: normal; text-align: left; color: #05012c;");
-						nameP.innerHTML = option.embedBadgeName;
-						blockquote.appendChild(nameP);
-				}
-
-				if (this.includeAwardDate) {
-						const dateP = document.createElement("p");
-						dateP.className = "badgr-badge-date";
-						const dateStrong = document.createElement("strong");
-						dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
-						dateStrong.innerHTML = "Awarded:";
-						dateP.appendChild(dateStrong);
-						dateP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
-
-						dateP.innerHTML += " "+TimeComponent.datePipe.transform(option.embedAwardDate);
-						blockquote.appendChild(dateP);
-				}
-
-				if (option.embedRecipientName && this.includeRecipientName) {
-						const recipientP = document.createElement("p");
-						recipientP.className = "badgr-badge-recipient";
-						const recipientStrong = document.createElement("strong");
-						recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
-						recipientStrong.innerHTML = "Awarded To:";
-						recipientP.appendChild(recipientStrong);
-						recipientP.setAttribute("style", "font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
-						recipientP.innerHTML += " "+option.embedRecipientName;
-						blockquote.appendChild(recipientP);
-				}
-
-				if (this.includeVerify) {
-						const verifyTag = document.createElement("a");
-						verifyTag.setAttribute("target", "_blank");
-						verifyTag.setAttribute("href", "https://badgecheck.io?url="+this.currentShareUrl);
-						verifyTag.innerHTML = "VERIFY";
-						verifyTag.setAttribute("style", "font-size:14px; font-weight: bold;  width: 48px; height: 20px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
-						blockquote.appendChild(verifyTag);
-				}
-
-				const widgetTag = document.createElement("script");
-				widgetTag.setAttribute("async","async");
-				widgetTag.setAttribute("src", "http://localhost:4000/widgets.bundle.js");
-				blockquote.appendChild(widgetTag);
+				const blockquote = generateEmbedHtml({
+					shareUrl: this.currentShareUrl,
+					imageUrl: option.embedUrl,
+					includeBadgeClassName: this.includeBadgeClassName,
+					includeAwardDate: this.includeAwardDate,
+					includeRecipientName: this.includeRecipientName,
+					includeVerifyButton: this.includeVerifyButton,
+					badgeClassName: option.embedBadgeName,
+					awardDate: TimeComponent.datePipe.transform(option.embedAwardDate),
+					recipientName: option.embedRecipientName
+				});
 
 				containerElem.appendChild(blockquote);
 			} break;
