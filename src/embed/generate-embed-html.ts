@@ -9,7 +9,8 @@ export function generateEmbedHtml(embedOptions) {
         awardDate: null,
         includeRecipientName: false,
         recipientName: null,
-        includeVerifyButton: false
+        includeVerifyButton: false,
+        verified: false,
     };
 
     const blockquote = document.createElement("blockquote");
@@ -63,8 +64,16 @@ export function generateEmbedHtml(embedOptions) {
         verifyTag.className = "badgr-badge-verify";
         verifyTag.setAttribute("target", "_blank");
         verifyTag.setAttribute("href", "https://badgecheck.io?url="+options.shareUrl);
-        verifyTag.innerHTML = "VERIFY";
-        verifyTag.setAttribute("style", "margin: 0; line-height: 14px; font-size:14px; font-weight: bold;  width: 48px; height: 14px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
+        verifyTag.setAttribute("style", "margin: 0; line-height: 14px; font-size:14px; font-weight: bold;  width: 48px; height: 16px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; display: block");
+        if (options.verified) {
+            var checkImg = document.createElement("img");
+            checkImg.src = "http://localhost:4000/icon/checkmark-circle.svg";
+            verifyTag.appendChild(checkImg);
+            verifyTag.innerHTML += " VERIFIED!";
+            verifyTag.style.width = "90px";
+        } else {
+            verifyTag.innerHTML = "VERIFY";
+        }
         blockquote.appendChild(verifyTag);
     }
 

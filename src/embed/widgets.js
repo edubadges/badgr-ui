@@ -43,22 +43,8 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                     var recipientName = ('extensions:RecipientProfile' in data) ? data['extensions:RecipientProfile']['name'] : undefined;
                     console.log("assertion", data, recipientName);
 
-                    var blockquote = generateEmbedHtml({
-                        shareUrl: badge_url,
-                        imageUrl: data.image,
-                        includeBadgeClassName: includeBadgeName,
-                        includeRecipientName: includeRecipientName && recipientName,
-                        includeAwardDate: includeAwardDate,
-                        includeVerifyButton: includeVerifyButton,
-                        badgeClassName: data.badge.name,
-                        recipientName: recipientName,
-                        awardDate: format_date(data.issuedOn)
-                    });
-                    badge.innerHTML = blockquote.innerHTML;
-                    badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif;');
-
+                    var verified = false;
                     if (data.recipient.type === "url") {
-                        var verified = false;
                         var current_location = window.location.toString();
                         if (data.recipient.hashed) {
                             var parts = data.recipient.identity.split("$", 2);
@@ -70,22 +56,22 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                         } else {
                             verified = (data.recipient.identity === current_location);
                         }
-
-                        if (verified) {
-                            var verifiedDiv = document.createElement("div");
-
-                            var verifiedImg = document.createElement("img");
-                            verifiedImg.setAttribute("width", "32px");
-                            verifiedImg.src = "https://openclipart.org/download/257462/Checkmark.svg";
-                            verifiedDiv.appendChild(verifiedImg);
-
-                            var verifiedLabel = document.createElement("span");
-                            verifiedLabel.innerHTML = "Appears on webpage it was awarded to";
-                            verifiedDiv.appendChild(verifiedLabel);
-
-                            badge.appendChild(verifiedDiv)
-                        }
                     }
+
+                    var blockquote = generateEmbedHtml({
+                        shareUrl: badge_url,
+                        imageUrl: data.image,
+                        includeBadgeClassName: includeBadgeName,
+                        includeRecipientName: includeRecipientName && recipientName,
+                        includeAwardDate: includeAwardDate,
+                        includeVerifyButton: includeVerifyButton,
+                        badgeClassName: data.badge.name,
+                        recipientName: recipientName,
+                        awardDate: format_date(data.issuedOn),
+                        verified: verified
+                    });
+                    badge.innerHTML = blockquote.innerHTML;
+                    badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif;');
                 }
             };
             xhr.send();
