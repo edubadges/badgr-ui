@@ -9,7 +9,7 @@ const webpackCommonConfiguration = require('./webpack.common.js');
 const webpackProdConfiguration = require("./webpack.common.prod.js");
 var basePath = helpers.root("./");
 
-const commonConfig = webpackCommonConfiguration(basePath);
+const commonConfig = webpackCommonConfiguration(basePath, undefined, false);
 const prodConfig = webpackProdConfiguration(basePath);
 
 /**

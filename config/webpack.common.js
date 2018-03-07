@@ -26,7 +26,7 @@ const InlineChunkWebpackPlugin = require('html-webpack-inline-chunk-plugin');
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 
-function webpackCommonConfiguration(basePath, themes)
+function webpackCommonConfiguration(basePath, themes, includeHtml)
 {
     var basePath = basePath || "./";
     if (basePath.substr(-1) != "/") {
@@ -41,7 +41,9 @@ function webpackCommonConfiguration(basePath, themes)
         }
     ];
 
-    return {
+    var includeHtml = (includeHtml !== undefined) ? includeHtml : true;
+
+    var config = {
         /*
          * The entry point for the bundle
          * Our Angular.js app
@@ -319,6 +321,17 @@ function webpackCommonConfiguration(basePath, themes)
              */
             new HtmlWebpackExcludeAssetsPlugin(),
 
+        ]
+
+        .concat(
+             themes.map(function(theme) { return theme.extractTextPlugin })
+        )
+
+    };
+
+    if (includeHtml) {
+        config.plugins.push(
+
             new HtmlWebpackPlugin({
                 filename: 'index.html',
                 configImport: '<script src="config.js" type="text/javascript" charset="utf-8"></script>',
@@ -329,14 +342,10 @@ function webpackCommonConfiguration(basePath, themes)
                 },
                 excludeAssets: /.*\.css/,
                 inject: 'body'
-            }),
-        ]
-
-        .concat(
-             themes.map(function(theme) { return theme.extractTextPlugin })
-        )
-
+            })
+        );
     }
+    return config;
 };
 
 
