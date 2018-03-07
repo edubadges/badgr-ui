@@ -42,6 +42,11 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
+                    if (data.revoked) {
+                        var reason = badge.revocationReason ? badge.revocationReason : "";
+                        badge.innerHTML = "This assertion has been revoked. "+reason;
+                        return;
+                    }
 
                     var recipientName = ('extensions:recipientProfile' in data) ? data['extensions:recipientProfile']['name'] : undefined;
 
