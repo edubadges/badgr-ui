@@ -77,7 +77,7 @@ import {EventsService} from "../common/services/events.service";
 									[control]="issueForm.untypedControls.recipientprofile_name"
 									ariaLabel="Recipient Name (optional)"
 								></bg-formfield-text>
-								<p class="text text-small"><strong>Note</strong>: The Recipient Name will appear in the awarded badge in plain text.</p>
+								<p class="text text-small2"><strong>Note</strong>: The Recipient Name will appear in the awarded badge in plain text.</p>
 							</div>
 							<div class="formfield">
 								<label>Identifier</label>
