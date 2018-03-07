@@ -80,7 +80,7 @@ var generateEmbedHtml = require('./generate-embed-html').generateEmbedHtml;
                         staticPrefix: staticPrefix,
                     });
                     badge.innerHTML = blockquote.innerHTML;
-                    badge.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 30px');
+                    badge.setAttribute("style", 'border: none; font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 30px; position: unset; quotes: unset;');
                 }
             };
             xhr.send();
