@@ -42,6 +42,7 @@
     > *:not(:last-child) {
       margin-bottom: $gridspacing;
       margin-right: 0;
+      
     }
 
     .l-childrenhorizontal-x-offset {
@@ -53,9 +54,13 @@
 
 }
 
-.l-childrenhorizontal-stackmobile-achieve {
-  align-items: flex-start;
+.l-childrenhorizontal-stackmobile-flexalign-end {
+  align-items: flex-end;
   flex-direction: column;
+
+  > *:not(:last-child) {
+    margin-right: 0;
+  }
 
   @media (min-width: $media-tablet) {
     flex-direction: row;

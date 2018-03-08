@@ -85,6 +85,13 @@
     min-width: 400px;
   }
 
+  .table-x-minwidthtablet-400 {
+    @media(min-width: $media-tablet){
+      min-width: 400px;  
+    }
+    
+  }
+
   .table-x-hidetext {
     color: transparent;
     user-select: none;
