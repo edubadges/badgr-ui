@@ -146,8 +146,8 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 										{{ instance.recipientIdentifier }}
 									</th>
 									<td><time [date]="instance.issuedOn" format="mediumDate"></time></td>
-									<td class="table-x-actions">
-										<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-stackmobile">
+									<td class="table-x-minwidthtablet-400">
+										<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-stackmobile-flexalign-end">
 											<a class="button button-primaryghost" [href]="instance.url" target="_blank">View</a>
 											<button type="button" class="button button-primaryghost" (click)="shareInstance(instance)">Share</button>
 											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke</button>
