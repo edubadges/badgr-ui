@@ -360,8 +360,12 @@ export class ShareSocialDialog extends BaseDialog {
 		}
 
 		this.cachedEmbedOption = this.selectedEmbedOption;
-		this.cachedEmbedHtml = this.stripStyleTags(outerContainer.innerHTML);
+		this.cachedEmbedHtml = outerContainer.innerHTML;
 		this.currentSafeEmbedHtml = this.domSanitizer.bypassSecurityTrustHtml(outerContainer.innerHTML);
+
+		if (option.embedType == "image") {
+			this.cachedEmbedHtml = this.stripStyleTags(this.cachedEmbedHtml);
+		}
 
 		return this.cachedEmbedHtml;
 	}
