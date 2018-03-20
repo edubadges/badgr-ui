@@ -32,7 +32,7 @@
     "prebuild:prod": "npm run clean:dist",
     "build:prod": "node $NODE_DEBUG_OPTION ./node_modules/webpack/bin/webpack.js  --config config/webpack.prod.js --profile --colors --bail && npm run write-version && npm run css:prod && npm run build:widgets",
     "build:widgets": "node $NODE_DEBUG_OPTION ./node_modules/webpack/bin/webpack.js --config config/webpack.widgets.js --colors --bail",
-    "write-version": "node get-git-verison --txt > dist/version.txt && node get-git-verison > dist/version.json",
+    "write-version": "node get-git-version --txt > dist/version.txt && node get-git-version > dist/version.json",
     "server": "npm run server:dev",
     "server:dev": "node $NODE_DEBUG_OPTION node_modules/webpack-dev-server/bin/webpack-dev-server.js --config config/webpack.dev.js --progress --profile --colors --watch --host 0.0.0.0 --content-base src/",
     "server:prod": "live-server --entry-file=index.local.html --open=/login dist",
