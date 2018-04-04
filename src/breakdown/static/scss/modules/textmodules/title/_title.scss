@@ -53,6 +53,10 @@
   padding-left: $gridspacing * 1.5;
 }
 
+.title-margin-bottom-2x {
+  margin-bottom: $gridspacing * 2;
+}
+
 .title-ruled,
 .title-ruledadd {
   border-bottom: 1px solid $color-dark4;
