@@ -311,6 +311,7 @@ interface BadgeShareOptions {
 	issueDate: Date;
 	recipientName?: string;
 	recipientIdentifier?: string;
+	recipientType?: string;
 }
 
 export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialDialogOptions {
@@ -326,6 +327,7 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 
 		showRecipientOptions: true,
 		recipientIdentifier: options.recipientIdentifier,
+		recipientType: options.recipientType,
 
 		versionOptions: [
 			{

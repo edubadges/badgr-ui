@@ -314,9 +314,13 @@ export class ShareSocialDialog extends BaseDialog {
 	// Internal API
 
 	get currentShareUrl() {
-		return this.selectedVersion
+		let versioned_url = this.selectedVersion
 			? this.selectedVersion.shareUrl
 			: this.options.shareUrl;
+
+		let params = {};
+		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versioned_url, params) : versioned_url;
 	}
 
 	private cachedEmbedOption: ShareSocialDialogEmbedOption | null = null;
@@ -336,7 +340,7 @@ export class ShareSocialDialog extends BaseDialog {
 		// Include information about this embed in the query string so we know about the context later, especially if we
 		// need to change how things are displayed, and want old version embeds to work correctly.
 		// See [[ EmbedService ]] for the consumption of these parameters
-		const embedUrlWithParams = addQueryParamsToUrl(
+		let embedUrlWithParams = addQueryParamsToUrl(
 			option.embedUrl,
 			{
 				embedVersion: option.embedVersion,
@@ -344,6 +348,11 @@ export class ShareSocialDialog extends BaseDialog {
 				embedHeight: option.embedSize.height,
 			}
 		);
+		if (this.includeRecipientIdentifier && this.options.recipientIdentifier) {
+			let params = {};
+			params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+			embedUrlWithParams = addQueryParamsToUrl(embedUrlWithParams, params);
+		}
 
 		const outerContainer = document.createElement("div");
 		let containerElem: HTMLElement = outerContainer;
@@ -378,7 +387,7 @@ export class ShareSocialDialog extends BaseDialog {
 					badgeClassName: option.embedBadgeName,
 					awardDate: TimeComponent.datePipe.transform(option.embedAwardDate),
 					recipientName: option.embedRecipientName,
-					recipientIdentifier: this.options.recipientIdentifier,
+					recipientIdentifier: this.includeRecipientIdentifier ? this.options.recipientIdentifier : undefined,
 					includeScript: true,
 				});
 
@@ -469,6 +478,7 @@ export interface ShareSocialDialogOptions {
 	embedOptions: ShareSocialDialogEmbedOption[];
 
 	recipientIdentifier?: string;
+	recipientType?: string;
 	showRecipientOptions?: boolean;
 }
 

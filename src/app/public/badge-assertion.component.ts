@@ -286,6 +286,16 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get verifyUrl() {
-		return `${this.configService.assertionVerifyUrl}?url=${this.assertion.id}`;
+		const v = this.queryParametersService.queryStringValue("v") || "2_0";
+		const assertion_url = v == "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
+		let url = `${this.configService.assertionVerifyUrl}?url=${assertion_url}`;
+
+		for (let identity_type of ['identity__email', 'identity__url', 'identity__telephone']) {
+			let identity = this.queryParametersService.queryStringValue(identity_type)
+			if (identity) {
+				url = `${url}&${identity_type}=${identity}`;
+			}
+		}
+		return url;
 	}
 }
