@@ -62,18 +62,6 @@ import { preloadImageURL } from "../common/util/file-util";
 		                    <strong>{{ issuer.badgeClassCount }}</strong>
 		                    {{ issuer.badgeClassCount == 1 ? 'Badge' : 'Badges' }}
 		                  </li>
-		                  <li class="statlist-x-earner">
-		                    <strong>{{ issuer.recipientCount }}</strong>
-		                    {{ issuer.recipientCount == 1 ? 'Recipient' : 'Recipients' }}
-		                  </li>
-		                  <li class="statlist-x-group">
-		                    <strong>{{ issuer.recipientGroupCount }}</strong>
-		                    {{ issuer.recipientGroupCount == 1 ? 'Group' : 'Groups' }}
-		                  </li>
-		                  <li class="statlist-x-pathway">
-		                    <strong>{{ issuer.pathwayCount }}</strong>
-		                    {{ issuer.pathwayCount == 1 ? 'Pathway' : 'Pathways' }}
-		                  </li>
 		                </ul>
 		            </div>
 		        </div>

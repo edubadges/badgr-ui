@@ -95,61 +95,60 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 								</a>
 							</div>
 						</div>
-						<div>
-							<div class="card card-placeholder">
-								<a class="card-x-add" [routerLink]="['/issuer/issuers', issuer.slug, 'pathways', 'create']">
-									Add Pathway
-								</a>
-							</div>
-						</div>
+						<!--<div>-->
+							<!--<div class="card card-placeholder">-->
+								<!--<a class="card-x-add" [routerLink]="['/issuer/issuers', issuer.slug, 'pathways', 'create']">-->
+									<!--Add Pathway-->
+								<!--</a>-->
+							<!--</div>-->
+						<!--</div>-->
 					</div>
 
 					<!-- Recipient Group List =========================================================================================-->
-
-					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
-						<h2 class="title title-is-smallmobile">Groups</h2>
-						<a class="button" [routerLink]="['/issuer/issuers/', issuer.slug, 'recipient-groups', 'create']">Add<span
-								class="hidden hidden-is-tablet"> Group</span></a>
-					</header>
-
-					<div class="l-overflowhorizontal" *bgAwaitPromises="[issuerLoaded, groupsLoaded]">
-						<table class="table" *ngIf="recipientGroups.length">
-							<thead>
-								<tr>
-									<th scope="col">Group</th>
-									<th class="hidden hidden-is-desktop" scope="col">Members</th>
-									<th class="hidden hidden-is-tablet" scope="col">Pathways</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let recipientGroup of recipientGroups">
-									<th scope="row">
-										<div class="l-childrenhorizontal">
-											<a [routerLink]="['/issuer/issuers', issuer.slug, 'recipient-groups', recipientGroup.slug]">{{ recipientGroup.name
-												}}</a>
-										</div>
-									</th>
-									<td class="hidden hidden-is-desktop">{{ recipientGroup.memberCount }}</td>
-									<td class="hidden hidden-is-tablet">
-										<span *ngIf="recipientGroup.subscribedPathways.length == 0">No Subscribed Pathways</span>
-										<span *ngIf="recipientGroup.subscribedPathways.length == 1">
-										<a *ngFor="let pathway of recipientGroup.subscribedPathways"
-										   [routerLink]="['/issuer/issuers', issuerSlug, 'pathways', pathway.slug, 'elements', pathway.slug]">
-											{{ pathway.name }}
-										</a>
-									</span>
-										<span *ngIf="recipientGroup.subscribedPathways.length > 1">
-										{{ recipientGroup.subscribedPathways.length }} Pathways
-									</span>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<p class="empty"
-						   *ngIf="! recipientGroups.length"
-						>You do not have any Recipient Groups</p>
-					</div>
+	        <div *ngIf="issuer.pathwayCount > 0">
+	          <header class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
+							<h2 class="title title-is-smallmobile">Groups</h2>
+						</header>
+	
+						<div class="l-overflowhorizontal" *bgAwaitPromises="[issuerLoaded, groupsLoaded]">
+							<table class="table" *ngIf="recipientGroups.length">
+								<thead>
+									<tr>
+										<th scope="col">Group</th>
+										<th class="hidden hidden-is-desktop" scope="col">Members</th>
+										<th class="hidden hidden-is-tablet" scope="col">Pathways</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let recipientGroup of recipientGroups">
+										<th scope="row">
+											<div class="l-childrenhorizontal">
+												<a [routerLink]="['/issuer/issuers', issuer.slug, 'recipient-groups', recipientGroup.slug]">{{ recipientGroup.name
+													}}</a>
+											</div>
+										</th>
+										<td class="hidden hidden-is-desktop">{{ recipientGroup.memberCount }}</td>
+										<td class="hidden hidden-is-tablet">
+											<span *ngIf="recipientGroup.subscribedPathways.length == 0">No Subscribed Pathways</span>
+											<span *ngIf="recipientGroup.subscribedPathways.length == 1">
+											<a *ngFor="let pathway of recipientGroup.subscribedPathways"
+											   [routerLink]="['/issuer/issuers', issuerSlug, 'pathways', pathway.slug, 'elements', pathway.slug]">
+												{{ pathway.name }}
+											</a>
+										</span>
+											<span *ngIf="recipientGroup.subscribedPathways.length > 1">
+											{{ recipientGroup.subscribedPathways.length }} Pathways
+										</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+	
+							<p class="empty"
+							   *ngIf="! recipientGroups.length"
+							>You do not have any Recipient Groups</p>
+						</div>
+	        </div>
 
 					<!-- Badge Class List =============================================================================================-->
 
@@ -255,6 +254,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected profileManager: UserProfileManager,
 	) {
 		super(router, route, loginService);
+
 		title.setTitle("Issuer Detail - Badgr");
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
