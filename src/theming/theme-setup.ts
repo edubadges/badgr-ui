@@ -19,10 +19,13 @@ function writeStylesheet(regex: RegExp) {
 
 window[ "badgrTheme" ] = {
 		cssInclude: require("../breakdown/static/scss/theme-default.scss"),
-		welcomeMessage: "Welcome to Badgr!",
+		welcomeMessage: "Welcome to Badgr",
 		alternateLandingUrl: "http://info.badgr.io",
-		showPoweredByBadgr: false,
+		serviceName: "Badgr",
+		showPoweredByBadgr: true,
 		showApiDocsLink: true,
+		termsOfServiceLink: "https://badgr.org/missing-terms",
+		privacyPolicyLink: "https://badgr.org/missing-terms",
 		logoImg: {
 			small: require("../breakdown/static/images/logo.svg"),
 			desktop: require("../breakdown/static/images/logo-desktop.svg"),

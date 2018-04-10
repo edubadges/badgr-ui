@@ -9,6 +9,7 @@ import { MessageService } from "../common/services/message.service";
 import { EmailValidator } from "../common/validators/email.validator";
 import { Title } from "@angular/platform-browser";
 import { markControlsDirty } from "../common/util/form-util";
+import { SystemConfigService } from "../common/services/config.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
 
 @Component({
@@ -23,14 +24,14 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 				<!-- Title Message -->
 				<h3 class="l-auth-x-title title title-bold" id="heading-form">
-					Create a Badgr Account
+					Create a {{ currentTheme.serviceName }} Account
 				</h3>
 				<p class="l-auth-x-text text text-quiet" *ngIf="! oAuthManager.currentAuthorization">
 					Already have an account? <a [routerLink]="['/auth/login']">Sign in</a>.
 				</p>
 				<p class="l-auth-x-text text text-quiet" *ngIf="oAuthManager.currentAuthorization">
 					The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to sign 
-					you in using Badgr.
+					you in using {{ currentTheme.serviceName }}.
 					Already have an account? <a [routerLink]="['/login']">Sign in</a>!
 				</p>
 				
@@ -67,7 +68,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 					<!-- Signup Controls -->
 					<fieldset role="group" aria-labelledby="heading-badgrsignup2">
-						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with Badgr by providing your information</legend>
+						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ currentTheme.serviceName }} by providing your information</legend>
 						
 						<bg-formfield-text [control]="signupForm.controls.username"
 						                   [label]="'Email'"
@@ -125,10 +126,13 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 	signupFinished: Promise<any>;
 
+	get currentTheme() { return this.configService.currentTheme }
+
 	constructor(
 		fb: FormBuilder,
 		private title: Title,
 		public messageService: MessageService,
+		private configService: SystemConfigService,
 		public sessionService: SessionService,
 		public signupService: SignupService,
 		public oAuthManager: OAuthManager,
@@ -136,7 +140,9 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle("Signup - Badgr");
+		let serviceName: string;
+		serviceName = this.configService.currentTheme.serviceName;
+		title.setTitle("Login - " + serviceName);
 
 		this.passwordGroup = fb.group({
 				'password': [ '', Validators.compose([ Validators.required, passwordValidator ]) ],

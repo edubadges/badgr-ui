@@ -32,7 +32,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 							Choose your sign in method to get started.
 						</p>
 						<p class="l-auth-x-text text text-quiet" *ngIf="! sessionService.enabledExternalAuthProviders.length">
-							Sign in to your Badgr account with your email and password.
+							Sign in with your email and password.
 							Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
@@ -52,21 +52,21 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 					<ng-template [ngIf]="! verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							Sign in to your Badgr Account
+							Sign in to your {{ currentTheme.serviceName }} Account
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
 							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your Badgr account.
-							Not using Badgr? <a [routerLink]="['/signup']">Create an account</a>!
+							sign you in using your {{ currentTheme.serviceName }} account.
+							Not using {{ currentTheme.serviceName }}? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
 					<ng-template [ngIf]="verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to Badgr!
+							{{ verifiedName | ucfirst }}, welcome to {{ currentTheme.serviceName }}!
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
 							The application  <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your Badgr account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
+							sign you in using your {{ currentTheme.serviceName }} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
 							password below to continue.
 						</p>
 					</ng-template>
@@ -105,7 +105,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 					<!-- Login Email/Password Fields -->
 					<fieldset role="group" aria-labelledby="heading-badgrsignin">
-						<legend class="visuallyhidden" id="heading-badgrsignin">Sign In with Badgr username and password</legend>
+						<legend class="visuallyhidden" id="heading-badgrsignin">Sign In with username and password</legend>
 	
 						<bg-formfield-text [control]="loginForm.controls.username"
 						                   [label]="'Email'"
@@ -182,7 +182,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle("Login - Badgr");
+		let serviceName: string;
+		serviceName = this.configService.currentTheme.serviceName;
+		title.setTitle("Login - " + serviceName);
 		this.handleQueryParamCases();
 	}
 
