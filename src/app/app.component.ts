@@ -15,6 +15,10 @@ import { EmbedService } from "./common/services/embed.service";
 import { InitialLoadingIndicatorService } from "./common/services/initial-loading-indicator.service";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
 
+import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
+import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
+
+
 import { detect } from "detect-browser";
 
 // Shim in support for the :scope attribute
@@ -94,6 +98,21 @@ import { detect } from "detect-browser";
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
 					</li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
+					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
+						<button>Apps</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
+								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
+							</li>
+						</ul>
+					</li>
+					<li class="menuitem" *ngIf="currentTheme.customMenu">
+						<button>{{ currentTheme.customMenu.label }}</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" *ngFor="let item of currentTheme.customMenu.items">
+								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
+						</ul>
+					</li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active">
 						<button>Account</button>
 						<ul>
@@ -106,13 +125,6 @@ import { detect } from "detect-browser";
 						</ul>
 					</li>
 				</ng-template>
-				<li class="menuitem" *ngIf="currentTheme.customMenu">
-					<button>{{ currentTheme.customMenu.label }}</button>
-					<ul>
-						<li class="menuitem menuitem-secondary" *ngFor="let item of currentTheme.customMenu.items">
-							<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
-					</ul>
-				</li>
 			</ul>
 		</nav>
 	`
@@ -121,6 +133,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	isUnsupportedBrowser: boolean = false;
+	launchpoints: ApiExternalToolLaunchpoint[];
 
 	copyrightYear = new Date().getFullYear();
 
@@ -165,13 +178,19 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private oAuthManager: OAuthManager,
 		private embedService: EmbedService,
 		private renderer: Renderer2,
+		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics   // required for angulartics to work
+
 	) {
 		messageService.useRouter(router);
 
 		this.initScrollFix();
 		this.initAnalytics();
+
+		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
+			this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
+		})
 
 		if (this.embedService.isEmbedded) {
 			// Enable the embedded indicator class on the body

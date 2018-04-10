@@ -22,6 +22,13 @@ module.exports = {
 			},
 			name:"4x",
 			notes:"Adds a margin of 4x gridspace to an element.",
-		}
+		},
+        {
+            context: {
+                "classList?": "l-marginTop-5x"
+            },
+            name:"5x",
+            notes:"Adds a margin of 5x gridspace to an element.",
+        }
 	]
 }
