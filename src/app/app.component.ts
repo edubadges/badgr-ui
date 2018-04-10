@@ -67,8 +67,10 @@ import { detect } from "detect-browser";
 			<div class="footer">
 				<ul>
 					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
-					<li>Copyright &copy; {{ copyrightYear }} <a href="https://concentricsky.com" target="_blank">Concentric Sky,
-						Inc.</a></li>
+					<li *ngIf="currentTheme.providedBy">
+						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
+					</li>
+					
 					<li><a [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'" target="_blank">Terms of Service</a></li>
 					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy Policy</a></li>
 				</ul>
