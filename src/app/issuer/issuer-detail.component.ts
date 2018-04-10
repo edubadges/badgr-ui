@@ -190,8 +190,6 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 
 					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
 						<h2 class="title title-is-smallmobile">Groups</h2>
-						<a class="button" [routerLink]="['/issuer/issuers/', issuer.slug, 'recipient-groups', 'create']">Add<span
-								class="hidden hidden-is-tablet"> Group</span></a>
 					</header>
 
 					<div class="l-overflowhorizontal" *bgAwaitPromises="[issuerLoaded, groupsLoaded]">
