@@ -177,15 +177,15 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 								</a>
 							</div>
 						</div>
-						<div>
-							<div class="card card-placeholder">
-								<a class="card-x-add" [routerLink]="['/issuer/issuers', issuer.slug, 'pathways', 'create']">
-									Add Pathway
-								</a>
-							</div>
-						</div>
+						<!--<div>-->
+							<!--<div class="card card-placeholder">-->
+								<!--<a class="card-x-add" [routerLink]="['/issuer/issuers', issuer.slug, 'pathways', 'create']">-->
+									<!--Add Pathway-->
+								<!--</a>-->
+							<!--</div>-->
+						<!--</div>-->
 					</div>
-					
+
 					<!-- Recipient Group List =========================================================================================-->
 
 					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
@@ -273,6 +273,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
+
 		title.setTitle("Issuer Detail - Badgr");
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
