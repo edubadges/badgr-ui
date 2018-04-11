@@ -55,7 +55,7 @@ import { routerLinkForUrl } from "./public.component";
 					<div class="l-gridthree">
 						<div *ngFor="let badge of collection.badges">
 							<article class="card card-largeimage">
-								<a class="card-x-main" [routerLink]="routerLinkForUrl(badge.id)">
+								<a class="card-x-main" [href]="badge.id">
 									<div class="card-x-image">
 										<div class="badge badge-flat">
 											<img [alt]="badge.badge.name + 'Badge'" [src]="badge.image" width="80">
