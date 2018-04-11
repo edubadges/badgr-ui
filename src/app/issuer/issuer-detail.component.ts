@@ -152,7 +152,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 					</div>
 				</div>
 				
-				<div class="wrap l-containerhorizontal l-headeredsection">
+				<div *ngIf="legacyPathwaysVisible" class="wrap l-containerhorizontal l-headeredsection">
 					
 					<!-- Pathways List ================================================================================================-->
 					<header>
@@ -322,6 +322,10 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	ngOnInit() {
 		super.ngOnInit();
+	}
+
+	get legacyPathwaysVisible(): boolean {
+		return this.pathwaysLoaded && this.pathways.length > 0
 	}
 
 	deleteRecipientGroup(group: RecipientGroup) {
