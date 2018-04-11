@@ -26,7 +26,7 @@ export class ExternalToolsManager {
 
 	getToolLaunchpoints(launchpointName: ExternalToolLaunchpointName): Promise<ApiExternalToolLaunchpoint[]> {
 		return this.allExternalTools$.first().toPromise().then(externaltools =>
-			externaltools.map(tool => tool.launchpoints[launchpointName] as ApiExternalToolLaunchpoint)
+			externaltools.map(tool => tool.launchpoints[launchpointName] as ApiExternalToolLaunchpoint).filter(Boolean)
 		)
 	}
 
