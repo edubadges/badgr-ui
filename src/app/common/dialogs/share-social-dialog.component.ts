@@ -47,6 +47,16 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 
 			<!-- Link Tab -->
 			<div class="l-sharepane" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
+				<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
+					<p class="label-formfield">Badge Options</p>
+					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
+						<label class="formcheckbox" for="form-checkbox">
+							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+						</label>
+					</div>
+				</div>
+				
 				<div class="formfield formfield-link">
 					<label class=" " for="link-input">Copy this private URL to share:</label>
 					<input id="link-input" 
@@ -92,6 +102,16 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 
 			<!-- Social Tab -->
 			<div class="l-sharepane l-sharepane-social" tabindex="-1" id="sharelinksocial" *ngIf="currentTabId == 'social'">
+				<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
+					<p class="label-formfield">Badge Options</p>
+					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
+						<label class="formcheckbox" for="form-checkbox">
+							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+						</label>
+					</div>
+				</div>
+						
 				<div class="l-authbuttons">
 					<div *ngIf="displayShareServiceType('Facebook')">
 						<button class="buttonauth buttonauth-facebook"
@@ -141,26 +161,31 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					</div>
 				</div>
 				
-				<div *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="l-sharepane-x-preview wrap wrap-light4">
+				<div class="l-sharepane-x-preview wrap wrap-light4">
 					<p class="label-formfield">Badge Options</p>
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 
 						<label class="formcheckbox" for="form-checkbox">
+							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+						</label>
+						
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox">
 							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
 						</label>
 
-						<label class="formcheckbox" for="form-checkbox2" *ngIf="selectedEmbedOption.embedRecipientName">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image' && selectedEmbedOption.embedRecipientName" class="formcheckbox" for="form-checkbox2">
 							<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [value]="includeRecipientName" [(ngModel)]="includeRecipientName" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Name</span>
 						</label>
 
-						<label class="formcheckbox" for="form-checkbox5">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox5">
 							<input name="form-checkbox5" id="form-checkbox5" type="checkbox" [(ngModel)]="includeAwardDate" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Date Awarded</span>
 						</label>
 
-						<label class="formcheckbox" for="form-checkbox6">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox6">
 							<input name="form-checkbox6" id="form-checkbox6" type="checkbox" [(ngModel)]="includeVerifyButton" (change)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Verification</span>
 						</label>
@@ -203,6 +228,7 @@ export class ShareSocialDialog extends BaseDialog {
 
 	selectedEmbedOption: ShareSocialDialogEmbedOption | null = null;
 
+	includeRecipientIdentifier: boolean = false;
 	includeBadgeClassName: boolean = true;
 	includeRecipientName: boolean = true;
 	includeAwardDate: boolean = true;
@@ -288,9 +314,13 @@ export class ShareSocialDialog extends BaseDialog {
 	// Internal API
 
 	get currentShareUrl() {
-		return this.selectedVersion
+		let versioned_url = this.selectedVersion
 			? this.selectedVersion.shareUrl
 			: this.options.shareUrl;
+
+		let params = {};
+		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versioned_url, params) : versioned_url;
 	}
 
 	private cachedEmbedOption: ShareSocialDialogEmbedOption | null = null;
@@ -310,7 +340,7 @@ export class ShareSocialDialog extends BaseDialog {
 		// Include information about this embed in the query string so we know about the context later, especially if we
 		// need to change how things are displayed, and want old version embeds to work correctly.
 		// See [[ EmbedService ]] for the consumption of these parameters
-		const embedUrlWithParams = addQueryParamsToUrl(
+		let embedUrlWithParams = addQueryParamsToUrl(
 			option.embedUrl,
 			{
 				embedVersion: option.embedVersion,
@@ -318,6 +348,11 @@ export class ShareSocialDialog extends BaseDialog {
 				embedHeight: option.embedSize.height,
 			}
 		);
+		if (this.includeRecipientIdentifier && this.options.recipientIdentifier) {
+			let params = {};
+			params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+			embedUrlWithParams = addQueryParamsToUrl(embedUrlWithParams, params);
+		}
 
 		const outerContainer = document.createElement("div");
 		let containerElem: HTMLElement = outerContainer;
@@ -352,6 +387,7 @@ export class ShareSocialDialog extends BaseDialog {
 					badgeClassName: option.embedBadgeName,
 					awardDate: TimeComponent.datePipe.transform(option.embedAwardDate),
 					recipientName: option.embedRecipientName,
+					recipientIdentifier: this.includeRecipientIdentifier ? this.options.recipientIdentifier : undefined,
 					includeScript: true,
 				});
 
@@ -440,6 +476,10 @@ export interface ShareSocialDialogOptions {
 	excludeServiceTypes?: ShareServiceType[];
 
 	embedOptions: ShareSocialDialogEmbedOption[];
+
+	recipientIdentifier?: string;
+	recipientType?: string;
+	showRecipientOptions?: boolean;
 }
 
 /**
@@ -495,6 +535,7 @@ export interface ShareSocialDialogEmbedOption {
 	embedBadgeName?: string;
 	embedAwardDate?: Date;
 	embedRecipientName?: string;
+	embedRecipientIdentifier?: string;
 }
 
 type ShareSocialDialogTabId = "link" | "social" | "embed";

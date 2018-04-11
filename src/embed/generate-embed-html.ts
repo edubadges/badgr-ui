@@ -11,18 +11,22 @@ export function generateEmbedHtml(embedOptions) {
         awardDate: null,
         includeRecipientName: false,
         recipientName: null,
+        recipientIdentifier: null,
+        recipientType: null,
         includeVerifyButton: false,
         verified: false,
         includeScript: true,
         staticPrefix: null,
     };
 
+    const shareUrl = embedOptions.recipientIdentifier ? (options.shareUrl+"&identity__"+(embedOptions.recipientType || "email")+"="+embedOptions.recipientIdentifier) : options.shareUrl;
+
     const blockquote = document.createElement("blockquote");
     blockquote.className = "badgr-badge";
     blockquote.setAttribute("style", 'font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif;');
 
     const a = document.createElement("a");
-    a.href = options.shareUrl;
+    a.href = shareUrl;
     const img = document.createElement("img");
     img.setAttribute("width", "120px");
     img.setAttribute("height", "120px");

@@ -299,6 +299,7 @@ export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): Share
 		badgeClassDescription: badge.badgeClass.description,
 		issueDate: badge.issueDate,
 		recipientName: badge.getExtension('extensions:recipientProfile', {'name': undefined}).name,
+		recipientIdentifier: badge.recipientEmail
 	});
 }
 
@@ -309,6 +310,8 @@ interface BadgeShareOptions {
 	badgeClassDescription: string;
 	issueDate: Date;
 	recipientName?: string;
+	recipientIdentifier?: string;
+	recipientType?: string;
 }
 
 export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialDialogOptions {
@@ -321,6 +324,10 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 		shareIdUrl: options.shareUrl,
 		shareSummary: options.badgeClassDescription,
 		shareEndpoint: "certification",
+
+		showRecipientOptions: true,
+		recipientIdentifier: options.recipientIdentifier,
+		recipientType: options.recipientType,
 
 		versionOptions: [
 			{
@@ -335,6 +342,7 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 
 		versionInfoTitle: "We Support Open Badges v2.0!",
 		versionInfoBody: "Badgr is testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.",
+
 
 		embedOptions: [
 			{
