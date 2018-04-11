@@ -84,7 +84,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 								<span class="hidden hidden-is-tablet">Create</span> Badge
 							</a>
 							<div *ngIf="launchpoints?.length">
-								<a class="button" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}">{{lp.label}}</a>
+								<a class="button" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
 							</div>
 						</div>
 					</div>
