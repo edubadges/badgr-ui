@@ -45,6 +45,14 @@ module.exports = {
       },
       name: 'twitter',
       preview: '@preview'
+    },
+    {
+      context: {
+          modifier: 'buttonauth-surf_conext',
+          text: 'SURFconext'
+      },
+      name: 'surf_conext',
+      preview: '@preview'
     }
   ]
 };

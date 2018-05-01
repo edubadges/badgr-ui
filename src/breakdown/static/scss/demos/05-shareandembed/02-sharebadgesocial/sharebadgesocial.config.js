@@ -19,6 +19,12 @@ module.exports = {
             modifier: 'buttonauth-twitter',
             text: 'Twitter'
           }
+        },
+        {
+          context: {
+              modifier: 'buttonauth-surf_conext',
+              text: 'SURFconext'
+          }
         }
       ]
     },
