@@ -123,13 +123,12 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 	
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 	
+				<input type="text"
+				       class="search l-childrenhorizontal-x-offset"
+				       placeholder="Filter Recipients"
+				       [(ngModel)]="searchQuery"
+				/>
 				<ng-template [bgAwaitPromises]="[badgeInstancesLoaded]">
-					<input type="text"
-					       class="search l-childrenhorizontal-x-offset"
-					       placeholder="Filter Recipients"
-					       [(ngModel)]="searchQuery"
-					       *ngIf="allBadgeInstances.length > 0"
-					/>
 	
 					<div class="l-overflowhorizontal" *ngIf="instanceResults?.length">
 						<table class="table">
@@ -187,7 +186,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 
 	set searchQuery(query) {
 		this._searchQuery = query;
-		this.updateResults();
+		this.loadInstances(query);
 	}
 
 	badgeClassLoaded: Promise<any>;
@@ -207,7 +206,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	}
 
 	get recipientCount() {
-		return this.allBadgeInstances ? this.allBadgeInstances.length : null;
+		return this.badgeClass ? this.badgeClass.recipientCount : null;
 	}
 
 	constructor(
@@ -237,7 +236,21 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 				error)
 		);
 
-		this.badgeInstancesLoaded = badgeInstanceManager.instancesForBadgeClass(this.issuerSlug, this.badgeSlug)
+		this.loadInstances();
+
+		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
+			issuer => this.issuer = issuer,
+			error => this.messageService.reportLoadingError(`Cannot find issuer ${this.issuerSlug}`, error)
+		);
+
+		this.externalToolsManager.getToolLaunchpoints("issuer_assertion_action").then(launchpoints => {
+			this.launchpoints = launchpoints;
+		})
+	}
+
+	loadInstances(recipientQuery?: string) {
+	  let instances = new BadgeClassInstances(this.badgeInstanceManager, this.issuerSlug, this.badgeSlug, recipientQuery);
+		this.badgeInstancesLoaded = instances.loadedPromise
 			.then(
 				instances => {
 					this.allBadgeInstances = instances;
@@ -250,15 +263,6 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 					return error
 				}
 			);
-
-		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
-			issuer => this.issuer = issuer,
-			error => this.messageService.reportLoadingError(`Cannot find issuer ${this.issuerSlug}`, error)
-		);
-
-		this.externalToolsManager.getToolLaunchpoints("issuer_assertion_action").then(launchpoints => {
-			this.launchpoints = launchpoints;
-		})
 	}
 
 	get issuerBadgeCount() {
@@ -274,14 +278,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	}
 
 	private updateResults() {
-		this.instanceResults.length = 0;
-
-		const addInstanceToResults = (instance: BadgeInstance) => {
-			this.instanceResults.push(instance)
-		};
-		this.allBadgeInstances.entities
-			.filter(MatchingAlgorithm.instanceMatcher(this.searchQuery))
-			.forEach(addInstanceToResults);
+		this.instanceResults = this.allBadgeInstances.entities;
 	}
 
 	revokeInstance(
