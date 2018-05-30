@@ -61,6 +61,15 @@
     pointer-events: none;
   }
 
+  &.formcheckbox-is-error {
+    input {
+      border:  $error;
+    }
+    .formcheckbox-x-text{
+      color: $error;
+    }
+  }
+
 }
 
 .formcheckbox-notext {
