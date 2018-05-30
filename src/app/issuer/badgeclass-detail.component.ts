@@ -122,6 +122,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
 	
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
+				<p *ngIf="recipientCount">{{instanceResults.length}} awards shown. You may search for other awards by exact email address/recipient identifier.</p>
 	
 				<input type="text"
 				       class="search l-childrenhorizontal-x-offset"
