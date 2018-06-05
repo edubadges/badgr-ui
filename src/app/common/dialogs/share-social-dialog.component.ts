@@ -261,6 +261,8 @@ export class ShareSocialDialog extends BaseDialog {
 
 		this.currentEmbedHtml; // trigger html generation before rendering
 
+		this.includeRecipientIdentifier = false;
+
 		return new Promise<void>((resolve, reject) => {
 			this.resolveFunc = resolve;
 			this.rejectFunc = reject;
