@@ -5,6 +5,7 @@ import { registerDialog } from "dialog-polyfill/dialog-polyfill";
 import { BaseDialog } from "./base-dialog";
 import {SystemConfigService} from "../services/config.service";
 import {UserProfileManager} from "../services/user-profile-manager.service";
+import {UserProfile} from "../model/user-profile.model";
 
 @Component({
 	selector: 'new-terms-dialog',
@@ -16,7 +17,7 @@ import {UserProfileManager} from "../services/user-profile-manager.service";
 				<div class="dialog-x-content">
 						<p>We’ve updated our <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>. </p>
 						
-						<!--<p>Here we’ll summarize the reasons. E.g. to make them clearer and to address some new privacy laws in Europe. Check the box below to let us know you’ve read and agree to the updates. </p>-->
+						<p *ngIf="profile && profile.latestTermsDescription">{{profile.latestTermsDescription}}</p>
 
 						<label [class.formcheckbox-is-error]="isErrorState" class="formcheckbox l-marginBottom-2x" for="terms">
 							<input name="terms" id="terms" type="checkbox" [(ngModel)]="agreedToTerms">
@@ -25,7 +26,7 @@ import {UserProfileManager} from "../services/user-profile-manager.service";
 						</label>
 
 						<div class="l-childrenhorizontal l-childrenhorizontal-right">
-								<a href="#">Need Help?</a>
+								<a *ngIf="termsHelpLink" [href]="termsHelpLink">Need Help?</a>
 								<button class="button" (click)="submitAgreement()">Continue</button>
 						</div>
 				</div>
@@ -38,6 +39,8 @@ export class NewTermsDialog extends BaseDialog {
 
 	hasSubmitted: boolean = false;
 
+	profile: UserProfile;
+
 	constructor(
 		componentElem: ElementRef,
 		renderer: Renderer2,
@@ -45,10 +48,17 @@ export class NewTermsDialog extends BaseDialog {
 		private profileManager: UserProfileManager
 	) {
 		super(componentElem, renderer);
+		this.profileManager.userProfilePromise.then(profile => {
+			this.profile = profile;
+		})
 	}
 
 	get termsOfServiceLink() {
-		return this.configService.currentTheme.termsOfServiceLink ? this.configService.currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'
+		return this.configService.currentTheme.termsOfServiceLink ? this.configService.currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html';
+	}
+
+	get termsHelpLink() {
+		return this.configService.currentTheme.termsHelpLink;
 	}
 
 	get isErrorState(): boolean {
@@ -58,11 +68,9 @@ export class NewTermsDialog extends BaseDialog {
 	submitAgreement() {
 
 		this.hasSubmitted = true;
-		if (this.agreedToTerms) {
-			this.profileManager.userProfilePromise.then(profile => {
-				profile.agreeToLatestTerms().then(_ => {
-					this.closeDialog();
-				});
+		if (this.agreedToTerms ) {
+			this.profile.agreeToLatestTerms().then(_ => {
+				this.closeDialog();
 			});
 		}
 

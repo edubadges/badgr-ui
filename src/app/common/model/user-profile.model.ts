@@ -61,6 +61,8 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 		return this.save();
 	}
 
+	get latestTermsDescription() { return this.apiModel.latest_terms_description; }
+
 	get marketingOptIn() { return this.apiModel.marketing_opt_in; }
 	set marketingOptIn(optedIn: boolean) { this.apiModel.marketing_opt_in = true }
 
