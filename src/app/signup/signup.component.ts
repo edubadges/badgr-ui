@@ -100,10 +100,10 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						></bg-formfield-text>
 					</fieldset>
 
-					<label [class.formcheckbox-is-error]="!signupForm.controls.agreedTermsService.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
+					<label [class.formcheckbox-is-error]="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
 						<input name="terms" id="terms" type="checkbox" [formControl]="signupForm.controls.agreedTermsService">
 						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'">Terms of Service</a>.</span>
-						<span *ngIf="!signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
+						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
 					</label>
 					
 					<label class="formcheckbox" for="news">
@@ -174,7 +174,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 				'lastName': [ '', Validators.required ],
 				'passwords': this.passwordGroup,
 				'agreedTermsService': [false, Validators.requiredTrue],
-				'marketingOptIn': [true],
+				'marketingOptIn': [false],
 			}
 		);
 	}
