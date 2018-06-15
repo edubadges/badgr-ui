@@ -59,6 +59,16 @@
 
 }
 
+.buttonauth-azure {
+  background: #fff;
+  border: 1px solid #e1e0e5;
+
+  &::after {
+    background-image: url('#{$base-path}images/buttonauth-azure.svg');
+  }
+
+}
+
 .buttonauth-twitter {
   background: #00ACEC;
 

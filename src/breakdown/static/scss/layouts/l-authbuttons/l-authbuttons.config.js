@@ -24,6 +24,12 @@ module.exports = {
           modifier: 'buttonauth-google',
           text: 'Google'
         }
+      },
+      {
+        context: {
+          modifier: 'buttonauth-azure',
+          text: 'Azure'
+        }
       }
     ]
   },
