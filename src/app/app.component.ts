@@ -98,8 +98,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 
 				<!-- Authenticated Menu -->
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">My
-						Badges</a></li>
+					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
 					</li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>

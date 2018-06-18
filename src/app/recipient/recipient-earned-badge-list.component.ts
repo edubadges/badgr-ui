@@ -26,7 +26,7 @@ type BadgeDispay = "grid" | "list" ;
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
 				<div class="heading">
 					<div class="heading-x-text">
-						<h1>My Badges <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
+						<h1>Backpack <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
 					</div>
 					<div class="heading-x-actions">
 						<a class="button button-major" (click)="addBadge()" [disabled-when-requesting]="true">Add Badge</a>
@@ -258,7 +258,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	) {
 		super(router, route, sessionService);
 
-		title.setTitle("My Badges - Badgr");
+		title.setTitle("Backpack - Badgr");
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));
