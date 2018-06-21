@@ -14,6 +14,7 @@ import { RecipientBadgeManager } from "./services/recipient-badge-manager.servic
 import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
 import { RecipientBadgeInstance } from "./models/recipient-badge.model";
 import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -254,7 +255,8 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private title: Title,
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
-		private recipientBadgeManager: RecipientBadgeManager
+		private recipientBadgeManager: RecipientBadgeManager,
+		private profileManager: UserProfileManager
 	) {
 		super(router, route, sessionService);
 
@@ -266,6 +268,15 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		this.recipientBadgeManager.recipientBadgeList.changed$.subscribe(
 			badges => this.updateBadges(badges.entities)
 		);
+
+		if (sessionService.isLoggedIn) {
+			// force a refresh of the userProfileSet now that we are authenticated
+			profileManager.userProfileSet.updateList().then(p => {
+				if (profileManager.userProfile.agreedTermsVersion != profileManager.userProfile.latestTermsVersion) {
+					dialogService.newTermsDialog.openDialog();
+				}
+			})
+		}
 
 		this.restoreDisplayState();
 	}
