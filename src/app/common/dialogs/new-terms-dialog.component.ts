@@ -69,7 +69,8 @@ export class NewTermsDialog extends BaseDialog {
 
 		this.hasSubmitted = true;
 		if (this.agreedToTerms ) {
-			this.profile.agreeToLatestTerms().then(_ => {
+			let profile = this.profile ? this.profile : this.profileManager.userProfile;
+			profile.agreeToLatestTerms().then(_ => {
 				this.closeDialog();
 			});
 		}
