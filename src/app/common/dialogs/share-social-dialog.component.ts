@@ -134,13 +134,13 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 						>Twitter
 						</button>
 					</div>
-					<div *ngIf="displayShareServiceType('Portfolium')">
-						<button class="buttonauth buttonauth-portfolium"
-						        type="button"
-						        (click)="openPortfoliumWindow()"
-						>Twitter
-						</button>
-					</div>
+					<!--<div *ngIf="displayShareServiceType('Portfolium')">-->
+						<!--<button class="buttonauth buttonauth-portfolium"-->
+						        <!--type="button"-->
+						        <!--(click)="openPortfoliumWindow()"-->
+						<!--&gt;-->
+						<!--</button>-->
+					<!--</div>-->
 				</div>
 			</div>
 
