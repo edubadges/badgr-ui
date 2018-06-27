@@ -27,8 +27,8 @@ module.exports = {
       },
       {
         context: {
-          modifier: 'buttonauth-azure',
-          text: 'Azure'
+          modifier: 'buttonauth-microsoft',
+          text: 'Microsoft'
         }
       }
     ]
