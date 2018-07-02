@@ -12,25 +12,14 @@
         display: block;
       }
       &:nth-last-child(2) {
-        margin-right: calc($gridspacing * 4);
-        &::after {
-          background-color: $color-dark1;
-          content: '';
-          display: block;
-          height: 16px;
-          position: absolute;
-          right: calc($gridspacing * -2);
-          top: 50%;
-          transform: translateY(-50%);
-          width: 1px;
-        }
+        margin-right: calc(#{$gridspacing} * 4);
       }
     }
   }
   
   .pagination-x-pagemore {
-    margin-left: calc($gridspacing * 4);
-    margin-right: calc($gridspacing * 4);
+    margin-left: calc(#{$gridspacing} * 4);
+    margin-right: calc(#{$gridspacing} * 4);
   }
   @media (min-width: #{$media-tablet}) {
     .pagination-x-pages {
