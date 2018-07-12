@@ -10,9 +10,12 @@ import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
 import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
 import { BadgeInstanceManager } from "../services/badgeinstance-manager.service";
+import {PaginationResults} from "../services/badgeinstance-api.service";
 
 
 export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiBadgeInstance> {
+	public lastPaginationResult:PaginationResults = null;
+
 	constructor(
 		public badgeInstanceManager: BadgeInstanceManager,
 		public issuerSlug: string,
@@ -22,7 +25,14 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 		super(
 			apiModel => new BadgeInstance(this),
 			apiModel => apiModel.json.id,
-			() => this.badgeInstanceManager.badgeInstanceApiService.listBadgeInstances(issuerSlug, badgeClassSlug, recipientQuery)
+			() => {
+				return this.badgeInstanceManager.badgeInstanceApiService.listBadgeInstances(issuerSlug, badgeClassSlug, recipientQuery).then(resultset => {
+					if (resultset.links) {
+						this.lastPaginationResult = resultset.links;
+					}
+					return resultset.instances;
+				});
+			}
 		);
 	}
 
@@ -56,6 +66,26 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 			});
 	}
 
+	loadNextPage() {
+		if (this.lastPaginationResult && this.lastPaginationResult.hasNext) {
+			return this.loadPage(this.lastPaginationResult.nextUrl)
+		}
+	}
+
+	loadPrevPage() {
+		if (this.lastPaginationResult && this.lastPaginationResult.hasPrev) {
+			return this.loadPage(this.lastPaginationResult.prevUrl)
+		}
+	}
+
+	private loadPage(url) {
+			return this.badgeInstanceManager.badgeInstanceApiService.getBadgeInstancePage(url).then(resultset => {
+				if (resultset.links) {
+					this.lastPaginationResult = resultset.links;
+				}
+				this.updateSetUsingApiModels(resultset.instances);
+			})
+	}
 }
 
 /**
