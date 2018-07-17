@@ -1,0 +1,34 @@
+.pagination {
+  .pagination-x-pages {
+    display: flex;
+    >* {
+      display: none;
+      position: relative;
+      &:not(:last-child) {
+        margin-right: $gridspacing;
+      }
+      &:first-child,
+      &:last-child {
+        display: block;
+      }
+      &:nth-last-child(2) {
+        margin-right: calc(#{$gridspacing} * 4);
+      }
+    }
+  }
+  
+  .pagination-x-pagemore {
+    margin-left: calc(#{$gridspacing} * 4);
+    margin-right: calc(#{$gridspacing} * 4);
+  }
+  @media (min-width: #{$media-tablet}) {
+    .pagination-x-pages {
+      >* {
+        display: block;
+      }
+      .pagination-x-previous {
+        display: none;
+      }
+    }
+  }
+}

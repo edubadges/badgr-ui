@@ -16,7 +16,7 @@ module.exports = {
     {
       context: {
         modifier: 'buttonauth-google',
-        text: 'Facebook'
+        text: 'Google'
       },
       name: 'google',
       preview: '@preview'
@@ -48,10 +48,17 @@ module.exports = {
     },
     {
       context: {
-          modifier: 'buttonauth-surf_conext',
-          text: 'SURFconext'
+        modifier: 'buttonauth-surf_conext',
+        text: 'SURFconext'
       },
       name: 'surf_conext',
+    },
+    {
+      context: {
+        modifier: 'buttonauth-microsoft',
+        text: 'Microsoft'
+      },
+      name: 'microsoft',
       preview: '@preview'
     }
   ]

@@ -1,0 +1,60 @@
+.page {
+  font-size: $font-size;
+  line-height: $line-height-large2;
+  font-weight: bold;
+  font-family: 'Open Sans';
+  display: inline-block;
+  transition: color $transition-duration $transition-easing;
+  border-radius: 3px;
+  transition-duration: $transition-duration;
+  transition-property: background-color, box-shadow, border, color;
+  transition-timing-function: $transition-easing;
+  will-change: background-color, box-shadow, border, color;
+  background-color: $color-light1;
+  color: $color-primary;
+  border: solid 1px rgba(195,10,40, 0.5);
+  padding: $gridspacing/2 $gridspacing*1.5;
+  cursor: pointer;
+  color: $color-primary;
+  &:hover {
+    background-color: $color-light1;
+    color: #d01130;
+    border: solid 1px #d01130;
+  }
+  &:disabled {
+    background-color: transparent;
+    color: $color-dark3;
+    border: solid 1px $color-dark4;
+    box-shadow: none;
+    cursor: no-drop;
+  }
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(195,10,40, 0.5);
+    outline: 0;
+  }
+  &.page-is-active {
+    background-color: $color-primary;
+    color: $color-light1;
+  }
+  &.page-is-disabled {
+    background-color: transparent;
+    color: $color-dark4;
+    border: solid 1px $color-dark4;
+    box-shadow: none;
+    pointer-events: none;
+    cursor: no-drop;
+  }
+}
+
+.page-hellip {
+  color: rgba(195,10,40, 0.5);
+  border: none;
+  background-color: transparent;
+  flex-grow: 1;
+  cursor: default;
+  &:hover {
+    background-color: transparent;
+    color: rgba(195,10,40, 0.5);
+    border: none;
+  }
+}
