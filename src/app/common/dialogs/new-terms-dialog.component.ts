@@ -52,9 +52,6 @@ export class NewTermsDialog extends BaseDialog {
 		private profileManager: UserProfileManager
 	) {
 		super(componentElem, renderer);
-		this.profileManager.userProfilePromise.then(profile => {
-			this.profile = profile;
-		})
 	}
 
 	get agreedPromise():Promise<void> {
@@ -95,6 +92,9 @@ export class NewTermsDialog extends BaseDialog {
 	}
 
 	openDialog() {
+		this.profileManager.userProfilePromise.then(profile => {
+			this.profile = profile;
+		})
 		this.showModal();
 	}
 
