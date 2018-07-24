@@ -420,7 +420,14 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	clickResendVerification(ev: MouseEvent, email: UserProfileEmail) {
 		email.resendVerificationEmail().then(
 			() => this.messageService.reportMajorSuccess(`Confirmation re-sent to ${email.email}`),
-			error => this.messageService.reportAndThrowError(`Failed to resend confirmation to ${email.email}: ${BadgrApiFailure.from(error).firstMessage}`, error)
+			error => {
+				if (error.response.status == 429){
+					this.messageService.reportAndThrowError(`Failed to resend confirmation to ${email.email}: ${error.response._body}`, error);
+				}
+				else {
+					this.messageService.reportAndThrowError(`Failed to resend confirmation to ${email.email}: ${BadgrApiFailure.from(error).firstMessage}`, error);
+				}
+			}
 		);
 	}
 }
