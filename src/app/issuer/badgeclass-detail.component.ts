@@ -169,7 +169,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								<h2 class="visuallyhidden">Pagination</h2>
 								<div class="l-marginTop l-marginTop-2x l-childrenhorizontal l-childrenhorizontal-spacebetween">   
 									<button [class.is-disabled]="!hasPrevPage()" [attr.disabled]="hasPrevPage() ? null : 'disabled'" class="page" (click)="clickPrevPage()">Previous</button>
-									<button [class.is-disabled]="!hasNextPage()" class="page" (click)="clickNextPage()">Next</button>
+									<button [class.is-disabled]="!hasNextPage()" [attr.disabled]="hasNextPage() ? null : 'disabled'" class="page" (click)="clickNextPage()">Next</button>
 								</div>
 							</nav>
 						</div>
