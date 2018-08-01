@@ -46,5 +46,13 @@ module.exports = {
       name: 'twitter',
       preview: '@preview'
     },
+    {
+      context: {
+        modifier: 'buttonauth-microsoft',
+        text: 'Microsoft'
+      },
+      name: 'azure',
+      preview: '@preview'
+    }
   ]
 };
