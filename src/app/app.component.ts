@@ -204,7 +204,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 				}
 				var current_user_type = profileManager.userProfileSet.entities[0].apiModel['user_type']
 				this.userMaySeeIssuers = current_user_type == 2 || current_user_type == 3;
-				console.log(profileManager.userProfileSet.entities[0].apiModel)
 			});
 		}
 

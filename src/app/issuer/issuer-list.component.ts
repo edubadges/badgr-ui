@@ -9,6 +9,7 @@ import { Issuer } from "./models/issuer.model";
 import { BadgeClass } from "./models/badgeclass.model";
 import { Title } from "@angular/platform-browser";
 import { preloadImageURL } from "../common/util/file-util";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
 
 
 @Component({
@@ -17,30 +18,30 @@ import { preloadImageURL } from "../common/util/file-util";
 		<main>
 		  <form-message></form-message>
 		  <header class="wrap wrap-light l-containerhorizontal l-heading">
-		
+
 		    <div class="heading">
 		      <div class="heading-x-text">
 		        <h1>Issuers <span *ngIf="issuers">{{ issuers?.length }} Issuers</span></h1>
 		      </div>
-		      <div class="heading-x-actions">
+		      <div *ngIf='userMayCreateIssuers' class="heading-x-actions">
 		        <a [routerLink]="['/issuer/create']"
 		           class="button button-major"
 		           [disabled-when-requesting]="true">Create Issuer</a>
 		      </div>
 		    </div>
-		
+
 		  </header>
-		
+
 		  <div class="l-containerhorizontal l-containervertical l-childrenvertical wrap"
 		       *bgAwaitPromises="[issuersLoaded, badgesLoaded]">
 		    <article class="emptyillustration" *ngIf="! issuers.length">
 		      <div>
-			    Create an issuer to begin awarding badges! 
+			    Create an issuer to begin awarding badges!
 			    <a href="https://support.badgr.io/pages/viewpage.action?pageId=327776" target="_blank">Learn more</a> about Open Badges
 			  </div>
 		      <img [src]="noIssuersPlaceholderSrc" alt="You have no issuers">
 		    </article>
-		
+
 		    <a class="card card-large" *ngFor="let issuer of issuers" [routerLink]="['/issuer/issuers/', issuer.slug]">
 		        <div class="card-x-main">
 		            <div class="card-x-image">
@@ -55,7 +56,7 @@ import { preloadImageURL } from "../common/util/file-util";
 		                <h1>{{issuer.name}}</h1>
 
 			              <small>Your Role: {{ issuer.currentUserStaffMember?.roleInfo.label }}</small>
-			            
+
 		                <p [truncatedText]="issuer.description" [maxLength]="250"></p>
 		                <ul class="statlist">
 		                  <li class="statlist-x-badge">
@@ -65,11 +66,11 @@ import { preloadImageURL } from "../common/util/file-util";
 		                </ul>
 		            </div>
 		        </div>
-		
+
 		        <!-- Top Badges Stack -->
 		        <div class="card-x-actions" *ngFor="let issuerBadges of [issuerToBadgeInfo[issuer.issuerUrl]]">
 		          <h2 class="titledivider" *ngIf="issuerBadges">Top Badges</h2>
-		
+
 		          <!-- Top Badge -->
 		          <ng-template [ngIf]="issuerBadges">
 		            <div class="stack stack-small"
@@ -96,11 +97,12 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 	issuers: Array<Issuer>;
 	badges: Array<BadgeClass>;
 	issuerToBadgeInfo: {[issuerId: string]: IssuerBadgesInfo} = {};
-
+	userMayCreateIssuers: boolean = false;
 	issuersLoaded: Promise<any>;
 	badgesLoaded: Promise<any>;
 
 	constructor(
+		private profileManager: UserProfileManager,
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
@@ -111,7 +113,7 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 	) {
 		super(router, route, loginService);
 		title.setTitle("Issuers - Badgr");
-
+		this.userMayCreateIssuers = profileManager.userProfileSet.entities[0].apiModel['user_type'] == 3;
 		// subscribe to issuer and badge class changes
 		this.issuersLoaded = new Promise((resolve, reject) => {
 
@@ -161,4 +163,3 @@ class IssuerBadgesInfo {
 		public badges: BadgeClass[] = []
 	) {}
 }
-
