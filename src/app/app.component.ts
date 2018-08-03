@@ -49,7 +49,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 		</header>
 
 		<!--<form-message></form-message>-->
-		
+
 		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
 		     [class.formmessage-is-active]="isUnsupportedBrowser">
 		    <p>The Browser you are using isn’t fully supported. Badgr may not display correctly and some features may not be accessible or function properly.</p>
@@ -63,7 +63,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 			<h1 *ngIf="!fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
 			<img [src]="unavailableImageSrc">
 		</article>
-		
+
 		<router-outlet *ngIf="!hasFatalError"></router-outlet>
 
 		<confirm-dialog #confirmDialog></confirm-dialog>
@@ -77,7 +77,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 					<li *ngIf="currentTheme.providedBy">
 						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
 					</li>
-					
+
 					<li><a [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'" target="_blank">Terms of Service</a></li>
 					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy Policy</a></li>
 				</ul>
@@ -101,7 +101,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
 					</li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
+					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
 						<ul>
@@ -136,6 +136,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
+	userMaySeeIssuers: boolean = false;
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
 
@@ -201,6 +202,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
+				var current_user_type = profileManager.userProfileSet.entities[0].apiModel['user_type']
+				this.userMaySeeIssuers = current_user_type == 2 || current_user_type == 3;
+				console.log(profileManager.userProfileSet.entities[0].apiModel)
 			});
 		}
 
