@@ -58,7 +58,7 @@ module.exports = {
         modifier: 'buttonauth-microsoft',
         text: 'Microsoft'
       },
-      name: 'microsoft',
+      name: 'azure',
       preview: '@preview'
     }
   ]

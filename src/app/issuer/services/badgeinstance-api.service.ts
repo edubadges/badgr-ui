@@ -73,7 +73,7 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 
 	private handleAssertionResult = (r) => {
 			let resultset = new BadgeInstanceResultSet();
-			if (r.headers.has('link')) {
+			if (r.headers && r.headers.has('link')) {
 				let link = r.headers.get('link');
 				resultset.links = new PaginationResults(link);
 			}

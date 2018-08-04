@@ -13,21 +13,21 @@ import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 	template: `
 		<main>
 			<form-message></form-message>
-			
+
 			<div class="l-auth">
 				<!-- OAuth Banner -->
 				<oauth-banner></oauth-banner>
-	
+
 				<!-- Title Message -->
 				<h3 class="l-auth-x-title title title-bold" id="heading-form">Forgot your password?</h3>
 				<p class="l-auth-x-text text text-quiet">Fill in your email, and we'll help you reset your password</p>
-	
+
 				<!-- Login Form -->
-				<form class="l-form l-form-span " 
+				<form class="l-form l-form-span "
 				      role="form"
 				      aria-labelledby="heading-form"
-				      [formGroup]="requestPasswordResetForm" 
-				      (ngSubmit)="submitResetRequest()" 
+				      [formGroup]="requestPasswordResetForm"
+				      (ngSubmit)="submitResetRequest()"
 				      novalidate
 				>
 					<fieldset role="group" aria-labelledby="heading-forgotpassword">
@@ -44,7 +44,7 @@ import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 						   [routerLink]="['/auth/login']"
 						   [disabled-when-requesting]="true"
 						>Cancel</a>
-						
+
 						<button class="button"
 						        type="submit"
 						        (click)="clickSubmit($event)"
@@ -101,7 +101,15 @@ export class RequestPasswordResetComponent extends BaseRoutableComponent {
 		this.sessionService.submitResetPasswordRequest(email)
 			.then(
 				response => this.router.navigate([ '/auth/reset-password-sent' ]),
-				err => this.messageService.reportAndThrowError("Failed to send password reset request. Please contact support.", err)
+				err => {
+					if (err.status == 429){
+						this.messageService.reportAndThrowError("Forgot password request limit exceeded."
+						+ " Please check your inbox for an existing message or wait to retry.", err);
+					}
+					else {
+						this.messageService.reportAndThrowError("Failed to send password reset request. Please contact support.", err);
+					}
+				}
 			);
 	}
 

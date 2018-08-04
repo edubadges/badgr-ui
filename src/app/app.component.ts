@@ -205,11 +205,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 				var current_user_type = profileManager.userProfileSet.entities[0].apiModel['user_type']
 				this.userMaySeeIssuers = current_user_type == 2 || current_user_type == 3;
 			});
+
+			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
+				this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
+			})
 		}
 
-		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
-			this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
-		})
 
 		if (this.embedService.isEmbedded) {
 			// Enable the embedded indicator class on the body
