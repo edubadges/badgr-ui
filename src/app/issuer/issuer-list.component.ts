@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SessionService } from "../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import { BaseAuthenticatedRoutableComponent, BaseAuthorizedAndAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { MessageService } from "../common/services/message.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
@@ -10,7 +10,7 @@ import { BadgeClass } from "./models/badgeclass.model";
 import { Title } from "@angular/platform-browser";
 import { preloadImageURL } from "../common/util/file-util";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
-
+let permissions_needed = ['1','2','3'];
 
 @Component({
 	selector: 'issuer-list',
@@ -90,7 +90,7 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 		</main>
 	`
 })
-export class IssuerListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class IssuerListComponent extends BaseAuthorizedAndAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerPlaceholderSrc = preloadImageURL(require('../../breakdown/static/images/placeholderavatar-issuer.svg'));
 	readonly noIssuersPlaceholderSrc = require('../../breakdown/static/images/emptyillustration-noissuers.svg');
 
@@ -102,16 +102,16 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 	badgesLoaded: Promise<any>;
 
 	constructor(
-		private profileManager: UserProfileManager,
+		profileManager: UserProfileManager,
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
 		protected badgeClassService: BadgeClassManager,
 		loginService: SessionService,
 		router: Router,
-		route: ActivatedRoute
+		route: ActivatedRoute,
 	) {
-		super(router, route, loginService);
+		super(router, route, loginService, profileManager, permissions_needed);
 		title.setTitle("Issuers - Badgr");
 		this.userMayCreateIssuers = profileManager.userProfileSet.entities[0].apiModel['user_type'] == 3;
 		// subscribe to issuer and badge class changes

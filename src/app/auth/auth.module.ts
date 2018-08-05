@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 
+import { UnauthorizedComponent } from "./unauthorized.component";
 import { LogoutComponent } from "./logout.component";
 import { ResetPasswordSent } from "./reset-password-sent.component";
 import { RequestPasswordResetComponent } from "./request-password-reset.component";
@@ -32,7 +33,10 @@ const routes = [
 		path: "login/:name/:email",
 		component: LoginComponent
 	},
-
+	{
+		path: "unauthorized",
+		component: UnauthorizedComponent
+	},
 	/* OAuth2 */
 	{
 		path: "oauth2/authorize",
@@ -79,7 +83,8 @@ const routes = [
 		ResetPasswordSent,
 		ResetPasswordComponent,
 		LogoutComponent,
-		OAuth2AuthorizeComponent
+		OAuth2AuthorizeComponent,
+		UnauthorizedComponent
 	],
 	exports: [],
 	providers: []

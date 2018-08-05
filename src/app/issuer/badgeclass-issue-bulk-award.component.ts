@@ -61,20 +61,20 @@ export interface ColumnHeaders{
 					</div>
 				</div>
 			</header>
-				
-			<Badgeclass-issue-bulk-award-import 
+			
+			<Badgeclass-issue-bulk-award-import
 				*ngIf ="viewState == 'import'"
 				(importPreviewDataEmitter) = onBulkIssueImportPreviewData($event)
 				(updateStateEmitter) = updateViewState($event)>
 			</Badgeclass-issue-bulk-award-import>
-			
+
 			<Badgeclass-issue-bulk-award-preview
 				*ngIf ="viewState == 'importPreview'"
 				[importPreviewData] = "importPreviewData"
 				(transformedImportDataEmitter) = onTransformedImportData($event)
 				(updateStateEmitter) = updateViewState($event)>
 			</Badgeclass-issue-bulk-award-preview>
-			
+
 			<Badgeclass-issue-bulk-award-conformation
 				*ngIf ="viewState == 'importConformation'"
 				[transformedImportData] = "transformedImportData"
@@ -82,13 +82,13 @@ export interface ColumnHeaders{
 				[badgeSlug]="badgeSlug"
 				[issuerSlug]="issuerSlug">
 			</Badgeclass-issue-bulk-award-conformation>
-			
+
 			<Badgeclass-issue-bulk-award-error
 				*ngIf ="viewState == 'importError'"
 				[transformedImportData] = "transformedImportData"
 				(updateStateEmitter) = updateViewState($event)>
 			</Badgeclass-issue-bulk-award-error>
-			
+
 		</main>
 	`,
 })
