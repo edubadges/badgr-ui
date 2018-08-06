@@ -222,7 +222,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 								<td class="l-childrenhorizontal">
 									{{ account.providerInfo.name }}
 								</td>
-								<td class="l-childrenhorizontal" style="overflow: hidden; text-overflow: ellipsis; max-width: 200px;">>
+								<td class="l-childrenhorizontal" style="overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
 									{{ account.fullLabel }}
 								</td>
 								<td>
