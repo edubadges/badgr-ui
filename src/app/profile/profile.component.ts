@@ -213,16 +213,16 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 							<tr>
 								<th>Service</th>
 								<th>Account</th>
-								<th class="hidden hidden-is-desktop"><span class="visuallyhidden">Actions</span></th>
+								<th><span class="visuallyhidden">Actions</span></th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr *ngFor="let account of socialAccounts">
-								<td class="l-childrenhorizontal table-x-actions">
+								<td class="l-childrenhorizontal">
 									{{ account.providerInfo.name }}
 								</td>
-								<td class="l-childrenhorizontal table-x-actions">
+								<td class="l-childrenhorizontal" style="overflow: hidden; text-overflow: ellipsis; max-width: 200px;">
 									{{ account.fullLabel }}
 								</td>
 								<td>
@@ -245,6 +245,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 									<div class="formfield-x-buttongrid">
 										<button *ngFor="let provider of sessionService.enabledExternalAuthProviders"
 										        class="buttonauth buttonauth-{{ provider.slug }}"
+														style="min-width: initial;"
 										        type="button"
 										        (click)="linkAccount(provider)"
 										>{{ provider.name }}
