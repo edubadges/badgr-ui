@@ -39,7 +39,7 @@ export class NewTermsDialog extends BaseDialog {
 
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-	_agreed_promise: Promise<void> = null;
+	_agreed_promise: Promise<any> = null;
 
 	hasSubmitted: boolean = false;
 
@@ -54,7 +54,7 @@ export class NewTermsDialog extends BaseDialog {
 		super(componentElem, renderer);
 	}
 
-	get agreedPromise():Promise<void> {
+	get agreedPromise():Promise<any> {
 		if (!this._agreed_promise) {
 				this._agreed_promise = new Promise((resolve, reject) => {
 					this.resolveFunc = resolve;
