@@ -16,5 +16,5 @@ export const VALIDANA_API_CONFIG = {
     signPrefix: 'educhain',
 
     // Endpoint handler for Validana blockchain transactions
-    serviceUrl: 'wss://dev.educhain.nl:9000/api/v1/',
+    serviceUrl: 'wss://validana.educhain.nl:9000/api/v1/',
 }

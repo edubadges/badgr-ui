@@ -9,7 +9,7 @@ window.config = {
         integrationEndpoints: ['/v1/badgebook/integrations']
     },
     help: {
-        email: "support@badgr.io"
+        email: "info@edubadges.nl"
     },
     features: {
         pathwayGraph: true,
