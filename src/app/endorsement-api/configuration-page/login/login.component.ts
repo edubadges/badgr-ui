@@ -36,10 +36,10 @@ interface inputFormControls<T> {
 export class LoginComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // Input Form element
-    private inputForm: FormGroup;
+    public inputForm: FormGroup;
 
     // Boolean that indicates if submit buttons in this component are enabled
-    protected submitEnabled = true;
+    public submitEnabled = true;
 
     /**
      * Create a new login component
@@ -54,13 +54,13 @@ export class LoginComponent extends BaseAuthenticatedRoutableComponent implement
      * @param validanaService Validana Blockchain Service
      */
     constructor(
-        router: Router,
-		route: ActivatedRoute,
-        sessionService: SessionService,
+        public router: Router,
+		public route: ActivatedRoute,
+        public sessionService: SessionService,
         
-		protected formBuilder: FormBuilder,
-		protected messageService: MessageService,
-        protected validanaService: ValidanaBlockchainService) {
+		public formBuilder: FormBuilder,
+		public messageService: MessageService,
+        public validanaService: ValidanaBlockchainService) {
             super(router, route, sessionService);
 
             // Setup form element for WIF input

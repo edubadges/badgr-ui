@@ -38,14 +38,14 @@ interface inputFormControls<T> {
 export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // Input Form element
-    private inputForm: FormGroup;
+    public inputForm: FormGroup;
 
     // Boolean that indicates if submit buttons in this component are enabled
-    protected submitEnabled = true;
+    public submitEnabled = true;
 
     // Current educational institutes
     // These are queried from the blockchain on component load
-    private eduInstitutes: {
+    public eduInstitutes: {
         addr: string,
         name: string,
         parent: string | undefined,
@@ -65,12 +65,12 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * @param validanaService Validana Blockchain Service
      */
     constructor(
-        router: Router,
-		route: ActivatedRoute,
-        sessionService: SessionService,
-		protected formBuilder: FormBuilder,
-		protected messageService: MessageService,
-        protected validanaService: ValidanaBlockchainService) {
+        public router: Router,
+		public route: ActivatedRoute,
+        public sessionService: SessionService,
+		public formBuilder: FormBuilder,
+		public messageService: MessageService,
+        public validanaService: ValidanaBlockchainService) {
             super(router, route, sessionService);
 
             // Setup form elements for managing institutes
@@ -109,7 +109,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * Submit the form
      * @param formState The form state to submit
      */
-	protected submitForm(formState: inputFormControls<string>) {
+	public submitForm(formState: inputFormControls<string>) {
 
         // Disable submit button in UI
         this.submitEnabled = false;
@@ -160,7 +160,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
     /**
      * Query the blockchian for currently active educational institutes
      */
-    protected obtainEduInstitutes() {
+    public obtainEduInstitutes() {
 
         // Query the Validana blockchain for institution addresses
         this.validanaService.query('institutions').then((addresses:string[]) => { 
@@ -181,7 +181,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * @param institute The institute to update the withdrawn state for
      * @param isWithdrawn The new state for the institute
      */
-    protected setWithdrawState(institute:{addr:string, name:string},isWithdrawn:boolean) {
+    public setWithdrawState(institute:{addr:string, name:string},isWithdrawn:boolean) {
 
         // Set UI button state
         this.submitEnabled = false;      
@@ -216,7 +216,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * Custom validator based on regular expressions
      * @param checkRE The regex to check the input against
      */
-    protected regexValidator(checkRE: RegExp): ValidatorFn {
+    public regexValidator(checkRE: RegExp): ValidatorFn {
         return (control: AbstractControl): {[key: string]: any} => {
           const accepted = checkRE.test(control.value);
           return accepted ? null : {'regex': {value: control.value}} ;
@@ -226,7 +226,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
     /**
      * Validate The input form
      */
-	protected validateInputForm(ev) {
+	public validateInputForm(ev) {
 		if (! this.inputForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.inputForm);

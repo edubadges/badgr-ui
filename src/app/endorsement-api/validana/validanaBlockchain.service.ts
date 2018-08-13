@@ -36,22 +36,22 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
   public connected = new EventEmitter<boolean>();
 
   // The coinversable Validana API service
-  protected validana: Client;
+  public validana: Client;
 
   // The last connection response from the Validana API connection manager
-  protected validanaConnected = false;
+  public validanaConnected = false;
 
   // Do we have a valid wif / login to perform user actions with?
-  protected validanaValidUser = false;
+  public validanaValidUser = false;
 
   // Last known name of login attempt
-  protected validanaLastKnownName: string = undefined;
+  public validanaLastKnownName: string = undefined;
 
   // Last known role of login attempt
-  protected validanaLastKnownRole: string = undefined;
+  public validanaLastKnownRole: string = undefined;
 
   // Last known status of current login
-  protected validanaLastKnownIsWithdrawn: boolean = undefined;
+  public validanaLastKnownIsWithdrawn: boolean = undefined;
 
   /**
    * Construct new Validana blockchain service for Badgr

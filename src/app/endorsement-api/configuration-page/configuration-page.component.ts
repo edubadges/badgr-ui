@@ -36,13 +36,13 @@ import { ValidanaBlockchainService } from '../validana/validanaBlockchain.servic
 export class ConfigurationPage extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // Private key (WIF) input form element
-    private wifEditForm: FormGroup;
+    public wifEditForm: FormGroup;
 
     // Educational insitute input form element
-    private eduEditForm: FormGroup;
+    public eduEditForm: FormGroup;
 
     // Current educational institutes
-    private eduInstitutes: {
+    public eduInstitutes: {
         addr: string,
         name: string,
         parent: string | undefined,
@@ -51,16 +51,16 @@ export class ConfigurationPage extends BaseAuthenticatedRoutableComponent implem
     }[];
 
     // Public address of the user (calculated if private key is set)
-    private publicAddress: string;
+    public publicAddress: string;
 
     // Name associated with this public address (if known on blockchain)
-    private publicName: string;
+    public publicName: string;
 
     // Role associated with this public address (if known on blockchain)
-    private publicRole: string;
+    public publicRole: string;
 
     // Are submitbuttons enabled?
-    protected btnsEnabled = true;
+    public btnsEnabled = true;
 
     /**
      * Create new blockchain configuration page
@@ -71,11 +71,11 @@ export class ConfigurationPage extends BaseAuthenticatedRoutableComponent implem
      * @param title Badgr title service
      */
     constructor(
-        router: Router,
-		route: ActivatedRoute,
-        sessionService: SessionService,
-        protected validanaService: ValidanaBlockchainService,        
-		protected title: Title) {
+        public router: Router,
+		public route: ActivatedRoute,
+        public sessionService: SessionService,
+        public validanaService: ValidanaBlockchainService,        
+		public title: Title) {
             super(router, route, sessionService);
 
             // Set page title

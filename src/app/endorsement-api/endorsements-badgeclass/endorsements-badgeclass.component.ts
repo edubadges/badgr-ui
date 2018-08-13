@@ -33,23 +33,23 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     @Input() badgeSlug: string;
 
     // Current endorsements
-    protected endorsements: any[] = [];
+    public endorsements: any[] = [];
 
     // Parent objects (institutes) of current endorsers
-    protected parents: { [name:string] : any } = {};
+    public parents: { [name:string] : any } = {};
 
     // Identifier of update timer
-    protected updateTimer = undefined;
+    public updateTimer = undefined;
 
     // Helper to check if we have endorsed the badgeclass
-    protected hasEndorsedBadgeClass = false;
+    public hasEndorsedBadgeClass = false;
 
     // Is the endorse button enabled?
-    protected submitEnabled = true;
+    public submitEnabled = true;
 
     // Can the user send metadata to the blockchain?
     // For instance, existing badgeclasses which have no endorsements yet
-    protected canSendToBlockchain = false;
+    public canSendToBlockchain = false;
 
     /**
      * Create new endorsements component for badgeclasses
@@ -58,9 +58,9 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
      * @param apiService Badgr API service
      */
     constructor(
-        protected validanaService: ValidanaBlockchainService,
-        protected messageService: MessageService,
-        protected apiService: PublicApiService) {
+        public validanaService: ValidanaBlockchainService,
+        public messageService: MessageService,
+        public apiService: PublicApiService) {
 
         // Update endorsers table every 5 seconds
         this.updateTimer = setInterval(() => {
@@ -104,7 +104,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     /**
      * Send metadata of badge class to blockchain
      */
-    protected sendMetadataToBlockchain() {
+    public sendMetadataToBlockchain() {
 
         // Disable buttons in UI
         this.submitEnabled = false;
@@ -151,7 +151,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     /**
      * Toggle the withdrawstate for this entity
      */
-    protected toggleWithdrawState() {
+    public toggleWithdrawState() {
 
         // Disable submit button
         this.submitEnabled = false;
@@ -187,7 +187,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     /**
      * Helper to update the list of endorsers
      */
-    protected async updateEndorsers(quickFail=true) {
+    public async updateEndorsers(quickFail=true) {
 
         // Check the endorsers for this badge class on the blockchain
         this.validanaService.query('endorsersBadgeClass', this.badgeURI, quickFail).then((data:string[]) => {

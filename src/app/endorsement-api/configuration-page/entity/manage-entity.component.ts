@@ -38,14 +38,14 @@ interface inputFormControls<T> {
 export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // Input Form element
-    private inputForm: FormGroup;
+    public inputForm: FormGroup;
 
     // Boolean that indicates if submit buttons in this component are enabled
-    protected submitEnabled = true;
+    public submitEnabled = true;
 
     // Current educational entitys
     // These are queried from the blockchain on component load
-    private eduEntities: {
+    public eduEntities: {
         addr: string,
         name: string,
         parent: string | undefined,
@@ -65,12 +65,12 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * @param validanaService Validana Blockchain Service
      */
     constructor(
-        router: Router,
-		route: ActivatedRoute,
-        sessionService: SessionService,
-		protected formBuilder: FormBuilder,
-		protected messageService: MessageService,
-        protected validanaService: ValidanaBlockchainService) {
+        public router: Router,
+		public route: ActivatedRoute,
+        public sessionService: SessionService,
+		public formBuilder: FormBuilder,
+		public messageService: MessageService,
+        public validanaService: ValidanaBlockchainService) {
             super(router, route, sessionService);
 
             // Setup form elements for managing entitys
@@ -109,7 +109,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * Submit the form
      * @param formState The form state to submit
      */
-	protected submitForm(formState: inputFormControls<string>) {
+	public submitForm(formState: inputFormControls<string>) {
 
         // Disable submit button in UI
         this.submitEnabled = false;
@@ -161,7 +161,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * Obtain string indicating the withdrawn state of the entity
      * @param entity The entity to display the withdrawn state for
      */
-    protected getEntityStatus(entity:any):string {
+    public getEntityStatus(entity:any):string {
         if(this.validanaService.getLastKnownWithdrawn() === true) {
             return 'Disabled (Institute is withdrawn)';
         } else {
@@ -172,7 +172,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
     /**
      * Query the blockchian for currently active educational entitys
      */
-    protected obtainEduEntitys() {
+    public obtainEduEntitys() {
 
         // Query the Validana blockchain for institution addresses
         this.validanaService.query('entities', this.validanaService.getAddress() )
@@ -194,7 +194,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * @param entity The entity to update the withdrawn state for
      * @param isWithdrawn The new state for the entity
      */
-    protected setWithdrawState(entity:{addr:string, name:string},isWithdrawn:boolean) {
+    public setWithdrawState(entity:{addr:string, name:string},isWithdrawn:boolean) {
 
         // Set UI button state
         this.submitEnabled = false;      
@@ -229,7 +229,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * Custom validator based on regular expressions
      * @param checkRE The regex to check the input against
      */
-    protected regexValidator(checkRE: RegExp): ValidatorFn {
+    public regexValidator(checkRE: RegExp): ValidatorFn {
         return (control: AbstractControl): {[key: string]: any} => {
           const accepted = checkRE.test(control.value);
           return accepted ? null : {'regex': {value: control.value}} ;
@@ -239,7 +239,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
     /**
      * Validate The input form
      */
-	protected validateInputForm(ev) {
+	public validateInputForm(ev) {
 		if (! this.inputForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.inputForm);

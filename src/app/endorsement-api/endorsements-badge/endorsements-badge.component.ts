@@ -32,19 +32,19 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
     @Input() assertion: PublicApiBadgeAssertion;
 
     // Current endorsements
-    protected endorsements: any[] = [];
+    public endorsements: any[] = [];
 
     // Parent objects (institutes) of current endorsers
-    protected parents: { [name:string] : any } = {};
+    public parents: { [name:string] : any } = {};
 
     // Identifier of update timer
-    protected updateTimer = undefined;
+    public updateTimer = undefined;
 
     // Helper to check if we have endorsed the badge
-    protected hasEndorsedBadge = false;
+    public hasEndorsedBadge = false;
 
     // Is the endorse button enabled?
-    protected submitEnabled = true;
+    public submitEnabled = true;
 
     /**
      * Create new endorsements component for badges
@@ -53,9 +53,9 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
      * @param apiService Badgr API service
      */
     constructor(
-        protected validanaService: ValidanaBlockchainService,
-        protected messageService: MessageService,
-        protected apiService: PublicApiService) {
+        public validanaService: ValidanaBlockchainService,
+        public messageService: MessageService,
+        public apiService: PublicApiService) {
 
         // Update endorsers table every 5 seconds
         this.updateTimer = setInterval(() => {
@@ -85,7 +85,7 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
     /**
      * Toggle the withdrawstate for this entity
      */
-    protected toggleWithdrawState() {
+    public toggleWithdrawState() {
 
         // Disable submit button
         this.submitEnabled = false;
@@ -121,7 +121,7 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
     /**
      * Helper to update the list of endorsers
      */
-    protected async updateEndorsers(quickFail=true) {
+    public async updateEndorsers(quickFail=true) {
 
         // Check the endorsers for this badge class on the blockchain
         this.validanaService.query('endorsersBadge', this.assertion.id, quickFail).then((data:string[]) => {
