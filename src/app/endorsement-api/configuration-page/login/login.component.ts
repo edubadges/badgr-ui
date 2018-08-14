@@ -82,7 +82,7 @@ export class LoginComponent extends BaseAuthenticatedRoutableComponent implement
      * Submit the form
      * @param formState The form state to submit
      */
-	protected submitForm(formState: inputFormControls<string>) {
+	public submitForm(formState: inputFormControls<string>) {
 
         // Disable button in UI
         this.submitEnabled = false;
@@ -109,7 +109,7 @@ export class LoginComponent extends BaseAuthenticatedRoutableComponent implement
      * Custom validator based on regular expressions
      * @param checkRE The regex to check the input against
      */
-    protected regexValidator(checkRE: RegExp): ValidatorFn {
+    public regexValidator(checkRE: RegExp): ValidatorFn {
         return (control: AbstractControl): {[key: string]: any} => {
           const accepted = checkRE.test(control.value);
           return accepted ? null : {'regex': {value: control.value}} ;
@@ -119,7 +119,7 @@ export class LoginComponent extends BaseAuthenticatedRoutableComponent implement
     /**
      * Validate The input form
      */
-	protected validateInputForm(ev) {
+	public validateInputForm(ev) {
 		if (! this.inputForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.inputForm);

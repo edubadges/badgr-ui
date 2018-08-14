@@ -124,7 +124,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
       // Obtain current address (if set)
       const addr = this.getAddress();
-      if( addr ) {
+       if( addr !== undefined ) {
 
         // Check if there are updates to our address on the blockchain
         this.query('addrInfo',[addr], true).then((data:any[]) => {
@@ -161,7 +161,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
           }
         }).catch(() => {});
       }
-    } catch {
+    } catch(e) {
 
     }
   }
