@@ -40,7 +40,7 @@ type BadgeDispay = "grid" | "list" ;
 					<h1>You have no badges</h1>
 					  <div>
 					    Collect and share digital badges you've earned from Badgr or any Open Badges issuer.
-					    <a href="http://www.openbadges.org" target="_blank">Learn more</a> about Open Badges
+					    <a href="https://openbadges.org" target="_blank">Learn more</a> about Open Badges
 					  </div>
 					<img [src]="noBadgesImageUrl" alt="Illustration description">
 				</article>
