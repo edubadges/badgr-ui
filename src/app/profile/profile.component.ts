@@ -352,7 +352,14 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		})) {
 			socialAccount.remove().then(
 				() => this.messageService.reportMinorSuccess(`Removed ${socialAccount.fullLabel} from your account`),
-				error => this.messageService.reportHandledError(`Failed to remove ${socialAccount.fullLabel} from your account: ${BadgrApiFailure.from(error).firstMessage}`),
+				error => {
+					if (error.response.status == 403){
+						this.messageService.reportHandledError(`Failed to remove ${socialAccount.fullLabel} from your account: ${error.response._body}`);
+					}
+					else {
+						this.messageService.reportHandledError(`Failed to remove ${socialAccount.fullLabel} from your account: ${BadgrApiFailure.from(error).firstMessage}`);
+					}
+				}
 			);
 		}
 	}
