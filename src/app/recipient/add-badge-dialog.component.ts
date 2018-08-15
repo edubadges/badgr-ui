@@ -117,7 +117,7 @@ type dialog_view_states = "upload" | "url" | "json";
 							Add Badge
 						</button>
 					</div>
-					
+
 					<div *ngIf="formError" class="formmessage formmessage-is-active formmessage-is-error">
 						<p>{{formError}}</p>
 						<button class="icon icon-close-light icon-right" type="button" (click)="clearFormError()">Dismiss</button>
@@ -208,7 +208,10 @@ export class AddBadgeDialogComponent extends BaseDialog {
 		if (this.formHasValue(formState) && this.addRecipientBadgeForm.valid) {
 			this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge(formState)
-				.then(instance => this.closeDialog())
+				.then(instance => {
+					this.messageService.reportMajorSuccess("Badge successfully imported.")
+					this.closeDialog();
+				})
 				.catch(err => {
 					let message = BadgrApiFailure.from(err).firstMessage;
 					this.messageService.reportAndThrowError(
