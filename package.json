@@ -62,7 +62,8 @@
     "css:imagemin": "imagemin src/breakdown/static/scss/images/* -o temp/images",
     "css:node-sass": "node-sass -o temp/ src/breakdown/static/scss/theme-default.scss",
     "css:postcss": "postcss -u autoprefixer -r temp/theme-default.css",
-    "css:watch": "onchange 'src/breakdown/static/scss/**/*.scss' -- npm run css:build:sass"
+    "css:watch": "onchange 'src/breakdown/static/scss/**/*.scss' -- npm run css:build:sass",
+    "validana-compatibility": "node $NODE_DEBUG_OPTION ./validana-compatibility.js"
   },
   "license": "ISC",
   "dependencies": {
