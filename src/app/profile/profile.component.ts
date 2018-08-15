@@ -425,7 +425,10 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 
 	clickMakePrimary(ev: MouseEvent, email: UserProfileEmail) {
 		email.makePrimary().then(
-			() => this.messageService.reportMajorSuccess(`${email.email} is now your primary email.`),
+			() => {
+				this.messageService.reportMajorSuccess(`${email.email} is now your primary email.`);
+				this.profile.emails.updateList();
+			},
 			error => this.messageService.reportAndThrowError(`Unable to set ${email.email} to primary email: ${BadgrApiFailure.from(error).firstMessage}`, error)
 		);
 	}
