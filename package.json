@@ -1,6 +1,6 @@
 {
   "name": "badgr-ui",
-  "version": "2.14.0",
+  "version": "2.16.1",
   "description": "Badgr UI",
   "scripts": {
     "test": "npm run test:ci",
@@ -30,7 +30,7 @@
     "build:dev": "node $NODE_DEBUG_OPTION ./node_modules/webpack/bin/webpack.js --config config/webpack.dev.js --progress --profile --colors",
     "build:styling": "npm run build:dev; mkdir dist/styling; cat ./src/breakdown/static/css/reset.css > dist/styling/badgr-ui.css; cat dist/theme-default.*.css >> dist/styling/badgr-ui.css; cp -r dist/assets src/breakdown/static/images dist/styling",
     "prebuild:prod": "npm run clean:dist",
-    "build:prod": "node $NODE_DEBUG_OPTION ./node_modules/webpack/bin/webpack.js  --config config/webpack.prod.js --profile --colors --bail && npm run write-version && npm run css:prod && npm run build:widgets",
+    "build:prod": "node $NODE_DEBUG_OPTION ./node_modules/webpack/bin/webpack.js  --config config/webpack.prod.js --profile --colors && npm run write-version && npm run css:prod && npm run build:widgets",
     "build:widgets": "node $NODE_DEBUG_OPTION ./node_modules/webpack/bin/webpack.js --config config/webpack.widgets.js --colors --bail",
     "write-version": "node get-git-version --txt > dist/version.txt && node get-git-version > dist/version.json",
     "server": "npm run server:dev",
