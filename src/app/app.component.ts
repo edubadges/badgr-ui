@@ -202,8 +202,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
-				var current_user_type = profileManager.userProfileSet.entities[0].apiModel['user_type']
-				this.userMaySeeIssuers = current_user_type == 2 || current_user_type == 3;
+				var current_user_permissions = JSON.parse(profileManager.userProfileSet.entities[0].apiModel['user_permissions'])
+				console.log(current_user_permissions)
+				if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
+					this.userMaySeeIssuers = true;
+				} else {
+					this.userMaySeeIssuers = current_user_permissions.includes("view_issuer_tab")
+				}
 			});
 
 			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {

@@ -10,7 +10,8 @@ import { BadgeClass } from "./models/badgeclass.model";
 import { Title } from "@angular/platform-browser";
 import { preloadImageURL } from "../common/util/file-util";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
-let permissions_needed = ['1','2','3'];
+let permission_needed = 'view_issuer_tab'
+
 
 @Component({
 	selector: 'issuer-list',
@@ -111,9 +112,8 @@ export class IssuerListComponent extends BaseAuthorizedAndAuthenticatedRoutableC
 		router: Router,
 		route: ActivatedRoute,
 	) {
-		super(router, route, loginService, profileManager, permissions_needed);
+		super(router, route, loginService, profileManager, permission_needed);
 		title.setTitle("Issuers - Badgr");
-		this.userMayCreateIssuers = profileManager.userProfileSet.entities[0].apiModel['user_type'] == 3;
 		// subscribe to issuer and badge class changes
 		this.issuersLoaded = new Promise((resolve, reject) => {
 
