@@ -15,6 +15,8 @@ import { routerLinkForUrl } from "./public.component";
 import {QueryParametersService} from "../common/services/query-parameters.service";
 import {MessageService} from "../common/services/message.service";
 import {SystemConfigService} from "../common/services/config.service";
+import { saveAs } from "file-saver";
+
 
 @Component({
 	template: `
@@ -191,9 +193,7 @@ import {SystemConfigService} from "../common/services/config.service";
 						
 						<div class="heading-x-actions" *ngIf="showDownload">
 							<a class="button button-major button-large" 
-							   target="_blank"
-							   [href]="assertion.image"
-							   download="assertion.image"
+							   (click)="openSaveDialog(assertion)"
 							>Download</a>
 						</div>
 						
@@ -236,10 +236,7 @@ export class PublicBadgeAssertionComponent {
 						}
 					}
 					else if (this.showDownload) {
-						let a = document.createElement("a");
-						a.setAttribute("href", assertion.image);
-						a.setAttribute("download", assertion.image);
-						a.click();
+						this.openSaveDialog(assertion);
 					}
 					return assertion;
 				})
@@ -297,5 +294,22 @@ export class PublicBadgeAssertionComponent {
 			}
 		}
 		return url;
+	}
+
+	generateFileName(assertion) {
+		return `${assertion.badge.name} - ${assertion.recipient.identity}`
+	}
+
+	openSaveDialog(assertion) {
+		const xhr = new XMLHttpRequest();
+		xhr.open("GET", assertion.image, true);
+		xhr.responseType = "blob";
+		xhr.onload = (e) => {
+			if (xhr.status == 200) {
+				let name = this.generateFileName(assertion);
+				saveAs( xhr.response, name);
+			}
+		};
+		xhr.send();
 	}
 }
