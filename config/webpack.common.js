@@ -26,7 +26,7 @@ const InlineChunkWebpackPlugin = require('html-webpack-inline-chunk-plugin');
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 
-function webpackCommonConfiguration(basePath, themes, includeHtml)
+function webpackCommonConfiguration(basePath, themes, includeHtml, headConfig)
 {
     var basePath = basePath || "./";
     if (basePath.substr(-1) != "/") {
@@ -42,6 +42,8 @@ function webpackCommonConfiguration(basePath, themes, includeHtml)
     ];
 
     var includeHtml = (includeHtml !== undefined) ? includeHtml : true;
+
+    var headConfig = (headConfig !== undefined) ? headConfig : require(path.resolve(__dirname, 'head-config.common'));
 
     var config = {
         /*
@@ -304,7 +306,7 @@ function webpackCommonConfiguration(basePath, themes, includeHtml)
              */
             new HtmlElementsPlugin(
                 {
-                    headTags: require(path.resolve(__dirname, 'head-config.common'))
+                    headTags: headConfig
                 }
             ),
 
