@@ -150,6 +150,8 @@ export class IssuerListComponent extends BaseAuthorizedAndAuthenticatedRoutableC
 			});
 
 		});
+		var current_user_permissions = JSON.parse(profileManager.userProfileSet.entities[0].apiModel['user_permissions'])
+		this.userMayCreateIssuers = current_user_permissions.includes('add_issuer');
 	}
 
 	ngOnInit() {
