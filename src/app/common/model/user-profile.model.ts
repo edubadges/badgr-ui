@@ -3,10 +3,12 @@ import {
 	ApiUserProfile,
 	ApiUserProfileEmail,
 	ApiUserProfileSocialAccount,
+	ApiUserProfileFaculty,
 	socialAccountProviderInfoForSlug,
 	UserProfileEmailRef,
 	UserProfileRef,
-	UserProfileSocialAccountRef
+	UserProfileSocialAccountRef,
+	UserProfileFacultyRef,
 } from "./user-profile-api.model";
 import { StandaloneEntitySet } from "./managed-entity-set";
 
@@ -25,6 +27,18 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 		apiModel => apiModel.id+"",
 		() => this.profileService.fetchEmails()
 	);
+
+	/**
+	 * List of faculties associated with this user's account.
+	 *
+	 * @type {StandaloneEntitySet<UserProfileFaculty, ApiUserProfileFaculty>}
+	 */
+	faculties = new StandaloneEntitySet<UserProfileFaculty, ApiUserProfileFaculty>(
+		apiEntity => new UserProfileFaculty(this),
+		apiModel => apiModel.id+"",
+		() => this.profileService.fetchFaculties()
+	);
+
 
 	/**
 	 * List of social accounts associated with this user's account.
@@ -88,6 +102,33 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 
 	static currentProfileId = "currentUserProfile";
 }
+
+
+export class UserProfileFaculty extends ManagedEntity<
+	ApiUserProfileFaculty,
+	UserProfileFacultyRef
+	> {
+		constructor(
+			public profile: UserProfile
+		) {
+			super(profile.commonManager);
+		}
+
+		protected get profileService() {
+			return this.commonManager.profileManager.profileService;
+		}
+
+		get numericId() { return this.apiModel.id }
+		get name() { return this.apiModel.name }
+
+		protected buildApiRef(): UserProfileFacultyRef {
+			return {
+				"@id": this.numericId + "",
+				"slug": this.name
+			};
+		}
+
+	}
 
 export class UserProfileEmail extends ManagedEntity<
 	ApiUserProfileEmail,

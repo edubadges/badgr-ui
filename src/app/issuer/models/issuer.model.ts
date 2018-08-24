@@ -39,6 +39,8 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 
 	get name(): string { return this.apiModel.name; }
 
+	get faculty(): object { return this.apiModel.faculty }
+
 	get description(): string { return this.apiModel.description; }
 
 	get image(): string { return this.apiModel.image; }

@@ -20,7 +20,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		<main>
 		  <form-message></form-message>
 		  <header class="wrap wrap-light l-containerhorizontal l-heading">
-		
+
 		    <nav>
 		      <h1 class="visuallyhidden">Breadcrumbs</h1>
 		      <ul class="breadcrumb">
@@ -28,52 +28,58 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		        <li class="breadcrumb-x-current">Create Issuer</li>
 		      </ul>
 		    </nav>
-		
+
 		    <div class="heading">
 		      <div class="heading-x-text">
 		        <h1>Create Issuer</h1>
 		        <p>Creating an issuer allows you to award badges to recipients.</p>
 		      </div>
 		    </div>
-		
+
 		  </header>
-		
+
 		  <div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
-		
+
 		    <form (ngSubmit)="onSubmit(issuerForm.value)" class="l-form" novalidate>
-		
+
 		      <fieldset>
 		        <bg-formfield-image #imageField
 		                            label="Image (Optional)"
 		                            imageLoaderName="issuer"
 		                            [placeholderImage]="issuerImagePlacholderUrl"
 		                            [control]="issuerForm.controls.issuer_image"></bg-formfield-image>
-		
+
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
 		                           [label]="'Name'"
 		                           [errorMessage]="{required:'Please enter an issuer name'}"
 		                           [autofocus]="true"
 		        ></bg-formfield-text>
-		
+
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
 		                           [label]="'Website URL'"
 		                           [errorMessage]="'Please enter a valid URL'"
 		                           [urlField]="true"
 		        ></bg-formfield-text>
-		
+
+						<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
+		                           [label]="'Faculty'"
+															 [placeholder]="'No faculty selected'"
+															 [options]="facultiesOptions"
+		        ></bg-formfield-select>
+
 		        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
 		                           [label]="'Contact Email'"
 		                           [placeholder]="'Please select a verified email'"
 		                           [options]="emailsOptions"
 		                           [errorMessage]="{required:'Please select a verified email'}"
 		        ></bg-formfield-select>
-		
+
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
 		                           [label]="'Description'"
 		                           [errorMessage]="{ required: 'Please enter a description'}"
 		                           [multiline]="true"
 		        ></bg-formfield-text>
-		
+
 		        <div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 		          <a [routerLink]="['/issuer']"
 		             class="button button-primaryghost"
@@ -87,7 +93,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		                  loading-message="Adding"
 		          >Add Issuer</button>
 		        </div>
-		
+
 		      </fieldset>
 		    </form>
 		  </div>
@@ -100,8 +106,10 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	issuerForm: FormGroup;
 	emails: UserProfileEmail[];
 	emailsOptions: FormFieldSelectOption[];
+	facultiesOptions: FormFieldSelectOption[];
 	addIssuerFinished: Promise<any>;
 	emailsLoaded: Promise<any>;
+	facultiesLoaded: Promise<any>;
 
 	constructor(
 		loginService: SessionService,
@@ -146,6 +154,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 					UrlValidator.validUrl
 				])
 			],
+			'issuer_faculty': [ '' ],
 			'issuer_image': [ '' ],
 		});
 
@@ -160,6 +169,19 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 					}
 				});
 			});
+
+		this.facultiesLoaded = this.profileManager.userProfilePromise
+			.then(profile => profile.faculties.loadedPromise)
+			.then(faculties => {
+				this.facultiesOptions = faculties.entities.map((f) => {
+					console.log(f)
+					return {
+						label: f.name,
+						value: JSON.stringify({'id': f.numericId, 'name': f.name})
+					}
+				});
+			});
+
 	}
 
 	ngOnInit() {
@@ -172,6 +194,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
+			'faculty': formState.issuer_faculty,
 		};
 
 		if (formState.issuer_image && String(formState.issuer_image).length > 0) {

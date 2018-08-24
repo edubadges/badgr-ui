@@ -127,6 +127,7 @@ describe('IssuerManager', () => {
 					image: apiIssuer2.image,
 					email: apiIssuer2.json.email,
 					url: apiIssuer2.json.url,
+					faculty: apiIssuer2.faculty,
 				};
 
 				return Promise.all([
