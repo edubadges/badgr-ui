@@ -174,7 +174,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			.then(profile => profile.faculties.loadedPromise)
 			.then(faculties => {
 				this.facultiesOptions = faculties.entities.map((f) => {
-					console.log(f)
 					return {
 						label: f.name,
 						value: JSON.stringify({'id': f.numericId, 'name': f.name})
