@@ -37,17 +37,21 @@ export class BaseAuthorizedAndAuthenticatedRoutableComponent extends BaseAuthent
 		protected route: ActivatedRoute,
 		protected sessionService: SessionService,
 		private profileManager: UserProfileManager,
-		private permissions_needed: Array<string>,
+		private permission_needed: String,
 	) {
 		super(router, route, sessionService);
 	}
 
 	ngOnInit() {
 		super.ngOnInit();
-		let current_user_type = this.profileManager.userProfileSet.entities[0].apiModel['user_type'];
-		let current_user_has_permission = this.permissions_needed.some(x=>x==current_user_type);
-		if (! current_user_has_permission ) {
-			this.router.navigate(['/auth/unauthorized']);
+		let current_user_permissions = JSON.parse(this.profileManager.userProfileSet.entities[0].apiModel['user_permissions']);
+		if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
+			// do nothing
+		} else {
+			let current_user_has_permission = current_user_permissions.includes(this.permission_needed);
+			if (! current_user_has_permission ) {
+				this.router.navigate(['/auth/unauthorized']);
+			}
 		}
 	}
 }
