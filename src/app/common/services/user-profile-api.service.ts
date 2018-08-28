@@ -5,7 +5,7 @@ import { BaseHttpApiService } from "./base-http-api.service";
 import { SessionService } from "./session.service";
 import { MessageService } from "./message.service";
 import { EventsService } from "./events.service";
-import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount } from "../model/user-profile-api.model";
+import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount, ApiUserProfileFaculty } from "../model/user-profile-api.model";
 
 
 @Injectable()
@@ -37,6 +37,11 @@ export class UserProfileApiService extends BaseHttpApiService {
 	fetchEmails(): Promise<ApiUserProfileEmail[]> {
 		return this.get('/v1/user/emails')
 			.then(r => r.json());
+	}
+
+	fetchFaculties(): Promise<ApiUserProfileFaculty[]> {
+		return this.get('/v1/user/faculties')
+		.then(r => r.json());
 	}
 
 	fetchSocialAccounts(): Promise<ApiUserProfileSocialAccount[]> {

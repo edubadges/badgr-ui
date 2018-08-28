@@ -24,6 +24,12 @@ export interface ApiUserProfileEmail {
 }
 export interface UserProfileEmailRef extends ApiEntityRef {}
 
+export interface ApiUserProfileFaculty {
+	id: number
+	name: string
+}
+export interface UserProfileFacultyRef extends ApiEntityRef {}
+
 /**
  * Information about the link between a Badgr user and an external social account.
  * From https://docs.google.com/document/d/1LfWvGPs8qSo46XSuI3UWITw8Tm8Ck16-xKw8C6aCavQ/edit#

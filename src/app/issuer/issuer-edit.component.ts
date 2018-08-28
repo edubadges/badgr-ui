@@ -26,7 +26,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 		<main>
 		  <form-message></form-message>
 		  <header class="wrap wrap-light l-containerhorizontal l-heading">
-		
+
 		    <nav>
 		      <h1 class="visuallyhidden">Breadcrumbs</h1>
 		      <ul class="breadcrumb">
@@ -35,52 +35,58 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 		        <li class="breadcrumb-x-current">Edit Issuer</li>
 		      </ul>
 		    </nav>
-		
+
 		    <div class="heading">
 		      <div class="heading-x-text">
 		        <h1>Edit Issuer</h1>
 		        <p>Edit the information associated with this issuer profile.</p>
 		      </div>
 		    </div>
-		
+
 		  </header>
-		
+
 		  <div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
-		
+
 		    <form (ngSubmit)="onSubmit(issuerForm.value)" class="l-form" novalidate>
-		
+
 		      <fieldset>
 		        <bg-formfield-image #imageField
 		                            label="Image (Optional)"
 		                            imageLoaderName="issuer"
 		                            [placeholderImage]="issuerImagePlacholderUrl"
 		                            [control]="issuerForm.controls.issuer_image"></bg-formfield-image>
-		
+
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
 		                           [label]="'Name'"
 		                           [errorMessage]="{required:'Please enter an issuer name'}"
 		                           [autofocus]="true"
 		        ></bg-formfield-text>
-		
+
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
 		                           [label]="'Website URL'"
 		                           [errorMessage]="'Please enter a valid URL'"
 		                           [urlField]="true"
 		        ></bg-formfield-text>
-		
+
+						<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
+		                           [label]="'Faculty'"
+															 [placeholder]="'No faculty selected'"
+															 [options]="facultiesOptions"
+		        ></bg-formfield-select>
+
 		        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
 		                           [label]="'Contact Email'"
 		                           [placeholder]="'Please select a verified email'"
 		                           [options]="emailsOptions"
 		                           [errorMessage]="{required:'Please select a verified email'}"
 		        ></bg-formfield-select>
-		
+
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
 		                           [label]="'Description'"
 		                           [errorMessage]="{ required: 'Please enter a description'}"
 		                           [multiline]="true"
 		        ></bg-formfield-text>
-		
+
 		        <div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 		          <a [routerLink]="['/issuer/issuers', issuerSlug]"
 		             class="button button-primaryghost"
@@ -94,7 +100,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 		                  loading-message="Adding"
 		          >Save</button>
 		        </div>
-		
+
 		      </fieldset>
 		    </form>
 		  </div>
@@ -110,10 +116,12 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	issuerForm: FormGroup;
 	emails: Array<UserProfileEmail>;
 	emailsOptions: FormFieldSelectOption[];
+	facultiesOptions: FormFieldSelectOption[];
 
 	editIssuerFinished: Promise<any>;
 	emailsLoaded: Promise<any>;
 	issuerLoaded: Promise<any>;
+	facultiesLoaded: Promise<any>;
 
 	constructor(
 		loginService: SessionService,
@@ -160,6 +168,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 					UrlValidator.validUrl
 				])
 			],
+			'issuer_faculty': [ '' ],
 			'issuer_image': [ '' ],
 		} as issuerForm<any[]>);
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
@@ -171,7 +180,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 				this.editControls.issuer_email.setValue(this.issuer.email, { emitEvent: false });
 				this.editControls.issuer_url.setValue(this.issuer.websiteUrl, { emitEvent: false });
 				this.editControls.issuer_image.setValue(this.issuer.image, { emitEvent: false });
-
+				this.editControls.issuer_faculty.setValue(JSON.stringify(this.issuer.faculty), { emitEvent: false });
 				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");
 
 				/*this.badgesLoaded = new Promise((resolve, reject) => {
@@ -204,6 +213,17 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 					}
 				});
 			});
+
+		this.facultiesLoaded = this.profileManager.userProfilePromise
+			.then(profile => profile.faculties.loadedPromise)
+			.then(faculties => {
+				this.facultiesOptions = faculties.entities.map((f) => {
+					return {
+						label: f.name,
+						value: JSON.stringify({'id': f.numericId, 'name': f.name})
+					}
+				});
+			});
 	}
 
 	get editControls(): issuerForm<FormControl> {
@@ -220,6 +240,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
+			'faculty': formState.issuer_faculty,
 		};
 
 		if (formState.issuer_image && String(formState.issuer_image).length > 0) {
@@ -253,4 +274,5 @@ interface issuerForm<T> {
 	issuer_email: T;
 	issuer_url: T;
 	issuer_image: T;
+	issuer_faculty: T;
 }

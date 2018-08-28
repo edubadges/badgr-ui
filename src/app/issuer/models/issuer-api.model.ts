@@ -13,12 +13,13 @@ export interface ApiIssuerJsonld {
 	'@context': string
 	type: string
 	id: IssuerUrl
-	
+
 	name: string
 	description: string
 	email: string
 	url: string
 	image: string
+	faculty: object
 }
 
 export interface ApiIssuer {
@@ -26,6 +27,7 @@ export interface ApiIssuer {
 	slug: IssuerSlug
 	description: string
 	image: string
+	faculty: object
 
 	created_at: string
 	created_by: string
@@ -64,6 +66,7 @@ export interface ApiIssuerForCreation {
 	image?: string
 	email: string
 	url: string
+	faculty: object
 }
 
 export interface ApiIssuerForEditing {
@@ -72,5 +75,5 @@ export interface ApiIssuerForEditing {
 	image?: string
 	email: string
 	url: string
+	faculty: object
 }
-
