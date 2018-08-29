@@ -55,6 +55,13 @@ module.exports = {
     },
     {
       context: {
+        modifier: 'buttonauth-edu_id',
+        text: 'EduID'
+      },
+      name: 'edu_id',
+    },
+    {
+      context: {
         modifier: 'buttonauth-microsoft',
         text: 'Microsoft'
       },

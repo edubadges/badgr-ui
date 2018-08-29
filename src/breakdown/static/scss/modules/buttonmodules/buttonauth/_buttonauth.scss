@@ -94,5 +94,15 @@
     background: url('#{$base-path}images/buttonauth-surf_conext.png') no-repeat center;
     background-size: auto 22px;
   }
-
 }
+
+.buttonauth-edu_id {
+  background: #fff;
+  border: 1px solid #E1E0E5;
+
+  &::after {
+    background: url('#{$base-path}images/buttonauth-edu_id.png') no-repeat center;
+    background-size: auto 22px;
+  }
+}
+
