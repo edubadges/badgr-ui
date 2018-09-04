@@ -20,7 +20,6 @@ function writeStylesheet(regex: RegExp) {
 window[ "badgrTheme" ] = {
 		cssInclude: require("../breakdown/static/scss/theme-default.scss"),
 		welcomeMessage: "Welcome to Badgr",
-		alternateLandingUrl: "http://info.badgr.io",
 		serviceName: "Badgr",
 		showPoweredByBadgr: true,
 		showApiDocsLink: true,

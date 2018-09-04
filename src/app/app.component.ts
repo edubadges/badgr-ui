@@ -36,7 +36,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 	template: `
 		<header class="header l-containerhorizontal" *ngIf="showAppChrome">
 
-			<a class="logo" [class.logo-is-loading]="isRequestPending" [routerLink]="isOAuthAuthorizationInProcess ? null : ['/']">
+			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : currentTheme.alternateLandingUrl || '/'">
 				<picture>
 					<source media="(min-width: 640px)" [srcset]="currentTheme.logoImg.desktop">
 					<img [src]="currentTheme.logoImg.small" alt="Badgr logo">
