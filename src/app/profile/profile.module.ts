@@ -9,7 +9,7 @@ import { AppIntegrationApiService } from "./services/app-integration-api.service
 import { AppIntegrationManager } from "./services/app-integration-manager.service";
 import { BadgebookLti1DetailComponent, IntegrationImageComponent } from "./badgebook-lti1-integration-detail.component";
 import { CommonEntityManagerModule } from "../entity-manager/entity-manager.module";
-import { ProfileEditComponent } from "./profile-edit.component";
+// import { ProfileEditComponent } from "./profile-edit.component";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { ChangePasswordComponent } from "./change-password.component";
@@ -26,10 +26,10 @@ const routes = [
 		path: "profile",
 		component: ProfileComponent
 	},
-	{
-		path: "edit",
-		component: ProfileEditComponent
-	},
+	// {
+	// 	path: "edit",
+	// 	component: ProfileEditComponent
+	// },
 	{
 		path: "app-integrations",
 		component: AppIntegrationListComponent
@@ -42,10 +42,10 @@ const routes = [
 		path: "app-integrations/oauth-app/:appId",
 		component: OAuthAppDetailComponent
 	},
-	{
-		path: "change-password",
-		component: ChangePasswordComponent
-	},
+	// {
+	// 	path: "change-password",
+	// 	component: ChangePasswordComponent
+	// },
 	{
 		path: "**",
 		component: ProfileComponent
@@ -63,9 +63,9 @@ const routes = [
 		BadgebookLti1DetailComponent,
 		AppIntegrationListComponent,
 		ProfileComponent,
-		ProfileEditComponent,
+		// ProfileEditComponent,
 		IntegrationImageComponent,
-		ChangePasswordComponent,
+		// ChangePasswordComponent,
 		OAuthAppDetailComponent
 	],
 	providers: [
