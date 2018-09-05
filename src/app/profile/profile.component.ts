@@ -17,7 +17,7 @@ import {
 	socialAccountProviderInfoForSlug,
 } from "../common/model/user-profile-api.model";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "../common/model/user-profile.model";
+import { UserProfile, UserProfileEmail } from "../common/model/user-profile.model";
 import { Subscription } from "rxjs/Subscription";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 
@@ -201,59 +201,6 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 					</div>
 
 					<!-- Social Account Table -->
-					<header>
-						<h2 class="title title-is-smallmobile">Linked Accounts</h2>
-					</header>
-					<p *ngIf="socialAccounts.length == 0">
-						Click one of the provider buttons below to allow you to log in to Badgr in the future using that service
-						rather than your email and password.
-					</p>
-					<table class="table">
-						<thead *ngIf="socialAccounts.length > 0">
-							<tr>
-								<th>Service</th>
-								<th>Account</th>
-								<th class="hidden hidden-is-desktop"><span class="visuallyhidden">Actions</span></th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<tr *ngFor="let account of socialAccounts">
-								<td class="l-childrenhorizontal table-x-actions">
-									{{ account.providerInfo.name }}
-								</td>
-								<td class="l-childrenhorizontal table-x-actions">
-									{{ account.fullLabel }}
-								</td>
-								<td>
-									<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-stackmobile">
-										<button class="button button-primaryghost"
-										        (click)="unlinkAccount(account)"
-										        [disabled-when-requesting]="true"
-										>Unlink
-										</button>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-
-						<tbody class="hidden hidden-is-tablet" *ngIf="sessionService.enabledExternalAuthProviders.length > 0">
-							<td class="table-x-td" colspan="3">
-								<section class="formfield">
-									<label>Link an Account</label>
-
-									<div class="formfield-x-buttongrid">
-										<button *ngFor="let provider of sessionService.enabledExternalAuthProviders"
-										        class="buttonauth buttonauth-{{ provider.slug }}"
-										        type="button"
-										        (click)="linkAccount(provider)"
-										>{{ provider.name }}
-										</button>
-									</div>
-								</section>
-							</td>
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</main>
@@ -338,28 +285,6 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	ngOnDestroy(): void {
 		this.emailsSubscription.unsubscribe();
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Linked Accounts
-
-	async unlinkAccount(socialAccount: UserProfileSocialAccount) {
-		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
-			dialogTitle: `Unlink ${socialAccount.providerInfo.name}?`,
-			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your Badgr account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
-			resolveButtonLabel: `Unlink ${socialAccount.providerInfo.name} account?`,
-			rejectButtonLabel: "Cancel"
-		})) {
-			socialAccount.remove().then(
-				() => this.messageService.reportMinorSuccess(`Removed ${socialAccount.fullLabel} from your account`),
-				error => this.messageService.reportHandledError(`Failed to remove ${socialAccount.fullLabel} from your account: ${BadgrApiFailure.from(error).firstMessage}`),
-			);
-		}
-	}
-
-	linkAccount(info: SocialAccountProviderInfo) {
-		this.sessionService.initiateAuthenticatedExternalAuth(info);
-	}
-
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Emails
