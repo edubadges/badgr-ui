@@ -285,16 +285,18 @@ export class AppComponent implements OnInit, AfterViewInit {
 	
 	ngAfterViewChecked(){
 		// only in this lifecyclehook the user is actually logged after logging in
-		try {
-			let current_user_permissions = JSON.parse(this.profileManager.userProfileSet.entities[0].apiModel['user_permissions'])
-			if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
-				this.userMaySeeIssuers = true;
-			} else {
-				this.userMaySeeIssuers = current_user_permissions.includes("view_issuer_tab")
+		setTimeout(() => {
+			try {
+				let current_user_permissions = JSON.parse(this.profileManager.userProfileSet.entities[0].apiModel['user_permissions'])
+				if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
+					this.userMaySeeIssuers = true;
+				} else {
+					this.userMaySeeIssuers = current_user_permissions.includes("view_issuer_tab")
+				}
+			} catch (error) {
+				// do nothing
 			}
-		} catch (error) {
-			// do nothing
-		}
+		})
 	}
 	
 }
