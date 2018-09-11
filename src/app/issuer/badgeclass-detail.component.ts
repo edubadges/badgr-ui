@@ -387,7 +387,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	badgeShareDialogOptionsFor(badge: BadgeInstance): ShareSocialDialogOptions {
 		return badgeShareDialogOptions({
 			shareUrl: badge.instanceUrl,
-			imageUrl: badge.image,
+			imageUrl: badge.imagePreview,
 			badgeClassName: this.badgeClass.name,
 			badgeClassDescription: this.badgeClass.description,
 			issueDate: badge.issuedOn,
