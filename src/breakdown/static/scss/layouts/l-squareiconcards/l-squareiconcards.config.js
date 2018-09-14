@@ -24,7 +24,13 @@ module.exports = {
           modifier: 'squareiconcard-tags',
           text: 'Tags'
         }
-      }
+      },
+      {
+        context: {
+          modifier: 'squareiconcard-extension',
+          text: 'Extensions'
+        }
+      },
     ]
   },
   label: 'Square Icon Cards'

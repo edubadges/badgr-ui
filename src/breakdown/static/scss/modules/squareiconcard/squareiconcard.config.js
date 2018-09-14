@@ -37,6 +37,24 @@ module.exports = {
     },
     {
       context: {
+        modifier: 'squareiconcard-extension',
+        text: 'Extension'
+      },
+      name: 'extension',
+      preview: '@preview'
+    },
+    {
+      context: {
+        modifier: 'squareiconcard-extension',
+        disabled: true,
+        text: 'Extension'
+      },
+      label: 'Extension + Is Disabled',
+      name: 'extension-disabled',
+      preview: '@preview'
+    },
+    {
+      context: {
         modifier: 'squareiconcard-evidence',
         text: 'Evidence'
       },
