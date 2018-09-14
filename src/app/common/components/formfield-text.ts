@@ -232,6 +232,7 @@ export const defaultValidatorMessages: {
 	"validUrl": () => `Please enter a valid URL`,
 	"invalidTelephone": () => `Please enter a valid phone number`,
 	"invalidEmail": () => `Please enter a valid email address`,
+	"invalidNumber": () => `Please enter a valid number`,
 	"maxlength": (
 		label: string,
 		{actualLength, requiredLength}: {actualLength: number; requiredLength: number}
