@@ -36,22 +36,22 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
   public connected = new EventEmitter<boolean>();
 
   // The coinversable Validana API service
-  public validana: Client;
+  protected validana: Client;
 
   // The last connection response from the Validana API connection manager
-  public validanaConnected = false;
+  protected validanaConnected = false;
 
   // Do we have a valid wif / login to perform user actions with?
-  public validanaValidUser = false;
+  protected validanaValidUser = false;
 
   // Last known name of login attempt
-  public validanaLastKnownName: string = undefined;
+  protected validanaLastKnownName: string = undefined;
 
   // Last known role of login attempt
-  public validanaLastKnownRole: string = undefined;
+  protected validanaLastKnownRole: string = undefined;
 
   // Last known status of current login
-  public validanaLastKnownIsWithdrawn: boolean = undefined;
+  protected validanaLastKnownIsWithdrawn: boolean = undefined;
 
   /**
    * Construct new Validana blockchain service for Badgr
@@ -124,7 +124,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
       // Obtain current address (if set)
       const addr = this.getAddress();
-       if( addr !== undefined ) {
+      if( addr ) {
 
         // Check if there are updates to our address on the blockchain
         this.query('addrInfo',[addr], true).then((data:any[]) => {

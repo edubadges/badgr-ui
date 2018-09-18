@@ -33,23 +33,23 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     @Input() badgeSlug: string;
 
     // Current endorsements
-    public endorsements: any[] = [];
+    protected endorsements: any[] = [];
 
     // Parent objects (institutes) of current endorsers
-    public parents: { [name:string] : any } = {};
+    protected parents: { [name:string] : any } = {};
 
     // Identifier of update timer
-    public updateTimer = undefined;
+    protected updateTimer = undefined;
 
     // Helper to check if we have endorsed the badgeclass
-    public hasEndorsedBadgeClass = false;
+    protected hasEndorsedBadgeClass = false;
 
     // Is the endorse button enabled?
-    public submitEnabled = true;
+    protected submitEnabled = true;
 
     // Can the user send metadata to the blockchain?
     // For instance, existing badgeclasses which have no endorsements yet
-    public canSendToBlockchain = false;
+    protected canSendToBlockchain = false;
 
     /**
      * Create new endorsements component for badgeclasses
@@ -58,9 +58,9 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
      * @param apiService Badgr API service
      */
     constructor(
-        public validanaService: ValidanaBlockchainService,
-        public messageService: MessageService,
-        public apiService: PublicApiService) {
+        protected validanaService: ValidanaBlockchainService,
+        protected messageService: MessageService,
+        protected apiService: PublicApiService) {
 
         // Update endorsers table every 5 seconds
         this.updateTimer = setInterval(() => {

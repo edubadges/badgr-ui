@@ -182,9 +182,6 @@ import { saveAs } from "file-saver";
 								<a *ngIf="assertion.sourceUrl" [href]="assertion.sourceUrl" class="button button-primaryghost"
 								>View Original</a>
 							</section>
-
-                                                        <!-- Blockchain endorsements -->
-							<endorsements-badge [assertion]="assertion"></endorsements-badge>
 						</div>
 						
 						<div class="heading-x-actions" *ngIf="!showDownload">

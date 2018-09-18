@@ -22,10 +22,6 @@ import {RecipientBadgeApiService} from "./recipient/services/recipient-badges-ap
 export function authModule() { return AuthModule }
 export function profileModule() { return ProfileModule }
 
-// Expose Validana blockchain service and Badgr public api service to components
-import { ValidanaBlockchainService } from './endorsement-api/validana/validanaBlockchain.service';
-import { PublicApiService } from './public/services/public-api.service';
-
 const ROUTE_CONFIG: Routes = [
 	{
 		path: "",

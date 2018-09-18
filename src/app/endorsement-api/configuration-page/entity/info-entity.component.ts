@@ -27,7 +27,7 @@ import { ValidanaBlockchainService } from '../../validana/validanaBlockchain.ser
 export class InfoEntityComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // The 'parent' ( institute ) to which this entity belongs
-    public parentInfo:{
+    protected parentInfo:{
         addr?: string,
         name?: string,
         parent?: string,

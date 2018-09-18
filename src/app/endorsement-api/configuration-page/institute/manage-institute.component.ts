@@ -38,14 +38,14 @@ interface inputFormControls<T> {
 export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // Input Form element
-    public inputForm: FormGroup;
+    private inputForm: FormGroup;
 
     // Boolean that indicates if submit buttons in this component are enabled
-    public submitEnabled = true;
+    protected submitEnabled = true;
 
     // Current educational institutes
     // These are queried from the blockchain on component load
-    public eduInstitutes: {
+    private eduInstitutes: {
         addr: string,
         name: string,
         parent: string | undefined,

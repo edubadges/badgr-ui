@@ -13,7 +13,6 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
-import { ValidanaBlockchainService } from '../endorsement-api/validana/validanaBlockchain.service';
 
 
 @Component({

@@ -36,10 +36,10 @@ interface inputFormControls<T> {
 export class LoginComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
     // Input Form element
-    public inputForm: FormGroup;
+    private inputForm: FormGroup;
 
     // Boolean that indicates if submit buttons in this component are enabled
-    public submitEnabled = true;
+    protected submitEnabled = true;
 
     /**
      * Create a new login component
@@ -82,7 +82,7 @@ export class LoginComponent extends BaseAuthenticatedRoutableComponent implement
      * Submit the form
      * @param formState The form state to submit
      */
-	public submitForm(formState: inputFormControls<string>) {
+	protected submitForm(formState: inputFormControls<string>) {
 
         // Disable button in UI
         this.submitEnabled = false;
