@@ -59,11 +59,11 @@ const ROUTE_CONFIG: Routes = [
 		loadChildren: './profile/profile.module#ProfileModule',
 		canActivate: [AuthGuard]
 	},
-        {
-                path: 'blockchain',
-                loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
-                canActivate: [AuthGuard]
-        },
+//        {
+//                path: 'blockchain',
+//                loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
+//                canActivate: [AuthGuard]
+//        },
 	{
 		path: 'public',
 		loadChildren: './public/public.module#PublicModule'
@@ -117,9 +117,9 @@ const ROUTE_CONFIG: Routes = [
 		Angulartics2GoogleAnalytics,
 		RecipientBadgeApiService,
 
-                // Expose the validana blockchain and publicapi service
-                ValidanaBlockchainService,
-                PublicApiService,
+  //              // Expose the validana blockchain and publicapi service
+  //              ValidanaBlockchainService,
+  //              PublicApiService,
 
 		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy}
 	]
