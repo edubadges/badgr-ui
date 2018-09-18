@@ -61,8 +61,9 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
 		protected badgeClassManager: BadgeClassManager,
-		protected dialogService: CommonDialogsService,
-		protected validanaService: ValidanaBlockchainService
+		protected dialogService: CommonDialogsService
+		//protected dialogService: CommonDialogsService,
+		//protected validanaService: ValidanaBlockchainService
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Create Badge Class - Badgr");
@@ -82,18 +83,18 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 			badgeClass => { 
 				
 				// Store a copy of the badge class on the blockchain
-				this.validanaService.storeBadgeClass(badgeClass).then(() => {
-					this.messageService.reportMajorSuccess(
-						'BadgeClass was saved on the blockchain', true
-					);
+				//this.validanaService.storeBadgeClass(badgeClass).then(() => {
+				//	this.messageService.reportMajorSuccess(
+				//		'BadgeClass was saved on the blockchain', true
+				//	);
 				
 				// Report error to user
-				}).catch(() => {
-					this.messageService.reportHandledError(
-						'BadgeClass could not be saved on the blockchain. Please review Account -> Blockchain Configuration.',
-						undefined, true
-					);
-				});
+				//}).catch(() => {
+				//	this.messageService.reportHandledError(
+				//		'BadgeClass could not be saved on the blockchain. Please review Account -> Blockchain Configuration.',
+				//		undefined, true
+				//	);
+				//});
 				
 				// Route the user to the issuer page
 				this.router.navigate([
