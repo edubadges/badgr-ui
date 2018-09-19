@@ -58,7 +58,8 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
 		                           [label]="'Website URL'"
 		                           [errorMessage]="'Please enter a valid URL'"
-		                           [urlField]="true"
+								   [urlField]="true"
+								   type="url"
 		        ></bg-formfield-text>
 		
 		        <bg-formfield-select [control]="issuerForm.controls.issuer_email"

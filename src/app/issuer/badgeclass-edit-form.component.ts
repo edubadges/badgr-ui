@@ -115,6 +115,7 @@ import { BadgeClass } from "./models/badgeclass.model";
 							[control]="badgeClassForm.controls.badge_criteria_url"
 							label="URL"
 							[urlField]="true"
+							fieldType="url"
 							errorMessage="URL to the Badge Criteria Page"
 						></bg-formfield-text>
 					</div>
