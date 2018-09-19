@@ -23,6 +23,7 @@ import { RecipientIdentifierType } from "./models/badgeinstance-api.model";
 import { typedGroup } from "../common/util/typed-forms";
 import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
+import { FormFieldTextInputType } from '../common/components/formfield-text';
 
 @Component({
 	selector: 'badgeclass-issue',
@@ -91,6 +92,7 @@ import {EventsService} from "../common/services/events.service";
 										[control]="issueForm.untypedControls.recipient_identifier"
 										ariaLabel="Recipient Identifier"
 										[autofocus]="true"
+										[fieldType]="recipientIdentifierFieldType"
 									></bg-formfield-text>
 								</div>
 							</div>
@@ -173,6 +175,7 @@ import {EventsService} from "../common/services/events.service";
 									class="l-marginTop-4x"
 									[control]="evidence.untypedControls.evidence_url"
 									label="URL to Evidence Page"
+									fieldType="url"
 									[urlField]="true"
 									errorMessage="Please enter a valid URL"
 								></bg-formfield-text>
@@ -399,4 +402,20 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			this.issueForm.markTreeDirty();
 		}
 	}
+
+	get recipientIdentifierFieldType(): FormFieldTextInputType {
+		switch (this.issueForm.controls.recipient_type.value) {
+			case 'email': 
+				return "email"
+			case 'openBadgeId': 
+			 	return "text"
+			case 'telephone':
+				return "tel"
+			case 'url':
+				return "url"
+			default:
+				return "text"
+		}
+	}
+
 }
