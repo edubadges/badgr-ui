@@ -26,7 +26,7 @@ import { CommonDialogsService } from "../services/common-dialogs.service";
 
         <p class="formfield-x-description" *ngIf="description">{{ description }}</p>
 
-        <input [type]="password ? 'password' : 'text'"
+        <input [type]="fieldType"
                *ngIf="! multiline"
                [name]="inputName"
                [id]="inputName"
@@ -63,7 +63,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() monospaced: boolean = false;
 	@Input() description: string;
 	@Input() placeholder: string;
-	@Input() password: boolean;
+	@Input() fieldType: FormFieldTextInputType = "text";
 	@Input() optional: boolean = false;
 
 	@Input() errorGroup: FormGroup;
@@ -217,6 +217,11 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		}
 	}
 }
+
+/**
+ * Allowable HTML input type for text based inputs.
+ */
+export type FormFieldTextInputType = "text" | "email" | "url" | "tel" | "password" | "search";
 
 export type ValidatorKey = "required" | "maxlength" | "validUrl";
 
