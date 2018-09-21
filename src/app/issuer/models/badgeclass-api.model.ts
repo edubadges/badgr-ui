@@ -28,6 +28,7 @@ export interface ApiBadgeClassForCreation {
 
 	tags?: string[];
 	alignment?: ApiBadgeClassAlignment[];
+	extensions?: object[];
 }
 
 export interface ApiBadgeClassAlignment {

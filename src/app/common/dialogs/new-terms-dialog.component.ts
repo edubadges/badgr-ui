@@ -16,7 +16,7 @@ import {UserProfile} from "../model/user-profile.model";
 				</header>
 				<div class="dialog-x-content">
 						<p>We’ve updated our <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>. </p>
-						
+
 						<p *ngIf="profile && profile.latestTermsDescription">{{profile.latestTermsDescription}}</p>
 
 						<label [class.formcheckbox-is-error]="isErrorState" class="formcheckbox l-marginBottom-2x" for="terms">
@@ -95,7 +95,6 @@ export class NewTermsDialog extends BaseDialog {
 		this.profileManager.userProfilePromise.then(profile => {
 			this.profile = profile;
 		})
-		this.showModal();
 	}
 
 	closeDialog() {

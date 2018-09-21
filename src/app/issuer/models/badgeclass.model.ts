@@ -1,4 +1,4 @@
-import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment } from "./badgeclass-api.model";
+import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment} from "./badgeclass-api.model"; //, ApiBadgeClassExtension
 import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -70,10 +70,20 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	}
 
 	get alignments() {
+		console.log('get alignmenst')
 		return this.apiModel.alignment;
 	}
 	set alignments(alignments: ApiBadgeClassAlignment[]) {
 		this.apiModel.alignment = alignments;
+	}
+
+	get extensions() {
+		console.log('get extensions')
+		return this.apiModel['extensions'];
+	}
+
+	set extensions(extensions: Object[]) {
+		this.apiModel.extensions = extensions;
 	}
 
 	// TODO: The API should give us the issuer slug for a badge, and we should not need to parse the URL.
@@ -100,4 +110,3 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 		return (issuerUrl.match(/\/public\/issuers\/([^\/]+)/) || [])[ 1 ] || null;
 	}
 }
-
