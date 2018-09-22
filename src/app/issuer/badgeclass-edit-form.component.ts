@@ -16,10 +16,11 @@ import { BadgeStudioComponent } from "./badge-studio.component";
 import { BgFormFieldImageComponent } from "../common/components/formfield-image";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { UrlValidator } from "../common/validators/url.validator";
+import { NumericValidator } from "../common/validators/numeric.validator";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
 import { RFC5646LanguageTags } from "../common/util/languages";
-
+import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 
 @Component({
@@ -266,20 +267,62 @@ import { RFC5646LanguageTags } from "../common/util/languages";
 						<a class="button button-tertiaryghost" href="http://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/extensions/index.html" aria-labelledby="heading-whatsextension" target="_blank">Learn More</a>
 					</div>
 
-					<div class="l-formsection-x-inputs" *ngFor="let extension of extensions.controls">
-						<div class="l-formsectionnested wrap wrap-welldark" *ngIf="extension.controls.languageExtension">
-							<div >
-								<span id=selectLangHeader> Selected Language:</span>
-								<span *ngIf="currentLangList[0].label != '' " id="selectedLangBox" [innerHTML]="currentLangList[0].label"></span>
-								<span *ngIf="currentLangList[0].label == '' " id="selectedLangBox" >No Language Selected</span>
+					<div class="l-formsection-x-inputs">
+						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of extensions.controls">
+							<div *ngIf="extension.controls.languageExtension">
+								<div>
+									<span id=selectLangHeader> Selected Language:</span>
+									<span *ngIf="currentLangList[0].label != '' " id="selectedLangBox" [innerHTML]="currentLangList[0].label"></span>
+									<span *ngIf="currentLangList[0].label == '' " id="selectedLangBox" >No Language Selected</span>
+								</div><br>
+								<bg-formfield-text [control]="extension.controls.languageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
+								<button class="l-formsectionnested-x-remove formsectionremove"
+								        (click)="removeExtension(extension)"
+								        type="button"
+								>Remove</button>
 							</div>
-							<bg-formfield-text [control]="extension.controls.languageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
 
+							<div *ngIf="extension.controls.ECTSExtension">
+								<bg-formfield-text [control]="extension.controls.ECTSExtension.controls.ECTS" label="Please Type in the ECTS" ></bg-formfield-text>
+								<button class="l-formsectionnested-x-remove formsectionremove"
+								        (click)="removeExtension(extension)"
+								        type="button"
+								>Remove</button>
+							</div>
 
-							<button class="l-formsectionnested-x-remove formsectionremove"
-							        (click)="removeExtension(extension)"
-							        type="button"
-							>Remove</button>
+							<div *ngIf="extension.controls.niveauExtension">
+								<bg-formfield-text [control]="extension.controls.niveauExtension.controls.EQF" label="Please Type in the EQF" ></bg-formfield-text>
+								<button class="l-formsectionnested-x-remove formsectionremove"
+												(click)="removeExtension(extension)"
+												type="button"
+								>Remove</button>
+							</div>
+
+							<div *ngIf="extension.controls.learningOutcomeExtension">
+								<bg-formfield-text [multiline]="true" [control]="extension.controls.learningOutcomeExtension.controls.learningOutcome" label="Please Type in the learning Outcome" ></bg-formfield-text>
+								<button class="l-formsectionnested-x-remove formsectionremove"
+												(click)="removeExtension(extension)"
+												type="button"
+								>Remove</button>
+							</div>
+
+							<div *ngIf="extension.controls.educationProgramIdentifierExtension">
+								<bg-formfield-select
+									label="Education Program Identifier"
+									[control]="extension.controls.educationProgramIdentifierExtension.controls.type"
+									[options]="educationProgramIdentifierOptions"
+									[placeholder]="'No type selected'"
+								></bg-formfield-select>
+
+								<bg-formfield-text
+									[control]="extension.controls.educationProgramIdentifierExtension.controls.value"
+								></bg-formfield-text>
+
+								<button class="l-formsectionnested-x-remove formsectionremove"
+												(click)="removeExtension(extension)"
+												type="button"
+								>Remove</button>
+							</div>
 
 						</div>
 					</div>
@@ -300,9 +343,40 @@ import { RFC5646LanguageTags } from "../common/util/languages";
 								        (click)="addExtension('languageExtension')"
 								        [disabled]="languageExtensionEnabled"
 								>
-									<span class="squareiconcard-x-container">Add Language</span>
+									<span class="squareiconcard-x-container">Language</span>
 								</button>
 
+								<button class="squareiconcard squareiconcard-extension"
+								        type="button"
+								        (click)="addExtension('ECTSExtension')"
+								        [disabled]="ECTSExtensionEnabled"
+								>
+									<span class="squareiconcard-x-container">ECTS</span>
+								</button>
+
+								<button class="squareiconcard squareiconcard-extension"
+								        type="button"
+								        (click)="addExtension('niveauExtension')"
+								        [disabled]="niveauExtensionEnabled"
+								>
+									<span class="squareiconcard-x-container">EQF</span>
+								</button>
+
+								<button class="squareiconcard squareiconcard-extension"
+								        type="button"
+								        (click)="addExtension('learningOutcomeExtension')"
+								        [disabled]="learningOutcomeExtensionEnabled"
+								>
+									<span class="squareiconcard-x-container">learning outcome</span>
+								</button>
+
+								<button class="squareiconcard squareiconcard-extension"
+								        type="button"
+								        (click)="addExtension('educationProgramIdentifierExtension')"
+								        [disabled]="educationProgramIdentifierExtensionEnabled"
+								>
+									<span class="squareiconcard-x-container">edu program identifier</span>
+								</button>
 
 							</div>
 						</div>
@@ -440,6 +514,14 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			};
 		});
 
+		let program_ids = [{'type': 'CROHO'}]
+		this.educationProgramIdentifierOptions = program_ids.map((i) => {
+			return {
+				label: i.type,
+				value: i.type
+			};
+		});
+
 	}
 
 	initFormFromExisting() {
@@ -535,6 +617,13 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	extensionsEnabled = false;
 	languageExtensionEnabled = false;
+	ECTSExtensionEnabled = false
+	niveauExtensionEnabled = false
+	learningOutcomeExtensionEnabled = false
+	educationProgramIdentifierExtensionEnabled = false
+	educationProgramIdentifierOptions: FormFieldSelectOption[];
+
+
 
 	get extensions() {
 		return this.badgeClassForm.controls["extensions"] as FormArray;
@@ -580,7 +669,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		console.log(this.badgeClass)
 		if (extensionName=='languageExtension'){
 			let typedLanguage = ''
-			let language = (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['language'] : ['']
+			let language = (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['language'] : ''
 			console.log('preset lang = ' +language)
 			if (language) { // if language is already there, fill typedLanguage with corresponding label
 				let langForPreset = this.languageOptions.filter(lang => lang.value == language)
@@ -588,12 +677,47 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			}
 			return this.fb.group({
 					languageExtension: this.fb.group({
-						language: language,
+						language: [language],
 						typedLanguage: [typedLanguage, Validators.required],
 					})
 				})
 		}
+		if (extensionName=='ECTSExtension'){
+			let ects = (this.badgeClass && this.badgeClass.extensions['ECTSExtension']) ? this.badgeClass.extensions['ECTSExtension']['ECTS'] : ''
+			return this.fb.group({
+				ECTSExtension: this.fb.group({
+					ECTS: [ects, Validators.compose([Validators.required, NumericValidator.validNumber])]
+				})
+			})
+		}
+		if (extensionName=='niveauExtension'){
+			let eqf = (this.badgeClass && this.badgeClass.extensions['niveauExtension']) ? this.badgeClass.extensions['niveauExtension']['EQF'] : ''
+			return this.fb.group({
+				niveauExtension: this.fb.group({
+					EQF: [eqf, Validators.required]
+				})
+			})
+		}
+		if (extensionName=='learningOutcomeExtension'){
+			let eqf = (this.badgeClass && this.badgeClass.extensions['learningOutcomeExtension']) ? this.badgeClass.extensions['learningOutcomeExtension']['learningOutcome'] : ''
+			return this.fb.group({
+				learningOutcomeExtension: this.fb.group({
+					learningOutcome: [eqf, Validators.required]
+				})
+			})
+		}
+		if (extensionName=='educationProgramIdentifierExtension'){
+			let type = (this.badgeClass && this.badgeClass.extensions['educationProgramIdentifierExtension']) ? this.badgeClass.extensions['educationProgramIdentifierExtension']['type'] : ''
+			let value = (this.badgeClass && this.badgeClass.extensions['educationProgramIdentifierExtension']) ? this.badgeClass.extensions['educationProgramIdentifierExtension']['value'] : ''
+			return this.fb.group({
+				educationProgramIdentifierExtension: this.fb.group({
+					type: [type, Validators.required],
+					value: [type, Validators.required]
+				})
+			})
+		}
 	}
+
 
 	addExtension(extensionName: string){
 	console.log('addExtension')
