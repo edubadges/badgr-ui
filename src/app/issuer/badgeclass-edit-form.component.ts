@@ -589,7 +589,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			return this.fb.group({
 					languageExtension: this.fb.group({
 						language: language,
-						typedLanguage: typedLanguage,
+						typedLanguage: [typedLanguage, Validators.required],
 					})
 				})
 		}
