@@ -577,15 +577,21 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	makeFormGroup(extensionName: string){
 		console.log('makeFormGroup: '+extensionName)
 		console.log(this.badgeClass)
-		const extensionGroupsMap = {
-			'languageExtension': this.fb.group({
+		if (extensionName=='languageExtension'){
+			let typedLanguage = ''
+			let language = (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['language'] : ['']
+			console.log('preset lang = ' +language)
+			if (language) { // if language is already there, fill typedLanguage with corresponding label
+				let langForPreset = this.languageOptions.filter(lang => lang.value == language)
+				typedLanguage = langForPreset[0]['label']
+			}
+			return this.fb.group({
 					languageExtension: this.fb.group({
-						language: (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['language'] : [''],
-						typedLanguage: (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['typedLanguage'] : [''],
+						language: language,
+						typedLanguage: typedLanguage,
 					})
 				})
 		}
-		return extensionGroupsMap[extensionName]
 	}
 
 	addExtension(extensionName: string){
@@ -612,9 +618,11 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	setLanguage(language) {
 		console.log('Set language: '+language)
 		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
-			let currentLanguage = extension.controls.languageExtension.controls.language.value
-			if (currentLanguage!=language){
-				extension.controls.languageExtension.controls.language.patchValue(language)
+			if (extension.controls.languageExtension) {
+				let currentLanguage = extension.controls.languageExtension.controls.language.value
+				if (currentLanguage!=language){
+					extension.controls.languageExtension.controls.language.patchValue(language)
+				}
 			}
 		}
 	}
