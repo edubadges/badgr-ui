@@ -392,6 +392,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		if (this.existingBadgeClass != badgeClass) {
 			this.existingBadgeClass = badgeClass;
 			this.initFormFromExisting();
+			this.enableFormListener()
 		}
 	}
 
