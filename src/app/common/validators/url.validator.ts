@@ -7,7 +7,7 @@ export class UrlValidator {
 		return typeof(control.value) !== "string" || control.value.trim() == "" || isURL(
 			control.value,
 			{
-				require_tld: false,
+				require_tld: true,
 				require_protocol: true,
 				require_host: false,
 				require_valid_protocol: false,
