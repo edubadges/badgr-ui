@@ -268,7 +268,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 
 					<div class="l-formsection-x-inputs">
-						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of extensions.controls">
+						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of badgeclassExtensions.controls">
 							<div *ngIf="extension.controls.languageExtension">
 								<div>
 									<span id=selectLangHeader> Selected Language:</span>
@@ -434,6 +434,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	savePromise: Promise<BadgeClass> | null = null;
 	badgeClassForm: FormGroup;
+	badgeclassExtensions: Object;
 
 	@ViewChild("badgeStudio")
 	badgeStudio: BadgeStudioComponent;
@@ -466,6 +467,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		if (this.existingBadgeClass != badgeClass) {
 			this.existingBadgeClass = badgeClass;
 			this.initFormFromExisting();
+			this.badgeclassExtensions = this.badgeClassForm.controls["extensions"]
 			this.enableFormListener()
 		}
 	}
@@ -521,6 +523,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				value: i.type
 			};
 		});
+		this.badgeclassExtensions = this.badgeClassForm.controls["extensions"]
 
 	}
 
@@ -626,14 +629,15 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 
 	get extensions() {
+		console.log('JOO')
 		return this.badgeClassForm.controls["extensions"] as FormArray;
 	}
 
-	extensionIsInExtensions(name){
-		for (let e of this.extensions['controls']) {
-			if (e['controls'][name]) {return true}
-		} return false
-	}
+	// extensionIsInExtensions(name){
+	// 	for (let e of this.extensions['controls']) {
+	// 		if (e['controls'][name]) {return true}
+	// 	} return false
+	// }
 
 	initExtensionFromExisting(extensionName: string){
 		console.log('initExtensionFromExisting:  ',extensionName)
