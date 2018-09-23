@@ -500,7 +500,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			],
 			badge_image: [ '', Validators.required ],
 			badge_description: [ '', Validators.required ],
-			badge_criteria_url: [ '' ],
+			badge_criteria_url: [ '' , UrlValidator.validUrl],
 			badge_criteria_text: [ '' ],
 			alignments: fb.array([]),
 			extensions: fb.array([])
@@ -528,8 +528,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	initFormFromExisting() {
-		console.log('intiFromExisting')
-		console.log(this.badgeClass.extensions)
 		const badgeClass = this.existingBadgeClass;
 
 		this.badgeClassForm = this.fb.group({
@@ -542,7 +540,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			],
 			badge_image: [ badgeClass.image, Validators.required ],
 			badge_description: [ badgeClass.description, Validators.required ],
-			badge_criteria_url: [ badgeClass.criteria_url ],
+			badge_criteria_url: [ badgeClass.criteria_url , UrlValidator.validUrl],
 			badge_criteria_text: [ badgeClass.criteria_text ],
 			extensions: this.fb.array(Object.keys(this.badgeClass.extensions).map(extension => this.initExtensionFromExisting(extension))),
 			alignments: this.fb.array(this.badgeClass.alignments.map(alignment => this.fb.group({
@@ -564,7 +562,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	ngOnInit() {
-		console.log('init got extenions:', this.badgeClassForm.get('extensions'))
 		super.ngOnInit();
 		this.enableFormListener()
 	}
@@ -629,18 +626,10 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 
 	get extensions() {
-		console.log('JOO')
 		return this.badgeClassForm.controls["extensions"] as FormArray;
 	}
 
-	// extensionIsInExtensions(name){
-	// 	for (let e of this.extensions['controls']) {
-	// 		if (e['controls'][name]) {return true}
-	// 	} return false
-	// }
-
 	initExtensionFromExisting(extensionName: string){
-		console.log('initExtensionFromExisting:  ',extensionName)
 		let extension = this.makeFormGroup(extensionName)
 		this.enableExtension(extension)
 		return extension
@@ -652,7 +641,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	enableExtension(extension: FormGroup){
-		console.log('enableExtension')
 		let extensionName = Object.keys(extension.controls)[0]
 		this.extensionsEnabled = true
 		this.enableFormListener()
@@ -660,7 +648,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	async removeExtension(extension: FormGroup) {
-		console.log('removeExtension')
 		this.extensions.removeAt(this.extensions.controls.indexOf(extension));
 		this.disableExtension(extension)
 		if (this.extensions.length == 0){
@@ -669,12 +656,9 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	makeFormGroup(extensionName: string){
-		console.log('makeFormGroup: '+extensionName)
-		console.log(this.badgeClass)
 		if (extensionName=='languageExtension'){
 			let typedLanguage = ''
 			let language = (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['language'] : ''
-			console.log('preset lang = ' +language)
 			if (language) { // if language is already there, fill typedLanguage with corresponding label
 				let langForPreset = this.languageOptions.filter(lang => lang.value == language)
 				typedLanguage = langForPreset[0]['label']
@@ -724,7 +708,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 
 	addExtension(extensionName: string){
-	console.log('addExtension')
 	 let extension = this.makeFormGroup(extensionName)
 	 this.extensions.push(extension);
 	 this.enableExtension(extension)
@@ -745,7 +728,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	setLanguage(language) {
-		console.log('Set language: '+language)
 		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
 			if (extension.controls.languageExtension) {
 				let currentLanguage = extension.controls.languageExtension.controls.language.value
@@ -757,7 +739,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	onLangChange(extensions) {
-		console.log('onLangChange with extensions: ', extensions)
 		if (extensions) {
 			let currentValue = this.getCurrentTypedLanguage(extensions)
 			let currentLanguageList = this.languageOptions
@@ -783,10 +764,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	enableAlignments() {
-		console.log('enable alignments')
 		this.alignmentsEnabled = true;
 		if (this.savedAlignments) {
-			console.log(this.savedAlignments)
 			this.savedAlignments.forEach(a => this.alignments.push(a));
 			this.savedAlignments = null;
 		}

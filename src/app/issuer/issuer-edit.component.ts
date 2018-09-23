@@ -353,7 +353,6 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	institutionIdentifierExtensionEnabled = false
 
 	initExtensionFromExisting(extensionName: string){
-		console.log('initExtensionFromExisting:  ',extensionName)
 		let extension = this.makeFormGroup(extensionName)
 		this.enableExtension(extension)
 		return extension
@@ -365,7 +364,6 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	}
 
 	async removeExtension(extension: FormGroup) {
-		console.log('removeExtension')
 		this.extensions.removeAt(this.extensions.controls.indexOf(extension));
 		this.disableExtension(extension)
 		if (this.extensions.length == 0){
@@ -374,20 +372,17 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	}
 
 	enableExtension(extension: FormGroup){
-		console.log('enableExtension')
 		let extensionName = Object.keys(extension.controls)[0]
 		this.extensionsEnabled = true
 		this[extensionName+'Enabled']=true
 	}
 	addExtension(extensionName: string){
-		console.log('addExtension')
 		let extension = this.makeFormGroup(extensionName);
 		this.extensions.push(extension);
 		this.enableExtension(extension)
 	}
 
 	makeFormGroup(extensionName: string){
-		console.log(this.issuer.extensions[extensionName])
 		if (extensionName=='gradingTableExtension'){
 			let gradingTable = (this.issuer.extensions['gradingTableExtension']) ? this.issuer.extensions['gradingTableExtension']['gradingTable'] : ''
 			return this.formBuilder.group({

@@ -70,7 +70,6 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	}
 
 	get alignments() {
-		console.log('get alignmenst')
 		return this.apiModel.alignment;
 	}
 	set alignments(alignments: ApiBadgeClassAlignment[]) {
@@ -78,7 +77,6 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	}
 
 	get extensions() {
-		console.log('get extensions')
 		return this.apiModel['extensions'];
 	}
 

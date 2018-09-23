@@ -293,7 +293,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	get extensions() {
-		console.log(this.issuerForm.controls)
 		return this.issuerForm.controls["issuer_extensions"] as FormArray;
 	}
 
@@ -307,14 +306,12 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	enableExtension(extension: FormGroup){
-		console.log('enableExtension')
 		let extensionName = Object.keys(extension.controls)[0]
 		this.extensionsEnabled = true
 		this[extensionName+'Enabled']=true
 	}
 
 	async removeExtension(extension: FormGroup) {
-		console.log('removeExtension')
 		this.extensions.removeAt(this.extensions.controls.indexOf(extension));
 		this.disableExtension(extension)
 		if (this.extensions.length == 0){
@@ -338,9 +335,8 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			})
 		}
 	}
-	
+
 	addExtension(extensionName: string){
-	console.log('addExtension')
 	 let extension = this.makeFormGroup(extensionName)
 	 this.extensions.push(extension);
 	 this.enableExtension(extension)
