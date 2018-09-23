@@ -17,6 +17,7 @@ export interface ApiBadgeClassJsonld {
 	criteria_url: string
 	criteria_text: string
 	issuer: string
+	extensions: string
 }
 
 export interface ApiBadgeClassForCreation {

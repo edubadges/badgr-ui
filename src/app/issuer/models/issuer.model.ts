@@ -90,6 +90,16 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 		return this
 	}
 
+	get extensions() {
+		console.log('get extensions')
+		return this.apiModel['extensions'];
+	}
+
+	set extensions(extensions: Object[]) {
+		console.log(extensions)
+		this.apiModel.extensions = extensions;
+	}
+
 	private get issuerApiService() {
 		return this.commonManager.issuerManager.issuerApiService;
 	}

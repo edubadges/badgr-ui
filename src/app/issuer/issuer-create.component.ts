@@ -1,5 +1,5 @@
 import { Component, forwardRef, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "../common/services/message.service";
 import { IssuerManager } from "./services/issuer-manager.service";
@@ -40,61 +40,129 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 		  <div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
 
-		    <form (ngSubmit)="onSubmit(issuerForm.value)" class="l-form" novalidate>
+		    <form (ngSubmit)="onSubmit(issuerForm.value)" novalidate>
 
-		      <fieldset>
-		        <bg-formfield-image #imageField
-		                            label="Image (Optional)"
-		                            imageLoaderName="issuer"
-		                            [placeholderImage]="issuerImagePlacholderUrl"
-		                            [control]="issuerForm.controls.issuer_image"></bg-formfield-image>
+					<div class="l-formsection wrap wrap-well" role="group">
+			      <fieldset>
+			        <bg-formfield-image #imageField
+			                            label="Image (Optional)"
+			                            imageLoaderName="issuer"
+			                            [placeholderImage]="issuerImagePlacholderUrl"
+			                            [control]="issuerForm.controls.issuer_image">
+							</bg-formfield-image><br>
 
-		        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
-		                           [label]="'Name'"
-		                           [errorMessage]="{required:'Please enter an issuer name'}"
-		                           [autofocus]="true"
-		        ></bg-formfield-text>
+			        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
+			                           [label]="'Name'"
+			                           [errorMessage]="{required:'Please enter an issuer name'}"
+			                           [autofocus]="true"
+			        ></bg-formfield-text><br>
 
-		        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
-		                           [label]="'Website URL'"
-		                           [errorMessage]="'Please enter a valid URL'"
-		                           [urlField]="true"
-		        ></bg-formfield-text>
+			        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
+			                           [label]="'Website URL'"
+			                           [errorMessage]="'Please enter a valid URL'"
+			                           [urlField]="true"
+			        ></bg-formfield-text><br>
 
-						<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
-		                           [label]="'Faculty'"
-															 [placeholder]="'No faculty selected'"
-															 [options]="facultiesOptions"
-		        ></bg-formfield-select>
+							<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
+			                           [label]="'Faculty'"
+																 [placeholder]="'No faculty selected'"
+																 [options]="facultiesOptions"
+			        ></bg-formfield-select><br>
 
-		        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
-		                           [label]="'Contact Email'"
-		                           [placeholder]="'Please select a verified email'"
-		                           [options]="emailsOptions"
-		                           [errorMessage]="{required:'Please select a verified email'}"
-		        ></bg-formfield-select>
+			        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
+			                           [label]="'Contact Email'"
+			                           [placeholder]="'Please select a verified email'"
+			                           [options]="emailsOptions"
+			                           [errorMessage]="{required:'Please select a verified email'}"
+			        ></bg-formfield-select><br>
 
-		        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
-		                           [label]="'Description'"
-		                           [errorMessage]="{ required: 'Please enter a description'}"
-		                           [multiline]="true"
-		        ></bg-formfield-text>
+			        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
+			                           [label]="'Description'"
+			                           [errorMessage]="{ required: 'Please enter a description'}"
+			                           [multiline]="true"
+			        ></bg-formfield-text><br>
+			      </fieldset>
+					</div>
 
-		        <div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-		          <a [routerLink]="['/issuer']"
-		             class="button button-primaryghost"
-		             [disabled-when-requesting]="true"
-		          >Cancel</a>
-		          <button type="submit"
-		                  class="button"
-		                  [disabled]="!! addIssuerFinished"
-		                  (click)="clickSubmit($event)"
-		                  [loading-promises]="[ addIssuerFinished ]"
-		                  loading-message="Adding"
-		          >Add Issuer</button>
-		        </div>
+					<!-- Extensions -->
 
-		      </fieldset>
+					<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-extension" *ngIf="extensionsEnabled">
+						<h3 class="l-formsection-x-legend title title-ruled" id="heading-extension"> Extensions <span>(optional)</span></h3>
+						<div class="l-formsection-x-container">
+							<div class="l-formsection-x-help">
+								<h4 class="title title-bordered" id="heading-whatsextension">What's an extension?</h4>
+								<p class="text text-small"> Extensions are optional extra values you can add to your badgeclass.</p>
+								<a class="button button-tertiaryghost" href="http://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/extensions/index.html" aria-labelledby="heading-whatsextension" target="_blank">Learn More</a>
+							</div>
+							<div class="l-formsection-x-inputs">
+								<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of issuer_extensions.controls">
+
+									<div *ngIf="extension.controls.gradingTableExtension">
+										<bg-formfield-text [urlField]="true" [control]="extension.controls.gradingTableExtension.controls.gradingTable" label="Please Type in the URL to the Grading Table" ></bg-formfield-text>
+										<button class="l-formsectionnested-x-remove formsectionremove"
+														(click)="removeExtension(extension)"
+														type="button"
+										>Remove</button>
+									</div>
+
+									<div *ngIf="extension.controls.institutionIdentifierExtension">
+										<bg-formfield-text [control]="extension.controls.institutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
+										<button class="l-formsectionnested-x-remove formsectionremove"
+														(click)="removeExtension(extension)"
+														type="button"
+										>Remove</button>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Extension Adder Buttons -->
+
+					<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
+						<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Extensions</h3>
+						<div class="l-formsection-x-container">
+							<div class="l-formsection-x-inputs">
+								<div class="l-squareiconcards">
+									<button class="squareiconcard squareiconcard-extension"
+													type="button"
+													(click)="addExtension('gradingTableExtension')"
+													[disabled]="gradingTableExtensionEnabled"
+									>
+										<span class="squareiconcard-x-container">grading Table</span>
+									</button>
+
+									<button class="squareiconcard squareiconcard-extension"
+													type="button"
+													(click)="addExtension('institutionIdentifierExtension')"
+													[disabled]="institutionIdentifierExtensionEnabled"
+									>
+										<span class="squareiconcard-x-container">institution Identifier</span>
+									</button>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				<!-- Footer -->
+
+				<hr class="rule l-rule">
+				<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+					<a [routerLink]="['/issuer']"
+						 class="button button-primaryghost"
+						 [disabled-when-requesting]="true"
+					>Cancel</a>
+					<button type="submit"
+									class="button"
+									[disabled]="!! addIssuerFinished"
+									(click)="clickSubmit($event)"
+									[loading-promises]="[ addIssuerFinished ]"
+									loading-message="Adding"
+					>Add Issuer</button>
+				</div>
+
 		    </form>
 		  </div>
 		</main>
@@ -110,6 +178,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	addIssuerFinished: Promise<any>;
 	emailsLoaded: Promise<any>;
 	facultiesLoaded: Promise<any>;
+	issuer_extensions: Object;
 
 	constructor(
 		loginService: SessionService,
@@ -156,6 +225,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			],
 			'issuer_faculty': [ '' ],
 			'issuer_image': [ '' ],
+			'issuer_extensions' : formBuilder.array([])
 		});
 
 		this.emailsLoaded = this.profileManager.userProfilePromise
@@ -180,6 +250,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 					}
 				});
 			});
+			this.issuer_extensions = this.issuerForm.controls["issuer_extensions"]
 
 	}
 
@@ -194,6 +265,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
 			'faculty': formState.issuer_faculty,
+			'extensions': this.extensionsEnabled ? formState.issuer_extensions : []
 		};
 
 		if (formState.issuer_image && String(formState.issuer_image).length > 0) {
@@ -219,4 +291,59 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		var control: FormControl = <FormControl>this.issuerForm.controls[ 'issuer_url' ];
 		UrlValidator.addMissingHttpToControl(control);
 	}
+
+	get extensions() {
+		console.log(this.issuerForm.controls)
+		return this.issuerForm.controls["issuer_extensions"] as FormArray;
+	}
+
+	extensionsEnabled = false
+	gradingTableExtensionEnabled = false
+	institutionIdentifierExtensionEnabled = false
+
+	disableExtension(extension: FormGroup){
+		let extensionName = Object.keys(extension.controls)[0]
+		this[extensionName+'Enabled']=false
+	}
+
+	enableExtension(extension: FormGroup){
+		console.log('enableExtension')
+		let extensionName = Object.keys(extension.controls)[0]
+		this.extensionsEnabled = true
+		this[extensionName+'Enabled']=true
+	}
+
+	async removeExtension(extension: FormGroup) {
+		console.log('removeExtension')
+		this.extensions.removeAt(this.extensions.controls.indexOf(extension));
+		this.disableExtension(extension)
+		if (this.extensions.length == 0){
+			this.extensionsEnabled = false;
+		}
+	}
+
+	makeFormGroup(extensionName: string){
+		if (extensionName=='gradingTableExtension'){
+			return this.formBuilder.group({
+				gradingTableExtension: this.formBuilder.group({
+					gradingTable: ['', Validators.compose([Validators.required, UrlValidator.validUrl])]
+				})
+			})
+		}
+		if (extensionName=='institutionIdentifierExtension'){
+			return this.formBuilder.group({
+				institutionIdentifierExtension: this.formBuilder.group({
+					institutionIdentifier: ['', Validators.required]
+				})
+			})
+		}
+	}
+	
+	addExtension(extensionName: string){
+	console.log('addExtension')
+	 let extension = this.makeFormGroup(extensionName)
+	 this.extensions.push(extension);
+	 this.enableExtension(extension)
+	}
+
 }

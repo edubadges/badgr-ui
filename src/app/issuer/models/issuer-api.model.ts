@@ -20,6 +20,7 @@ export interface ApiIssuerJsonld {
 	url: string
 	image: string
 	faculty: object
+	extensions: string
 }
 
 export interface ApiIssuer {
@@ -28,6 +29,7 @@ export interface ApiIssuer {
 	description: string
 	image: string
 	faculty: object
+	extensions?: object[];
 
 	created_at: string
 	created_by: string
@@ -66,7 +68,8 @@ export interface ApiIssuerForCreation {
 	image?: string
 	email: string
 	url: string
-	faculty: object
+	faculty?: object
+	extensions?: any
 }
 
 export interface ApiIssuerForEditing {
@@ -75,5 +78,6 @@ export interface ApiIssuerForEditing {
 	image?: string
 	email: string
 	url: string
-	faculty: object
+	faculty?: object
+	extensions?: any
 }
