@@ -91,7 +91,7 @@ export interface PublicApiBadgeCollectionWithBadgeClassAndIssuer {
 }
 
 export interface PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer {
-	"@context": "https://w3id.org/openbadges/v1";
+	"@context": "https://w3id.org/openbadges/v2";
 	type: "Assertion";
 	id: string;
 	image: string;
@@ -111,4 +111,7 @@ export interface PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer {
 		hashed: boolean;
 		identity: string;
 	}
+
+	sourceUrl?: string;
+	hostedUrl?: string;
 }
