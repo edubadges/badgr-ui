@@ -79,6 +79,7 @@
     "@angular/router": "^4.1.2",
     "@angular/upgrade": "^4.1.2",
     "@angularclass/request-idle-callback": "1.0.7",
+    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
     "@types/fontfaceobserver": "0.0.5",
     "@types/karma-jasmine": "0.0.29",
     "@types/marked": "0.0.28",
@@ -107,8 +108,8 @@
     "tether-tooltip": "^1.2.0",
     "tiny-sha256": "1.0.2",
     "tslib": "^1.7.0",
-    "validator": "^9.0.0",
     "validana-client": "git+https://github.com/Coinversable/validana-client.git",
+    "validator": "^9.0.0",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
