@@ -82,7 +82,8 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 								<div class="table-x-th " scope="row">
 									<div class="formfield l-childrenhorizontal">
 										<bg-formfield-text [control]="emailForm.controls.email"
-										                   [errorMessage]="'Please enter a valid email address'"
+														   [errorMessage]="'Please enter a valid email address'"
+														   fieldType="email"
 										                   placeholder="Member Email">
 										</bg-formfield-text>
 									</div>

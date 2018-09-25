@@ -34,14 +34,14 @@ import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 						<bg-formfield-text [control]="changePasswordForm.controls.password1"
 						                   [label]="'New Password'"
 						                   [errorMessage]="'Please enter a new password'"
-						                   [password]="true"
+						                   fieldType="password"
 						                   [autofocus]="true">
 							<span label-additions>(MUST BE AT LEAST 6 CHARACTERS)</span>
 						</bg-formfield-text>
 	
 						<bg-formfield-text [control]="changePasswordForm.controls.password2"
 						                   [label]="'Confirm New Password'"
-						                   [password]="true"
+						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please confirm your new password' }"
 						                   [errorGroup]="changePasswordForm">
 						</bg-formfield-text>

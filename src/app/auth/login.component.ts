@@ -106,9 +106,10 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 					<!-- Login Email/Password Fields -->
 					<fieldset role="group" aria-labelledby="heading-badgrsignin">
 						<legend class="visuallyhidden" id="heading-badgrsignin">Sign In with username and password</legend>
-	
+
 						<bg-formfield-text [control]="loginForm.controls.username"
-						                   [label]="'Email'"
+										   label="Email"
+										   fieldType="email"
 						                   [errorMessage]="'Please enter a valid email address'"
 						                   [autofocus]="true"
 						                   [initialValue]="verifiedEmail || ''"
@@ -116,9 +117,9 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						></bg-formfield-text>
 	
 						<bg-formfield-text [control]="loginForm.controls.password"
-						                   [label]="'Password'"
+						                   label="Password"
 						                   [errorMessage]="'Please enter your password'"
-						                   [password]="true"
+						                   fieldType="password"
 						                   #passwordField
 						>
 							<span label-additions>

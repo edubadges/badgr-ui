@@ -71,7 +71,8 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ currentTheme.serviceName }} by providing your information</legend>
 						
 						<bg-formfield-text [control]="signupForm.controls.username"
-						                   [label]="'Email'"
+										   [label]="'Email'"
+										   fieldType="email"
 						                   [errorMessage]="'Please enter a valid email address'"
 						                   [autofocus]="true"
 						></bg-formfield-text>
@@ -88,13 +89,13 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 						<bg-formfield-text [control]="passwordGroup.controls.password"
 						                   [label]="'Password (Must be at least 6 characters)'"
-						                   [password]="true"
+						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please enter a password' }"
 						></bg-formfield-text>
 	
 						<bg-formfield-text [control]="passwordGroup.controls.passwordConfirm"
 						                   [label]="'Confirm Password'"
-						                   [password]="true"
+						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please confim your password' }"
 						                   [errorGroup]="passwordGroup"
 						></bg-formfield-text>
