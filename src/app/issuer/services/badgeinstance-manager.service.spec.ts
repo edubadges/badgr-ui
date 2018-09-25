@@ -48,7 +48,7 @@ describe('BadgeInstanceManager', () => {
 	}));
 
 	beforeEach(inject([ SessionService ], (loginService: SessionService) => {
-		loginService.storeToken({ token: "MOCKTOKEN" });
+		loginService.storeToken({ access_token: "MOCKTOKEN" });
 	}));
 
 

@@ -20,7 +20,7 @@ import { throwExpr } from "../util/throw-expr";
 const TOKEN_STORAGE_KEY = "LoginService.token";
 
 export interface AuthorizationToken {
-	token: string;
+	access_token: string;
 }
 
 @Injectable()
@@ -46,9 +46,11 @@ export class SessionService {
 	}
 
 	login(credential: UserCredential, sessionOnlyStorage: boolean = false): Promise<AuthorizationToken> {
-		const endpoint = this.baseUrl + '/api-auth/token';
-		const payload = 'username=' + encodeURIComponent(credential.username) + '&password=' + encodeURIComponent(
-				credential.password);
+		const endpoint = this.baseUrl + '/o/token';
+		const scope = "rw:profile rw:issuer rw:backpack";
+		const client_id = "public";
+
+		const payload = `grant_type=password&client_id=${client_id}&scope=${encodeURIComponent(scope)}&username=${encodeURIComponent(credential.username)}&password=${encodeURIComponent(credential.password)}`;
 
 		const headers = new Headers();
 		headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -83,7 +85,7 @@ export class SessionService {
 	}
 
 	initiateAuthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
-		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}&authToken=${this.currentAuthToken.token}`;
+		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}&authToken=${this.currentAuthToken.access_token}`;
 	}
 
 	logout(): void {
@@ -97,9 +99,9 @@ export class SessionService {
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
 		if (sessionOnlyStorage) {
-			sessionStorage.setItem(TOKEN_STORAGE_KEY, token.token);
+			sessionStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
 		} else {
-			localStorage.setItem(TOKEN_STORAGE_KEY, token.token);
+			localStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
 		}
 		if (this.loggedinObserver) {
 			this.loggedinObserver.next(true);
@@ -110,7 +112,7 @@ export class SessionService {
 		const tokenString = sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY) || null;
 
 		return tokenString
-			? { token: tokenString }
+			? { access_token: tokenString }
 			: null;
 	}
 

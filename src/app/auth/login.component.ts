@@ -216,7 +216,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			// Handle external auth case
 			if (this.queryParams.queryStringValue("authToken", true)) {
 				this.sessionService.storeToken({
-					token: this.queryParams.queryStringValue("authToken", true)
+					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
 
 				this.initFinished = this.router.navigate([ 'recipient' ]);

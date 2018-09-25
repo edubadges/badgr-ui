@@ -275,7 +275,7 @@ describe('RecipientGroupManager', () => {
 	setupMockResponseReporting();
 
 	beforeEach(inject([ SessionService ], (loginService: SessionService) => {
-		loginService.storeToken({ token: "MOCKTOKEN" });
+		loginService.storeToken({ access_token: "MOCKTOKEN" });
 	}));
 });
 
