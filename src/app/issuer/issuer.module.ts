@@ -45,9 +45,6 @@ import { IssuerStaffComponent } from "./issuer-staff.component";
 import { ProfileModule } from "../profile/profile.module";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
 
-// Blockchain endorsements module
-import { EndorsementApiModule } from './../endorsement-api/endorsement-api.module';
-
 const routes = [
 	/* Issuer */
 	{
@@ -125,8 +122,9 @@ const routes = [
 		...COMMON_IMPORTS,
 		BadgrCommonModule,
 		CommonEntityManagerModule,
-		RouterModule.forChild(routes),
-		EndorsementApiModule
+		RouterModule.forChild(routes)
+		/* RouterModule.forChild(routes),
+		EndorsementApiModule */
 	],
 	declarations: [
 		BadgeClassCreateComponent,

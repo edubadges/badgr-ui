@@ -12,7 +12,7 @@ import { CommonEntityManagerModule } from "../entity-manager/entity-manager.modu
 // import { ProfileEditComponent } from "./profile-edit.component";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
-import { ChangePasswordComponent } from "./change-password.component";
+// import { ChangePasswordComponent } from "./change-password.component";
 import { OAuthAppDetailComponent } from "./oauth-app-detail.component";
 
 const routes = [

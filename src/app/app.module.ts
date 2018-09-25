@@ -22,10 +22,6 @@ import {RecipientBadgeApiService} from "./recipient/services/recipient-badges-ap
 export function authModule() { return AuthModule }
 export function profileModule() { return ProfileModule }
 
-// Expose Validana blockchain service and Badgr public api service to components
-import { ValidanaBlockchainService } from './endorsement-api/validana/validanaBlockchain.service';
-import { PublicApiService } from './public/services/public-api.service';
-
 const ROUTE_CONFIG: Routes = [
 	{
 		path: "",
@@ -63,11 +59,11 @@ const ROUTE_CONFIG: Routes = [
 		loadChildren: './profile/profile.module#ProfileModule',
 		canActivate: [AuthGuard]
 	},
-        {
-                path: 'blockchain',
-                loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
-                canActivate: [AuthGuard]
-        },
+//        {
+//                path: 'blockchain',
+//                loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
+//                canActivate: [AuthGuard]
+//        },
 	{
 		path: 'public',
 		loadChildren: './public/public.module#PublicModule'
@@ -121,9 +117,9 @@ const ROUTE_CONFIG: Routes = [
 		Angulartics2GoogleAnalytics,
 		RecipientBadgeApiService,
 
-                // Expose the validana blockchain and publicapi service
-                ValidanaBlockchainService,
-                PublicApiService,
+  //              // Expose the validana blockchain and publicapi service
+  //              ValidanaBlockchainService,
+  //              PublicApiService,
 
 		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy}
 	]

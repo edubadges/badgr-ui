@@ -39,7 +39,7 @@ export class NewTermsDialog extends BaseDialog {
 
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-	_agreed_promise: Promise<any> = null;
+	_agreed_promise: Promise<void> = null;
 
 	hasSubmitted: boolean = false;
 
