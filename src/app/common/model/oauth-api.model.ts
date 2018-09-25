@@ -37,4 +37,5 @@ export interface ApiOAuthApplication {
 	name: string
 	image?: string
 	website_url?: string
+	clientId?: string
 }
