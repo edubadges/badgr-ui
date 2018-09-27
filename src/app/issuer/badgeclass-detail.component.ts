@@ -29,11 +29,11 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 	template: `<main *bgAwaitPromises="[issuerLoaded, badgeClassLoaded]">
 		<form-message></form-message>
 		<external-tool-launch></external-tool-launch>
-	
+
 		<ng-template [ngIf]="badgeClass && issuer">
-	
+
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
-	
+
 				<nav>
 					<h1 class="visuallyhidden">Breadcrumbs</h1>
 					<ul class="breadcrumb">
@@ -42,7 +42,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						<li class="breadcrumb-x-current" [truncatedText]="badgeClass?.name" [maxLength]="64"></li>
 					</ul>
 				</nav>
-	
+
 				<div class="heading">
 					<div class="heading-x-imageLarge">
 						<img src="{{badgeClass.image}}" alt="{{badgeClass.name}} image" >
@@ -71,7 +71,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						    <small>{{ issuerBadgeCount }} {{ issuerBadgeCount == 1 ? 'Badge' : 'Badges' }}</small>
 						  </div>
 						</a>
-						
+
 						<div class="l-childrenhorizontal l-childrenhorizontal-small l-offsetleft">
 							<a
 								class="button button-primaryghost"
@@ -101,41 +101,41 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							<h1 *ngIf="badgeClass.criteria_url || badgeClass.criteria_text">
 								Criteria
 							</h1>
-	
+
 							<show-more *ngIf="badgeClass.criteria_text">
 								<markdown-display [value]="badgeClass.criteria_text"></markdown-display>
 							</show-more>
 						</section>
 					</div>
-	
+
 					<div class="heading-x-actions">
 						<a class="button button-major"
 						   [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"
 						   [disabled-when-requesting]="true"
 						>Award Badge</a>
 					</div>
-	
+
 				</div>
-	
+
 			</header>
-	
+
 			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
-	
+
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown. You may search for other awards by exact email address/recipient identifier.</p>
-	
+
 				<input type="text"
 				       class="search l-childrenhorizontal-x-offset"
 				       placeholder="Filter Recipients"
 				       [(ngModel)]="searchQuery"
 				/>
 				<ng-template [bgAwaitPromises]="[badgeInstancesLoaded, assertionsLoaded]">
-	
+
 					<div class="l-overflowhorizontal" *ngIf="instanceResults?.length">
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">Email</th>
+									<th scope="col">EduID</th>
 									<th scope="col">Awarded</th>
 									<th scope="col"><span class="visuallyhidden">Actions</span></th>
 								</tr>
@@ -152,9 +152,9 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 											<button type="button" class="button button-primaryghost" (click)="shareInstance(instance)">Share</button>
 											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke</button>
 											<ng-container *ngIf="launchpoints">
-												<button *ngFor="let lp of launchpoints" 
-															  class="button button-primaryghost" 
-															  type="button" 
+												<button *ngFor="let lp of launchpoints"
+															  class="button button-primaryghost"
+															  type="button"
 															  (click)="clickLaunchpoint(lp, instance.slug)"
 												>{{lp.label}}</button>
 											</ng-container>
@@ -163,11 +163,11 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								</tr>
 							</tbody>
 						</table>
-						
+
 						<div *ngIf="hasNextPage() || hasPrevPage()" class="">
 							<nav class="pagination u-margin-bottom7x">
 								<h2 class="visuallyhidden">Pagination</h2>
-								<div class="l-marginTop l-marginTop-2x l-childrenhorizontal l-childrenhorizontal-spacebetween">   
+								<div class="l-marginTop l-marginTop-2x l-childrenhorizontal l-childrenhorizontal-spacebetween">
 									<button [class.is-disabled]="!hasPrevPage()" [attr.disabled]="hasPrevPage() ? null : 'disabled'" class="page" (click)="clickPrevPage()">Previous</button>
 									<button [class.is-disabled]="!hasNextPage()" [attr.disabled]="hasNextPage() ? null : 'disabled'" class="page" (click)="clickNextPage()">Next</button>
 								</div>

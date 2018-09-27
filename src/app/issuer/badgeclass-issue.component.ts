@@ -53,8 +53,8 @@ import {EventsService} from "../common/services/events.service";
 			</header>
 
 			<form class="l-containerhorizontal l-containervertical"
-			      [formGroup]="issueForm.untypedControl" 
-			      (ngSubmit)="onSubmit()" 
+			      [formGroup]="issueForm.untypedControl"
+			      (ngSubmit)="onSubmit()"
 			      novalidate
 			>
 				<!-- Recipient Information -->
@@ -64,8 +64,8 @@ import {EventsService} from "../common/services/events.service";
 						<div class="l-formsection-x-help">
 							<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
 							<p class="text text-small">You can award a badge via a recipients email address, url, or telephone number.</p>
-							<a class="button button-tertiaryghost" 
-							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918" 
+							<a class="button button-tertiaryghost"
+							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918"
 							   aria-labelledby="heading-badgeawarding"
 							   target="_blank"
 							>Learn More</a>
@@ -105,8 +105,8 @@ import {EventsService} from "../common/services/events.service";
 				</div>
 
 				<!-- Narrative -->
-				<div class="l-formsection wrap wrap-well" 
-				     role="group" 
+				<div class="l-formsection wrap wrap-well"
+				     role="group"
 				     aria-labelledby="heading-narrative"
 				     *ngIf="narrativeEnabled"
 				>
@@ -117,8 +117,8 @@ import {EventsService} from "../common/services/events.service";
 							<p class="text text-small">
 								The narrative is an overall description of the achievement related to the badge.
 							</p>
-							<a class="button button-tertiaryghost" 
-							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918" 
+							<a class="button button-tertiaryghost"
+							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918"
 							   aria-labelledby="heading-narrativehelp"
 							   target="_blank"
 							>Learn More</a>
@@ -132,15 +132,15 @@ import {EventsService} from "../common/services/events.service";
 						</div>
 					</div>
 					<button class="l-formsection-x-remove formsectionremove"
-					        type="button" 
+					        type="button"
 					        aria-labelledby="formsection"
 					        (click)="narrativeEnabled = false"
 					>Remove</button>
 				</div>
-				
+
 				<!-- Evidence -->
 				<div class="l-formsection wrap wrap-well"
-				     role="group" 
+				     role="group"
 				     aria-labelledby="heading-evidence"
 				     *ngIf="evidenceEnabled"
 				>
@@ -149,8 +149,8 @@ import {EventsService} from "../common/services/events.service";
 						<div class="l-formsection-x-help">
 							<h4 class="title title-bordered" id="heading-whatsevidence">What's Evidence?</h4>
 							<p class="text text-small">
-								Evidence is submitted proof that an earner meets the criteria for a badge they are applying for. This 
-								can be in the form of a narrative that describes the evidence and process of achievement, and/or a URL 
+								Evidence is submitted proof that an earner meets the criteria for a badge they are applying for. This
+								can be in the form of a narrative that describes the evidence and process of achievement, and/or a URL
 								of a web page presenting the evidence of achievement.
 							</p>
 							<a class="button button-tertiaryghost"
@@ -168,7 +168,7 @@ import {EventsService} from "../common/services/events.service";
 									[control]="evidence.untypedControls.narrative"
 									label="How is this badge earned?"
 								></bg-formfield-markdown>
-								
+
 								<bg-formfield-text
 									class="l-marginTop-4x"
 									[control]="evidence.untypedControls.evidence_url"
@@ -176,7 +176,7 @@ import {EventsService} from "../common/services/events.service";
 									[urlField]="true"
 									errorMessage="Please enter a valid URL"
 								></bg-formfield-text>
-								
+
 								<button class="l-formsectionnested-x-remove formsectionremove"
 								        type="button"
 								        aria-labelledby="heading-nestedevidence"
@@ -184,7 +184,7 @@ import {EventsService} from "../common/services/events.service";
 								        (click)="removeEvidence(i)"
 								>Remove</button>
 							</div>
-							<button class="buttonicon buttonicon-add" 
+							<button class="buttonicon buttonicon-add"
 							        type="button"
 							        (click)="addEvidence()"
 							>
@@ -198,20 +198,20 @@ import {EventsService} from "../common/services/events.service";
 					        (click)="evidenceEnabled = false"
 					>Remove</button>
 				</div>
-				
+
 				<!-- Add Optional Details -->
 				<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
 					<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Optional Details</h3>
 					<div class="l-formsection-x-container">
 						<div class="l-formsection-x-inputs">
 							<div class="l-squareiconcards">
-								<button class="squareiconcard squareiconcard-narrative" 
+								<button class="squareiconcard squareiconcard-narrative"
 								        type="button"
 								        [disabled]="narrativeEnabled"
 								        (click)="narrativeEnabled = true">
 									<span class="squareiconcard-x-container">Narrative</span>
 								</button>
-								<button class="squareiconcard squareiconcard-evidence" 
+								<button class="squareiconcard squareiconcard-evidence"
 								        type="button"
 								        [disabled]="evidenceEnabled"
 								        (click)="enableEvidence()">
@@ -221,9 +221,9 @@ import {EventsService} from "../common/services/events.service";
 						</div>
 					</div>
 				</div>
-				
+
 				<hr class="rule l-rule" />
-				
+
 				<!-- Buttons -->
 				<div class="l-childrenhorizontal l-childrenhorizontal-right">
 					<a [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge_class.slug]"
@@ -282,8 +282,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	identifierOptionMap = {
 		email: 'Email Address',
-		url: 'URL',
-		telephone: 'Telephone',
+		eduID: 'Edu ID',
 	};
 
 	evidenceEnabled = false;
