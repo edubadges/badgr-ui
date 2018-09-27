@@ -24,6 +24,7 @@ import { typedGroup } from "../common/util/typed-forms";
 import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
 import { FormFieldTextInputType } from '../common/components/formfield-text';
+import * as striptags from 'striptags'
 
 @Component({
 	selector: 'badgeclass-issue',
@@ -346,6 +347,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	onSubmit() {
 		const formState = this.issueForm.value;
+		const cleanedName = striptags(formState.recipientprofile_name);
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
 
 		const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
@@ -353,7 +355,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			"extensions:recipientProfile": {
 				"@context": recipientProfileContextUrl,
 				"type": ["Extension", "extensions:RecipientProfile"],
-				"name": formState.recipientprofile_name
+				"name": cleanedName
 			}
 		} : undefined;
 
