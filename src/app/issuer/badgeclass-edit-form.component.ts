@@ -256,6 +256,33 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				>Remove</button>
 			</div>
 
+			<!-- Footer -->
+			<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
+				<!-- Optional Detail Enable Panel -->
+				<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Optional Details</h3>
+				<div class="l-formsection-x-container">
+					<div class="l-formsection-x-inputs">
+						<div class="l-squareiconcards">
+							<button class="squareiconcard squareiconcard-alignment"
+											type="button"
+											(click)="enableAlignments()"
+											[disabled]="alignmentsEnabled"
+							>
+								<span class="squareiconcard-x-container">Alignment</span>
+							</button>
+							<button class="squareiconcard squareiconcard-tags"
+											type="button"
+											(click)="enableTags()"
+											[disabled]="tagsEnabled"
+							>
+								<span class="squareiconcard-x-container">Tags</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
 			<!-- Extensions -->
 
 			<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-extension" *ngIf="extensionsEnabled">
@@ -383,32 +410,6 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 			</div>
 
-			<!-- Footer -->
-			<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
-				<!-- Optional Detail Enable Panel -->
-				<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Optional Details</h3>
-				<div class="l-formsection-x-container">
-					<div class="l-formsection-x-inputs">
-						<div class="l-squareiconcards">
-							<button class="squareiconcard squareiconcard-alignment"
-							        type="button"
-							        (click)="enableAlignments()"
-							        [disabled]="alignmentsEnabled"
-							>
-								<span class="squareiconcard-x-container">Alignment</span>
-							</button>
-							<button class="squareiconcard squareiconcard-tags"
-							        type="button"
-							        (click)="enableTags()"
-							        [disabled]="tagsEnabled"
-							>
-								<span class="squareiconcard-x-container">Tags</span>
-							</button>
-						</div>
-					</div>
-				</div>
-
-			</div>
 			<hr class="rule l-rule">
 			<div class="l-childrenhorizontal l-childrenhorizontal-right">
 				<button
