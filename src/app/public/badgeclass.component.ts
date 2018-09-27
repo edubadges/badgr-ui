@@ -1,13 +1,18 @@
 import { Component, Injector } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
+import { StudentsEnrolledApiService } from "./services/studentsenrolled-api.service"
+import { SessionService } from "../common/services/session.service";
 import { preloadImageURL } from "../common/util/file-util";
 import { PublicApiService } from "./services/public-api.service";
+import { UserProfileApiService } from "../common/services/user-profile-api.service"
 import { LoadedRouteParam } from "../common/util/loaded-route-param";
 import { PublicApiBadgeClassWithIssuer, PublicApiIssuer } from "./models/public-api.model";
 import { EmbedService } from "../common/services/embed.service";
 import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url-util";
 import { routerLinkForUrl } from "./public.component";
+import { UserProfile } from "../common/model/user-profile.model";
+import { UserProfileManager } from "../common/services/user-profile-manager.service";
 
 @Component({
 	template: `
@@ -47,7 +52,29 @@ import { routerLinkForUrl } from "./public.component";
 							</div>
 						</div>
 
+						<div style="display:inline-block;">
+							<ng-template [ngIf]="loggedIn">
+								<button class="squareiconcard squareiconcard-tags"
+									type="button"
+									(click)="clickEnrollStudent()"
+									[disabled]="studentsEnrolledButtonDisabled"
+									>
+									<span class="squareiconcard-x-container">{{ buttonText }}</span>
+								</button>
+							</ng-template>
+
+							<ng-template [ngIf]="!loggedIn">
+								<button class="squareiconcard squareiconcard-tags"
+									type="button"
+									[disabled]="true"
+									>
+									<span class="squareiconcard-x-container">Login to enroll</span>
+								</button>
+							</ng-template>
+						</div>
+
 						<div class="heading-x-text">
+
 							<!-- Badge Name -->
 							<h1>{{ badgeClass.name }}</h1>
 
@@ -72,7 +99,7 @@ import { routerLinkForUrl } from "./public.component";
 								<show-more *ngIf="badgeClass.criteria.narrative">
 									<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
 								</show-more>
-								
+
 								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right"
 								     *ngIf="badgeClass.criteria.criteriaUrl">
 									<a class="button button-primaryghost"
@@ -87,7 +114,7 @@ import { routerLinkForUrl } from "./public.component";
 								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 									<span
 										*ngFor="let tag of badgeClass.tags; last as last">
-										{{tag}}<span *ngIf="!last">,</span> 
+										{{tag}}<span *ngIf="!last">,</span>
 									</span>
 								</div>
 							</section>
@@ -101,11 +128,11 @@ import { routerLinkForUrl } from "./public.component";
 										<h1>{{alignment.targetName}}</h1>
 										<small>{{alignment.targetCode}}</small>
 									</div>
-									
+
 									<ng-template [ngIf]="alignment.targetDescription">
 										{{ alignment.targetDescription }}
 									</ng-template>
-									
+
 									<div *ngIf="alignment.frameworkName">
 										<h1>Framework</h1>
 										{{ alignment.frameworkName }}
@@ -148,10 +175,18 @@ export class PublicBadgeClassComponent {
 
 	badgeIdParam: LoadedRouteParam<PublicApiBadgeClassWithIssuer>;
 	routerLinkForUrl = routerLinkForUrl;
+	loggedIn: boolean = false;
+	profile: UserProfile;
+	studentsEnrolledButtonDisabled: boolean;
+	buttonText: string;
 
 	constructor(
 		private injector: Injector,
-		public embedService: EmbedService
+		public embedService: EmbedService,
+		private sessionService: SessionService,
+		private profileManager: UserProfileManager,
+		protected studentsEnrolledApiService: StudentsEnrolledApiService,
+		protected userProfileApiService: UserProfileApiService,
 	) {
 		this.badgeIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
@@ -161,6 +196,11 @@ export class PublicBadgeClassComponent {
 				return service.getBadgeClass(paramValue)
 			}
 		);
+
+		this.profileManager.userProfilePromise
+			.then(profile => this.profile = profile);
+		this.studentsEnrolledButtonDisabled = false
+		this.buttonText = 'Enroll'
 	}
 
 	get badgeClass(): PublicApiBadgeClassWithIssuer { return this.badgeIdParam.value }
@@ -178,4 +218,56 @@ export class PublicBadgeClassComponent {
 	get v2JsonUrl() {
 		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
 	}
+
+
+	getEduID(socialAccounts:object[]) {
+		let eduIDSocialAccount = null
+		for (let account of socialAccounts) {
+			if (account['provider']=='edu_id') {
+				return account['uid']
+			}
+		}
+	}
+
+	handleEnrollmentResponse(response){
+		if (response._body=='"already enrolled"'){
+			this.buttonText = 'Already enrolled'
+		} if (response._body=='"OK"') {
+				this.buttonText = 'enrolled'
+		}
+		this.studentsEnrolledButtonDisabled = true
+	}
+
+	enrollStudent(socialAccounts:object[]){
+		if (socialAccounts) {
+			let eduID = this.getEduID(socialAccounts)
+			if (eduID) {
+				let badgeClassSlug = this.badgeClass.id.split('/').slice(-1)[0]
+				let email = this.profileManager.userProfileSet.entities[0].apiModel['email']
+				this.studentsEnrolledApiService.enrollStudent(eduID, email, badgeClassSlug)
+					.then(r => this.handleEnrollmentResponse(r))
+			} else {
+				this.userHasNoEduidWarning()
+			}
+		}
+	}
+
+	clickEnrollStudent(){
+		console.log(this.userProfileApiService.fetchSocialAccounts())
+		this.userProfileApiService.fetchSocialAccounts()
+			.then(response => this.enrollStudent(response))
+			.catch(e => console.log(e))
+	}
+
+	userHasNoEduidWarning(){
+		alert("Sorry, we couldn't find your eduID. Please log in with EduID and try again")
+	}
+
+	ngOnInit() {
+		this.loggedIn = this.sessionService.isLoggedIn;
+		this.sessionService.loggedin$.subscribe(
+			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
+		);
+	}
+
 }
