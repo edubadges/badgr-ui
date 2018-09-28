@@ -1,7 +1,7 @@
 import { Component, Injector } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
-import { StudentsEnrolledApiService } from "./services/studentsenrolled-api.service"
+import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service"
 import { SessionService } from "../common/services/session.service";
 import { preloadImageURL } from "../common/util/file-util";
 import { PublicApiService } from "./services/public-api.service";

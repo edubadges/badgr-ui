@@ -8,7 +8,7 @@ import { PublicComponent } from "./public.component";
 import { CommonEntityManagerModule } from "../entity-manager/entity-manager.module";
 import { PublicBadgeAssertionComponent } from "./badge-assertion.component";
 import { PublicApiService } from "./services/public-api.service";
-import { StudentsEnrolledApiService } from "./services/studentsenrolled-api.service";
+import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 import { PublicBadgeClassComponent } from "./badgeclass.component";
 import { PublicIssuerComponent } from "./issuer.component";
 import { PublicBadgeCollectionComponent } from "./badge-collection.component";
