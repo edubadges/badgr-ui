@@ -209,7 +209,7 @@ export class TypedFormArray<
 		return this.untypedControls.length;
 	}
 
-	push(item: ItemType): this {
+	public push(item: ItemType): this {
 		this.controls.push(item);
 		this.untypedControl.push(item.untypedControl);
 		return this;

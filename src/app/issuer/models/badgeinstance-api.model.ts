@@ -28,15 +28,19 @@ export interface ApiBadgeInstanceForBatchCreation {
 export interface ApiBadgeInstanceForCreation {
 	issuer: IssuerUrl
 	badge_class: BadgeClassUrl
-	recipient_type: RecipientIdentifierType;
-	recipient_identifier: string
 	narrative?: string
 	create_notification?: boolean
 	evidence_items?: ApiBadgeInstanceEvidenceItem[]
 	extensions?: object
+	recipients?: ApiBadgeInstanceRecipient[]
 }
 
-export type RecipientIdentifierType = 'email' | 'openBadgeId' | 'telephone' | 'url';
+export interface ApiBadgeInstanceRecipient {
+	recipient_type: string;
+	recipient_name?: string
+	selected: boolean
+	recipient_identifier: string
+}
 
 export interface ApiBadgeInstanceEvidenceItem {
 	evidence_url?: string

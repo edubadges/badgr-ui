@@ -22,7 +22,8 @@ export class StudentsEnrolledApiService extends BaseHttpApiService {
   }
 
   getEnrolledStudents(badgeClassSlug: string): Promise<any> {
-    return this.get('lti_edu/studentsenrolled', {badgeclass_slug: badgeClassSlug})
+    return this.get(`/lti_edu/enrolledstudents/`+badgeClassSlug)
+    .then(r => r.json())
   }
 
 }

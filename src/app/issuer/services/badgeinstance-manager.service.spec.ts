@@ -103,8 +103,8 @@ describe('BadgeInstanceManager', () => {
 						{
 							issuer: defaultIssuerSlug,
 							badge_class: badgeClassSlug,
-							recipient_type: "email",
-							recipient_identifier: email
+							// recipient_type: "email",
+							// recipient_identifier: email
 						}
 					).then(instance => {
 						verifyBadgeInstance(instance, newApiInstance)

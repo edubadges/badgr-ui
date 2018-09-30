@@ -19,10 +19,11 @@ import {Issuer} from "./models/issuer.model";
 import {BadgeClass} from "./models/badgeclass.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
-import { RecipientIdentifierType } from "./models/badgeinstance-api.model";
+// import { RecipientIdentifierType } from "./models/badgeinstance-api.model";
 import { typedGroup } from "../common/util/typed-forms";
 import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
+import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 
 @Component({
 	selector: 'badgeclass-issue',
@@ -58,48 +59,49 @@ import {EventsService} from "../common/services/events.service";
 			      novalidate
 			>
 				<!-- Recipient Information -->
+
 				<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-recipientinformation">
-					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Recipient Information</h3>
+					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Enrolled Students</h3>
 					<div class="l-formsection-x-container">
 						<div class="l-formsection-x-help">
 							<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
-							<p class="text text-small">You can award a badge via a recipients email address, url, or telephone number.</p>
-							<a class="button button-tertiaryghost"
-							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918"
-							   aria-labelledby="heading-badgeawarding"
-							   target="_blank"
-							>Learn More</a>
+							<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, cancelling them can only be done through revokation.</p>
 						</div>
 						<div class="l-formsection-x-inputs">
-							<div class="formfield">
-								<label>Recipient Name (optional)</label>
-								<bg-formfield-text
-									[control]="issueForm.untypedControls.recipientprofile_name"
-									ariaLabel="Recipient Name (optional)"
-								></bg-formfield-text>
-								<p class="text text-small2"><strong>Note</strong>: The Recipient Name will appear in the awarded badge in plain text.</p>
-							</div>
-							<div class="formfield">
-								<label>Identifier</label>
-								<div class="l-formtwoup">
-									<bg-formfield-select ariaLabel="Select Options"
-									                     [control]="issueForm.untypedControls.recipient_type"
-									                     [optionMap]="identifierOptionMap"
-									></bg-formfield-select>
 
-									<bg-formfield-text
-										[control]="issueForm.untypedControls.recipient_identifier"
-										ariaLabel="Recipient Identifier"
-										[autofocus]="true"
-									></bg-formfield-text>
-								</div>
-							</div>
-							<div class="l-formsection-x-checkbox" *ngIf="issueForm.controls.recipient_type.value == 'email'">
-								<label class="formcheckbox" for="notifybyemail">
-									<input name="notifybyemail" id="notifybyemail" type="checkbox" [formControl]="issueForm.untypedControls.notify_earner">
-									<span class="formcheckbox-x-text">Notify Recipient by Email</span>
+							<label class="formcheckbox">
+								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
+								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Select All Students</span>
+							</label>
+
+							<div class="l-formsectionnested wrap wrap-welldark"
+								*ngFor="let recipient of issueForm.controls.recipients.controls; let i=index"
+							>
+								<label class="formcheckbox">
+									<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
+									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Award Badge to this Student</span>
 								</label>
+
+								<div class="formfield">
+									<label>Recipient Name (optional)</label>
+									<bg-formfield-text
+										[control]="recipient.untypedControls.recipient_name"
+										ariaLabel="Recipient Name (optional)"
+									></bg-formfield-text>
+									<p class="text text-small2"><strong>Note</strong>: The Recipient Name will appear in the awarded badge in plain text.</p>
+								</div>
+								<div class="formfield">
+									<label>Recipient EduID (required)</label>
+									<div class="l-formtwoup">
+									<bg-formfield-text
+										[control]="recipient.untypedControls.recipient_identifier"
+										ariaLabel="Recipient EduID (required)"
+									></bg-formfield-text>
+									</div>
+								</div>
+
 							</div>
+
 						</div>
 					</div>
 				</div>
@@ -127,7 +129,7 @@ import {EventsService} from "../common/services/events.service";
 							<bg-formfield-markdown
 								class="l-formsection-x-inputoffset"
 								[control]="issueForm.untypedControls.narrative"
-								label="How did the recipient earn this badge?"
+								label="How did the recipients earn this badge?"
 							></bg-formfield-markdown>
 						</div>
 					</div>
@@ -237,42 +239,30 @@ import {EventsService} from "../common/services/events.service";
 					        (click)="clickSubmit($event)"
 					        [loading-promises]="[ issueBadgeFinished ]"
 					        loading-message="Issuing"
-					>Award Badge</button>
+					>Award</button>
 				</div>
 			</form>
 		</main>
 	`
 })
 export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	idValidator: (control: FormControl) => ValidationResult = control => {
-		if (this.issueForm) {
-			switch (this.issueForm.controls.recipient_type.value) {
-				case 'email': return EmailValidator.validEmail(control);
-				case 'openBadgeId': return null;
-				case 'telephone': return TelephoneValidator.validTelephone(control);
-				case 'url': return UrlValidator.validUrl(control);
-				default: return null;
-			}
-		} else {
-			return null;
-		}
-	};
+
+
 
 	issuer: Issuer;
 	issueForm = typedGroup()
-		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
-			control.untypedControl.valueChanges.subscribe(() => {
-				this.issueForm.controls.recipient_identifier.untypedControl.updateValueAndValidity()
-			})
-		})
-		.addControl("recipient_identifier", "", [ Validators.required, this.idValidator ])
-		.addControl("recipientprofile_name", "")
 		.addControl("narrative", "", MdImgValidator.imageTest)
 		.addControl("notify_earner", true)
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "")
-		);
+		)
+		.addArray("recipients", typedGroup()
+			.addControl("recipient_name", "")
+			.addControl("recipient_type", "eduID")
+			.addControl("recipient_identifier", "", [ Validators.required ])
+			.addControl("selected", false)
+		)
 
 	badge_class: BadgeClass;
 
@@ -280,13 +270,9 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	issuerLoaded: Promise<any>;
 	badgeClassLoaded: Promise<any>;
 
-	identifierOptionMap = {
-		email: 'Email Address',
-		eduID: 'Edu ID',
-	};
-
 	evidenceEnabled = false;
 	narrativeEnabled = false;
+	enrolledStudents = [];
 
 	constructor(
 		protected title: Title,
@@ -296,6 +282,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		protected badgeClassManager: BadgeClassManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
 		protected dialogService: CommonDialogsService,
+		protected studentsEnrolledApiService: StudentsEnrolledApiService,
 		sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute
@@ -312,6 +299,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			).then((badge_class) => {
 				this.badge_class = badge_class;
 				this.title.setTitle("Award Badge - " + badge_class.name + " - Badgr");
+				this.studentsEnrolledApiService.getEnrolledStudents(this.badgeSlug)
+					.then(r => this.addRecipientsFromStudents(r))
 			});
 		});
 	}
@@ -336,6 +325,35 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	}
 
+	allStudentsSelected = false
+	selectAllStudents(){
+		this.allStudentsSelected = this.allStudentsSelected? false: true
+		for (let recipient of this.issueForm.controls.recipients.controls){
+			recipient.untypedControl.patchValue({'selected': this.allStudentsSelected? true: false})
+		}
+	}
+
+	addRecipientsFromStudents(enrolledStudents){
+			for (let index in enrolledStudents){
+				let student=enrolledStudents[index]
+				this.addRecipient(student)
+			}
+		}
+
+	addRecipient(recipient) {
+		if (!recipient['assertion_slug']){
+			let first_name = recipient['first_name']? recipient['first_name']: ''
+			let last_name = recipient['last_name']? recipient['last_name']: ''
+			let name = first_name+last_name
+			let recipientFormGroup = typedGroup()
+			.addControl("recipient_name", name)
+			.addControl("recipient_type", 'eduID')
+			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
+			.addControl("selected", false)
+			this.issueForm.controls.recipients.push(recipientFormGroup);
+		}
+	}
+
 	addEvidence() {
 		this.issueForm.controls.evidence_items.addFromTemplate();
 	}
@@ -345,13 +363,13 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
 
 		const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
-		let extensions = formState.recipientprofile_name ? {
-			"extensions:recipientProfile": {
-				"@context": recipientProfileContextUrl,
-				"type": ["Extension", "extensions:RecipientProfile"],
-				"name": formState.recipientprofile_name
-			}
-		} : undefined;
+		// let extensions = formState.recipientprofile_name ? {
+		// 	"extensions:recipientProfile": {
+		// 		"@context": recipientProfileContextUrl,
+		// 		"type": ["Extension", "extensions:RecipientProfile"],
+		// 		"name": formState.recipientprofile_name
+		// 	}
+		// } : undefined;
 
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
@@ -359,12 +377,11 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			{
 				issuer: this.issuerSlug,
 				badge_class: this.badgeSlug,
-				recipient_type: formState.recipient_type,
-				recipient_identifier: formState.recipient_identifier,
 				narrative: this.narrativeEnabled ? formState.narrative : "",
 				create_notification: formState.notify_earner,
 				evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-				extensions: extensions
+				recipients: formState.recipients,
+				// extensions: extensions
 			}
 		).then(() => this.badge_class.update())
 			.then(() => {
@@ -372,7 +389,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			this.router.navigate(
 				['issuer/issuers', this.issuerSlug, 'badges', this.badge_class.slug]
 			);
-			this.messageService.setMessage("Badge awarded to " + formState.recipient_identifier, "success");
+			this.messageService.setMessage("Badge(s) succesfully awarded");
 		}, error => {
 			this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).firstMessage, "error");
 		}).then(() => this.issueBadgeFinished = null)

@@ -44,6 +44,7 @@ import { CommonEntityManagerModule } from "../entity-manager/entity-manager.modu
 import { IssuerStaffComponent } from "./issuer-staff.component";
 import { ProfileModule } from "../profile/profile.module";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
+import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 
 const routes = [
 	/* Issuer */
@@ -176,6 +177,7 @@ const routes = [
 		PathwayManager,
 		RecipientGroupApiService,
 		RecipientGroupManager,
+		StudentsEnrolledApiService,
 	]
 })
 export class IssuerModule {}
