@@ -95,6 +95,7 @@ export class NewTermsDialog extends BaseDialog {
 		this.profileManager.userProfilePromise.then(profile => {
 			this.profile = profile;
 		})
+		this.showModal();
 	}
 
 	closeDialog() {
