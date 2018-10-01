@@ -517,7 +517,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			};
 		});
 
-		let program_ids = [{'type': 'CROHO'}]
+		let program_ids = [{'type': 'ISAT'}]
 		this.educationProgramIdentifierOptions = program_ids.map((i) => {
 			return {
 				label: i.type,
