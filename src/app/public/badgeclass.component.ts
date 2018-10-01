@@ -52,26 +52,27 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 							</div>
 						</div>
 
-						<div style="display:inline-block;">
-							<ng-template [ngIf]="loggedIn">
-								<button class="squareiconcard squareiconcard-tags"
-									type="button"
-									(click)="clickEnrollStudent()"
-									[disabled]="studentsEnrolledButtonDisabled"
-									>
-									<span class="squareiconcard-x-container">{{ buttonText }}</span>
-								</button>
-							</ng-template>
+						<ng-template [ngIf]="loggedIn">
+							<button class="squareiconcard squareiconcard-tags"
+							type="button"
+							(click)="clickEnrollStudent()"
+							[disabled]="studentsEnrolledButtonDisabled"
+							>
+								<span class="squareiconcard-x-container">{{ buttonText }}</span>
+							</button>
+						</ng-template>
 
-							<ng-template [ngIf]="!loggedIn">
-								<button class="squareiconcard squareiconcard-tags"
-									type="button"
-									[disabled]="true"
-									>
-									<span class="squareiconcard-x-container">Login to enroll</span>
-								</button>
-							</ng-template>
-						</div>
+						<ng-template [ngIf]="!loggedIn">
+							<button class="squareiconcard squareiconcard-tags"
+							type="button"
+							[disabled]="true"
+							>
+								<span class="squareiconcard-x-container">Login to enroll</span>
+							</button>
+						</ng-template>
+					</div><br>
+
+					<div style="display:inline-block;">
 
 						<div class="heading-x-text">
 
