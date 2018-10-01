@@ -55,7 +55,7 @@ describe('UserProfile', () => {
 		inject(
 			[ CommonEntityManager, SessionService ],
 			(commonManager: CommonEntityManager, sessionService: SessionService) => {
-				sessionService.storeToken({token: "testtoken"});
+				sessionService.storeToken({access_token: "testtoken"});
 
 				let userProfile = new UserProfile(commonManager).applyApiModel(apiUserProfile);
 				userProfile.emails.applyApiData(apiProfileEmails);

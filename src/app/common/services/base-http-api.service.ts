@@ -136,7 +136,7 @@ export abstract class BaseHttpApiService {
 		headers: Headers,
 		token: AuthorizationToken
 	) {
-		headers.append('Authorization', 'Token ' + token.token);
+		headers.append('Authorization', 'Bearer ' + token.access_token);
 	};
 
 	private addTestingDelay<T>(): (result: T) => (Promise<T> | T) {
@@ -163,7 +163,7 @@ export abstract class BaseHttpApiService {
 		isError: boolean
 	): Response {
 		if (response && response.status < 200 || response.status >= 300) {
-			if (response.status === 401) {
+			if (response.status === 401 || response.status === 403) {
 				this.sessionService.logout();
 				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to Badgr to continue.")}`);
 			}
