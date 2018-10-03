@@ -124,6 +124,15 @@ export class SessionService {
 		return !!(sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY));
 	}
 
+	exchangeCodeForToken(authCode: string): Promise<AuthorizationToken> {
+		const endpoint = this.baseUrl + '/o/code';
+		const payload = 'code=' + encodeURIComponent(authCode);
+		const headers = new Headers();
+		headers.append('Content-Type', 'application/x-www-form-urlencoded');
+		
+		return this.http.post(endpoint, payload, {headers: headers}).toPromise().then(_ => _.json());
+	}
+
 	submitResetPasswordRequest(email: string): Promise<Response> {
 		const endpoint = this.baseUrl + '/v1/user/forgot-password';
 		const payload = 'email=' + encodeURIComponent(email);
