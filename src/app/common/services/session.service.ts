@@ -35,7 +35,7 @@ export class SessionService {
 	constructor(
 		private http: Http,
 		private configService: SystemConfigService,
-		private messageService: MessageService
+		private messageService: MessageService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 		this.enabledExternalAuthProviders = socialAccountProviderInfos.filter(providerInfo =>
@@ -82,10 +82,6 @@ export class SessionService {
 
 	initiateUnauthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
 		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}`;
-	}
-
-	initiateAuthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
-		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}&authToken=${this.currentAuthToken.access_token}`;
 	}
 
 	logout(): void {
