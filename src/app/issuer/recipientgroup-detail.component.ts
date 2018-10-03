@@ -78,7 +78,7 @@ import { markControlsDirty } from "../common/util/form-util";
 					<div class="l-gridthree hidden hidden-is-tablet"
 					     [class.inactive]="editForm.isEditing">
 						<div *ngFor="let pathway of recipientGroup.subscribedPathways">
-							<div class="card">
+							<div class="card card-smallimage">
 								<a class="card-x-main" [routerLink]="['/issuer/issuers/', issuerSlug, 'pathways', pathway?.slug||'', 'elements', pathway?.slug||'']">
 									<div class="card-x-image">
 							      <div class="badge">
