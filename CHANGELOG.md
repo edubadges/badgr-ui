@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [2.18.1] - 2018-10-04
+ - The Badgr logo in navigation now links to info redirect
+ - Badge collection sharing via URL links to hostedUrl assertion of badges
+ - fixed issues with shared Card iframes display
+ - Generic opensource favicon 
+ - Add HTML5 input field types to forms: email, url, password, tel
+
+
 ## [2.17.1] - 2018-09-19
  - Change in primary address now reflected after change
  - Use file-saver library for downloading badges
