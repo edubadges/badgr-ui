@@ -344,12 +344,20 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		if (!recipient['assertion_slug']){
 			let first_name = recipient['first_name']? recipient['first_name']: ''
 			let last_name = recipient['last_name']? recipient['last_name']: ''
-			let name = first_name+last_name
+			let name = first_name+' '+last_name
+			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 			let recipientFormGroup = typedGroup()
 			.addControl("recipient_name", name)
 			.addControl("recipient_type", 'eduID')
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
+			.addControl("extensions", typedGroup()
+				.addControl("extensions:recipientProfile", typedGroup()
+					.addControl("@context", recipientProfileContextUrl)
+					.addControl("type", ["Extension", "extensions:RecipientProfile"])
+					.addControl("name", name)
+				)
+			)
 			this.issueForm.controls.recipients.push(recipientFormGroup);
 		}
 	}
@@ -361,16 +369,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	onSubmit() {
 		const formState = this.issueForm.value;
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
-
-		const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
-		// let extensions = formState.recipientprofile_name ? {
-		// 	"extensions:recipientProfile": {
-		// 		"@context": recipientProfileContextUrl,
-		// 		"type": ["Extension", "extensions:RecipientProfile"],
-		// 		"name": formState.recipientprofile_name
-		// 	}
-		// } : undefined;
-
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
 			this.badgeSlug,
