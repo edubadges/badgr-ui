@@ -26,6 +26,35 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 @Component({
 	selector: 'badgeclass-edit-form',
 	template: `
+	<style>
+		#selected_langbox {
+		    background-color: #4CAF50; /* Green */
+		    border: none;
+		    color: white;
+		    padding: 16px 32px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    margin: 4px 2px;
+		    -webkit-transition-duration: 0.4s; /* Safari */
+		    transition-duration: 0.4s;
+		    cursor: pointer;
+		}
+
+		#selected_langbox {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+		}
+
+		#selected_langbox {
+    background-color: #555555;
+    color: white;
+		}
+
+	</style>
+
 		<form-message></form-message>
 		<form class="l-containerhorizontal l-containervertical"
 		      [formGroup]="badgeClassForm"
@@ -296,13 +325,18 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 					<div class="l-formsection-x-inputs">
 						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of badgeclassExtensions.controls">
+
 							<div *ngIf="extension.controls.languageExtension">
 								<div>
-									<span id=selectLangHeader> Selected Language:</span>
-									<span *ngIf="currentLangList[0].label != '' " id="selectedLangBox" [innerHTML]="currentLangList[0].label"></span>
-									<span *ngIf="currentLangList[0].label == '' " id="selectedLangBox" >No Language Selected</span>
+									<span id=selectLangHeader class="l-formsection-x-legend title title-ruled"> Selected Language:</span>
+									<div *ngIf="currentLangList[0].label != '' ">
+											<div id="selected_langbox" class= "formfield-x-label"> {{ currentLangList[0].label }} </div>
+									</div>
+									<div *ngIf="currentLangList[0].label == '' ">
+											<div id="selected_langbox"> No Language Selected </div>
+									</div>
 								</div><br>
-								<bg-formfield-text [control]="extension.controls.languageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
+								<bg-formfield-text (change)="autoFillLanguage()" [control]="extension.controls.languageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
 								<button class="l-formsectionnested-x-remove formsectionremove"
 								        (click)="removeExtension(extension)"
 								        type="button"
@@ -624,7 +658,14 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	educationProgramIdentifierExtensionEnabled = false
 	educationProgramIdentifierOptions: FormFieldSelectOption[];
 
-
+	autoFillLanguage(){
+		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
+			if (extension.controls.languageExtension) {
+				let currentLanguage = this.currentLangList[0].label
+				extension.controls.languageExtension.controls.typedLanguage.patchValue(currentLanguage)
+			}
+		}
+	}
 
 	get extensions() {
 		return this.badgeClassForm.controls["extensions"] as FormArray;
