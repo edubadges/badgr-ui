@@ -91,6 +91,13 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						</p>
 
 						<section>
+							<h1> Public Page </h1>
+							<show-more>
+							<a [routerLink]="['/public/badges/', badgeClass.slug]"> Go to public page</a>
+							</show-more>
+						</section>
+
+						<section>
 							<h1>Description</h1>
 							<show-more>
 								<p>{{ badgeClass.description }}</p>
