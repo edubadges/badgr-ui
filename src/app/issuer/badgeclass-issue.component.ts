@@ -81,25 +81,14 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 									<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
 									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Award Badge to this Student</span>
 								</label>
-
-								<div class="formfield">
-									<label>Recipient Name (optional)</label>
-									<bg-formfield-text
-										[control]="recipient.untypedControls.recipient_name"
-										ariaLabel="Recipient Name (optional)"
-									></bg-formfield-text>
-									<p class="text text-small2"><strong>Note</strong>: The Recipient Name will appear in the awarded badge in plain text.</p>
-								</div>
-								<div class="formfield">
-									<label>Recipient EduID (required)</label>
-									<div class="l-formtwoup">
-									<bg-formfield-text
-										[control]="recipient.untypedControls.recipient_identifier"
-										ariaLabel="Recipient EduID (required)"
-									></bg-formfield-text>
+								<div class="heading">
+									<div class="heading-x-text">
+										<section><h1>{{recipient.untypedControls.recipient_name.value}}</h1></section>
 									</div>
 								</div>
-
+								<div class="formfield ">
+									<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
+								</div>
 							</div>
 
 						</div>
