@@ -222,13 +222,21 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					   class="button button-primaryghost"
 					   [disabled-when-requesting]="true"
 					>Cancel</a>
-					<button type="submit"
+					
+					<button *ngIf="awardButtonEnabled" type="submit"
 					        class="button"
 					        [disabled]="!! issueBadgeFinished"
 					        (click)="clickSubmit($event)"
 					        [loading-promises]="[ issueBadgeFinished ]"
 					        loading-message="Issuing"
 					>Award</button>
+					
+					<button *ngIf="!awardButtonEnabled"
+									class="button"
+					        [disabled]="true"
+									style = 'background:#A09EAF;'
+					>Award</button>
+					
 				</div>
 			</form>
 		</main>
@@ -304,6 +312,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	ngOnInit() {
 		super.ngOnInit();
+		this.enableFormListener()
 	}
 
 	enableEvidence() {
@@ -319,6 +328,29 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		this.allStudentsSelected = this.allStudentsSelected? false: true
 		for (let recipient of this.issueForm.controls.recipients.controls){
 			recipient.untypedControl.patchValue({'selected': this.allStudentsSelected? true: false})
+		}
+	}
+
+	listener_is_on = false
+	awardButtonEnabled = false
+	onFormChange(formValues){
+		console.log(formValues)
+		if (formValues['recipients']){
+			let aRecipientIsSelected = false
+			for (let recipient of formValues['recipients']){
+					if (recipient['selected']){
+						aRecipientIsSelected = true
+					}
+			}
+			this.awardButtonEnabled = aRecipientIsSelected
+		} else {
+			this.awardButtonEnabled = false
+		}
+		
+	}
+	enableFormListener(){
+		if (!this.listener_is_on){
+			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange(values))
 		}
 	}
 
