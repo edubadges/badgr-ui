@@ -245,7 +245,9 @@ export class PublicBadgeClassComponent {
 			if (eduID) {
 				let badgeClassSlug = this.badgeClass.id.split('/').slice(-1)[0]
 				let email = this.profileManager.userProfileSet.entities[0].apiModel['email']
-				this.studentsEnrolledApiService.enrollStudent(eduID, email, badgeClassSlug)
+				let first_name = this.profileManager.userProfileSet.entities[0].apiModel['first_name']
+				let last_name = this.profileManager.userProfileSet.entities[0].apiModel['last_name']
+				this.studentsEnrolledApiService.enrollStudent(eduID, email, first_name, last_name, badgeClassSlug)
 					.then(r => this.handleEnrollmentResponse(r))
 			} else {
 				this.userHasNoEduidWarning()
@@ -254,10 +256,9 @@ export class PublicBadgeClassComponent {
 	}
 
 	clickEnrollStudent(){
-		console.log(this.userProfileApiService.fetchSocialAccounts())
 		this.userProfileApiService.fetchSocialAccounts()
 			.then(response => this.enrollStudent(response))
-			.catch(e => console.log(e))
+			.catch(e => alert(e))
 	}
 
 	userHasNoEduidWarning(){
