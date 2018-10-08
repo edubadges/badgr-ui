@@ -107,7 +107,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
 					</label>
 					
-					<label class="formcheckbox" for="news">
+					<label class="formcheckbox" for="news" *ngIf="showMarketingOptIn">
 						<input name="news" id="news" type="checkbox" [formControl]="signupForm.controls.marketingOptIn">
 						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from Badgr.</span>
 					</label>
@@ -229,6 +229,10 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 			markControlsDirty(this.signupForm);
 			markControlsDirty(this.passwordGroup);
 		}
+	}
+
+	get showMarketingOptIn() {
+		return !!!this.currentTheme.hideMarketingOptIn;
 	}
 }
 
