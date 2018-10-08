@@ -18,6 +18,7 @@ export class OAuth2AppAuthorization extends ManagedEntity<ApiOAuth2AppAuthorizat
 	get name() { return this.apiModel.application.name }
 	get imageUrl() { return this.apiModel.application.image }
 	get websiteUrl() { return this.apiModel.application.website_url }
+	get clientId() { return this.apiModel.application.clientId }
 
 	revokeAccess() {
 		return this.oAuthManager.oauthApi.deleteAuthorization(this.entityId)

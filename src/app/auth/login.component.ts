@@ -213,10 +213,20 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 
 	private handleQueryParamCases() {
 		try {
-			// Handle external auth case
-			if (this.queryParams.queryStringValue("authToken", true)) {
+			// Handle authcode exchange
+			const authCode = this.queryParams.queryStringValue("authCode", true);
+			if (authCode) {
+				this.sessionService.exchangeCodeForToken(authCode).then(token => {
+					this.sessionService.storeToken(token);
+					this.initFinished = this.router.navigate([ 'recipient' ]);
+				});
+				return;
+			}
+
+			// legacy authToken support
+			else if (this.queryParams.queryStringValue("authToken", true)) {
 				this.sessionService.storeToken({
-					token: this.queryParams.queryStringValue("authToken", true)
+					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
 
 				this.initFinished = this.router.navigate([ 'recipient' ]);

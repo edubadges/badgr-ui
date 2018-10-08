@@ -102,6 +102,7 @@
     "postcss-cssnext": "2.10.0",
     "reflect-metadata": "0.1.10",
     "rxjs": "^5.3.0",
+    "sanitize-html": "^1.19.1",
     "systemjs": "0.20.12",
     "tether-tooltip": "^1.2.0",
     "tiny-sha256": "1.0.2",

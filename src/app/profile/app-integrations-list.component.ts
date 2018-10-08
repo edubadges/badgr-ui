@@ -110,7 +110,7 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	get oAuthApps() {
-		return this.oAuthManager.authorizedApps.entities
+		return this.oAuthManager.authorizedApps.entities.filter(a => a.clientId !== "public")
 	}
 
 	ngOnInit() {

@@ -24,8 +24,8 @@ export class UserProfileApiService extends BaseHttpApiService {
 		return this.get('/v1/user/profile').then(r => r.json());
 	}
 
-	updatePassword(new_password: string): Promise<ApiUserProfile> {
-		return this.put('/v1/user/profile', { 'password': new_password })
+	updatePassword(new_password: string, current_password: string): Promise<ApiUserProfile> {
+		return this.put('/v1/user/profile', { 'password': new_password, 'current_password': current_password })
 			.then(r => r.json());
 	}
 

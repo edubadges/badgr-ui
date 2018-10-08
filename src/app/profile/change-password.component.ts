@@ -42,11 +42,18 @@ import { UserProfile } from "../common/model/user-profile.model";
 				<form class="l-form" [formGroup]='changePasswordForm' (ngSubmit)="submitChange()" novalidate>
 		
 					<fieldset>
+						<bg-formfield-text [control]="changePasswordForm.controls.current_password"
+						                   [label]="'Current Password'"
+						                   [errorMessage]="'Please enter current password'"
+						                   fieldType="password"
+						                   [autofocus]="true">              
+						</bg-formfield-text>
+						
 						<bg-formfield-text [control]="changePasswordForm.controls.password1"
 						                   [label]="'New Password'"
 						                   [errorMessage]="'Please enter a new password'"
 						                   fieldType="password"
-						                   [autofocus]="true">              
+						                   >              
 							<span label-additions>(MUST BE AT LEAST 6 CHARACTERS)</span>
 						</bg-formfield-text>
 		
@@ -54,7 +61,7 @@ import { UserProfile } from "../common/model/user-profile.model";
 						                   [label]="'Confirm New Password'"
 						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please confim your new password' }"
-						                   [errorGroup]="changePasswordForm">
+						                   >
 						</bg-formfield-text>
 					</fieldset>
 		
@@ -96,22 +103,20 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 
 		this.profileManager.userProfilePromise
 			.then(profile => this.profile = profile);
-	}
-
-	ngOnInit() {
-		super.ngOnInit();
 
 		this.changePasswordForm = this.fb.group({
 				password1: [ '', Validators.required ],
-				password2: [ '', Validators.required ]
+				password2: [ '', Validators.required ],
+				current_password: [ '', Validators.required ]
 			}, { validator: this.passwordsMatch }
 		);
 	}
 
 	submitChange() {
 		const new_password: string = this.changePasswordForm.controls[ 'password1' ].value;
+		const current_password: string = this.changePasswordForm.controls[ 'current_password' ].value;
 
-		this.profile.updatePassword(new_password)
+		this.profile.updatePassword(new_password, current_password)
 			.then(
 				() => {
 					this._messageService.reportMajorSuccess('Your password has been changed successfully.', true);
@@ -129,25 +134,14 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 	}
 
 	passwordsMatch(group: FormGroup) {
-		let valid = true;
-		let val: string;
+		const p1 = group.controls.password1.value;
+		const p2 = group.controls.password1.value;
 
-		for (let name in group.controls) {
-			if (val === undefined) {
-				val = group.controls[ name ].value
-			} else {
-				if (val !== group.controls[ name ].value) {
-					valid = false;
-					break;
-				}
-			}
+		if (p1 && p2 && p1 !== p2) {
+			return { passwordsMatch: "Passwords do not match" };
 		}
 
-		if (valid) {
-			return null;
-		}
-
-		return { passwordsMatch: "Passwords do not match" };
+		return null;
 	}
 
 	cancel() {

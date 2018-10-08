@@ -44,7 +44,7 @@ describe('RecipientBadgeCollectionManger', () => {
 	}));
 
 	beforeEach(inject([ SessionService ], (loginService: SessionService) => {
-		loginService.storeToken({ token: "MOCKTOKEN" });
+		loginService.storeToken({ access_token: "MOCKTOKEN" });
 	}));
 
 	it('should retrieve all recipient badge collections',
