@@ -8,6 +8,7 @@ import {
 	ApiOAuth2AppAuthorization, ApiOAuth2ClientAuthorized, ApiOAuthResponse,
 	OAuth2RequestParams
 } from "../model/oauth-api.model";
+import {SocialAccountProviderInfo} from "../model/user-profile-api.model";
 
 @Injectable()
 export class OAuthApiService extends BaseHttpApiService {
@@ -64,5 +65,9 @@ export class OAuthApiService extends BaseHttpApiService {
 				... (request.stateString ? { "state": request.stateString } : {})
 			}
 		).then(r => r.json());
+	}
+
+	connectProvider(provider: SocialAccountProviderInfo) {
+		return this.get(`/v1/user/socialaccounts/connect?provider=${provider.slug}`).then(r => r.json())
 	}
 }

@@ -20,6 +20,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "../common/model/user-profile.model";
 import { Subscription } from "rxjs/Subscription";
 import { QueryParametersService } from "../common/services/query-parameters.service";
+import {OAuthApiService} from "../common/services/oauth-api.service";
 
 @Component({
 	selector: 'userProfile',
@@ -282,7 +283,8 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		protected messageService: MessageService,
 		protected profileManager: UserProfileManager,
 		protected dialogService: CommonDialogsService,
-		protected paramService: QueryParametersService
+		protected paramService: QueryParametersService,
+		private oauthService: OAuthApiService
 ) {
 		super(router, route, sessionService);
 		title.setTitle("Profile - Badgr");
@@ -366,7 +368,9 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	}
 
 	linkAccount(info: SocialAccountProviderInfo) {
-		this.sessionService.initiateAuthenticatedExternalAuth(info);
+		this.oauthService.connectProvider(info).then(r => {
+			window.location.href = r.url;
+		})
 	}
 
 
