@@ -101,6 +101,12 @@ export class IssuerListComponent extends BaseAuthorizedAndAuthenticatedRoutableC
 	userMayCreateIssuers: boolean = false;
 	issuersLoaded: Promise<any>;
 	badgesLoaded: Promise<any>;
+	currentPermissionLoaded: Promise<any>;
+
+	hasPermission(profile){
+		var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
+		this.userMayCreateIssuers = current_user_permissions.includes('add_issuer');
+	}
 
 	constructor(
 		profileManager: UserProfileManager,
@@ -150,8 +156,8 @@ export class IssuerListComponent extends BaseAuthorizedAndAuthenticatedRoutableC
 			});
 
 		});
-		var current_user_permissions = JSON.parse(profileManager.userProfileSet.entities[0].apiModel['user_permissions'])
-		this.userMayCreateIssuers = current_user_permissions.includes('add_issuer');
+		this.currentPermissionLoaded = profileManager.userProfilePromise
+			.then(profile => this.hasPermission(profile))
 	}
 
 	ngOnInit() {

@@ -32,19 +32,19 @@ export class BaseAuthenticatedRoutableComponent extends BaseRoutableComponent im
 }
 
 export class BaseAuthorizedAndAuthenticatedRoutableComponent extends BaseAuthenticatedRoutableComponent implements OnInit{
+	currentPermissionLoaded: Promise<any>;
 	constructor(
 		protected router: Router,
 		protected route: ActivatedRoute,
 		protected sessionService: SessionService,
-		private profileManager: UserProfileManager,
-		private permission_needed: String,
+		protected profileManager: UserProfileManager,
+		protected permission_needed: String,
 	) {
 		super(router, route, sessionService);
 	}
-
-	ngOnInit() {
-		super.ngOnInit();
-		let current_user_permissions = JSON.parse(this.profileManager.userProfileSet.entities[0].apiModel['user_permissions']);
+	
+	hasViewPermission(profile){
+		let current_user_permissions = JSON.parse(profile.apiModel['user_permissions']);
 		if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
 			// do nothing
 		} else {
@@ -53,5 +53,12 @@ export class BaseAuthorizedAndAuthenticatedRoutableComponent extends BaseAuthent
 				this.router.navigate(['/auth/unauthorized']);
 			}
 		}
+	}
+	
+	ngOnInit() {
+		super.ngOnInit();
+		this.currentPermissionLoaded = this.profileManager.userProfilePromise
+			.then(profile => this.hasViewPermission(profile))
+			.catch(e =>	this.router.navigate(['/auth/unauthorized']))
 	}
 }

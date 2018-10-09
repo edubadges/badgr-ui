@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from "@ang
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "../common/services/message.service";
 import { IssuerManager } from "./services/issuer-manager.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import { BaseAuthorizedAndAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { UrlValidator } from "../common/validators/url.validator";
 import { Title } from "@angular/platform-browser";
 import { ApiIssuerForCreation } from "./models/issuer-api.model";
@@ -168,7 +168,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		</main>
 	`
 })
-export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class IssuerCreateComponent extends BaseAuthorizedAndAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../breakdown/static/images/placeholderavatar-issuer.svg'));
 
 	issuerForm: FormGroup;
@@ -190,7 +190,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager
 	) {
-		super(router, route, loginService);
+		super(router, route, loginService, profileManager, 'add_issuer');
 		title.setTitle("Create Issuer - Badgr");
 
 		this.issuerForm = formBuilder.group({
