@@ -93,7 +93,6 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 				<!-- Non-Authenticated Menu -->
 				<ng-template [ngIf]="! loggedIn">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/auth/login']">Sign In</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/signup']">Create Account</a></li>
 				</ng-template>
 
 				<!-- Authenticated Menu -->
@@ -139,6 +138,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	userMaySeeIssuers: boolean = false;
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
+	currentPermissionLoaded: Promise<any>;
 
 	copyrightYear = new Date().getFullYear();
 
@@ -282,21 +282,29 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.newTermsDialog
 		);
 	}
-	
+		
+
+	hasPermission(profile){
+		var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
+		if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
+			this.userMaySeeIssuers = true;
+		} else {
+			this.userMaySeeIssuers = current_user_permissions.includes('view_issuer_tab');
+		}	
+		this.permissionsChecked = true	
+	}
+
+	permissionsChecked=false
 	ngAfterViewChecked(){
 		// only in this lifecyclehook the user is actually logged after logging in
-		setTimeout(() => {
-			try {
-				let current_user_permissions = JSON.parse(this.profileManager.userProfileSet.entities[0].apiModel['user_permissions'])
-				if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
-					this.userMaySeeIssuers = true;
-				} else {
-					this.userMaySeeIssuers = current_user_permissions.includes("view_issuer_tab")
-				}
-			} catch (error) {
-				// do nothing
-			}
-		})
+		if (!this.permissionsChecked){ // do it only once
+			setTimeout(() => {
+				this.currentPermissionLoaded = this.profileManager.userProfilePromise
+					.then(profile => this.hasPermission(profile))
+					.catch(e => this.permissionsChecked=true)
+				this.permissionsChecked=true
+			})
+		}
 	}
 	
 }
