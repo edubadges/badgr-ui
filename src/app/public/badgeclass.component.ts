@@ -51,25 +51,26 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 								     width="200" />
 							</div>
 						</div>
+							<ng-template [ngIf]="loggedIn">
+								<div *bgAwaitPromises="[profileLoaded]">
+									<button class="squareiconcard squareiconcard-tags"
+									type="button"
+									(click)="clickEnrollStudent()"
+									[disabled]="studentsEnrolledButtonDisabled"
+									>
+										<span class="squareiconcard-x-container">{{ buttonText }}</span>
+									</button>
+								</div>
+							</ng-template>
 
-						<ng-template [ngIf]="loggedIn">
-							<button class="squareiconcard squareiconcard-tags"
-							type="button"
-							(click)="clickEnrollStudent()"
-							[disabled]="studentsEnrolledButtonDisabled"
-							>
-								<span class="squareiconcard-x-container">{{ buttonText }}</span>
-							</button>
-						</ng-template>
-
-						<ng-template [ngIf]="!loggedIn">
-							<button class="squareiconcard squareiconcard-tags"
-							type="button"
-							[disabled]="true"
-							>
-								<span class="squareiconcard-x-container">Login to enroll</span>
-							</button>
-						</ng-template>
+							<ng-template [ngIf]="!loggedIn">
+								<button class="squareiconcard squareiconcard-tags"
+								type="button"
+								[disabled]="true"
+								>
+									<span class="squareiconcard-x-container">Login to enroll</span>
+								</button>
+							</ng-template>
 					</div><br>
 
 					<div style="display:inline-block;">
@@ -180,6 +181,7 @@ export class PublicBadgeClassComponent {
 	profile: UserProfile;
 	studentsEnrolledButtonDisabled: boolean;
 	buttonText: string;
+	profileLoaded: Promise<any>;
 
 	constructor(
 		private injector: Injector,
@@ -202,6 +204,8 @@ export class PublicBadgeClassComponent {
 			.then(profile => this.profile = profile);
 		this.studentsEnrolledButtonDisabled = false
 		this.buttonText = 'Enroll'
+		this.profileLoaded = profileManager.userProfilePromise
+			.then(profile => this.profile = profile)
 	}
 
 	get badgeClass(): PublicApiBadgeClassWithIssuer { return this.badgeIdParam.value }
@@ -244,9 +248,9 @@ export class PublicBadgeClassComponent {
 			let eduID = this.getEduID(socialAccounts)
 			if (eduID) {
 				let badgeClassSlug = this.badgeClass.id.split('/').slice(-1)[0]
-				let email = this.profileManager.userProfileSet.entities[0].apiModel['email']
-				let first_name = this.profileManager.userProfileSet.entities[0].apiModel['first_name']
-				let last_name = this.profileManager.userProfileSet.entities[0].apiModel['last_name']
+				let email = this.profile.apiModel['email']
+				let first_name = this.profile.apiModel['first_name']
+				let last_name = this.profile.apiModel['last_name']
 				this.studentsEnrolledApiService.enrollStudent(eduID, email, first_name, last_name, badgeClassSlug)
 					.then(r => this.handleEnrollmentResponse(r))
 			} else {
