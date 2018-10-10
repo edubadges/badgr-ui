@@ -64,6 +64,9 @@ import { UserProfile } from "../common/model/user-profile.model";
 						                   >
 						</bg-formfield-text>
 					</fieldset>
+					
+					<p>Don't have your current password? <a (click)="forgotPassword()">Click here to reset by email</a>
+					 </p>
 		
 					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-right">
 						<a class="button button-secondary"
@@ -124,6 +127,11 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 				},
 				err => this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
 			);
+	}
+
+	forgotPassword() {
+		this.sessionService.logout();
+		this.router.navigate(['/auth/request-password-reset']);
 	}
 
 	clickSubmit(ev: Event) {
