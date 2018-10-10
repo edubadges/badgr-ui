@@ -36,7 +36,7 @@ import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 						                   [errorMessage]="'Please enter a new password'"
 						                   fieldType="password"
 						                   [autofocus]="true">
-							<span label-additions>(MUST BE AT LEAST 6 CHARACTERS)</span>
+							<span label-additions>(MUST BE AT LEAST 8 CHARACTERS)</span>
 						</bg-formfield-text>
 	
 						<bg-formfield-text [control]="changePasswordForm.controls.password2"
@@ -112,7 +112,7 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 						this._messageService.reportMajorSuccess('Your password has been changed successfully.', true);
 						return this.router.navigate([ "/auth" ]);
 					},
-					err => this._messageService.reportAndThrowError('Unable to change password.', err)
+					err => this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
 				);
 		}
 	}

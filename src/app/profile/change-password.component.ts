@@ -54,7 +54,7 @@ import { UserProfile } from "../common/model/user-profile.model";
 						                   [errorMessage]="'Please enter a new password'"
 						                   fieldType="password"
 						                   >              
-							<span label-additions>(MUST BE AT LEAST 6 CHARACTERS)</span>
+							<span label-additions>(MUST BE AT LEAST 8 CHARACTERS)</span>
 						</bg-formfield-text>
 		
 						<bg-formfield-text [control]="changePasswordForm.controls.password2"
@@ -122,7 +122,7 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 					this._messageService.reportMajorSuccess('Your password has been changed successfully.', true);
 					this.router.navigate([ "/profile/profile" ]);
 				},
-				err => this._messageService.reportAndThrowError('Unable to change password.', err)
+				err => this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
 			);
 	}
 
