@@ -13,6 +13,7 @@ import { preloadImageURL } from "../common/util/file-util";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { FormFieldSelectOption } from "../common/components/formfield-select";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'issuer-create',
@@ -74,6 +75,12 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		                           [errorMessage]="{ required: 'Please enter a description'}"
 		                           [multiline]="true"
 		        ></bg-formfield-text>
+		        
+					<label [class.formcheckbox-is-error]="issuerForm.controls.agreedTerms.dirty && !issuerForm.controls.agreedTerms.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
+						<input name="terms" id="terms" type="checkbox" [formControl]="issuerForm.controls.agreedTerms">
+						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="currentTheme.dataProcessorTermsLink ? currentTheme.dataProcessorTermsLink : 'https://badgr.com/en-us/data-processing.html'">Data Processor Addendum</a>.</span>
+						<span *ngIf="issuerForm.controls.agreedTerms.dirty && !issuerForm.controls.agreedTerms.valid" class="formcheckbox-x-errortext">Please read and agree to the Data Processor Addendum if you want to continue.</span>
+					</label>
 		
 		        <div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 		          <a [routerLink]="['/issuer']"
@@ -104,10 +111,13 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	addIssuerFinished: Promise<any>;
 	emailsLoaded: Promise<any>;
 
+	get currentTheme() { return this.configService.currentTheme }
+
 	constructor(
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
+		private configService: SystemConfigService,
 		protected profileManager: UserProfileManager,
 		protected formBuilder: FormBuilder,
 		protected title: Title,
@@ -148,6 +158,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 				])
 			],
 			'issuer_image': [ '' ],
+			'agreedTerms': [false, Validators.requiredTrue],
 		});
 
 		this.emailsLoaded = this.profileManager.userProfilePromise
