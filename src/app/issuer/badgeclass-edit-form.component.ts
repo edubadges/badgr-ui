@@ -155,6 +155,7 @@ import { BadgeClass } from "./models/badgeclass.model";
 								[control]="alignment.controls.target_name"
 								label="Name"
 								[errorMessage]="{required:'Please enter an alignment name'}"
+								id="alignment_name_{{ i }}"
 							></bg-formfield-text>
 							
 							<bg-formfield-text
@@ -162,12 +163,14 @@ import { BadgeClass } from "./models/badgeclass.model";
 								label="URL"
 								[errorMessage]="{required:'Please enter an alignment URL'}"
 								[urlField]="true"
+								id="alignment_url_{{ i }}"
 							></bg-formfield-text>
 
 							<bg-formfield-text
 								[control]="alignment.controls.target_description"
 								label="Short Description"
 								[multiline]="true"
+								id="alignment_description_{{ i }}"
 							></bg-formfield-text>
 							
 							<div class="l-formsectiontoggle">
@@ -186,10 +189,12 @@ import { BadgeClass } from "./models/badgeclass.model";
 									<bg-formfield-text
 										[control]="alignment.controls.target_framework"
 										label="Framework"
+										id="alignment_target_framework_{{ i }}"
 									></bg-formfield-text>
 									<bg-formfield-text
 										[control]="alignment.controls.target_code"
 										label="Code"
+										id="alignment_target_code_{{ i }}"
 									></bg-formfield-text>
 								</div>
 							</div>
