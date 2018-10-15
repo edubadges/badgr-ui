@@ -214,6 +214,15 @@ export class AddBadgeDialogComponent extends BaseDialog {
 				})
 				.catch(err => {
 					let message = BadgrApiFailure.from(err).firstMessage;
+
+					// display human readable description of first error if provided by server
+					if (err.response && err.response._body) {
+							const body = JSON.parse(err.response._body);
+							if (body && body.length > 0 && body[0].description) {
+								message = body[0].description;
+							}
+					}
+
 					this.messageService.reportAndThrowError(
 						message
 							? `Failed to upload badge: ${message}`
