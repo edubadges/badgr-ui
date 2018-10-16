@@ -78,8 +78,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
 					</li>
 
-					<li><a [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'" target="_blank">Terms of Service</a></li>
-					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy Policy</a></li>
+					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy Verklaring</a></li>
 				</ul>
 				<!--<a href="{{ apiBaseUrl }}/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">API documentation</a>-->
 				<a href="https://support.badgr.io/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">Documentation</a>
