@@ -63,7 +63,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 							</ng-template>
 							<ng-template [ngIf]="!loggedIn">
 								<div class="heading-x-actions">
-									<a class="button button-major button-is-disabled" style='background-color:#78768D;'>Login to enroll</a>
+									<button class="button button-major" (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)" >Login to enroll</button>
 								</div>
 							</ng-template>
 					</div><br>
@@ -177,6 +177,7 @@ export class PublicBadgeClassComponent {
 	studentsEnrolledButtonDisabled: boolean;
 	buttonText: string;
 	profileLoaded: Promise<any>;
+	provider: object;
 
 	constructor(
 		private injector: Injector,
@@ -269,6 +270,12 @@ export class PublicBadgeClassComponent {
 		this.sessionService.loggedin$.subscribe(
 			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
 		);
+		for (let provider of this.sessionService.enabledExternalAuthProviders){
+      if (provider.name == 'EduID') {
+        this.provider = provider
+      }
+    }
+		
 	}
 
 }

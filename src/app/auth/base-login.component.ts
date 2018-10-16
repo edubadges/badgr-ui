@@ -58,6 +58,11 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 				this.sessionService.storeToken({
 					token: this.queryParams.queryStringValue("authToken", true)
 				});
+				if (this.queryParams.queryStringValue("public", true)) {
+					let badgeClassSlug = this.queryParams.queryStringValue("public", true)
+					this.initFinished = this.router.navigate([ 'public/badges/'+badgeClassSlug ])
+					return;
+				}
 
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
