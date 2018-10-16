@@ -53,23 +53,18 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 						</div>
 							<ng-template [ngIf]="loggedIn">
 								<div *bgAwaitPromises="[profileLoaded]">
-									<button class="squareiconcard squareiconcard-tags"
-									type="button"
-									(click)="clickEnrollStudent()"
-									[disabled]="studentsEnrolledButtonDisabled"
-									>
-										<span class="squareiconcard-x-container">{{ buttonText }}</span>
-									</button>
+									<div *ngIf="! studentsEnrolledButtonDisabled" class="heading-x-actions">
+										<a class="button button-major" (click)="clickEnrollStudent()" [disabled-when-requesting]="true">{{buttonText}}</a>
+									</div>
+									<div *ngIf="studentsEnrolledButtonDisabled" class="heading-x-actions">
+										<a class="button button-major button-is-disabled" style='background-color:#78768D;'>{{buttonText}}</a>
+									</div>
 								</div>
 							</ng-template>
-
 							<ng-template [ngIf]="!loggedIn">
-								<button class="squareiconcard squareiconcard-tags"
-								type="button"
-								[disabled]="true"
-								>
-									<span class="squareiconcard-x-container">Login to enroll</span>
-								</button>
+								<div class="heading-x-actions">
+									<a class="button button-major button-is-disabled" style='background-color:#78768D;'>Login to enroll</a>
+								</div>
 							</ng-template>
 					</div><br>
 
