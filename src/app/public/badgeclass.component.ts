@@ -195,12 +195,12 @@ export class PublicBadgeClassComponent {
 			}
 		);
 
-		this.profileManager.userProfilePromise
-			.then(profile => this.profile = profile);
 		this.studentsEnrolledButtonDisabled = false
 		this.buttonText = 'Enroll'
-		this.profileLoaded = profileManager.userProfilePromise
+		if (this.sessionService.isLoggedIn){
+			this.profileLoaded = profileManager.userProfilePromise
 			.then(profile => this.profile = profile)
+		}
 	}
 
 	get badgeClass(): PublicApiBadgeClassWithIssuer { return this.badgeIdParam.value }
