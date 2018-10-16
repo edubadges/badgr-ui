@@ -89,11 +89,6 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 			<h1 class="visuallyhidden">Main Navigation</h1>
 
 			<ul>
-				<!-- Non-Authenticated Menu -->
-				<ng-template [ngIf]="! loggedIn">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/auth/login']">Sign In</a></li>
-				</ng-template>
-
 				<!-- Authenticated Menu -->
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
