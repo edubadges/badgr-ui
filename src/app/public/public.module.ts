@@ -12,6 +12,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 import { PublicBadgeClassComponent } from "./badgeclass.component";
 import { PublicIssuerComponent } from "./issuer.component";
 import { PublicBadgeCollectionComponent } from "./badge-collection.component";
+import { PublicPrivacyPolicyComponent } from "./privacy-policy.component";
 
 export const routes: Route[] = [
 	{
@@ -38,7 +39,10 @@ export const routes: Route[] = [
 		path: "collections/:collectionShareHash",
 		component: PublicBadgeCollectionComponent
 	},
-
+	{
+		path: "privacy-policy",
+		component: PublicPrivacyPolicyComponent
+	},
 	{
 		path: "**",
 		component: PublicComponent
@@ -59,7 +63,8 @@ export const routes: Route[] = [
 		PublicBadgeAssertionComponent,
 		PublicBadgeClassComponent,
 		PublicIssuerComponent,
-		PublicBadgeCollectionComponent
+		PublicBadgeCollectionComponent,
+		PublicPrivacyPolicyComponent
 	],
 	exports: [],
 	providers: [

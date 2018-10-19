@@ -25,7 +25,7 @@ window[ "badgrTheme" ] = {
 		showPoweredByBadgr: true,
 		showApiDocsLink: true,
 		termsOfServiceLink: "https://badgr.org/missing-terms",
-		privacyPolicyLink: "https://badgr.org/missing-terms",
+		privacyPolicyLink: '/public/privacy-policy',
 		logoImg: {
 			small: require("../breakdown/static/images/logo.svg"),
 			desktop: require("../breakdown/static/images/logo-desktop.svg"),
