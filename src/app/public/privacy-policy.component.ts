@@ -67,9 +67,12 @@ import {Component} from "@angular/core";
     Een badge is een digitaal insigne (afbeelding), dat aantoont dat de ontvanger over bepaalde kennis of vaardigheden beschikt. De ontvanger van een badge kan deze delen met anderen, bijvoorbeeld op social media, een digitaal cv of met een (potentiële) werkgever. De Pilot Edubadges faciliteert onderwijsinstellingen, studenten en medewerkers om te experimenteren met deze badges.
     </span>
     <span>
-    Meer informatie over Edubadges is te vinden op de volgende website:
+    Meer informatie over Edubadges is te vinden op 
     </span>
-    <a href="https://www.surf.nl/innovatieprojecten/onderwijsinnovatie-met-ict/edubadges-en-microcredentialing.html"></a>
+      <a href="https://www.surf.nl/innovatieprojecten/onderwijsinnovatie-met-ict/edubadges-en-microcredentialing.html">deze </a>
+    <span>
+     website.
+    </span>
     
     <h2 >
       2 Persoonsgegevens
