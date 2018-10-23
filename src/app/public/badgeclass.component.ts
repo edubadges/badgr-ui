@@ -13,6 +13,7 @@ import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url
 import { routerLinkForUrl } from "./public.component";
 import { UserProfile } from "../common/model/user-profile.model";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
+import { QueryParametersService } from "../common/services/query-parameters.service";
 
 @Component({
 	template: `
@@ -63,7 +64,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 							</ng-template>
 							<ng-template [ngIf]="!loggedIn">
 								<div class="heading-x-actions">
-									<button class="button button-major" (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)" >Login to enroll</button>
+									<button class="button button-major" (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)" >Enroll</button>
 								</div>
 							</ng-template>
 					</div><br>
@@ -184,6 +185,7 @@ export class PublicBadgeClassComponent {
 		public embedService: EmbedService,
 		private sessionService: SessionService,
 		private profileManager: UserProfileManager,
+		private queryParams: QueryParametersService,
 		protected studentsEnrolledApiService: StudentsEnrolledApiService,
 		protected userProfileApiService: UserProfileApiService,
 	) {
@@ -201,6 +203,10 @@ export class PublicBadgeClassComponent {
 		if (this.sessionService.isLoggedIn){
 			this.profileLoaded = profileManager.userProfilePromise
 			.then(profile => this.profile = profile)
+		}
+		if (this.queryParams.queryStringValue("enrollmentStatus", true)){
+			let enrollmentStatus = this.queryParams.queryStringValue("enrollmentStatus", true)
+			this.handleEnrollmentAfterEduIDLogin(enrollmentStatus)
 		}
 	}
 
@@ -228,6 +234,17 @@ export class PublicBadgeClassComponent {
 				return account['uid']
 			}
 		}
+	}
+
+	handleEnrollmentAfterEduIDLogin(enrollmentStatus){
+		console.log(enrollmentStatus)
+		if (enrollmentStatus=='enrolled') {
+			this.buttonText = 'enrolled'
+		}
+		if (enrollmentStatus=='alreadyEnrolled') {
+			this.buttonText = 'Already enrolled'
+		}
+		this.studentsEnrolledButtonDisabled = true
 	}
 
 	handleEnrollmentResponse(response){

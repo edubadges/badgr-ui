@@ -59,8 +59,9 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 					token: this.queryParams.queryStringValue("authToken", true)
 				});
 				if (this.queryParams.queryStringValue("public", true)) {
-					let badgeClassSlug = this.queryParams.queryStringValue("public", true)
-					this.initFinished = this.router.navigate([ 'public/badges/'+badgeClassSlug ])
+					let badgeClassSlug = this.queryParams.queryStringValue("badgeclassSlug", true)
+					let enrollmentStatus = this.queryParams.queryStringValue("enrollmentStatus", true)
+					this.initFinished = this.router.navigate(['public/badges/'+badgeClassSlug], {'queryParams':{'enrollmentStatus': enrollmentStatus}})
 					return;
 				}
 
