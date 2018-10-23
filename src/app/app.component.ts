@@ -192,11 +192,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.initAnalytics();
 
 		if (sessionService.isLoggedIn) {
-			profileManager.userProfilePromise.then(profile => {
-				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
-					this.commonDialogsService.newTermsDialog.openDialog();
-				}
-			});
+			// profileManager.userProfilePromise.then(profile => {
+			// 	if (profile.agreedTermsVersion != profile.latestTermsVersion) {
+			// 		this.commonDialogsService.newTermsDialog.openDialog();
+			// 	}
+			// });
 
 			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
 				this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
