@@ -42,8 +42,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 					<img [src]="currentTheme.logoImg.small" alt="Badgr logo">
 				</picture>
 			</a>
-
-			<a class="header-x-menu"
+			<a 	*ngIf="loggedIn && ! isOAuthAuthorizationInProcess" class="header-x-menu"
 			   href="javascript:void(0)"
 			   onclick="document.getElementById('menu').scrollIntoView(false)">Main Navigation</a>
 		</header>
