@@ -202,11 +202,14 @@ export class PublicBadgeClassComponent {
 		this.buttonText = 'Enroll'
 		if (this.sessionService.isLoggedIn){
 			this.profileLoaded = profileManager.userProfilePromise
-			.then(profile => this.profile = profile)
+			.then(profile => {
+				this.profile = profile
+				this.isCurrentUserAlreadyEnrolled()
+			})
 		}
 		if (this.queryParams.queryStringValue("enrollmentStatus", true)){
 			let enrollmentStatus = this.queryParams.queryStringValue("enrollmentStatus", true)
-			this.handleEnrollmentAfterEduIDLogin(enrollmentStatus)
+			this.handleEnrollmentStatus(enrollmentStatus)
 		}
 	}
 
@@ -226,6 +229,17 @@ export class PublicBadgeClassComponent {
 		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
 	}
 
+	isCurrentUserAlreadyEnrolled(){
+		this.badgeIdParam.loadedPromise.then(badgeClass => {
+			let badgeClassSlug = badgeClass.id.split('/').slice(-1)[0]
+			this.userProfileApiService.fetchSocialAccounts()
+				.then(response => {
+					let eduID = this.getEduID(response)
+					this.studentsEnrolledApiService.isStudentEnrolled(badgeClassSlug, eduID)
+						.then(r => this.handleEnrollmentStatus(r['_body']))
+				})
+		})
+	}
 
 	getEduID(socialAccounts:object[]) {
 		let eduIDSocialAccount = null
@@ -236,24 +250,15 @@ export class PublicBadgeClassComponent {
 		}
 	}
 
-	handleEnrollmentAfterEduIDLogin(enrollmentStatus){
-		console.log(enrollmentStatus)
-		if (enrollmentStatus=='enrolled') {
+	handleEnrollmentStatus(enrollmentStatus){
+		if (enrollmentStatus=='"enrolled"') {
 			this.buttonText = 'enrolled'
+			this.studentsEnrolledButtonDisabled = true
 		}
-		if (enrollmentStatus=='alreadyEnrolled') {
+		if (enrollmentStatus=='"alreadyEnrolled"') {
 			this.buttonText = 'Already enrolled'
+			this.studentsEnrolledButtonDisabled = true
 		}
-		this.studentsEnrolledButtonDisabled = true
-	}
-
-	handleEnrollmentResponse(response){
-		if (response._body=='"already enrolled"'){
-			this.buttonText = 'Already enrolled'
-		} if (response._body=='"OK"') {
-				this.buttonText = 'enrolled'
-		}
-		this.studentsEnrolledButtonDisabled = true
 	}
 
 	enrollStudent(socialAccounts:object[]){
@@ -265,7 +270,7 @@ export class PublicBadgeClassComponent {
 				let first_name = this.profile.apiModel['first_name']
 				let last_name = this.profile.apiModel['last_name']
 				this.studentsEnrolledApiService.enrollStudent(eduID, email, first_name, last_name, badgeClassSlug)
-					.then(r => this.handleEnrollmentResponse(r))
+					.then(response => this.handleEnrollmentStatus(response._body))
 			} else {
 				this.userHasNoEduidWarning()
 			}
@@ -292,7 +297,6 @@ export class PublicBadgeClassComponent {
         this.provider = provider
       }
     }
-		
 	}
 
 }
