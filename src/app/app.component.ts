@@ -262,7 +262,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.loggedIn = this.sessionService.isLoggedIn;
-
 		this.sessionService.loggedin$.subscribe(
 			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
 		);
@@ -289,14 +288,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	permissionsChecked=false
 	ngAfterViewChecked(){
-		// only in this lifecyclehook the user is actually logged after logging in
-		if (!this.permissionsChecked){ // do it only once
-			setTimeout(() => {
+		// only in this lifecyclehook the user is actually logged in after logging in
+		if (this.sessionService.isLoggedIn) {
+			if (!this.permissionsChecked){ // only check once when being logged in
+				setTimeout(() => {
 				this.currentPermissionLoaded = this.profileManager.userProfilePromise
-					.then(profile => this.hasPermission(profile))
-					.catch(e => this.permissionsChecked=true)
+				.then(profile => this.hasPermission(profile))
+				.catch(e => this.permissionsChecked=true)
 				this.permissionsChecked=true
-			})
+				})
+			}		
 		}
 	}
 	
