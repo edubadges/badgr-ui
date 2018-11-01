@@ -256,7 +256,7 @@ export class PublicBadgeClassComponent {
 			this.studentsEnrolledButtonDisabled = true
 		}
 		if (enrollmentStatus=='"alreadyEnrolled"') {
-			this.buttonText = 'Already enrolled'
+			this.buttonText = 'enrolled'
 			this.studentsEnrolledButtonDisabled = true
 		}
 	}
