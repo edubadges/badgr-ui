@@ -24,6 +24,15 @@ export class StudentsEnrolledApiService extends BaseHttpApiService {
                                         last_name: lastName, 
                                         badgeclass_slug: badgeClassSlug})
   }
+  
+  withdrawStudent(enrollmentID: string): Promise<any> {
+    return this.delete(`/lti_edu/withdraw`, {enrollmentID: enrollmentID})
+  }
+
+  getEnrollments(eduID: string): Promise<any> {
+    return this.get(`/lti_edu/student/${eduID}/enrollments`)
+    .then(r => r.json())
+  }
 
   getEnrolledStudents(badgeClassSlug: string): Promise<any> {
     return this.get(`/lti_edu/enrolledstudents/`+badgeClassSlug)

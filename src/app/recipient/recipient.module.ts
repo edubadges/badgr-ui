@@ -7,6 +7,7 @@ import { RecipientBadgeCollectionDetailComponent } from "./recipient-badge-colle
 import { RecipientBadgeCollectionListComponent } from "./recipient-badge-collection-list.component";
 import { RecipientEarnedBadgeDetailComponent } from "./recipient-earned-badge-detail.component";
 import { RecipientEarnedBadgeListComponent } from "./recipient-earned-badge-list.component";
+import { RecipientEnrollmentListComponent } from "./recipient-enrollment-list.component";
 import { AddBadgeDialogComponent } from "./add-badge-dialog.component";
 import { RecipientBadgeApiService } from "./services/recipient-badges-api.service";
 import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
@@ -16,7 +17,10 @@ import { RecipientBadgeCollectionCreateComponent } from "./recipient-badge-colle
 import { RecipientBadgeSelectionDialog } from "./recipient-badge-selection-dialog.component";
 import { RecipientBadgeCollectionEditFormComponent } from "./recipient-badge-collection-edit-form.component";
 import { RecipientBadgeCollectionSelectionDialog } from "./recipient-badge-collection-selection-dialog";
-import {CommonEntityManagerModule} from "../entity-manager/entity-manager.module";
+import { CommonEntityManagerModule } from "../entity-manager/entity-manager.module";
+import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
+import { UserProfileApiService } from "../common/services/user-profile-api.service"
+
 
 const routes = [
 	/* Recipient Badges */
@@ -31,6 +35,10 @@ const routes = [
 	{
 		path: "earned-badge/:badgeSlug",
 		component: RecipientEarnedBadgeDetailComponent
+	},
+	{
+		path: "enrollments",
+		component: RecipientEnrollmentListComponent
 	},
 
 	/* Recipient Badge Collections */
@@ -68,13 +76,16 @@ const routes = [
 		RecipientBadgeCollectionEditFormComponent,
 		RecipientBadgeCollectionSelectionDialog,
 		RecipientBadgeSelectionDialog,
+		RecipientEnrollmentListComponent,
 		AddBadgeDialogComponent
 	],
 	providers: [
 		RecipientBadgeApiService,
 		RecipientBadgeManager,
 		RecipientBadgeCollectionApiService,
-		RecipientBadgeCollectionManager
+		RecipientBadgeCollectionManager,
+		StudentsEnrolledApiService,
+		UserProfileApiService,
 	],
 	exports: []
 })

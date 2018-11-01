@@ -7,6 +7,7 @@ import { CommonDialogsService } from "./common/services/common-dialogs.service";
 import { SystemConfigService } from "./common/services/config.service";
 import { ShareSocialDialog } from "./common/dialogs/share-social-dialog.component";
 import { ConfirmDialog } from "./common/dialogs/confirm-dialog.component";
+import { UserProfileApiService } from "./common/services/user-profile-api.service"
 
 import "../thirdparty/scopedQuerySelectorShim";
 import { EventsService } from "./common/services/events.service";
@@ -92,7 +93,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					</li>
+					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/enrollments']">Enrollments</a></li>
 					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
@@ -129,6 +130,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	userMaySeeIssuers: boolean = false;
+	userMaySeeEnrollments: boolean = false;
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
 	currentPermissionLoaded: Promise<any>;
@@ -182,7 +184,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private renderer: Renderer2,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
-		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics   // required for angulartics to work
+		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,   // required for angulartics to work
+		private userProfileApiService: UserProfileApiService,
 
 	) {
 		messageService.useRouter(router);
@@ -191,12 +194,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.initAnalytics();
 
 		if (sessionService.isLoggedIn) {
-			// profileManager.userProfilePromise.then(profile => {
-			// 	if (profile.agreedTermsVersion != profile.latestTermsVersion) {
-			// 		this.commonDialogsService.newTermsDialog.openDialog();
-			// 	}
-			// });
-
 			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
 				this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
 			})
@@ -273,10 +270,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.shareSocialDialog,
 			this.newTermsDialog
 		);
-	}
-		
+	}	
 
 	hasPermission(profile){
+		this.userProfileApiService.fetchSocialAccounts()
+			.then(socialAccounts => {
+				for (let account of socialAccounts){
+					if (account['provider'] == 'edu_id'){
+						this.userMaySeeEnrollments = true
+					}
+				}
+			})
 		var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
 		if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
 			this.userMaySeeIssuers = true;
