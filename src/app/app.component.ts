@@ -22,6 +22,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 import { detect } from "detect-browser";
 import {UserProfileManager} from "./common/services/user-profile-manager.service";
 import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
+import {QueryParametersService} from "./common/services/query-parameters.service";
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -186,6 +187,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private oAuthManager: OAuthManager,
 		private embedService: EmbedService,
 		private renderer: Renderer2,
+		private queryParams: QueryParametersService,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics   // required for angulartics to work
@@ -196,7 +198,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.initScrollFix();
 		this.initAnalytics();
 
-		if (sessionService.isLoggedIn) {
+		const authCode = this.queryParams.queryStringValue("authCode", true);
+		if (sessionService.isLoggedIn && !authCode) {
 			profileManager.userProfilePromise.then(profile => {
 				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
 					this.commonDialogsService.newTermsDialog.openDialog();
