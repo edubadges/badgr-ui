@@ -15,6 +15,7 @@ import { SystemConfigService } from "../common/services/config.service";
 import { FormFieldText } from "../common/components/formfield-text";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
+import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 
 
 @Component({
@@ -179,6 +180,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		private configService: SystemConfigService,
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
+		private externalToolsManager: ExternalToolsManager,
 		router: Router,
 		route: ActivatedRoute
 	) {
@@ -218,6 +220,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
+					this.externalToolsManager.externaltoolsList.updateIfLoaded();
 					this.initFinished = this.router.navigate([ 'recipient' ]);
 				});
 				return;
@@ -229,6 +232,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
 
+				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
 			}
@@ -241,6 +245,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 
 			// Handle already logged-in case
 			else if (this.sessionService.isLoggedIn) {
+				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
 			}
@@ -272,6 +277,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					if (this.oAuthManager.isAuthorizationInProgress) {
 						this.router.navigate([ '/auth/oauth2/authorize' ]);
 					} else {
+						this.externalToolsManager.externaltoolsList.updateIfLoaded();
 						this.router.navigate([ 'recipient' ]);
 					}
 				},

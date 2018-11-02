@@ -95,6 +95,14 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 				<ng-template [ngIf]="! loggedIn">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/auth/login']">Sign In</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/signup']">Create Account</a></li>
+					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
+						<button>Apps</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
+								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
+							</li>
+						</ul>
+					</li>
 				</ng-template>
 
 				<!-- Authenticated Menu -->
@@ -205,12 +213,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
 			});
-
-			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
-				this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
-			})
 		}
 
+		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
+			this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
+		});
 
 		if (this.embedService.isEmbedded) {
 			// Enable the embedded indicator class on the body
