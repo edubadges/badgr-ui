@@ -122,7 +122,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
 	
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
-				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown. You may search for other awards by exact email address/recipient identifier.</p>
+				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown.  Uou may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier..</p>
 	
 				<input type="text"
 				       class="search l-childrenhorizontal-x-offset"
@@ -186,6 +186,8 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../breakdown/static/images/placeholderavatar-issuer.svg'));
 
+	private resultsPerPage = 100;
+
 	private issuer: Issuer;
 	private badgeClass: BadgeClass;
 	private allBadgeInstances: BadgeClassInstances;
@@ -244,12 +246,12 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			badge => {
 				this.badgeClass = badge;
 				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - Badgr`);
+				this.loadInstances();
 			},
 			error => this.messageService.reportLoadingError(`Cannot find badge ${this.issuerSlug} / ${this.badgeSlug}`,
 				error)
 		);
 
-		this.loadInstances();
 
 		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
 			issuer => this.issuer = issuer,
@@ -292,7 +294,9 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 
 	private updateResults() {
 		this.instanceResults = this.allBadgeInstances.entities;
-		this.showAssertionCount = true;
+		if (this.recipientCount > this.resultsPerPage) {
+			this.showAssertionCount = true;
+		}
 	}
 
 	revokeInstance(
