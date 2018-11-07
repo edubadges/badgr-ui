@@ -67,8 +67,10 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 							<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
 							<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, cancelling them can only be done through revokation.</p>
 						</div>
-						<div class="l-formsection-x-inputs">
-
+						<div *ngIf="!issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
+							<p class="text text-small">No students are enrolled.</p>
+						</div>
+						<div *ngIf="issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
 							<label class="formcheckbox">
 								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
 								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Select All Students</span>
@@ -256,7 +258,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		)
 		.addArray("recipients", typedGroup()
 			.addControl("recipient_name", "")
-			.addControl("recipient_type", "eduID")
+			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
 			.addControl("selected", false)
 		)
@@ -369,7 +371,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 			let recipientFormGroup = typedGroup()
 			.addControl("recipient_name", name)
-			.addControl("recipient_type", 'eduID')
+			.addControl("recipient_type", 'id')
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
 			.addControl("extensions", typedGroup()
