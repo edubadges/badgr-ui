@@ -20,3 +20,4 @@ temp/
 !src/breakdown/static/js/*.js
 
 src/config.js
+.angulardoc.json
