@@ -51,7 +51,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 					<header>
 						<h2 class="title title-is-smallmobile">Emails</h2>
 					</header>
-					<div class="table">
+					<div style="overflow-x:visible;" class="table">
 						<!-- table header -->
 						<div class="table-x-thead">
 							<div class="table-x-tr">
@@ -140,7 +140,8 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 								     (document:click)="(menu.clickedState ? (menu.clickedState = false) : (menu.show = false)) || true">
 
 									<!-- TODO: Above is an awesome hack that hides the menu when clicking on the document... might want to replace with something more stable. -->
-									<button type="button"
+									<button *ngIf="(email.verified && !email.primary) || !email.verified"
+													type="button"
 									        aria-controls="menumore1"
 									        (click)="menu.show = ! menu.show;
 								            menu.clickedState = menu.show;"
@@ -150,10 +151,6 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 									<ul [attr.aria-hidden]="! menu.show"
 									    (click)="menu.show = false"
 									>
-										<li class="menumoreitem"
-										    *ngIf="! isMoveInProgress"
-										>
-										</li>
 										<li class="menumoreitem">
 											<button *ngIf="email.verified && !email.primary"
 											        class="button button-primaryghost"
