@@ -97,16 +97,16 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							<div class="l-formsection-x-inputs">
 								<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of issuer_extensions.controls">
 
-									<div *ngIf="extension.controls.gradingTableExtension">
-										<bg-formfield-text [urlField]="true" [control]="extension.controls.gradingTableExtension.controls.gradingTable" label="Please Type in the URL to the Grading Table" ></bg-formfield-text>
+									<div *ngIf="extension.controls.GradingTableExtension">
+										<bg-formfield-text [urlField]="true" [control]="extension.controls.GradingTableExtension.controls.gradingTable" label="Please Type in the URL to the Grading Table" ></bg-formfield-text>
 										<button class="l-formsectionnested-x-remove formsectionremove"
 														(click)="removeExtension(extension)"
 														type="button"
 										>Remove</button>
 									</div>
 
-									<div *ngIf="extension.controls.institutionIdentifierExtension">
-										<bg-formfield-text [control]="extension.controls.institutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
+									<div *ngIf="extension.controls.InstitutionIdentifierExtension">
+										<bg-formfield-text [control]="extension.controls.InstitutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
 										<button class="l-formsectionnested-x-remove formsectionremove"
 														(click)="removeExtension(extension)"
 														type="button"
@@ -127,16 +127,16 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 								<div class="l-squareiconcards">
 									<button class="squareiconcard squareiconcard-extension"
 													type="button"
-													(click)="addExtension('gradingTableExtension')"
-													[disabled]="gradingTableExtensionEnabled"
+													(click)="addExtension('GradingTableExtension')"
+													[disabled]="GradingTableExtensionEnabled"
 									>
 										<span class="squareiconcard-x-container">grading Table</span>
 									</button>
 
 									<button class="squareiconcard squareiconcard-extension"
 													type="button"
-													(click)="addExtension('institutionIdentifierExtension')"
-													[disabled]="institutionIdentifierExtensionEnabled"
+													(click)="addExtension('InstitutionIdentifierExtension')"
+													[disabled]="InstitutionIdentifierExtensionEnabled"
 									>
 										<span class="squareiconcard-x-container">institution Identifier</span>
 									</button>
@@ -297,8 +297,8 @@ export class IssuerCreateComponent extends BaseAuthorizedAndAuthenticatedRoutabl
 	}
 
 	extensionsEnabled = false
-	gradingTableExtensionEnabled = false
-	institutionIdentifierExtensionEnabled = false
+	GradingTableExtensionEnabled = false
+	InstitutionIdentifierExtensionEnabled = false
 
 	disableExtension(extension: FormGroup){
 		let extensionName = Object.keys(extension.controls)[0]
@@ -320,16 +320,16 @@ export class IssuerCreateComponent extends BaseAuthorizedAndAuthenticatedRoutabl
 	}
 
 	makeFormGroup(extensionName: string){
-		if (extensionName=='gradingTableExtension'){
+		if (extensionName=='GradingTableExtension'){
 			return this.formBuilder.group({
-				gradingTableExtension: this.formBuilder.group({
+				GradingTableExtension: this.formBuilder.group({
 					gradingTable: ['', Validators.compose([Validators.required, UrlValidator.validUrl])]
 				})
 			})
 		}
-		if (extensionName=='institutionIdentifierExtension'){
+		if (extensionName=='InstitutionIdentifierExtension'){
 			return this.formBuilder.group({
-				institutionIdentifierExtension: this.formBuilder.group({
+				InstitutionIdentifierExtension: this.formBuilder.group({
 					institutionIdentifier: ['', Validators.required]
 				})
 			})

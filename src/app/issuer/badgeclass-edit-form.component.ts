@@ -326,7 +326,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					<div class="l-formsection-x-inputs">
 						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of badgeclassExtensions.controls">
 
-							<div *ngIf="extension.controls.languageExtension">
+							<div *ngIf="extension.controls.LanguageExtension">
 								<div>
 									<span id=selectLangHeader class="l-formsection-x-legend title title-ruled"> Selected Language:</span>
 									<div *ngIf="currentLangList[0].label != '' ">
@@ -336,7 +336,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 											<div id="selected_langbox"> No Language Selected </div>
 									</div>
 								</div><br>
-								<bg-formfield-text (change)="autoFillLanguage()" [control]="extension.controls.languageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
+								<bg-formfield-text (change)="autoFillLanguage()" [control]="extension.controls.LanguageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
 								<button class="l-formsectionnested-x-remove formsectionremove"
 								        (click)="removeExtension(extension)"
 								        type="button"
@@ -351,32 +351,32 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 								>Remove</button>
 							</div>
 
-							<div *ngIf="extension.controls.niveauExtension">
-								<bg-formfield-text [control]="extension.controls.niveauExtension.controls.EQF" label="Please Type in the EQF" ></bg-formfield-text>
+							<div *ngIf="extension.controls.NiveauExtension">
+								<bg-formfield-text [control]="extension.controls.NiveauExtension.controls.EQF" label="Please Type in the EQF" ></bg-formfield-text>
 								<button class="l-formsectionnested-x-remove formsectionremove"
 												(click)="removeExtension(extension)"
 												type="button"
 								>Remove</button>
 							</div>
 
-							<div *ngIf="extension.controls.learningOutcomeExtension">
-								<bg-formfield-text [multiline]="true" [control]="extension.controls.learningOutcomeExtension.controls.learningOutcome" label="Please Type in the learning Outcome" ></bg-formfield-text>
+							<div *ngIf="extension.controls.LearningOutcomeExtension">
+								<bg-formfield-text [multiline]="true" [control]="extension.controls.LearningOutcomeExtension.controls.learningOutcome" label="Please Type in the learning Outcome" ></bg-formfield-text>
 								<button class="l-formsectionnested-x-remove formsectionremove"
 												(click)="removeExtension(extension)"
 												type="button"
 								>Remove</button>
 							</div>
 
-							<div *ngIf="extension.controls.educationProgramIdentifierExtension">
+							<div *ngIf="extension.controls.EducationProgramIdentifierExtension">
 								<bg-formfield-select
 									label="Education Program Identifier"
-									[control]="extension.controls.educationProgramIdentifierExtension.controls.type"
+									[control]="extension.controls.EducationProgramIdentifierExtension.controls.identifierType"
 									[options]="educationProgramIdentifierOptions"
 									[placeholder]="'No type selected'"
 								></bg-formfield-select>
 
 								<bg-formfield-text
-									[control]="extension.controls.educationProgramIdentifierExtension.controls.value"
+									[control]="extension.controls.EducationProgramIdentifierExtension.controls.identifierValue"
 								></bg-formfield-text>
 
 								<button class="l-formsectionnested-x-remove formsectionremove"
@@ -401,8 +401,8 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 								<button class="squareiconcard squareiconcard-extension"
 								        type="button"
-								        (click)="addExtension('languageExtension')"
-								        [disabled]="languageExtensionEnabled"
+								        (click)="addExtension('LanguageExtension')"
+								        [disabled]="LanguageExtensionEnabled"
 								>
 									<span class="squareiconcard-x-container">Language</span>
 								</button>
@@ -417,24 +417,24 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 								<button class="squareiconcard squareiconcard-extension"
 								        type="button"
-								        (click)="addExtension('niveauExtension')"
-								        [disabled]="niveauExtensionEnabled"
+								        (click)="addExtension('NiveauExtension')"
+								        [disabled]="NiveauExtensionEnabled"
 								>
 									<span class="squareiconcard-x-container">EQF</span>
 								</button>
 
 								<button class="squareiconcard squareiconcard-extension"
 								        type="button"
-								        (click)="addExtension('learningOutcomeExtension')"
-								        [disabled]="learningOutcomeExtensionEnabled"
+								        (click)="addExtension('LearningOutcomeExtension')"
+								        [disabled]="LearningOutcomeExtensionEnabled"
 								>
 									<span class="squareiconcard-x-container">learning outcome</span>
 								</button>
 
 								<button class="squareiconcard squareiconcard-extension"
 								        type="button"
-								        (click)="addExtension('educationProgramIdentifierExtension')"
-								        [disabled]="educationProgramIdentifierExtensionEnabled"
+								        (click)="addExtension('EducationProgramIdentifierExtension')"
+								        [disabled]="EducationProgramIdentifierExtensionEnabled"
 								>
 									<span class="squareiconcard-x-container">edu program identifier</span>
 								</button>
@@ -651,18 +651,18 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	// Extensions
 
 	extensionsEnabled = false;
-	languageExtensionEnabled = false;
+	LanguageExtensionEnabled = false;
 	ECTSExtensionEnabled = false
-	niveauExtensionEnabled = false
-	learningOutcomeExtensionEnabled = false
-	educationProgramIdentifierExtensionEnabled = false
+	NiveauExtensionEnabled = false
+	LearningOutcomeExtensionEnabled = false
+	EducationProgramIdentifierExtensionEnabled = false
 	educationProgramIdentifierOptions: FormFieldSelectOption[];
 
 	autoFillLanguage(){
 		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
-			if (extension.controls.languageExtension) {
+			if (extension.controls.LanguageExtension) {
 				let currentLanguage = this.currentLangList[0].label
-				extension.controls.languageExtension.controls.typedLanguage.patchValue(currentLanguage)
+				extension.controls.LanguageExtension.controls.typedLanguage.patchValue(currentLanguage)
 			}
 		}
 	}
@@ -698,15 +698,15 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	makeFormGroup(extensionName: string){
-		if (extensionName=='languageExtension'){
+		if (extensionName=='LanguageExtension'){
 			let typedLanguage = ''
-			let language = (this.badgeClass && this.badgeClass.extensions['languageExtension']) ? this.badgeClass.extensions['languageExtension']['language'] : ''
+			let language = (this.badgeClass && this.badgeClass.extensions['LanguageExtension']) ? this.badgeClass.extensions['LanguageExtension']['language'] : ''
 			if (language) { // if language is already there, fill typedLanguage with corresponding label
 				let langForPreset = this.languageOptions.filter(lang => lang.value == language)
 				typedLanguage = langForPreset[0]['label']
 			}
 			return this.fb.group({
-					languageExtension: this.fb.group({
+					LanguageExtension: this.fb.group({
 						language: [language],
 						typedLanguage: [typedLanguage, Validators.required],
 					})
@@ -720,29 +720,29 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				})
 			})
 		}
-		if (extensionName=='niveauExtension'){
-			let eqf = (this.badgeClass && this.badgeClass.extensions['niveauExtension']) ? this.badgeClass.extensions['niveauExtension']['EQF'] : ''
+		if (extensionName=='NiveauExtension'){
+			let eqf = (this.badgeClass && this.badgeClass.extensions['NiveauExtension']) ? this.badgeClass.extensions['NiveauExtension']['EQF'] : ''
 			return this.fb.group({
-				niveauExtension: this.fb.group({
+				NiveauExtension: this.fb.group({
 					EQF: [eqf, Validators.required]
 				})
 			})
 		}
-		if (extensionName=='learningOutcomeExtension'){
-			let eqf = (this.badgeClass && this.badgeClass.extensions['learningOutcomeExtension']) ? this.badgeClass.extensions['learningOutcomeExtension']['learningOutcome'] : ''
+		if (extensionName=='LearningOutcomeExtension'){
+			let learningOutcome = (this.badgeClass && this.badgeClass.extensions['LearningOutcomeExtension']) ? this.badgeClass.extensions['LearningOutcomeExtension']['learningOutcome'] : ''
 			return this.fb.group({
-				learningOutcomeExtension: this.fb.group({
-					learningOutcome: [eqf, Validators.required]
+				LearningOutcomeExtension: this.fb.group({
+					learningOutcome: [learningOutcome, Validators.required]
 				})
 			})
 		}
-		if (extensionName=='educationProgramIdentifierExtension'){
-			let type = (this.badgeClass && this.badgeClass.extensions['educationProgramIdentifierExtension']) ? this.badgeClass.extensions['educationProgramIdentifierExtension']['type'] : ''
-			let value = (this.badgeClass && this.badgeClass.extensions['educationProgramIdentifierExtension']) ? this.badgeClass.extensions['educationProgramIdentifierExtension']['value'] : ''
+		if (extensionName=='EducationProgramIdentifierExtension'){
+			let identifierType = (this.badgeClass && this.badgeClass.extensions['EducationProgramIdentifierExtension']) ? this.badgeClass.extensions['EducationProgramIdentifierExtension']['identifierType'] : ''
+			let identifierValue = (this.badgeClass && this.badgeClass.extensions['EducationProgramIdentifierExtension']) ? this.badgeClass.extensions['EducationProgramIdentifierExtension']['identifierValue'] : ''
 			return this.fb.group({
-				educationProgramIdentifierExtension: this.fb.group({
-					type: [type, Validators.required],
-					value: [type, Validators.required]
+				EducationProgramIdentifierExtension: this.fb.group({
+					identifierType: [identifierType, Validators.required],
+					identifierValue: [identifierValue, Validators.required]
 				})
 			})
 		}
@@ -760,9 +760,9 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	getCurrentTypedLanguage(extensions){
 		for (let extension of extensions){
-			if (Object.keys(extension)[0]=='languageExtension'){
-				if (extension['languageExtension']['typedLanguage']){
-					return extension['languageExtension']['typedLanguage']
+			if (Object.keys(extension)[0]=='LanguageExtension'){
+				if (extension['LanguageExtension']['typedLanguage']){
+					return extension['LanguageExtension']['typedLanguage']
 				}
 			}
 		}
@@ -771,10 +771,10 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	setLanguage(language) {
 		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
-			if (extension.controls.languageExtension) {
-				let currentLanguage = extension.controls.languageExtension.controls.language.value
+			if (extension.controls.LanguageExtension) {
+				let currentLanguage = extension.controls.LanguageExtension.controls.language.value
 				if (currentLanguage!=language){
-					extension.controls.languageExtension.controls.language.patchValue(language)
+					extension.controls.LanguageExtension.controls.language.patchValue(language)
 				}
 			}
 		}
