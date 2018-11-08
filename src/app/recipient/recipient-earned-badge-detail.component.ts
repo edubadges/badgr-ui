@@ -332,10 +332,6 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 
 		versionOptions: [
 			{
-				label: "v1.1",
-				shareUrl: addQueryParamsToUrl(options.shareUrl, { v: "1_1" })
-			},
-			{
 				label: "v2.0",
 				shareUrl: addQueryParamsToUrl(options.shareUrl, { v: "2_0" })
 			}
