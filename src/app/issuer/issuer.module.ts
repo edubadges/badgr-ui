@@ -45,6 +45,7 @@ import { IssuerStaffComponent } from "./issuer-staff.component";
 import { ProfileModule } from "../profile/profile.module";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
+import { IssuerAuthGuard } from "../auth/auth.gard"
 
 const routes = [
 	/* Issuer */
@@ -54,67 +55,83 @@ const routes = [
 	},
 	{
 		path: "create",
-		component: IssuerCreateComponent
+		component: IssuerCreateComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug",
-		component: IssuerDetailComponent
+		component: IssuerDetailComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/edit",
-		component: IssuerEditComponent
+		component: IssuerEditComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/staff",
-		component: IssuerStaffComponent
+		component: IssuerStaffComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/badges/create",
-		component: BadgeClassCreateComponent
+		component: BadgeClassCreateComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/badges/:badgeSlug",
-		component: BadgeClassDetailComponent
+		component: BadgeClassDetailComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/badges/:badgeSlug/edit",
-		component: BadgeClassEditComponent
+		component: BadgeClassEditComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/badges/:badgeSlug/issue",
-		component: BadgeClassIssueComponent
+		component: BadgeClassIssueComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/badges/:badgeSlug/bulk-import",
-		component: BadgeClassIssueBulkAwardComponent
+		component: BadgeClassIssueBulkAwardComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/pathways/create",
-		component: PathwayCreateComponent
+		component: PathwayCreateComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/pathways/:pathwaySlug/elements/:elementSlug",
-		component: PathwayDetailComponent
+		component: PathwayDetailComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/pathways/:pathwaySlug/subscribed-groups",
-		component: PathwayGroupSubscriptionComponent
+		component: PathwayGroupSubscriptionComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/recipient-groups/create",
-		component: RecipientGroupCreateComponent
+		component: RecipientGroupCreateComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/recipient-groups/:groupSlug",
-		component: RecipientGroupDetailComponent
+		component: RecipientGroupDetailComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "issuers/:issuerSlug/recipient-groups/:groupSlug/csv-import",
-		component: RecipientGroupImportCSV
+		component: RecipientGroupImportCSV,
+		canActivate: [IssuerAuthGuard]
 	},
 	{
 		path: "**",
-		component: IssuerListComponent
+		component: IssuerListComponent,
+		canActivate: [IssuerAuthGuard]
 	},
 ];
 
@@ -178,6 +195,7 @@ const routes = [
 		RecipientGroupApiService,
 		RecipientGroupManager,
 		StudentsEnrolledApiService,
+		IssuerAuthGuard,
 	]
 })
 export class IssuerModule {}

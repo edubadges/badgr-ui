@@ -109,7 +109,7 @@ export class IssuerListComponent extends BaseAuthorizedAndAuthenticatedRoutableC
 	}
 
 	constructor(
-		profileManager: UserProfileManager,
+		protected profileManager: UserProfileManager,
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
