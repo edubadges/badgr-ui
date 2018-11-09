@@ -7,6 +7,8 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { OAuthManager } from "../common/services/oauth-manager.service";
 import { OAuth2AppAuthorization } from "../common/model/oauth.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
+import { flatten } from "../common/util/array-reducers";
+
 
 @Component({
 	selector: 'oauth-app-detail-component',
@@ -80,6 +82,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 })
 export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	app: OAuth2AppAuthorization;
+	appTokens: OAuth2AppAuthorization[];
 	appPromise: Promise<any>;
 
 	constructor(
@@ -98,6 +101,7 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 		this.appPromise = oAuthManager.authorizedApps.loadedPromise.then(
 			list => {
 				this.app = list.entityForUrl(this.appId);
+				this.appTokens = list.entities.filter(t => t.clientId == this.app.clientId);
 				title.setTitle(`App - ${this.app.name} - Badgr`);
 			}
 		);
@@ -108,7 +112,8 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 	}
 
 	get presentationScopes() {
-		return this.app && this.oAuthManager.presentationScopesForScopes(this.app.scopes);
+		let allScopes = new Set(this.appTokens.map(t => t.scopes).reduce(flatten(), []));
+		return this.app && this.oAuthManager.presentationScopesForScopes(Array.from(allScopes.values()));
 	}
 
 	ngOnInit() {
@@ -116,19 +121,17 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 	}
 
 	async revokeAccess() {
-		const app = this.app;
-
 		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
 				dialogTitle: "Revoke Access?",
-				dialogBody: `Are you sure you want to revoke access to ${app.name}?`,
+				dialogBody: `Are you sure you want to revoke access to ${this.app.name}?`,
 				resolveButtonLabel: "Revoke Access",
 				rejectButtonLabel: "Cancel",
 			})) {
-			return app.revokeAccess()
+			Promise.all(this.appTokens.map(app => app.revokeAccess()))
 				.then(
-					() => this.messageService.reportMajorSuccess(`Revoked access to ${app.name}`, true),
+					() => this.messageService.reportMajorSuccess(`Revoked access to ${this.app.name}`, true),
 					error => this.messageService.reportAndThrowError(
-						`Failed to revoke access to ${app.name}`,
+						`Failed to revoke access to ${this.app.name}`,
 						error
 					)
 				).then(
