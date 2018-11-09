@@ -10,6 +10,7 @@ import { AppIntegrationManager } from "./services/app-integration-manager.servic
 import { OAuthManager } from "../common/services/oauth-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { OAuth2AppAuthorization } from "../common/model/oauth.model";
+import { groupIntoObject } from "../common/util/array-reducers";
 
 
 
@@ -110,7 +111,12 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	get oAuthApps() {
-		return this.oAuthManager.authorizedApps.entities.filter(a => a.clientId !== "public")
+		// omit tokens with clientId='public' and only return first token per application
+		const omittedClientIds = ['public'];
+		let groupedByApplication = this.oAuthManager.authorizedApps.entities
+			.filter(a => omittedClientIds.indexOf(a.clientId) == -1)
+			.reduce(groupIntoObject(a => a.clientId), {})
+		return Object.values(groupedByApplication).map(a => a[0])
 	}
 
 	ngOnInit() {
@@ -124,13 +130,12 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 			resolveButtonLabel: "Revoke Access",
 			rejectButtonLabel: "Cancel",
 		})) {
-			return app.revokeAccess().then(
-				() => this.messageService.reportMinorSuccess(`Revoked access ${app.name}`),
-				error => this.messageService.reportAndThrowError(
-					`Failed to revoke access to ${app.name}`,
-					error
+			// revoke all tokens for the app
+			Promise.all(this.oAuthManager.authorizedApps.entities.filter(t => t.clientId == app.clientId).map(t => t.revokeAccess()))
+				.then(
+					() => this.messageService.reportMinorSuccess(`Revoked access ${app.name}`),
+					error => this.messageService.reportAndThrowError(`Failed to revoke access to ${app.name}`, error)
 				)
-			)
 		}
 	}
 }
