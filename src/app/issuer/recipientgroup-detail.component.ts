@@ -78,7 +78,7 @@ import { markControlsDirty } from "../common/util/form-util";
 					<div class="l-gridthree hidden hidden-is-tablet"
 					     [class.inactive]="editForm.isEditing">
 						<div *ngFor="let pathway of recipientGroup.subscribedPathways">
-							<div class="card">
+							<div class="card card-smallimage">
 								<a class="card-x-main" [routerLink]="['/issuer/issuers/', issuerSlug, 'pathways', pathway?.slug||'', 'elements', pathway?.slug||'']">
 									<div class="card-x-image">
 							      <div class="badge">
@@ -141,8 +141,9 @@ import { markControlsDirty } from "../common/util/form-util";
 									<div class="table-x-td">
 										<bg-formfield-text [control]="memberCreateForm.controls.memberEmail"
 										                   [errorMessage]="'Please enter valid email address'"
-										                   placeholder="Member Email"
-																			 [class.inactive]="editForm.isEditing || isEditingMember"
+														   placeholder="Member Email"
+														   fieldType="email"
+														   [class.inactive]="editForm.isEditing || isEditingMember"
 										></bg-formfield-text>
 									</div>
 									<div class="table-x-td">

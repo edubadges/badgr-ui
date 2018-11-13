@@ -20,6 +20,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 import { UserProfile, UserProfileEmail } from "../common/model/user-profile.model";
 import { Subscription } from "rxjs/Subscription";
 import { QueryParametersService } from "../common/services/query-parameters.service";
+import {OAuthApiService} from "../common/services/oauth-api.service";
 
 @Component({
 	selector: 'userProfile',
@@ -73,7 +74,8 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 								<div class="table-x-th " scope="row">
 									<div class="formfield l-childrenhorizontal">
 										<bg-formfield-text [control]="emailForm.controls.email"
-										                   [errorMessage]="'Please enter a valid email address'"
+														   [errorMessage]="'Please enter a valid email address'"
+														   fieldType="email"
 										                   placeholder="Member Email">
 										</bg-formfield-text>
 									</div>
@@ -217,7 +219,8 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		protected messageService: MessageService,
 		protected profileManager: UserProfileManager,
 		protected dialogService: CommonDialogsService,
-		protected paramService: QueryParametersService
+		protected paramService: QueryParametersService,
+		private oauthService: OAuthApiService
 ) {
 		super(router, route, sessionService);
 		title.setTitle("Profile - Badgr");

@@ -294,7 +294,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): ShareSocialDialogOptions {
 	return badgeShareDialogOptions({
 		shareUrl: badge.shareUrl,
-		imageUrl: badge.image,
+		imageUrl: badge.imagePreview,
 		badgeClassName: badge.badgeClass.name,
 		badgeClassDescription: badge.badgeClass.description,
 		issueDate: badge.issueDate,

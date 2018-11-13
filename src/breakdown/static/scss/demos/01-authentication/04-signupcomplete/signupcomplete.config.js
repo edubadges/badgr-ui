@@ -42,7 +42,7 @@ module.exports = {
         context: {
           id: 'password',
           label: 'Password',
-          labelNote: '(Must be at least 6 characters)',
+          labelNote: '(Must be at least 8 characters)',
           inputText: {
             id: 'password',
             type: 'password'

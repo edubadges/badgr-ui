@@ -71,7 +71,8 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ currentTheme.serviceName }} by providing your information</legend>
 						
 						<bg-formfield-text [control]="signupForm.controls.username"
-						                   [label]="'Email'"
+										   [label]="'Email'"
+										   fieldType="email"
 						                   [errorMessage]="'Please enter a valid email address'"
 						                   [autofocus]="true"
 						></bg-formfield-text>
@@ -87,14 +88,14 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						></bg-formfield-text>
 	
 						<bg-formfield-text [control]="passwordGroup.controls.password"
-						                   [label]="'Password (Must be at least 6 characters)'"
-						                   [password]="true"
+						                   [label]="'Password (Must be at least 8 characters)'"
+						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please enter a password' }"
 						></bg-formfield-text>
 	
 						<bg-formfield-text [control]="passwordGroup.controls.passwordConfirm"
 						                   [label]="'Confirm Password'"
-						                   [password]="true"
+						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please confim your password' }"
 						                   [errorGroup]="passwordGroup"
 						></bg-formfield-text>
@@ -106,7 +107,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
 					</label>
 					
-					<label class="formcheckbox" for="news">
+					<label class="formcheckbox" for="news" *ngIf="showMarketingOptIn">
 						<input name="news" id="news" type="checkbox" [formControl]="signupForm.controls.marketingOptIn">
 						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from Badgr.</span>
 					</label>
@@ -205,7 +206,11 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 					},
                     error => {
                         if (error) {
+                          if (error.password) {
+                            this.messageService.setMessage("Your password must be uncommon and at least 8 characters. Please try again.", "error");
+                          } else {
                             this.messageService.setMessage("" + error, "error");
+                          }
                         }
                         else {
                             this.messageService.setMessage("Unable to signup.", "error");
@@ -229,11 +234,15 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 			markControlsDirty(this.passwordGroup);
 		}
 	}
+
+	get showMarketingOptIn() {
+		return !!!this.currentTheme.hideMarketingOptIn;
+	}
 }
 
 function passwordValidator(control: FormControl): { [errorName: string]: any } {
-	if (control.value.length < 6) {
-		return { 'weakPassword': "Password must be at least 6 characters" }
+	if (control.value.length < 8) {
+		return { 'weakPassword': "Password must be at least 8 characters" }
 	}
 }
 function passwordsMatchValidator(group: FormGroup): { [errorName: string]: any } {

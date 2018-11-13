@@ -26,10 +26,10 @@ import { CommonDialogsService } from "../services/common-dialogs.service";
 
         <p class="formfield-x-description" *ngIf="description">{{ description }}</p>
 
-        <input [type]="password ? 'password' : 'text'"
+        <input [type]="fieldType"
                *ngIf="! multiline"
                [name]="inputName"
-               [id]="inputName"
+               [id]="inputId"
                [formControl]="control"
                [placeholder]="placeholder || ''"
                (change)="postProcessInput()"
@@ -39,7 +39,7 @@ import { CommonDialogsService } from "../services/common-dialogs.service";
                />
         <textarea *ngIf="multiline"
                   [name]="inputName"
-                  [id]="inputName"
+                  [id]="inputId"
                   [formControl]="control"
                   [placeholder]="placeholder || ''"
                   (change)="postProcessInput()"
@@ -54,6 +54,7 @@ import { CommonDialogsService } from "../services/common-dialogs.service";
 export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() control: FormControl;
 	@Input() initialValue: string;
+	@Input() id: string;
 	@Input() label: string;
 	@Input() ariaLabel: string;
 	@Input() includeLabelAsWrapper:boolean = false; //includes label for layout purposes even if label text wasn't passed in.
@@ -63,7 +64,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() monospaced: boolean = false;
 	@Input() description: string;
 	@Input() placeholder: string;
-	@Input() password: boolean;
+	@Input() fieldType: FormFieldTextInputType = "text";
 	@Input() optional: boolean = false;
 
 	@Input() errorGroup: FormGroup;
@@ -136,6 +137,8 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 
 	private randomName = "field" + Math.random();
 	get inputName() { return (this.label||this.placeholder||this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
+	get inputId() { return this.id || (this.label||this.placeholder||this.randomName).toLowerCase() }
+
 
 	constructor(
 		private dialogService: CommonDialogsService,
@@ -217,6 +220,11 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		}
 	}
 }
+
+/**
+ * Allowable HTML input type for text based inputs.
+ */
+export type FormFieldTextInputType = "text" | "email" | "url" | "tel" | "password" | "search";
 
 export type ValidatorKey = "required" | "maxlength" | "validUrl";
 

@@ -22,7 +22,7 @@ export class ExternalToolsApiService extends BaseHttpApiService {
 	}
 
 	listTools(): Promise<ApiExternalTool[]> {
-		return this.get(`/v1/externaltools/`).then(r => r.json())
+		return this.get(`/v1/externaltools/`, null, false).then(r => r.json())
 	}
 
 	getLaunchToolInfo(launchpoint: ApiExternalToolLaunchpoint, contextId: string): Promise<ApiExternalToolLaunchInfo> {

@@ -190,6 +190,14 @@
 
 }
 
+.card-smallimage {
+  .card-x-image {
+    img {
+      width: 40px;
+    }
+  }
+}
+
 // Used on pathway detail to align a single action to the right of the card
 
 .card-actionsright {

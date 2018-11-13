@@ -13,6 +13,7 @@ import { preloadImageURL } from "../common/util/file-util";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { FormFieldSelectOption } from "../common/components/formfield-select";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'issuer-create',
@@ -60,7 +61,8 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 			        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
 			                           [label]="'Website URL'"
 			                           [errorMessage]="'Please enter a valid URL'"
-			                           [urlField]="true"
+																 [urlField]="true"
+																 type="url"
 			        ></bg-formfield-text><br>
 
 							<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
@@ -180,10 +182,13 @@ export class IssuerCreateComponent extends BaseAuthorizedAndAuthenticatedRoutabl
 	facultiesLoaded: Promise<any>;
 	issuer_extensions: Object;
 
+	get currentTheme() { return this.configService.currentTheme }
+
 	constructor(
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
+		private configService: SystemConfigService,
 		protected profileManager: UserProfileManager,
 		protected formBuilder: FormBuilder,
 		protected title: Title,

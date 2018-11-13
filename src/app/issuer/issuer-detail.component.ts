@@ -161,7 +161,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 
 					<div *bgAwaitPromises="[issuerLoaded, pathwaysLoaded]" class="l-gridthree">
 						<div *ngFor="let pathway of pathways">
-							<div class="card">
+							<div class="card card-smallimage">
 								<a class="card-x-main"
 								   [routerLink]="['/issuer/issuers', issuerSlug, 'pathways', pathway.slug, 'elements', pathway.slug]">
 									<div class="card-x-image">

@@ -170,8 +170,8 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
 						</label>
 						
-						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox">
-							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox1">
+							<input name="form-checkbox" id="form-checkbox1" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
 						</label>
 
