@@ -129,6 +129,14 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 										>
 											Re-send Verification
 										</button>
+										<button *ngIf="!email.verified"
+														class="button button-primaryghost"
+														[class.button-is-disabled]="email.primary"
+														(click)="clickConfirmRemove($event, email)"
+														[disabled-when-requesting]="true"
+										>
+											Remove
+										</button>
 									</div>
 								</div>
 
@@ -164,6 +172,16 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 											        (click)="clickResendVerification($event, email)"
 											        [disabled-when-requesting]="true"
 											>Re-send Verification
+											</button>
+										</li>
+										<li>
+											<button *ngIf="!email.verified"
+															class="button button-primaryghost"
+															[class.button-is-disabled]="email.primary"
+															(click)="clickConfirmRemove($event, email)"
+															[disabled-when-requesting]="true"
+											>
+												Remove
 											</button>
 										</li>
 									</ul>
