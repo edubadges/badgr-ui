@@ -147,9 +147,6 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 
 							<!-- URLs -->
 							<section>
-								<a [href]="v1JsonUrl"
-								   class="button button-primaryghost"
-								>v1 JSON</a>
 								<a [href]="v2JsonUrl"
 								   class="button button-primaryghost"
 								>v2.0 JSON</a>
