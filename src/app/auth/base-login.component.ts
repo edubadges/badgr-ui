@@ -9,6 +9,7 @@ import { Title } from "@angular/platform-browser";
 import { SystemConfigService } from "../common/services/config.service";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
+import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 
 
 @Component({
@@ -26,6 +27,7 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 	constructor(
 		private title: Title,
 		protected sessionService: SessionService,
+		protected externalToolsManager: ExternalToolsManager,
 		private messageService: MessageService,
 		private configService: SystemConfigService,
 		private queryParams: QueryParametersService,
@@ -53,18 +55,24 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 
 	private handleQueryParamCases() {
 		try {
-			// Handle external auth case
-			if (this.queryParams.queryStringValue("authToken", true)) {
-				this.sessionService.storeToken({
-					token: this.queryParams.queryStringValue("authToken", true)
+			// Handle authcode exchange
+			const authCode = this.queryParams.queryStringValue("authCode", true);
+			if (authCode) {
+				this.sessionService.exchangeCodeForToken(authCode).then(token => {
+					this.sessionService.storeToken(token);
+					this.externalToolsManager.externaltoolsList.updateIfLoaded();
+					this.initFinished = this.router.navigate([ 'recipient' ]);
 				});
-				if (this.queryParams.queryStringValue("public", true)) {
-					let badgeClassSlug = this.queryParams.queryStringValue("badgeclassSlug", true)
-					let enrollmentStatus = this.queryParams.queryStringValue("enrollmentStatus", true)
-					this.initFinished = this.router.navigate(['public/badges/'+badgeClassSlug], {'queryParams':{'enrollmentStatus': enrollmentStatus}})
-					return;
-				}
+				return;
+			}
 
+			// legacy authToken support
+			else if (this.queryParams.queryStringValue("authToken", true)) {
+				this.sessionService.storeToken({
+					access_token: this.queryParams.queryStringValue("authToken", true)
+				});
+
+				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
 			}
@@ -77,6 +85,7 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 
 			// Handle already logged-in case
 			else if (this.sessionService.isLoggedIn) {
+				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
 			}
