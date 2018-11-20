@@ -10,6 +10,7 @@ import { ScrollPinDirective } from "./directives/scroll-pin.directive";
 import { BadgeImageComponent } from "./components/badge-image.component";
 import { ConfirmDialog } from "./dialogs/confirm-dialog.component";
 import { NewTermsDialog } from "./dialogs/new-terms-dialog.component";
+import { EduIDFailureDialog } from "./dialogs/eduid-failure-dialog.component";
 import { ConnectedBadgeComponent } from "./components/connected-badge.component";
 import { TruncatedTextComponent } from "./components/truncated-text.component";
 import { TooltipComponent } from "./components/tooltip.component";
@@ -74,6 +75,7 @@ const COMPONENTS = [
 	ConfirmDialog,
 	NewTermsDialog,
 	ShareSocialDialog,
+	EduIDFailureDialog,
 	ConnectedBadgeComponent,
 	TruncatedTextComponent,
 	FormMessageComponent,

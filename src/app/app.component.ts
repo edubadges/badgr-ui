@@ -24,6 +24,8 @@ import { detect } from "detect-browser";
 import {UserProfileManager} from "./common/services/user-profile-manager.service";
 import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
+import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
+
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -70,6 +72,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		<confirm-dialog #confirmDialog></confirm-dialog>
 		<new-terms-dialog #newTermsDialog></new-terms-dialog>
 		<share-social-dialog #shareSocialDialog></share-social-dialog>
+		<eduid-failure-dialog #eduIDFailureDialog></eduid-failure-dialog>
 
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
@@ -146,6 +149,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("shareSocialDialog")
 	private shareSocialDialog: ShareSocialDialog;
+
+	@ViewChild("eduIDFailureDialog")
+	private eduIDFailureDialog: EduIDFailureDialog;
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
@@ -276,7 +282,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.commonDialogsService.init(
 			this.confirmDialog,
 			this.shareSocialDialog,
-			this.newTermsDialog
+			this.newTermsDialog,
+			this.eduIDFailureDialog,
 		);
 	}	
 

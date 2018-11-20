@@ -10,7 +10,7 @@ import { SystemConfigService } from "../common/services/config.service";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
-
+import { CommonDialogsService } from "../common/services/common-dialogs.service";
 
 @Component({
 	selector: 'login',
@@ -29,6 +29,7 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 		protected sessionService: SessionService,
 		protected externalToolsManager: ExternalToolsManager,
 		private messageService: MessageService,
+		private commonDialogsService: CommonDialogsService,
 		private configService: SystemConfigService,
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
@@ -80,7 +81,11 @@ export class BaseLoginComponent extends BaseRoutableComponent implements OnInit 
 			// Handle external auth failure case
 			else if (this.queryParams.queryStringValue("authError", true)) {
 				this.sessionService.logout();
-				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
+				let authErrorMessage = this.queryParams.queryStringValue("authError", true)
+				if (authErrorMessage.indexOf('EduID account') >= 0){
+					this.commonDialogsService.eduIDFailureDialog.openFailureDialog()
+				}
+				this.messageService.reportHandledError(authErrorMessage, null, true);
 			}
 
 			// Handle already logged-in case
