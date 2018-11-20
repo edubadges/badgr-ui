@@ -14,6 +14,7 @@ window.config = {
     features: {
         pathwayGraph: true,
         alternateLandingRedirect: false,
-        socialAccountProviders: ["surf_conext", "edu_id"]
+        socialAccountProviders: ["surf_conext", "edu_id"],
+        socialAccountProviderUrls: {"edu_id": "https://pilot.eduid.nl"}
     },
 };
