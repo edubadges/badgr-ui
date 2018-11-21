@@ -19,7 +19,7 @@ function writeStylesheet(regex: RegExp) {
 
 window[ "badgrTheme" ] = {
 		cssInclude: require("../breakdown/static/scss/theme-default.scss"),
-		welcomeMessage: "Welcome to Badgr",
+		welcomeMessage: "Welcome to SURF edubadges",
 		serviceName: "Badgr",
 		showPoweredByBadgr: true,
 		showApiDocsLink: true,
