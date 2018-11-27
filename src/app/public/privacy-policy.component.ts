@@ -105,7 +105,7 @@ import {Component} from "@angular/core";
       </tr>
       <tr>
         <td>Achternaam</td>
-        <td>Identificatie bij Badgeuitgifte	Toestemming</td>
+        <td>Identificatie bij Badgeuitgifte</td>
         <td>Toestemming</td>
       </tr>
       <tr>
@@ -125,7 +125,7 @@ import {Component} from "@angular/core";
       </tr>
       <tr>
         <td>Toestemming</td>
-        <td>Of er toestemming gegeven is: verplicht bij toestemming als grondslag	Toestemming</td>
+        <td>Of er toestemming gegeven is: verplicht bij toestemming als grondslag</td>
         <td>Toestemming</td>
       </tr>
       <tr>
