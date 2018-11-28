@@ -1,6 +1,9 @@
 # Badgr UI
 An Angular 2 based front end for Badgr-server. Uses TypeScript with ES6 style module loading and a webpack-based build process. This is the browser UI for [badgr-server](https://github.com/concentricsky/badgr-server-prerelease).
 
+# Endorsements via blockchain
+Badgr-UI was extended with the Validana.io blockchain to support endorsements of badges and badge classes.
+
 ### About the Badgr Project
 [Badgr](https://badgr.org) was developed by Concentric Sky, starting in 2015 to serve as an open source reference implementation of the Open Badges Specification. It provides functionality to issue portable, verifiable Open Badges as well as to allow users to manage badges they have been awarded by any issuer that uses this open data standard. Since 2015, Badgr has grown to be used by hundreds of educational institutions and other people and organizations worldwide.
 
