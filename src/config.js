@@ -5,16 +5,16 @@ const queryParams = location.search.substr(1).split("&")
 
 window.config = {
     api: {
-        baseUrl: "http://localhost:8000",
-        integrationEndpoints: ['/v1/badgebook/integrations']
-    },
-    help: {
-        email: "info@edubadges.nl"
-    },
-    features: {
-        pathwayGraph: true,
-        alternateLandingRedirect: false,
-        socialAccountProviders: ["surf_conext", "edu_id"],
-        socialAccountProviderUrls: {"edu_id": "https://pilot.eduid.nl"}
-    },
+        baseUrl: "https://badgr-test.edubadges.nl",
+            integrationEndpoints: ['/v1/badgebook/integrations']
+        },
+        help: {
+            email: "info@edubadges.nl"
+        },
+        features: {
+            pathwayGraph: true,
+            alternateLandingRedirect: false,
+            socialAccountProviders: ["surf_conext", "edu_id"],
+            socialAccountProviderUrls: {"edu_id": "https://pilot-test.edubadges.nl/"}
+        },
 };
