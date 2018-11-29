@@ -36,8 +36,8 @@
         <!-- Introduction about blockchain -->
         <h2 class="title title-is-smallmobile l-marginBottom-1andhalfx" i18n>Info</h2>
         <p i18n>Badgr has been extended with endorsements based on the <a href="https://validana.io">Validana.io</a> blockchain. 
-            Educational entities can endorse badges and badgeclasses provided by other entities. 
-            In order to do so you need to provide your private key.
+            Institutions and Faculties can endorse badges and badgeclasses provided by others. 
+            In order to do so you need to provide the private key of the institution or faculty you wish to use.
             Please be adviced that it is your responsibility to safely store your private key.
             Your private key will never leave your browser.
         </p>
@@ -55,13 +55,13 @@
         <validana-login></validana-login>
 
         <!-- Add / Withdraw educational institute (if user is processor) -->
-        <validana-manage-institute *ngIf="validanaService.getLastKnownRole() == 'processor'"></validana-manage-institute>
+        <validana-manage-institute *ngIf="validanaService.getLastKnownRole() === 'processor'"></validana-manage-institute>
 
         <!-- Add / Withdraw educational enity form (if user is institution) -->
-        <validana-manage-entity *ngIf="validanaService.getLastKnownRole() == 'institution'"></validana-manage-entity>
+        <validana-manage-entity *ngIf="validanaService.getLastKnownRole() === 'institution'"></validana-manage-entity>
 
         <!-- Info about entity (if user is entity) -->
-        <validana-info-entity *ngIf="validanaService.getLastKnownRole() == 'entity'"></validana-info-entity>
+        <validana-info-entity *ngIf="validanaService.getLastKnownRole() === 'entity'"></validana-info-entity>
         
     </div>
 </main>
