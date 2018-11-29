@@ -20,6 +20,7 @@ import { MessageService } from '../../../common/services/message.service';
 import { SessionService } from '../../../common/services/session.service';
 import { markControlsDirty } from "../../../common/util/form-util";
 import { ValidanaBlockchainService } from '../../validana/validanaBlockchain.service';
+import { ValidanaAddressInfo } from 'app/endorsement-api/validana/validana.model';
 
 
 
@@ -45,13 +46,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
 
     // Current educational institutes
     // These are queried from the blockchain on component load
-    public eduInstitutes: {
-        addr: string,
-        name: string,
-        parent: string | undefined,
-        withdrawn: boolean,
-        type: string
-    }[];
+    public eduInstitutes: ValidanaAddressInfo[];
 
     /**
      * Create a new institute component
@@ -160,20 +155,11 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
     /**
      * Query the blockchian for currently active educational institutes
      */
-    public obtainEduInstitutes() {
+    public async obtainEduInstitutes() {
 
         // Query the Validana blockchain for institution addresses
-        this.validanaService.query('institutions').then((addresses:string[]) => { 
-            if( addresses ) {
-
-                // Query the Validana blockchain for institution information
-                this.validanaService.query('addrInfo', addresses).then((info:any[]) => {
-
-                    // Store institute information
-                    this.eduInstitutes = info;
-                });
-            }
-        });
+        const addresses = await this.validanaService.query('institutions');
+        this.eduInstitutes = await this.validanaService.getMultipleAddressInfo(addresses);
     }
 
     /**

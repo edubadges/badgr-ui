@@ -33,3 +33,47 @@ export interface ValidanaFieldTypeJSON {
 	name: string;
 }
 
+export interface ValidanaAddressInfo {
+
+	// Address as string
+	addr: string;
+
+	// Known names that were associated with this address
+	names: {
+
+		// Name of the entity / institution
+		name: string;
+
+		// Time the entity / institution started using this name
+		startTime: number;
+
+		// End time the entity / institution used this name (null if not set)
+		endTime: number | null;
+	}[];
+
+	name: string;
+
+	// Parent item for this address
+	parent: string | undefined;
+
+	// When the address was revoked (or null if not revoked)
+	revokedTime: number | null;
+
+	// Is this address currently withdrawn?
+	withdrawn: boolean;
+
+	// Type of the address
+	type: 'entity' | 'institution' | 'processor';
+}
+
+export interface ValidanaEndorsers {
+
+	// ID of the endorsement
+	id: number;
+
+	// Entity that endorsed the badge
+	entity: string;
+
+	// Isuued on 
+	issued_on: number;
+}

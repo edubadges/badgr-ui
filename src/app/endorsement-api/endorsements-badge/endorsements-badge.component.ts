@@ -15,11 +15,12 @@ import { MessageService } from '../../common/services/message.service';
 import { PublicApiService } from '../../public/services/public-api.service';
 import { ValidanaBlockchainService } from './../validana/validanaBlockchain.service';
 import { PublicApiBadgeAssertion } from '../../public/models/public-api.model';
+import { ValidanaEndorsers, ValidanaAddressInfo } from '../validana/validana.model';
 
 @Component({
     selector: 'endorsements-badge',
     templateUrl: './endorsements-badge.component.html',
-    styles: [ 
+    styles: [
         'button[disabled] { background-color: #998d8e !important; }',
         'h2 { margin-top: 20px; margin-bottom: 15px; }',
         '.spacer { display:block; clear:both; } '
@@ -35,7 +36,7 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
     public endorsements: any[] = [];
 
     // Parent objects (institutes) of current endorsers
-    public parents: { [name:string] : any } = {};
+    public parents: { [name: string]: ValidanaAddressInfo } = {};
 
     // Identifier of update timer
     public updateTimer = undefined;
@@ -70,7 +71,7 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
     ngOnDestroy() {
 
         // Clear interval timer
-        clearInterval( this.updateTimer );
+        clearInterval(this.updateTimer);
     }
 
     /**
@@ -94,7 +95,7 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
 
             // Send endorsement of badge class to blockchain
             this.validanaService.endorseBadgeByID(this.assertion.id)
-                
+
                 // Endorsement was accepted
                 .then(() => {
 
@@ -111,70 +112,63 @@ export class EndorsementsBadgeComponent implements OnDestroy, OnInit {
                     this.messageService.reportHandledError(
                         'Unable to store endorsement of this badge. Please review Account -> Blockchain Configuration', undefined, true
                     );
-                
+
                     // Enable submit button
                     this.submitEnabled = true;
                 });
-        },1);
+        }, 1);
     }
 
     /**
      * Helper to update the list of endorsers
      */
-    public async updateEndorsers(quickFail=true) {
+    public async updateEndorsers(quickFail = true) {
 
         // Check the endorsers for this badge class on the blockchain
-        this.validanaService.query('endorsersBadge', this.assertion.id, quickFail).then((data:string[]) => {
-            if(data.length>0) {
+        const data: ValidanaEndorsers[] = await this.validanaService.query('endorsersbadge', this.assertion.id, quickFail);
 
-                // Check if we endorsed this badge
-                this.hasEndorsedBadge = false;
-                for(let e=0; e< data.length; e++) {
-                    if(data[e] === this.validanaService.getAddress()) {
-                        this.hasEndorsedBadge = true;
-                    }
+        if (data.length > 0) {
+
+            // List of endorsers
+            const endorsersList: string[] = [];
+
+            // Check if we endorsed this badge
+            this.hasEndorsedBadge = false;
+            for (let e = 0; e < data.length; e++) {
+                endorsersList.push(data[e].entity);
+                if (data[e].entity === this.validanaService.getAddress()) {
+                    this.hasEndorsedBadge = true;
                 }
-
-                // Obtain information about addresses of endorsers
-                this.validanaService.query('addrInfo', data, quickFail).then((endorsers:any[]) => {
-
-                    // Store the endorsers
-                    this.endorsements = endorsers;
-
-                    // Helper variable to lookup parents (institutes) of endorsers
-                    let parentsToFind = [];
-
-                    // Obtain the parents
-                    for(let i=0;i<endorsers.length;i++) {
-                        parentsToFind.push(endorsers[i].parent);
-                    }
-
-                    // Launch search for parent address objects (only search for unique addresses)
-                    this.validanaService.query('addrInfo', Array.from( new Set(parentsToFind)), quickFail).then((pData) => {
-                        for(let j=0; j<pData.length; j++) {
-
-                            // Store the information of the parents
-                            this.parents[pData[j].addr] = pData[j];
-                        }
-                    
-                    // Something went wrong, log error
-                    }).catch((error) => {
-                        console.log('[Validana] ' + error);
-                    });
-
-                });
-
-            // Reset endorsements and parents 
-            } else {     
-                this.hasEndorsedBadge = false;
-                this.endorsements = [];
-                this.parents = {};
             }
 
-        // Something went wrong, log error
-        }).catch((error) => {
-            console.log('[Validana] ' + error);
-        });
+            // Obtain information about addresses of endorsers
+            const endorsers = await this.validanaService.getMultipleAddressInfo(endorsersList) || [];
+
+            // Store the endorsers
+            this.endorsements = endorsers;
+
+            // Helper variable to lookup parents (institutes) of endorsers
+            let parentsToFind = [];
+
+            // Obtain the parents
+            for (let i = 0; i < endorsers.length; i++) {
+                parentsToFind.push(endorsers[i].parent);
+            }
+
+            // Launch search for parent address objects (only search for unique addresses)
+            const pData = await this.validanaService.getMultipleAddressInfo((Array.from(new Set(parentsToFind))), quickFail) || [];
+            for (let j = 0; j < pData.length; j++) {
+
+                // Store the information of the parents
+                this.parents[pData[j].addr] = pData[j];
+            }
+
+            // Reset endorsements and parents 
+        } else {
+            this.hasEndorsedBadge = false;
+            this.endorsements = [];
+            this.parents = {};
+        }
 
     }
 }

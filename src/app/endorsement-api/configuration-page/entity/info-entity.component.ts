@@ -59,20 +59,12 @@ export class InfoEntityComponent extends BaseAuthenticatedRoutableComponent impl
     /**
      * Called upon initialization of this component
      */
-    ngOnInit() {
+    async ngOnInit() {
 
-        // Obtain information about our own (enity) address
-        this.validanaService.query('addrInfo',[this.validanaService.getAddress()]).then((data) => {
-            if(data.length===1) {
-
-                // Obtain information about the parent (institute)
-                this.validanaService.query('addrInfo',[data[0].parent]).then((parentData) => {
-                    if(parentData.length===1) {
-                        this.parentInfo = parentData[0];
-                    }
-                });
-            }
-        });
+        const addrInfo = await this.validanaService.getAddressInfo();
+        if( addrInfo ) {
+            this.parentInfo = await this.validanaService.getAddressInfo(addrInfo.parent);
+        }
     }
 
 }

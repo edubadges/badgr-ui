@@ -20,6 +20,7 @@ import { MessageService } from '../../../common/services/message.service';
 import { SessionService } from '../../../common/services/session.service';
 import { markControlsDirty } from "../../../common/util/form-util";
 import { ValidanaBlockchainService } from '../../validana/validanaBlockchain.service';
+import { ValidanaAddressInfo } from 'app/endorsement-api/validana/validana.model';
 
 
 
@@ -45,13 +46,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
 
     // Current educational entitys
     // These are queried from the blockchain on component load
-    public eduEntities: {
-        addr: string,
-        name: string,
-        parent: string | undefined,
-        withdrawn: boolean,
-        type: string
-    }[];
+    public eduEntities: ValidanaAddressInfo[];
 
     /**
      * Create a new entity component
@@ -66,33 +61,33 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      */
     constructor(
         public router: Router,
-		public route: ActivatedRoute,
+        public route: ActivatedRoute,
         public sessionService: SessionService,
-		public formBuilder: FormBuilder,
-		public messageService: MessageService,
+        public formBuilder: FormBuilder,
+        public messageService: MessageService,
         public validanaService: ValidanaBlockchainService) {
-            super(router, route, sessionService);
+        super(router, route, sessionService);
 
-            // Setup form elements for managing entitys
-            this.inputForm = this.formBuilder.group({
+        // Setup form elements for managing entitys
+        this.inputForm = this.formBuilder.group({
 
-                // Public address of entity
-                publicKey: [ '', [
-                    
-                    // Entity public address field is required
-                    Validators.required,
+            // Public address of entity
+            publicKey: ['', [
 
-                    // Public address field should contain public address
-                    this.regexValidator(/^[13][1-9A-HJ-NP-Za-km-z]{26,35}/)
-                ]],
+                // Entity public address field is required
+                Validators.required,
 
-                // Public name of entity
-                publicName: [ '', [
+                // Public address field should contain public address
+                this.regexValidator(/^[13][1-9A-HJ-NP-Za-km-z]{26,35}/)
+            ]],
 
-                    // Entity public name field is required
-                    Validators.required
-                ]]
-            } as inputFormControls<any[]>);
+            // Public name of entity
+            publicName: ['', [
+
+                // Entity public name field is required
+                Validators.required
+            ]]
+        } as inputFormControls<any[]>);
 
     }
 
@@ -109,11 +104,11 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * Submit the form
      * @param formState The form state to submit
      */
-	public submitForm(formState: inputFormControls<string>) {
+    public submitForm(formState: inputFormControls<string>) {
 
         // Disable submit button in UI
         this.submitEnabled = false;
-        
+
         // Obtain input public address and public name
         const pubKey = formState.publicKey;
         const pubName = formState.publicName;
@@ -125,12 +120,13 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
         // Show message to the user
         // ( Use setTimeout for Badgr async message bug )
         setTimeout(() => {
-        this.messageService.reportMajorSuccess(
-            'Your request to add '+pubName+' has been send to the blockhain.'
-        ); } , 0);
+            this.messageService.reportMajorSuccess(
+                'Your request to add ' + pubName + ' has been send to the blockhain.'
+            );
+        }, 0);
 
         // Send educational entity information to the blockchain
-        this.validanaService.setEducationalEntity(pubKey,pubName,true).then(() => {
+        this.validanaService.setEducationalEntity(pubKey, pubName, true).then(() => {
 
             // Show message with success to user
             this.messageService.reportMajorSuccess(
@@ -142,8 +138,8 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
 
             // Re-enable submit buttons
             this.submitEnabled = true;
-        
-        // Transaction could not be processed, something went wrong
+
+            // Transaction could not be processed, something went wrong
         }).catch(() => {
 
             // Edu entity could not be added
@@ -161,32 +157,26 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * Obtain string indicating the withdrawn state of the entity
      * @param entity The entity to display the withdrawn state for
      */
-    public getEntityStatus(entity:any):string {
-        if(this.validanaService.getLastKnownWithdrawn() === true) {
+    public getEntityStatus(entity: any): string {
+        if (this.validanaService.getLastKnownWithdrawn() === true) {
             return 'Disabled (Institute is withdrawn)';
         } else {
-            return entity.withdrawn? 'Withdrawn' : 'Active';
+            return entity.withdrawn ? 'Withdrawn' : 'Active';
         }
     }
 
     /**
      * Query the blockchian for currently active educational entitys
      */
-    public obtainEduEntitys() {
+    public async obtainEduEntitys() {
 
         // Query the Validana blockchain for institution addresses
-        this.validanaService.query('entities', this.validanaService.getAddress() )
-        .then((addresses:string[]) => {
-            if( addresses ) {
+        const addresses: string[] = await this.validanaService.query('entities', this.validanaService.getAddress())
+        if (addresses) {
 
-                // Query the Validana blockchain for institution information
-                this.validanaService.query('addrInfo', addresses).then((info:any[]) => {
-
-                    // Store entity information
-                    this.eduEntities = info;
-                });
-            }
-        });
+            // Query the Validana blockchain for institution information
+            this.eduEntities = await this.validanaService.getMultipleAddressInfo(addresses);
+        }
     }
 
     /**
@@ -194,13 +184,13 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * @param entity The entity to update the withdrawn state for
      * @param isWithdrawn The new state for the entity
      */
-    public setWithdrawState(entity:{addr:string, name:string},isWithdrawn:boolean) {
+    public setWithdrawState(entity: { addr: string, name: string }, isWithdrawn: boolean) {
 
         // Set UI button state
-        this.submitEnabled = false;      
-        
+        this.submitEnabled = false;
+
         this.validanaService.setEducationalEntity(entity.addr, entity.name, !isWithdrawn).then(() => {
-            
+
             // Show message to user
             this.messageService.reportMajorSuccess(
                 'Educational entity status updated on blockchain.'
@@ -210,7 +200,7 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
             this.obtainEduEntitys();
 
             // Set UI button state
-            this.submitEnabled = true; 
+            this.submitEnabled = true;
 
         }).catch(() => {
 
@@ -221,8 +211,8 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
             );
 
             // Set UI button state
-            this.submitEnabled = true; 
-        });      
+            this.submitEnabled = true;
+        });
     }
 
     /**
@@ -230,20 +220,20 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
      * @param checkRE The regex to check the input against
      */
     public regexValidator(checkRE: RegExp): ValidatorFn {
-        return (control: AbstractControl): {[key: string]: any} => {
-          const accepted = checkRE.test(control.value);
-          return accepted ? null : {'regex': {value: control.value}} ;
+        return (control: AbstractControl): { [key: string]: any } => {
+            const accepted = checkRE.test(control.value);
+            return accepted ? null : { 'regex': { value: control.value } };
         };
     }
-    
+
     /**
      * Validate The input form
      */
-	public validateInputForm(ev) {
-		if (! this.inputForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.inputForm);
-		}
+    public validateInputForm(ev) {
+        if (!this.inputForm.valid) {
+            ev.preventDefault();
+            markControlsDirty(this.inputForm);
+        }
     }
 
 }

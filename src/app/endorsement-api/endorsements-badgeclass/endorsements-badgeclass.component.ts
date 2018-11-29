@@ -14,11 +14,12 @@ import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from "@angular
 import { MessageService } from '../../common/services/message.service';
 import { PublicApiService } from '../../public/services/public-api.service';
 import { ValidanaBlockchainService } from './../validana/validanaBlockchain.service';
+import { ValidanaEndorsers, ValidanaAddressInfo } from '../validana/validana.model';
 
 @Component({
     selector: 'endorsements-badgeclass',
     templateUrl: './endorsements-badgeclass.component.html',
-    styles: [ 
+    styles: [
         'button[disabled] { background-color: #998d8e !important; }',
         '.spacer { display:block; clear:both; } '
     ],
@@ -36,7 +37,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     public endorsements: any[] = [];
 
     // Parent objects (institutes) of current endorsers
-    public parents: { [name:string] : any } = {};
+    public parents: { [name: string]: ValidanaAddressInfo } = {};
 
     // Identifier of update timer
     public updateTimer = undefined;
@@ -75,7 +76,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     ngOnDestroy() {
 
         // Clear interval timer
-        clearInterval( this.updateTimer );
+        clearInterval(this.updateTimer);
     }
 
     /**
@@ -87,11 +88,11 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
         this.updateEndorsers(false);
 
         // Query blockchain to see if metadata is already stored
-        this.validanaService.query('badgeClassInfo',[this.badgeURI]).then((data) => {
-            if(data.length === 1) {
+        this.validanaService.query('badgeClassInfo', [this.badgeURI]).then((data) => {
+            if (data.length === 1) {
 
                 // No metadata on blockchain, and current user is 'owner' / 'creator' of badgeclass
-                if(data[0].metadata === null || data[0].firstEndorser === this.validanaService.getAddress()) {
+                if (data[0].metadata === null || data[0].firstEndorser === this.validanaService.getAddress()) {
                     this.canSendToBlockchain = true;
                 }
 
@@ -108,10 +109,10 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
 
         // Disable buttons in UI
         this.submitEnabled = false;
-        
+
         // Obtain JSON string from api endpoint
         this.apiService.getBadgeClass(this.badgeSlug).then((val) => {
-            this.validanaService.sendBadgeClassStringToBlockchain( this.badgeURI, JSON.stringify(val) )
+            this.validanaService.sendBadgeClassStringToBlockchain(this.badgeURI, JSON.stringify(val))
                 .then(() => {
 
                     // Badge class metadata was send (/ updated) to blockchain
@@ -160,7 +161,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
 
             // Send endorsement of badge class to blockchain
             this.validanaService.setBadgeClassEndorsement(this.badgeURI, !this.hasEndorsedBadgeClass)
-                
+
                 // Endorsement was accepted
                 .then(() => {
 
@@ -177,70 +178,62 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
                     this.messageService.reportHandledError(
                         'Unable to store endorsement of this badgeclass. Please review Account -> Blockchain Configuration', undefined, true
                     );
-                
+
                     // Enable submit button
                     this.submitEnabled = true;
                 });
-        },1);
+        }, 1);
     }
 
     /**
      * Helper to update the list of endorsers
      */
-    public async updateEndorsers(quickFail=true) {
+    public async updateEndorsers(quickFail = true) {
 
         // Check the endorsers for this badge class on the blockchain
-        this.validanaService.query('endorsersBadgeClass', this.badgeURI, quickFail).then((data:string[]) => {
-            if(data.length>0) {
+        const data: ValidanaEndorsers[] = await this.validanaService.query('endorsersbadgeclass', this.badgeURI, quickFail) || [];
+        if (data.length > 0) {
 
-                // Check if we endorsed this badgeclass
-                this.hasEndorsedBadgeClass = false;
-                for(let e=0; e< data.length; e++) {
-                    if(data[e] === this.validanaService.getAddress()) {
-                        this.hasEndorsedBadgeClass = true;
-                    }
+            // List of endorsers
+            const endorsersAddr: string[] = [];
+
+            // Check if we endorsed this badgeclass
+            this.hasEndorsedBadgeClass = false;
+            for (let e = 0; e < data.length; e++) {
+                endorsersAddr.push(data[e].entity);
+                if (data[e].entity === this.validanaService.getAddress()) {
+                    this.hasEndorsedBadgeClass = true;
                 }
-
-                // Obtain information about addresses of endorsers
-                this.validanaService.query('addrInfo', data, quickFail).then((endorsers:any[]) => {
-
-                    // Store the endorsers
-                    this.endorsements = endorsers;
-
-                    // Helper variable to lookup parents (institutes) of endorsers
-                    let parentsToFind = [];
-
-                    // Obtain the parents
-                    for(let i=0;i<endorsers.length;i++) {
-                        parentsToFind.push(endorsers[i].parent);
-                    }
-
-                    // Launch search for parent address objects (only search for unique addresses)
-                    this.validanaService.query('addrInfo', Array.from( new Set(parentsToFind)), quickFail).then((pData) => {
-                        for(let j=0; j<pData.length; j++) {
-
-                            // Store the information of the parents
-                            this.parents[pData[j].addr] = pData[j];
-                        }
-                    
-                    // Something went wrong, log error
-                    }).catch((error) => {
-                        console.log('[Validana] ' + error);
-                    });
-
-                });
-
-            // Reset endorsements and parents 
-            } else {     
-                this.hasEndorsedBadgeClass = false;
-                this.endorsements = [];
-                this.parents = {};
             }
 
-        // Something went wrong, log error
-        }).catch((error) => {
-            console.log('[Validana] ' + error);
-        });
+            // Obtain information about addresses of endorsers
+            const endorsers = await this.validanaService.getMultipleAddressInfo(endorsersAddr, quickFail);
+
+            // Store the endorsers
+            this.endorsements = endorsers;
+
+            // Helper variable to lookup parents (institutes) of endorsers
+            let parentsToFind = [];
+
+            // Obtain the parents
+            for (let i = 0; i < endorsers.length; i++) {
+                parentsToFind.push(endorsers[i].parent);
+            }
+
+            // Launch search for parent address objects (only search for unique addresses)
+            const pData = await this.validanaService.getMultipleAddressInfo(Array.from(new Set(parentsToFind)), quickFail);
+            for (let j = 0; j < pData.length; j++) {
+
+                // Store the information of the parents
+                this.parents[pData[j].addr] = pData[j];
+            }
+
+            // Reset endorsements and parents 
+        } else {
+            this.hasEndorsedBadgeClass = false;
+            this.endorsements = [];
+            this.parents = {};
+        }
 
     }
 }

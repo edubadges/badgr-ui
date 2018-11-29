@@ -15,7 +15,7 @@ import { Injectable } from '@angular/core';
 // Validana imports
 import { Client, Connected, PrivateKey, VObservable, VObserver } from 'validana-client';
 import { VALIDANA_API_CONFIG } from './../validana-api.config';
-import { ValidanaContractJson } from './validana.model';
+import { ValidanaContractJson, ValidanaAddressInfo } from './validana.model';
 
 // Badgr imports
 import { MessageService } from '../../common/services/message.service';
@@ -68,7 +68,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
     // Connect blockchain service to remote (if not already connected)
     this.connectRemote(
-      VALIDANA_API_CONFIG.signPrefix, 
+      VALIDANA_API_CONFIG.signPrefix,
       VALIDANA_API_CONFIG.serviceUrl);
 
     // Start heartbeat service
@@ -80,11 +80,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * Store badge class on blockchain (in V2.0 format)
    * @param badgeClass The badgeclass to store on the blockchain
    */
-  public storeBadgeClass(badgeClass:BadgeClass): Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  public storeBadgeClass(badgeClass: BadgeClass): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
 
       // If the user is no entity, do not even attempt to send data to blockchain
-      if( this.getLastKnownRole() !== 'entity') {
+      if (this.getLastKnownRole() !== 'entity') {
         reject('Please login with WIF of entity before adding badge class'); return;
       }
 
@@ -93,15 +93,15 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
         this.messageService.reportMajorSuccess(
           'BadgeClass is sent to the blockchain', true
         );
-      },0);
+      }, 0);
 
       // Attempt to obain model JSON from badgeclass (present after class was send to server)
-      let jsonString:string = (<any>badgeClass)._apiModelJson ? (<any>badgeClass)._apiModelJson : '';
+      let jsonString: string = (<any>badgeClass)._apiModelJson ? (<any>badgeClass)._apiModelJson : '';
 
       // This is tue URL identifier to send to the blockchain
       let uriID = badgeClass.badgeUrl || badgeClass.url;
 
-      if(jsonString) {
+      if (jsonString) {
 
         // JSON string was found in badgeClass, send it to blockchain
         this.sendBadgeClassStringToBlockchain(uriID, jsonString).then(resolve).catch(reject);
@@ -109,61 +109,91 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
         // Obtain JSON string from api endpoint
         this.apiService.getBadgeClass(badgeClass.slug).then((val) => {
-          this.sendBadgeClassStringToBlockchain( uriID, JSON.stringify(val) ).then(resolve).catch(reject);
+          this.sendBadgeClassStringToBlockchain(uriID, JSON.stringify(val)).then(resolve).catch(reject);
         }).catch(reject);
       }
-        
+
     });
+  }
+
+
+  /**
+   * Obtain info about a single address from the Validana API.
+   * Will return undefined if no info was found
+   * 
+   * @param addr (optional) String address to lookup
+   */
+  public async getAddressInfo(addr: string = this.getAddress()): Promise<ValidanaAddressInfo> {
+    const response: ValidanaAddressInfo[] = await this.query('addrinfo', [addr], true);
+
+    // Ensure we have results
+    if (response && response.length === 1) {
+
+      // Store the name and withrdaw state 
+      response[0].name = response[0].names ? response[0].names[0].name : undefined;
+      response[0].withdrawn = !(response[0].revokedTime === null);
+
+      // Return address info
+      return response[0];
+    }
+  }
+
+  /**
+   * Lookup multiple addresses
+   * @param addrs The addresses to lookup
+   */
+  public async getMultipleAddressInfo(addrs: string[], quickFail = true): Promise<ValidanaAddressInfo[]> {
+    const response: ValidanaAddressInfo[] = await this.query('addrinfo', addrs, quickFail);
+
+    // Prepare response
+    for(const addr of response) {
+      addr.name = addr.names ? addr.names[0].name : undefined;
+      addr.withdrawn = !(addr.revokedTime === null);
+    }
+
+    return response;
   }
 
   /**
    * This method is executed every 5 seconds
    * It updates the name, role and withdrawstate for users if they are logged in
    */
-  private heartbeat() {
-    try {
+  private async heartbeat() {
 
-      // Obtain current address (if set)
-      const addr = this.getAddress();
-      if( addr !== undefined ) {
+    // Obtain current address (if set)
+    const addr = this.getAddress();
+    if (addr !== undefined) {
 
-        // Check if there are updates to our address on the blockchain
-        this.query('addrInfo',[addr], true).then((data:any[]) => {
-          if(data.length === 1) {
+      // Check if there are updates to our address on the blockchain
+      const addrInfo = await this.getAddressInfo(addr);
+      if (!addrInfo) { return; }
 
-            // Store last known name and role
-            this.validanaLastKnownName = data[0].name;
-            this.validanaLastKnownRole = data[0].type;
+      // Store last known name
+      this.validanaLastKnownName = addrInfo.name;
 
-            // If role is 'entity' check if institution (parent) is not withdrawn
-            if( this.validanaLastKnownRole === 'entity' ) {
+      // And last known role
+      this.validanaLastKnownRole = addrInfo.type;
 
-              // If this entity is withdrawn, set withdrawn state
-              if(data[0].withdrawn === true) {
-                this.validanaLastKnownIsWithdrawn = data[0].withdrawn;
-              
-              // Entity is not withdrawn, or state is unknown. Check institute
-              } else {
+      // If role is 'entity' check if institution (parent) is not withdrawn
+      if (this.validanaLastKnownRole === 'entity') {
 
-                // Obtain information about the parent
-                this.query('addrInfo',[data[0].parent],true).then((parentD:any[]) => {
-                  if(parentD.length === 1) {
-                    
-                    // Child (entity) has the withdrawnstate of the parent (institute)
-                    this.validanaLastKnownIsWithdrawn = parentD[0].withdrawn;
-                  }
-                }).catch(() => {});
-              }
+        // Store withdrawn state
+        this.validanaLastKnownIsWithdrawn = (addrInfo.revokedTime !== null);
 
-            // Use current withdrawn state
-            } else {
-              this.validanaLastKnownIsWithdrawn = data[0].withdrawn;
-            }
+        // Entity is not withdrawn, or state is unknown. Check institute
+        if (!this.validanaLastKnownIsWithdrawn) {
+
+          // Obtain information about the parent
+          const parentInfo = await this.getAddressInfo(addrInfo.parent);
+          if (parentInfo) {
+            this.validanaLastKnownIsWithdrawn = (parentInfo.revokedTime !== null);
           }
-        }).catch(() => {});
-      }
-    } catch(e) {
+        }
 
+        // Use current withdrawn state
+      } else {
+        this.validanaLastKnownIsWithdrawn = (addrInfo.revokedTime !== null);
+      }
     }
   }
 
@@ -171,18 +201,18 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * Obtain the current private key
    * @return The private key of the user or undefined if not set
    */
-  public getPrivateKey():PrivateKey {
+  public getPrivateKey(): PrivateKey {
     const storageKey = localStorage.getItem('privateKey');
-    
+
     // Check if WIF is valid, return private key or null
-    return PrivateKey.isValidWIF(storageKey)? PrivateKey.fromWIF(storageKey) : undefined;
+    return PrivateKey.isValidWIF(storageKey) ? PrivateKey.fromWIF(storageKey) : undefined;
   }
 
   /**
    * Obtain the current public address
    * @return The current public address of the user or undefined if not set
    */
-  public getAddress():string {
+  public getAddress(): string {
     return this.getPrivateKey() ? (this.getPrivateKey().getAddress()) : undefined;
   }
 
@@ -191,7 +221,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * This is updated after each login attempt
    * @return The last known name of the user or undefined
    */
-  public getLastKnownName():string {
+  public getLastKnownName(): string {
     return this.validanaLastKnownName;
   }
 
@@ -216,11 +246,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
   /**
    * Get all currently active smart contracts on the Validana blockchain
    */
-  public getSmartContracts():Promise<ValidanaContractJson[]> {
-    return new Promise<ValidanaContractJson[]>((resolve,reject) => {
+  public getSmartContracts(): Promise<ValidanaContractJson[]> {
+    return new Promise<ValidanaContractJson[]>((resolve, reject) => {
       this.query('contracts').then(resolve).catch(reject);
     });
-    
+
   }
 
   /**
@@ -230,18 +260,18 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param contractParams The parameters of the contract
    * @param showMessages Report blockchain success and failure responses to the user?
    */
-  protected executeSmartContract(contractName:string, contractParams: {}, showMessages=false):Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  protected executeSmartContract(contractName: string, contractParams: {}, showMessages = false): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
       const privateKey = this.getPrivateKey();
-      if ( privateKey ) {
+      if (privateKey) {
 
         // Process TX on validana blockchain
         this.validana.processTx(this.getPrivateKey(), contractName, contractParams).then((data) => {
 
           // Check if the transaction status is 'new'
           // This means it is pending to be processed
-          if(data.status === 'new') {
-            if(showMessages) {
+          if (data.status === 'new') {
+            if (showMessages) {
               this.messageService.reportMajorSuccess(
                 'Data request has been send to the blockchain for processing',
                 true
@@ -251,10 +281,10 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
           // Check if the transaction status is 'invalid'
           // This should normally not happen; e.g. bad signature format
-          if(data.status === 'invalid') {
+          if (data.status === 'invalid') {
 
             // Report error to the user
-            if(showMessages) {
+            if (showMessages) {
               this.messageService.reportHandledError(
                 'Invalid data was send to blockchain: ' + data.message,
                 undefined, true
@@ -268,7 +298,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
           // Check if the transaction has status 'rejected'
           // This could easily happen if smart contract logic rejects the users request
           if (data.status === 'rejected') {
-            
+
             // Report error to the user
             if (showMessages) {
               this.messageService.reportHandledError(
@@ -289,7 +319,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
             // Report success to the user
             if (showMessages) {
               this.messageService.reportMajorSuccess(
-                'Data has been successfully saved to the blockchain', 
+                'Data has been successfully saved to the blockchain',
                 true
               );
             }
@@ -309,8 +339,8 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param uriID The badge class URI identifier
    * @param badgeString Stringified JSON for provided badge class uri
    */
-  public sendBadgeClassStringToBlockchain(uriID:string, badgeString:string): Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  public sendBadgeClassStringToBlockchain(uriID: string, badgeString: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
 
       // Attempt to send badge class endorsement to blockchain
       this.executeSmartContract('Badge Class', {
@@ -319,11 +349,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
       }).then(() => {
 
         // Attempt to add Metadata on blockchain
-        this.executeSmartContract('Metadata',{
+        this.executeSmartContract('Metadata', {
           badgeClass: uriID,
           metadata: badgeString
         }).then(resolve).catch(reject);
-      
+
       }).catch(reject);
 
     });
@@ -334,8 +364,8 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param uriID The badgeclass URI to endorse
    * @param endorsement The new endorsement status
    */
-  public setBadgeClassEndorsement(uriID:string, endorsement:boolean): Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  public setBadgeClassEndorsement(uriID: string, endorsement: boolean): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
 
       // Attempt to send badge class endorsement to blockchain
       this.executeSmartContract('Badge Class', {
@@ -351,8 +381,8 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * Badge endorsements can not be withdrawn
    * @param uriID The badge URI id to endorse
    */
-  public endorseBadgeByID(uriID:string): Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  public endorseBadgeByID(uriID: string): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
 
       // Attempt to send badge class endorsement to blockchain
       this.executeSmartContract('Badge', {
@@ -369,11 +399,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param institutePublicName The public name of the educational institute
    * @param instituteEnabled Should the edu institute be enabled on blockchain (set to false to withdraw)
    */
-  public setEducationalInstitute(institutePublicAddress:string, institutePublicName: string, instituteEnabled:boolean): Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  public setEducationalInstitute(institutePublicAddress: string, institutePublicName: string, instituteEnabled: boolean): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
 
       // Attempt to execute smart contract on the blockchain
-      this.executeSmartContract('Institutution',{
+      this.executeSmartContract('Institutution', {
         receiver: institutePublicAddress,
         name: institutePublicName,
         allow: instituteEnabled
@@ -389,11 +419,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param entityPublicName The public name of the educational institute
    * @param entityEnabled Should the edu institute be enabled on blockchain (set to false to withdraw)
    */
-  public setEducationalEntity(entityPublicAddress:string, entityPublicName: string, entityEnabled:boolean): Promise<any> {
-    return new Promise<any>((resolve,reject) => {
+  public setEducationalEntity(entityPublicAddress: string, entityPublicName: string, entityEnabled: boolean): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
 
       // Attempt to execute smart contract on the blockchain
-      this.executeSmartContract('Entity',{
+      this.executeSmartContract('Entity', {
         receiver: entityPublicAddress,
         name: entityPublicName,
         allow: entityEnabled
@@ -407,18 +437,18 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param signPrefix (string) The blockchain signature prefix
    * @param serviceUrl (string) The remote service url
    */
-  protected connectRemote(signPrefix: string, serviceUrl: string):void {
+  protected connectRemote(signPrefix: string, serviceUrl: string): void {
 
     // Only execute if we are not already connected
-    if ( ! this.isConnected() ) {
+    if (!this.isConnected()) {
 
       // Register ourselves as an observer
-      if ( !this.validana.hasObserver(this)) {
+      if (!this.validana.hasObserver(this)) {
         this.validana.addObserver(this);
       }
 
       // Initialize remote connection based on environment variables
-      this.validana.init( signPrefix, serviceUrl );
+      this.validana.init(signPrefix, serviceUrl);
     }
 
   }
@@ -432,7 +462,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * - reject if public address was not registered on blockchain.
    * @param wif The private key to use
    */
-  public userLogin(wif:string): Promise<{pub:string,name:string,role:string}> {
+  public async userLogin(wif: string): Promise<{ pub: string, name: string, role: string }> {
 
     // Store private key in local storage
     localStorage.setItem('privateKey', wif);
@@ -442,42 +472,34 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
     this.validanaLastKnownRole = undefined;
     this.validanaLastKnownIsWithdrawn = undefined;
 
-    // Return promise which resolves public information
-    return new Promise<{pub:string,name:string,role:string}>((resolve,reject) => {
+    try {
+      const privateKey = PrivateKey.fromWIF(wif);
+      const publicAddress = privateKey.getAddress();
 
-      try {
-        const privateKey = PrivateKey.fromWIF(wif);
-        const publicAddress = privateKey.getAddress();
+      // Query the validana blockchain API with public address
+      // to see if public name and role are known
+      const addrData = await this.getAddressInfo(publicAddress);
 
-        // Query the validana blockchain API with public address
-        // to see if public name and role are known
-        this.query('addrInfo',[publicAddress]).then((data:any[]) => {
-          if(data.length === 1) {
+      if (addrData) {
 
-            // Store last known name, role and withdrawn state
-            this.validanaLastKnownName = data[0].name;
-            this.validanaLastKnownRole = data[0].type;
-            this.validanaLastKnownIsWithdrawn = data[0].withdrawn;
+        // Store last known name, role and withdrawn state
+        this.validanaLastKnownName = addrData.name;
+        this.validanaLastKnownRole = addrData.type;
+        this.validanaLastKnownIsWithdrawn = (addrData.revokedTime !== null);
 
-            // Address was registered on blockchain
-            resolve({pub:publicAddress,name:data[0].name,role:data[0].type});
+        // Return results
+        return { pub: publicAddress, name: addrData.name, role: addrData.type };
 
-          } else {
+      } else {
 
-            // Address was not found on the blockchain
-            reject(`This identity is not known or revoked on the blockchain. You will not be able to do blockchain transactions.`);
-          }
-
-        // Could not query validana API
-        }).catch((error) => { 
-          reject(`Could not reach blockchain to lookup identity`);
-        });
-
-      } catch (e) {
-        reject(`Invalid private key format`);
+        // Address was not found on the blockchain
+        throw new Error(`This identity is not known or revoked on the blockchain. You will not be able to do blockchain transactions.`);
       }
 
-    });
+    } catch(e) {
+      throw new Error(`Invalid key format.`);
+
+    }
 
   }
 
@@ -487,48 +509,42 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param data The data to send with the query
    * @param quickFail Should we stop directy if connection is lost? (default false: place it in waiting list)
    */
-  public query(type:string, data?: any, quickFail:boolean = false): Promise<any> {
+  public async query(type: string, data ?: any, quickFail: boolean = false): Promise < any > {
 
-    // Return promise for query resolution
-    return new Promise<any>((resolve,reject) => {
+  // Return promise for query resolution
+  return this.validana.query(type, data, quickFail);
 
-      // Query the validana blockchain
-      this.validana.query(type, data, quickFail)
-        .then(resolve).catch(reject);
-
-    });
-    
-  }
+}
 
   /**
    * Called from the Coinversable API with connection status updates
    * @param o The Coinversable observable instance
    * @param arg The connection status
    */
-  public update(o: VObservable<Connected>, arg: Connected): void {
+  public update(o: VObservable < Connected >, arg: Connected): void {
 
-    // Store connection status
-    this.validanaConnected = ( arg === Connected.Yes );
+  // Store connection status
+  this.validanaConnected = (arg === Connected.Yes);
 
-    if (arg === Connected.Yes) {
+  if(arg === Connected.Yes) {
 
-      // Check if user is authenticated with correct private key
-      this.userLogin( localStorage.getItem('privateKey') ).then(() => {
-        this.validanaValidUser = true;
-      }).catch(() => { 
-        this.validanaValidUser = false; 
-      });
-    }
+  // Check if user is authenticated with correct private key
+  this.userLogin(localStorage.getItem('privateKey')).then(() => {
+    this.validanaValidUser = true;
+  }).catch(() => {
+    this.validanaValidUser = false;
+  });
+}
 
-    // Tell subscribers the connection status
-    this.connected.next( this.validanaConnected );
+// Tell subscribers the connection status
+this.connected.next(this.validanaConnected);
   }
 
   /**
    * Check if we are connected to Coinversable remote API at the moment of calling
    */
   public isConnected() {
-    return this.validanaConnected;
-  }
+  return this.validanaConnected;
+}
 
 }
