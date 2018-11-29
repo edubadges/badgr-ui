@@ -3,6 +3,7 @@ import { ConfirmDialog } from "../dialogs/confirm-dialog.component";
 import { ShareSocialDialog } from "../dialogs/share-social-dialog.component";
 import { NewTermsDialog } from "../dialogs/new-terms-dialog.component";
 import { EduIDFailureDialog } from "../dialogs/eduid-failure-dialog.component";
+import { EnrollmentConsentDialog } from './../dialogs/enrollment-consent-dialog.component';
 
 @Injectable()
 export class CommonDialogsService {
@@ -10,6 +11,7 @@ export class CommonDialogsService {
 	shareSocialDialog: ShareSocialDialog;
 	newTermsDialog: NewTermsDialog;
 	eduIDFailureDialog: EduIDFailureDialog;
+	enrollmentConsentDialog: EnrollmentConsentDialog;
 
 
 	constructor(){}
@@ -19,10 +21,12 @@ export class CommonDialogsService {
 		shareSocialDialog: ShareSocialDialog,
 		newTermsDialog: NewTermsDialog,
 		eduIDFailureDialog: EduIDFailureDialog,
+		enrollmentConsentDialog: EnrollmentConsentDialog,
 	) {
 		this.confirmDialog = confirmDialog;
 		this.shareSocialDialog = shareSocialDialog;
 		this.newTermsDialog = newTermsDialog;
 		this.eduIDFailureDialog = eduIDFailureDialog;
+		this.enrollmentConsentDialog = enrollmentConsentDialog;
 	}
 }

@@ -11,6 +11,7 @@ import { BadgeImageComponent } from "./components/badge-image.component";
 import { ConfirmDialog } from "./dialogs/confirm-dialog.component";
 import { NewTermsDialog } from "./dialogs/new-terms-dialog.component";
 import { EduIDFailureDialog } from "./dialogs/eduid-failure-dialog.component";
+import { EnrollmentConsentDialog } from "./dialogs/enrollment-consent-dialog.component";
 import { ConnectedBadgeComponent } from "./components/connected-badge.component";
 import { TruncatedTextComponent } from "./components/truncated-text.component";
 import { TooltipComponent } from "./components/tooltip.component";
@@ -76,6 +77,7 @@ const COMPONENTS = [
 	NewTermsDialog,
 	ShareSocialDialog,
 	EduIDFailureDialog,
+	EnrollmentConsentDialog,
 	ConnectedBadgeComponent,
 	TruncatedTextComponent,
 	FormMessageComponent,
