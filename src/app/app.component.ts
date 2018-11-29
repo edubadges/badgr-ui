@@ -121,6 +121,8 @@ import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.componen
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/app-integrations']">App Integrations</a></li>
+								<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/validana/settings']">Validana</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
@@ -138,6 +140,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
 	currentPermissionLoaded: Promise<any>;
+
+	// If the user can see the Validana blockchain config page
+	userMaySeeValidana: boolean = false;
 
 	copyrightYear = new Date().getFullYear();
 
@@ -302,6 +307,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 		} else {
 			this.userMaySeeIssuers = current_user_permissions.includes('view_issuer_tab');
 		}	
+
+		// Show Validana settings page if user has institution or faculty scope
+		this.userMaySeeValidana = current_user_permissions.includes('has_institution_scope') ||
+			current_user_permissions.includes('has_faculty_scope');
+
 		this.permissionsChecked = true	
 	}
 
