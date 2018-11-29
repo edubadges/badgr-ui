@@ -15,6 +15,6 @@ window.config = {
         pathwayGraph: true,
         alternateLandingRedirect: false,
         socialAccountProviders: ["surf_conext", "edu_id"],
-        socialAccountProviderUrls: {"edu_id": "https://pilot.eduid.nl"}
+        socialAccountProviderUrls: {"edu_id": "https://eduid.lab.surf.nl"}
     },
 };
