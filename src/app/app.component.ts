@@ -25,6 +25,7 @@ import {UserProfileManager} from "./common/services/user-profile-manager.service
 import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
 import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
+import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dialog.component';
 
 
 // Shim in support for the :scope attribute
@@ -73,6 +74,7 @@ import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.componen
 		<new-terms-dialog #newTermsDialog></new-terms-dialog>
 		<share-social-dialog #shareSocialDialog></share-social-dialog>
 		<eduid-failure-dialog #eduIDFailureDialog></eduid-failure-dialog>
+		<enrollment-consent-dialog #enrollmentConsentDialog></enrollment-consent-dialog>
 
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
@@ -152,6 +154,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("eduIDFailureDialog")
 	private eduIDFailureDialog: EduIDFailureDialog;
+
+	@ViewChild("enrollmentConsentDialog")
+	private enrollmentConsentDialog: EnrollmentConsentDialog;
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
@@ -284,6 +289,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.shareSocialDialog,
 			this.newTermsDialog,
 			this.eduIDFailureDialog,
+			this.enrollmentConsentDialog,
 		);
 	}	
 

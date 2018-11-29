@@ -14,6 +14,7 @@ import { routerLinkForUrl } from "./public.component";
 import { UserProfile } from "../common/model/user-profile.model";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { QueryParametersService } from "../common/services/query-parameters.service";
+import { CommonDialogsService } from "../common/services/common-dialogs.service";
 
 @Component({
 	template: `
@@ -176,6 +177,7 @@ export class PublicBadgeClassComponent {
 	buttonText: string;
 	profileLoaded: Promise<any>;
 	provider: object;
+	consent_body: string;
 
 	constructor(
 		private injector: Injector,
@@ -185,6 +187,7 @@ export class PublicBadgeClassComponent {
 		private queryParams: QueryParametersService,
 		protected studentsEnrolledApiService: StudentsEnrolledApiService,
 		protected userProfileApiService: UserProfileApiService,
+		protected dialogService: CommonDialogsService,
 	) {
 		this.badgeIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
@@ -275,9 +278,15 @@ export class PublicBadgeClassComponent {
 	}
 
 	clickEnrollStudent(){
-		this.userProfileApiService.fetchSocialAccounts()
-			.then(response => this.enrollStudent(response))
-			.catch(e => alert(e))
+		this.dialogService.enrollmentConsentDialog.openConsentDialog().then(
+			() => {
+				console.log('woohoo')
+				this.userProfileApiService.fetchSocialAccounts()
+					.then(response => this.enrollStudent(response))
+					.catch(e => alert(e))
+			},
+			() => void 0
+		);
 	}
 
 	userHasNoEduidWarning(){
