@@ -30,6 +30,7 @@ import { ValidanaAddressInfo } from 'app/endorsement-api/validana/validana.model
 interface inputFormControls<T> {
     publicKey: T;
     publicName: T;
+    publicIRI: T;
 }
 
 @Component({
@@ -81,6 +82,13 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
                     this.regexValidator(/^[13][1-9A-HJ-NP-Za-km-z]{26,35}/)
                 ]],
 
+                // IRI of new institute
+                publicIRI: [ '', [
+                    
+                    // Institute IRI is required
+                    Validators.required
+                ]],
+
                 // Public name of new institute
                 publicName: [ '', [
 
@@ -112,10 +120,12 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
         // Obtain input public address and public name
         const pubKey = formState.publicKey;
         const pubName = formState.publicName;
+        const pubIRI = formState.publicIRI;
 
         // Clear form for next input
         this.inputForm.controls.publicKey.reset();
         this.inputForm.controls.publicName.reset();
+        this.inputForm.controls.publicIRI.reset();
 
         // Show message to the user
         // ( Use setTimeout for Badgr scoping bug )
@@ -125,7 +135,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
         ); } , 0);
 
         // Send educational institute information to the blockchain
-        this.validanaService.setEducationalInstitute(pubKey,pubName,true).then(() => {
+        this.validanaService.setEducationalInstitute(pubKey, pubName, true, pubIRI).then(() => {
 
             // Show message with success to user
             this.messageService.reportMajorSuccess(
@@ -139,13 +149,16 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
             this.submitEnabled = true;
         
         // Transaction could not be processed, something went wrong
-        }).catch(() => {
+        }).catch((e) => {
 
             // Edu institute could not be added
             this.messageService.reportHandledError(
                 'Institute could not be added to the blockchain. Please check your private key',
                 undefined, true
             );
+
+            // Log error
+            console.error(e);
 
             // Re-enable submit buttons
             this.submitEnabled = true;
@@ -159,7 +172,9 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
 
         // Query the Validana blockchain for institution addresses
         const addresses = await this.validanaService.query('institutions');
+        console.log(addresses);
         this.eduInstitutes = await this.validanaService.getMultipleAddressInfo(addresses);
+        console.log(this.eduInstitutes);
     }
 
     /**
@@ -172,7 +187,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
         // Set UI button state
         this.submitEnabled = false;      
         
-        this.validanaService.setEducationalInstitute(institute.addr, institute.name, !isWithdrawn).then(() => {
+        this.validanaService.setEducationalInstitute(institute.addr, institute.name, !isWithdrawn, '').then(() => {
             
             // Show message to user
             this.messageService.reportMajorSuccess(
@@ -185,7 +200,9 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
             // Set UI button state
             this.submitEnabled = true; 
 
-        }).catch(() => {
+        }).catch((e) => {
+
+            console.error(e);
 
             // Edu institute could not be added
             this.messageService.reportHandledError(

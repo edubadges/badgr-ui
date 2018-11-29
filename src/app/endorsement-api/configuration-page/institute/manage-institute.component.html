@@ -28,8 +28,13 @@
 
         <!-- The public address of the educational institute -->
         <bg-formfield-text [control]="inputForm.controls.publicKey"
-                            [label]="'Public Address'"
+                            [label]="'Public Blockchain Address'"
                             [errorMessage]="'Please provide a valid public address for the educational institute'"></bg-formfield-text>
+
+        <!-- The public address of the educational institute -->
+        <bg-formfield-text [control]="inputForm.controls.publicIRI"
+                            [label]="'Issuer / Profile IRI'"
+                            [errorMessage]="'Please provide a valid Issuer / Profile IRI'"></bg-formfield-text>
 
         <!-- The public name of the educational institute -->
         <bg-formfield-text [control]="inputForm.controls.publicName"

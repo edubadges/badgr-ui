@@ -81,6 +81,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
         this.heartbeat();
       }
     });
+
   }
 
   /**
@@ -410,17 +411,16 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param institutePublicAddress The public address of the educational institute
    * @param institutePublicName The public name of the educational institute
    * @param instituteEnabled Should the edu institute be enabled on blockchain (set to false to withdraw)
+   * @param instituteIRI The IRI identifier of the institute which links to the badge (see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/index.html#Profile)
    */
-  public setEducationalInstitute(institutePublicAddress: string, institutePublicName: string, instituteEnabled: boolean): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+  public async setEducationalInstitute(institutePublicAddress: string, institutePublicName: string, instituteEnabled: boolean, instituteIRI?: string, ): Promise<any> {
 
-      // Attempt to execute smart contract on the blockchain
-      this.executeSmartContract('Institutution', {
-        receiver: institutePublicAddress,
-        name: institutePublicName,
-        allow: instituteEnabled
-      }).then(resolve).catch(reject);
-
+    // Attempt to execute smart contract on the blockchain
+    return this.executeSmartContract('Institution', {
+      receiver: institutePublicAddress,
+      iri: instituteIRI,
+      name: institutePublicName,
+      allow: instituteEnabled
     });
   }
 
