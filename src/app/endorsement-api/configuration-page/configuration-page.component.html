@@ -1,0 +1,67 @@
+<!-- 
+ * @license
+ * Copyright Coinversable B.V. All Rights Reserved.
+ *
+ * Use of this source code is governed by a AGPLv3-style license that can be
+ * found in the LICENSE file at https://coinversable.com/agplv3-license/
+ * 
+ * For more information about the Validana blockchain visit 
+ * https://validana.io
+-->
+
+<main>
+
+    <!-- Placeholder for form messages-->
+    <form-message></form-message>
+    
+    <!-- Header with breadcrumb -->
+    <header class="wrap wrap-light l-containerhorizontal l-heading">
+        <nav>
+            <h1 class="visuallyhidden">Breadcrumbs</h1>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-x-current" i18n>Blockchain configuration</li>
+            </ul>
+        </nav>
+
+    <!-- Heading with blockchain configuration title -->
+    <div class="heading">
+        <div class="heading-x-text">
+            <h1 i18n>Blockchain Configuration</h1>
+        </div>
+    </div>
+  </header>
+
+    <div class="l-containerhorizontal l-containervertical l-containervertical-small l-childrenvertical wrap">
+
+        <!-- Introduction about blockchain -->
+        <h2 class="title title-is-smallmobile l-marginBottom-1andhalfx" i18n>Info</h2>
+        <p i18n>Badgr has been extended with endorsements based on the <a href="https://validana.io">Validana.io</a> blockchain. 
+            Educational entities can endorse badges and badgeclasses provided by other entities. 
+            In order to do so you need to provide your private key.
+            Please be adviced that it is your responsibility to safely store your private key.
+            Your private key will never leave your browser.
+        </p>
+        
+        <!-- Information about current login name and role -->
+        <p *ngIf="validanaService.getLastKnownName()">You are identified as 
+            <strong>{{ validanaService.getLastKnownName() }}</strong> 
+            with the role of <i>{{ validanaService.getLastKnownRole() }}</i>
+        </p>
+
+        <!-- Information about public address (if private key is known) -->
+        <p *ngIf="validanaService.getAddress()">Your public address is <strong>{{ validanaService.getAddress() }}</strong></p>
+
+        <!-- Login form (to change private key) -->
+        <validana-login></validana-login>
+
+        <!-- Add / Withdraw educational institute (if user is processor) -->
+        <validana-manage-institute *ngIf="validanaService.getLastKnownRole() == 'processor'"></validana-manage-institute>
+
+        <!-- Add / Withdraw educational enity form (if user is institution) -->
+        <validana-manage-entity *ngIf="validanaService.getLastKnownRole() == 'institution'"></validana-manage-entity>
+
+        <!-- Info about entity (if user is entity) -->
+        <validana-info-entity *ngIf="validanaService.getLastKnownRole() == 'entity'"></validana-info-entity>
+        
+    </div>
+</main>

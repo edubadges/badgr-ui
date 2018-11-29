@@ -1,0 +1,100 @@
+<!-- 
+ * @license
+ * Copyright Coinversable B.V. All Rights Reserved.
+ *
+ * Use of this source code is governed by a AGPLv3-style license that can be
+ * found in the LICENSE file at https://coinversable.com/agplv3-license/
+ * 
+ * For more information about the Validana blockchain visit 
+ * https://validana.io
+-->
+
+<!-- Manage educational entities title-->
+<h2 class="title title-is-smallmobile l-marginBottom-1andhalfx" i18n>Manage Educational Entities</h2>
+
+<!-- Message if institute is not withdrawn -->
+<p i18n *ngIf="this.validanaService.getLastKnownWithdrawn() !== true">
+    Please provide the public address and human readable name for the educational entity which you would like to add to the blockchain.
+    If the public address is already known the entity will be renamed to the new public name you provide.
+    The entity you add can endorse badges and badgeclasses as long as it is not withdrawn.
+</p>
+
+<!-- Message if institute is withdrawn -->
+<p i18n *ngIf="this.validanaService.getLastKnownWithdrawn() === true">
+    Your institution has been withdrawn. Therefore you can not add entities.
+    All current entities for your institution have been disabled and can not endorse badges or badgeclasses.
+</p>
+
+<!-- Form input for the creation of a new educational institute-->
+<form [formGroup]="inputForm"
+        (ngSubmit)="submitForm(inputForm.getRawValue())"
+        class="l-form"
+        *ngIf="this.validanaService.getLastKnownWithdrawn() !== true"
+        novalidate>
+
+    <fieldset>
+
+        <!-- Public address input field -->
+        <bg-formfield-text [control]="inputForm.controls.publicKey"
+                            [label]="'Public Address'"
+                            [errorMessage]="'Please provide a valid public address for the educational entity'"></bg-formfield-text>
+
+        <!-- Public name input field -->
+        <bg-formfield-text [control]="inputForm.controls.publicName"
+                            [label]="'Public Name'"
+                            [errorMessage]="'Please provide a name for this entity'"></bg-formfield-text>
+    </fieldset>
+
+    <!-- Submit button to save new entity -->
+    <div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+        <button type="submit"
+                class="button"
+                (click)="validateInputForm($event)"
+                [disabled]="!submitEnabled">Save Entity</button>
+    </div>
+</form>
+
+<!-- Header for current educational entities -->
+<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
+    <h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Current Educational Entities</h2>
+</header>
+
+<!-- Message if there are no educational entities -->
+<p *ngIf="!eduEntities?.length" i18n>There are currently no entities registered on the blockchain.</p>
+<table class="table" *ngIf="eduEntities?.length">
+
+    <!-- Table headings -->
+    <thead>
+        <tr>
+            <th scope="col">Public Name</th>
+            <th scope="col">Public Address</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+
+    <!-- Table body -->
+    <tbody>
+        <tr *ngFor="let ent of eduEntities">
+            <th scope="row">
+                {{ ent.name }}
+            </th>
+            <td>
+                {{ ent.addr }}
+            </td>
+            <td>
+                {{ getEntityStatus(ent) }}
+            </td>
+            <td>
+
+                <!-- Button to withdraw educational entity -->
+                <button type="submit"
+                    class="button"
+                    (click)="setWithdrawState(ent, !ent.withdrawn)"
+                    [disabled]="!submitEnabled">
+                {{ ent.withdrawn?'Re-Activate':'Withdraw' }}</button>
+                
+            </td>
+        </tr>
+    </tbody>
+</table>
