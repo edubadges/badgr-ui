@@ -11,17 +11,18 @@
 
 // Angular imports
 import { Injectable } from '@angular/core';
-
+import { NavigationEnd, Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 // Validana imports
 import { Client, Connected, PrivateKey, VObservable, VObserver } from 'validana-client';
-import { VALIDANA_API_CONFIG } from './../validana-api.config';
-import { ValidanaContractJson, ValidanaAddressInfo } from './validana.model';
-
 // Badgr imports
 import { MessageService } from '../../common/services/message.service';
 import { BadgeClass } from '../../issuer/models/badgeclass.model';
 import { PublicApiService } from '../../public/services/public-api.service';
-import { Subject } from 'rxjs/Subject';
+import { VALIDANA_API_CONFIG } from './../validana-api.config';
+import { ValidanaAddressInfo, ValidanaContractJson } from './validana.model';
+
+
 
 
 /**
@@ -61,7 +62,8 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    */
   constructor(
     protected apiService: PublicApiService,
-    protected messageService: MessageService) {
+    protected messageService: MessageService,
+    protected router: Router) {
 
     // Instantiate the Coinversable service (singleton)
     this.validana = Client.get();
@@ -71,9 +73,14 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
       VALIDANA_API_CONFIG.signPrefix,
       VALIDANA_API_CONFIG.serviceUrl);
 
-    // Start heartbeat service
-    setInterval(() => { this.heartbeat(); }, 5000);
+    // Update validana contents after navigation
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
 
+        // Update blockchain info after navigation complete
+        this.heartbeat();
+      }
+    });
   }
 
   /**
@@ -146,7 +153,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
     const response: ValidanaAddressInfo[] = await this.query('addrinfo', addrs, quickFail);
 
     // Prepare response
-    for(const addr of response) {
+    for (const addr of response) {
       addr.name = addr.names ? addr.names[0].name : undefined;
       addr.withdrawn = !(addr.revokedTime === null);
     }
@@ -159,6 +166,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * It updates the name, role and withdrawstate for users if they are logged in
    */
   private async heartbeat() {
+
+    // Only perform heartbeat if connected
+    if (!this.isConnected()) {
+      return;
+    }
 
     // Obtain current address (if set)
     const addr = this.getAddress();
@@ -496,7 +508,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
         throw new Error(`This identity is not known or revoked on the blockchain. You will not be able to do blockchain transactions.`);
       }
 
-    } catch(e) {
+    } catch (e) {
       throw new Error(`Invalid key format.`);
 
     }
@@ -509,42 +521,42 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * @param data The data to send with the query
    * @param quickFail Should we stop directy if connection is lost? (default false: place it in waiting list)
    */
-  public async query(type: string, data ?: any, quickFail: boolean = false): Promise < any > {
+  public async query(type: string, data?: any, quickFail: boolean = false): Promise<any> {
 
-  // Return promise for query resolution
-  return this.validana.query(type, data, quickFail);
+    // Return promise for query resolution
+    return this.validana.query(type, data, quickFail);
 
-}
+  }
 
   /**
    * Called from the Coinversable API with connection status updates
    * @param o The Coinversable observable instance
    * @param arg The connection status
    */
-  public update(o: VObservable < Connected >, arg: Connected): void {
+  public update(o: VObservable<Connected>, arg: Connected): void {
 
-  // Store connection status
-  this.validanaConnected = (arg === Connected.Yes);
+    // Store connection status
+    this.validanaConnected = (arg === Connected.Yes);
 
-  if(arg === Connected.Yes) {
+    if (arg === Connected.Yes) {
 
-  // Check if user is authenticated with correct private key
-  this.userLogin(localStorage.getItem('privateKey')).then(() => {
-    this.validanaValidUser = true;
-  }).catch(() => {
-    this.validanaValidUser = false;
-  });
-}
+      // Check if user is authenticated with correct private key
+      this.userLogin(localStorage.getItem('privateKey')).then(() => {
+        this.validanaValidUser = true;
+      }).catch(() => {
+        this.validanaValidUser = false;
+      });
+    }
 
-// Tell subscribers the connection status
-this.connected.next(this.validanaConnected);
+    // Tell subscribers the connection status
+    this.connected.next(this.validanaConnected);
   }
 
   /**
    * Check if we are connected to Coinversable remote API at the moment of calling
    */
   public isConnected() {
-  return this.validanaConnected;
-}
+    return this.validanaConnected;
+  }
 
 }
