@@ -310,7 +310,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		// Show Validana settings page if user has institution or faculty scope
 		this.userMaySeeValidana = current_user_permissions.includes('has_institution_scope') ||
-			current_user_permissions.includes('has_faculty_scope');
+			current_user_permissions.includes('has_faculty_scope') || 
+			current_user_permissions.includes('is_superuser') ||
+			current_user_permissions.includes('is_staff');
 
 		this.permissionsChecked = true	
 	}
