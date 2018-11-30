@@ -47,10 +47,6 @@ import * as sanitizeHtml from "sanitize-html";
 				<header class="heading">
 					<div class="heading-x-text">
 						<h1 id="heading-awardbadge">Award Badge</h1>
-						<p>
-							Award badges to individuals below, or <a [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeSlug, 'bulk-import']"
-							>click here to bulk award</a> to multiple recipients at once.
-						</p>
 					</div>
 				</header>
 			</header>
