@@ -69,17 +69,25 @@ import * as sanitizeHtml from "sanitize-html";
 							<p class="text text-small">No students are enrolled.</p>
 						</div>
 						<div *ngIf="issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
-							<label class="formcheckbox">
+							<label class="formcheckbox" style="display:inline-block;">
 								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
-								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Select All Students</span>
+								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Select All for Awardment</span>
+							</label>
+							<label class="formcheckbox" style="display:inline-block;">
+								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllForRemoval()">
+								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Select All Students for Removal</span>
 							</label>
 
 							<div class="l-formsectionnested wrap wrap-welldark"
 								*ngFor="let recipient of issueForm.controls.recipients.controls; let i=index"
 							>
-								<label class="formcheckbox">
+								<label class="formcheckbox" style="display:inline-block;">
 									<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
-									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Award Badge to this Student</span>
+									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Award Badge to this Student</span>
+								</label>
+								<label class="formcheckbox" style="display:inline-block;">
+									<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected_for_removal">
+									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Remove Enrollment</span>
 								</label>
 								<div class="heading">
 									<div class="heading-x-text">
@@ -260,6 +268,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
 			.addControl("selected", false)
+			.addControl("selected_for_removal", false)
 		)
 
 	badge_class: BadgeClass;
@@ -332,26 +341,40 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	}
 
+	allStudentsSelectedForRemoval = false
+	selectAllForRemoval(){
+		this.allStudentsSelectedForRemoval = this.allStudentsSelectedForRemoval? false: true
+		for (let recipient of this.issueForm.controls.recipients.controls){
+			recipient.untypedControl.patchValue({'selected_for_removal': this.allStudentsSelectedForRemoval? true: false})
+		}
+	}
+		
 	listener_is_on = false
 	awardButtonEnabled = false
-	onFormChange(formValues){
-		console.log(formValues)
-		if (formValues['recipients']){
-			let aRecipientIsSelected = false
-			for (let recipient of formValues['recipients']){
-					if (recipient['selected']){
-						aRecipientIsSelected = true
+	onFormChange(){
+			if (this.issueForm.controls.recipients){
+					let recipientsSelectedCount = 0
+					let recipientSelectedForRemovalCount = 0
+				for (let recipient of this.issueForm.controls.recipients.controls){
+					if (recipient.controls.selected.value){
+						recipientsSelectedCount+=1 
 					}
+					if (recipient.controls.selected_for_removal.value){
+						recipientSelectedForRemovalCount+=1
+					}
+					if (recipient.controls.selected_for_removal.value && recipient.controls.selected.value){
+						recipient.untypedControl.patchValue({'selected': false})
+						recipientsSelectedCount-=1
+					}
+					this.awardButtonEnabled = (recipientsSelectedCount > 0 || recipientSelectedForRemovalCount > 0)
+				}
+			} else {
+				this.awardButtonEnabled = false
 			}
-			this.awardButtonEnabled = aRecipientIsSelected
-		} else {
-			this.awardButtonEnabled = false
-		}
-		
-	}
-	enableFormListener(){
+	}	
+		enableFormListener(){
 		if (!this.listener_is_on){
-			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange(values))
+			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange())
 		}
 	}
 
@@ -373,6 +396,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_type", 'id')
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
+			.addControl("selected_for_removal", false)
 			.addControl("extensions", typedGroup()
 				.addControl("extensions:recipientProfile", typedGroup()
 					.addControl("@context", recipientProfileContextUrl)
