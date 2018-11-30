@@ -23,6 +23,7 @@ import { BaseDialog } from './base-dialog';
 export class EnrollmentConsentDialog extends BaseDialog {
 		
 	static defaultOptions = {
+		dialogBody: '',
 		rejectButtonLabel: "Ik geef geen toestemming",
 		resolveButtonLabel: "Ik geef toestemming",
 		showCloseBox: true,
