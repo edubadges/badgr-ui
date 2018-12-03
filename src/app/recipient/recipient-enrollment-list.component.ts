@@ -38,8 +38,8 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 								<th scope="col">Badge</th>
 								<th scope="col">Issuer</th>
 								<th scope="col">Enrollment Date</th>
-								<th scope="col">Awarded</th>
-								<th class="table-x-hidetext hidden hidden-is-tablet" scope="col">Actions</th>
+								<th scope="col">Status</th>
+								<th class="table-x-hidetext hidden" scope="col">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -61,7 +61,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 									</th>
 									<th scope="row">{{enrollment.badge_class.issuer.name}}</th>
 									<th scope="row">{{enrollment.date_created}}</th>
-									<th scope="row">{{enrollment.date_awarded? 'Yes' : 'No'}}</th>
+									<th scope="row">{{enrollment.revoked? 'Revoked' : enrollment.date_awarded? 'Awarded' : 'Enrolled'}}</th>
 									<td>
 										<div class="l-childrenhorizontal l-childrenhorizontal-right">
 											<button *ngIf="!enrollment.date_awarded" class="button button-primaryghost" type="button" (click)="withdrawStudent(i, enrollment.id)">Withdraw</button>
