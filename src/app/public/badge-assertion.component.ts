@@ -169,11 +169,6 @@ import { saveAs } from "file-saver";
 							
 							<!-- URLs -->
 							<section>
-								<h1>v1.1</h1>
-								<a [href]="v1JsonUrl" class="button button-primaryghost">JSON</a>
-								<a [href]="v1BakedUrl" class="button button-primaryghost" download=true target="_blank">Baked Image</a>
-							</section>
-							<section>
 								<h1>v2.0</h1>
 								<a [href]="v2JsonUrl" class="button button-primaryghost">JSON</a>
 								<a [href]="v2BakedUrl" class="button button-primaryghost" download=true target="_blank">Baked Image</a>
