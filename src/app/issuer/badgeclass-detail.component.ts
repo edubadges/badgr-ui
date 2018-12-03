@@ -158,7 +158,6 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 									<td class="table-x-minwidthtablet-400">
 										<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-stackmobile-flexalign-end">
 											<a class="button button-primaryghost" [href]="instance.url" target="_blank">View</a>
-											<button type="button" class="button button-primaryghost" (click)="shareInstance(instance)">Share</button>
 											<button type="button" class="button button-primaryghost" (click)="revokeInstance(instance)">Revoke</button>
 											<ng-container *ngIf="launchpoints">
 												<button *ngFor="let lp of launchpoints"
