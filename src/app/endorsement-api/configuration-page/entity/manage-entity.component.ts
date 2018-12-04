@@ -92,6 +92,17 @@ export class ManageEntityComponent extends BaseAuthenticatedRoutableComponent im
     }
 
     /**
+     * Edit form with given entity info
+     * @param ent The entity object
+     */
+    setEditEntity(ent: ValidanaAddressInfo) {
+        this.inputForm.reset({
+            publicKey: ent.addr,
+            publicName: ent.name
+        })
+    }
+
+    /**
      * Callback method once component is initialized
      */
     ngOnInit() {

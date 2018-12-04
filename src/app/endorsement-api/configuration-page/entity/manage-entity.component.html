@@ -14,7 +14,8 @@
 
 <!-- Message if institute is not withdrawn -->
 <p i18n *ngIf="this.validanaService.getLastKnownWithdrawn() !== true">
-    Please provide the public address and human readable name for the educational entity which you would like to add to the blockchain.
+    Please provide the public address and human readable name for the educational entity which you would like to add to
+    the blockchain.
     If the public address is already known the entity will be renamed to the new public name you provide.
     The entity you add can endorse badges and badgeclasses as long as it is not withdrawn.
 </p>
@@ -26,31 +27,22 @@
 </p>
 
 <!-- Form input for the creation of a new educational institute-->
-<form [formGroup]="inputForm"
-        (ngSubmit)="submitForm(inputForm.getRawValue())"
-        class="l-form"
-        *ngIf="this.validanaService.getLastKnownWithdrawn() !== true"
-        novalidate>
+<form [formGroup]="inputForm" (ngSubmit)="submitForm(inputForm.getRawValue())" class="l-form" *ngIf="this.validanaService.getLastKnownWithdrawn() !== true"
+    novalidate>
 
     <fieldset>
 
         <!-- Public address input field -->
-        <bg-formfield-text [control]="inputForm.controls.publicKey"
-                            [label]="'Public Address'"
-                            [errorMessage]="'Please provide a valid public address for the educational entity'"></bg-formfield-text>
+        <bg-formfield-text [control]="inputForm.controls.publicKey" [label]="'Public Address'" [errorMessage]="'Please provide a valid public address for the educational entity'"></bg-formfield-text>
 
         <!-- Public name input field -->
-        <bg-formfield-text [control]="inputForm.controls.publicName"
-                            [label]="'Public Name'"
-                            [errorMessage]="'Please provide a name for this entity'"></bg-formfield-text>
+        <bg-formfield-text [control]="inputForm.controls.publicName" [label]="'Public Name'" [errorMessage]="'Please provide a name for this entity'"></bg-formfield-text>
     </fieldset>
 
     <!-- Submit button to save new entity -->
     <div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-        <button type="submit"
-                class="button"
-                (click)="validateInputForm($event)"
-                [disabled]="!submitEnabled">Save Entity</button>
+        <button type="submit" class="button" (click)="validateInputForm($event)" [disabled]="!submitEnabled">Save
+            Entity</button>
     </div>
 </form>
 
@@ -77,7 +69,12 @@
     <tbody>
         <tr *ngFor="let ent of eduEntities">
             <th scope="row">
-                {{ ent.name }}
+                {{ ent.name }} <br />
+                <span class="small" *ngIf="ent.names.length > 1"><br />History: <br /></span>
+                <span class="small" *ngFor="let name of ent.names | slice:1">
+                    {{ name.name }} ({{name.startTime | date }})
+                    <br />
+                </span>
             </th>
             <td>
                 {{ ent.addr }}
@@ -88,12 +85,13 @@
             <td>
 
                 <!-- Button to withdraw educational entity -->
-                <button type="submit"
-                    class="button"
-                    (click)="setWithdrawState(ent, !ent.withdrawn)"
-                    [disabled]="!submitEnabled">
-                {{ ent.withdrawn?'Re-Activate':'Withdraw' }}</button>
-                
+                <button class="button" (click)="setWithdrawState(ent, !ent.withdrawn)" [disabled]="!submitEnabled">
+                    {{ ent.withdrawn?'Re-Activate':'Withdraw' }}</button>
+
+                <!-- Edit entity -->
+                <button class="button" (click)="setEditEntity(ent)" [disabled]="!submitEnabled">
+                        Edit</button>
+
             </td>
         </tr>
     </tbody>
