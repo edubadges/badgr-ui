@@ -12,9 +12,9 @@
 // Angular imports
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs';
 // Validana imports
-import { Client, Connected, PrivateKey, VObservable, VObserver } from 'validana-client';
+import { Client, Connected, PrivateKey, VObservable, VObserver, Log } from 'validana-client';
 // Badgr imports
 import { MessageService } from '../../common/services/message.service';
 import { BadgeClass } from '../../issuer/models/badgeclass.model';
@@ -35,7 +35,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
   // Connection change event listener
   // Emits true|false events on connection state change
-  public connected = new Subject<boolean>();
+  public connected = new BehaviorSubject<boolean>(false);
 
   // The coinversable Validana API service
   public validana: Client;
@@ -54,6 +54,9 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
   // Last known status of current login
   public validanaLastKnownIsWithdrawn: boolean = undefined;
+
+  // Subscribe to receive updates if the endorsement state changes
+  public canEndorse = new BehaviorSubject<boolean>(false);
 
   /**
    * Construct new Validana blockchain service for Badgr
@@ -81,6 +84,9 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
         this.heartbeat();
       }
     });
+
+    // Debugging
+    // Log.Level = Log.Debug;
 
   }
 
@@ -339,7 +345,9 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
             resolve();
           }
 
-        }).catch(reject);
+        }).catch((e) => {
+          reject();
+        });
 
       } else {
         reject();
@@ -349,26 +357,13 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
 
   /**
    * Send badge class string to store on blockchain
-   * @param uriID The badge class URI identifier
    * @param badgeString Stringified JSON for provided badge class uri
    */
   public sendBadgeClassStringToBlockchain(uriID: string, badgeString: string): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
 
-      // Attempt to send badge class endorsement to blockchain
-      this.executeSmartContract('Badge Class', {
-        badgeClass: uriID,
-        endorse: true
-      }).then(() => {
-
-        // Attempt to add Metadata on blockchain
-        this.executeSmartContract('Metadata', {
-          badgeClass: uriID,
-          metadata: badgeString
-        }).then(resolve).catch(reject);
-
-      }).catch(reject);
-
+    // Attempt to send badge class to blockchain
+    return this.executeSmartContract('Badge Class', {
+      badgeClass: badgeString,
     });
   }
 
@@ -376,32 +371,31 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
    * Send badge class endorsement
    * @param uriID The badgeclass URI to endorse
    * @param endorsement The new endorsement status
+   * @param endorsementComment Optional comment data
    */
-  public setBadgeClassEndorsement(uriID: string, endorsement: boolean): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+  public setBadgeClassEndorsement(uriID: string, endorsement: boolean, endorsementComment = ''): Promise<any> {
 
-      // Attempt to send badge class endorsement to blockchain
-      this.executeSmartContract('Badge Class', {
-        badgeClass: uriID,
-        endorse: endorsement
-      }).then(resolve).catch(reject);
-
+    // Attempt to send badge class endorsement to blockchain
+    return this.executeSmartContract('Badge Class', {
+      badgeClass: uriID,
+      endorsementComment,
+      endorse: endorsement
     });
+
   }
 
   /**
    * Endorse a badge on the blockchain.
    * Badge endorsements can not be withdrawn
    * @param uriID The badge URI id to endorse
+   * @param endorsementComment Optional comment data
    */
-  public endorseBadgeByID(uriID: string): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+  public endorseBadgeByID(uriID: string, endorsementComment = ''): Promise<any> {
 
-      // Attempt to send badge class endorsement to blockchain
-      this.executeSmartContract('Badge', {
-        badge: uriID
-      }).then(resolve).catch(reject);
-
+    // Attempt to send badge class endorsement to blockchain
+    return this.executeSmartContract('Endorse Badge', {
+      badge: uriID,
+      endorsementComment
     });
   }
 
@@ -499,16 +493,27 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
         this.validanaLastKnownRole = addrData.type;
         this.validanaLastKnownIsWithdrawn = (addrData.revokedTime !== null);
 
+        // Notify listeners if endorsements are now enabled
+        this.canEndorse.next(this.validanaLastKnownRole === 'entity');
+
         // Return results
         return { pub: publicAddress, name: addrData.name, role: addrData.type };
 
       } else {
+
+        // Notify listeners if endorsements are now disabled
+        this.canEndorse.next(false);
 
         // Address was not found on the blockchain
         throw new Error(`This identity is not known or revoked on the blockchain. You will not be able to do blockchain transactions.`);
       }
 
     } catch (e) {
+
+      // Notify listeners if endorsements are now disabled
+      this.canEndorse.next(false);
+
+      // Key format was not valid
       throw new Error(`Invalid key format.`);
 
     }

@@ -15,23 +15,23 @@ import { MessageService } from '../../common/services/message.service';
 import { PublicApiService } from '../../public/services/public-api.service';
 import { ValidanaBlockchainService } from './../validana/validanaBlockchain.service';
 import { ValidanaEndorsers, ValidanaAddressInfo } from '../validana/validana.model';
+import { BadgeClass } from 'app/issuer/models/badgeclass.model';
+import { IssuerApiService } from 'app/issuer/services/issuer-api.service';
 
 @Component({
     selector: 'endorsements-badgeclass',
     templateUrl: './endorsements-badgeclass.component.html',
     styles: [
         'button[disabled] { background-color: #998d8e !important; }',
-        '.spacer { display:block; clear:both; } '
+        '.spacer { display:block; clear:both; } ',
+        'h2 { margin-bottom: 10px; }'
     ],
     encapsulation: ViewEncapsulation.None
 })
 export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
 
     // The Badge class URI
-    @Input() badgeURI: string;
-
-    // The Badge Class Slug
-    @Input() badgeSlug: string;
+    @Input() badgeclass: BadgeClass;
 
     // Current endorsements
     public endorsements: any[] = [];
@@ -48,6 +48,9 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     // Is the endorse button enabled?
     public submitEnabled = true;
 
+    // Are endorsements enabled?
+    public endorsementsEnabled = false;
+
     // Can the user send metadata to the blockchain?
     // For instance, existing badgeclasses which have no endorsements yet
     public canSendToBlockchain = false;
@@ -61,11 +64,12 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     constructor(
         public validanaService: ValidanaBlockchainService,
         public messageService: MessageService,
-        public apiService: PublicApiService) {
+        public apiService: PublicApiService,
+        public issuers: IssuerApiService) {
 
         // Update endorsers table every 5 seconds
         this.updateTimer = setInterval(() => {
-            this.updateEndorsers();
+           this.updateEndorsers();
         }, 5000);
 
     }
@@ -82,24 +86,32 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     /**
      * Executed on component init
      */
-    ngOnInit() {
+    async ngOnInit() {
 
         // Update endorsers table on load
         this.updateEndorsers(false);
 
         // Query blockchain to see if metadata is already stored
-        this.validanaService.query('badgeClassInfo', [this.badgeURI]).then((data) => {
-            if (data.length === 1) {
+        try {
+            const data = await this.validanaService.query('badgeclass', this.badgeclass.badgeUrl);
 
-                // No metadata on blockchain, and current user is 'owner' / 'creator' of badgeclass
-                if (data[0].metadata === null || data[0].firstEndorser === this.validanaService.getAddress()) {
+            // Badgeclass was found on blockchain, enable endorsements
+            this.endorsementsEnabled = true;
+
+        } catch (e) {
+            // Badgeclass is not on blockchain, disable endorsements
+            this.endorsementsEnabled = false;
+        }
+
+        // If the user account has access to the issuer, and the endorsement is not on Validana, allow user to send it to Validana
+        if (!this.endorsementsEnabled ) {
+            const issuers = await this.issuers.listIssuers();
+            for (const i of issuers) {
+                if (i.slug === this.badgeclass.issuerSlug) {
                     this.canSendToBlockchain = true;
                 }
-
-            } else {
-                this.canSendToBlockchain = true;
             }
-        });
+        }
     }
 
     /**
@@ -111,25 +123,26 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
         this.submitEnabled = false;
 
         // Obtain JSON string from api endpoint
-        this.apiService.getBadgeClass(this.badgeSlug).then((val) => {
-            this.validanaService.sendBadgeClassStringToBlockchain(this.badgeURI, JSON.stringify(val))
+        this.apiService.getBadgeClass(this.badgeclass.slug).then((val:Object) => {
+
+            this.validanaService.sendBadgeClassStringToBlockchain(this.badgeclass.badgeUrl, JSON.stringify(val))
                 .then(() => {
 
                     // Badge class metadata was send (/ updated) to blockchain
                     this.messageService.reportMajorSuccess(
-                        'BadgeClass metadata (JSON) was stored on blockchain', true
+                        'BadgeClass (JSON) was stored on Validana', true
                     );
 
                     // Re-enable submit button in UI
                     this.submitEnabled = true;
 
                 })
-                .catch(() => {
+                .catch((e) => {
 
                     // Badge class metadata could not be stored on blockchain
                     this.messageService.reportHandledError(
-                        'BadgeClass metadata (JSON) could not be stored on blockchain',
-                        undefined, true
+                        'BadgeClass (JSON) could not be stored on Validana',
+                        e, true
                     );
 
                     // Re-enable submit button in UI
@@ -137,11 +150,11 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
 
                 });
 
-        }).catch(() => {
+        }).catch((e) => {
 
             // Could not obtain badge metadata
             this.messageService.reportHandledError(
-                'Could not obtain badgeclass metadata as JSON', undefined, true
+                'Badgr API unavailable', e, true
             );
 
             // Re-enable submit button in UI
@@ -160,7 +173,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
         setTimeout(() => {
 
             // Send endorsement of badge class to blockchain
-            this.validanaService.setBadgeClassEndorsement(this.badgeURI, !this.hasEndorsedBadgeClass)
+            this.validanaService.setBadgeClassEndorsement(this.badgeclass.badgeUrl, !this.hasEndorsedBadgeClass)
 
                 // Endorsement was accepted
                 .then(() => {
@@ -191,7 +204,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     public async updateEndorsers(quickFail = true) {
 
         // Check the endorsers for this badge class on the blockchain
-        const data: ValidanaEndorsers[] = await this.validanaService.query('endorsersbadgeclass', this.badgeURI, quickFail) || [];
+        const data: ValidanaEndorsers[] = await this.validanaService.query('endorsersbadgeclass', this.badgeclass.badgeUrl, quickFail) || [];
         if (data.length > 0) {
 
             // List of endorsers

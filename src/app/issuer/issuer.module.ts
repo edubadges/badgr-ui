@@ -45,7 +45,9 @@ import { IssuerStaffComponent } from "./issuer-staff.component";
 import { ProfileModule } from "../profile/profile.module";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
-import { IssuerAuthGuard } from "../auth/auth.gard"
+import { IssuerAuthGuard } from "../auth/auth.gard";
+import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
+
 
 const routes = [
 	/* Issuer */
@@ -140,9 +142,8 @@ const routes = [
 		...COMMON_IMPORTS,
 		BadgrCommonModule,
 		CommonEntityManagerModule,
-		RouterModule.forChild(routes)
-		/* RouterModule.forChild(routes),
-		EndorsementApiModule */
+		RouterModule.forChild(routes),
+		EndorsementApiModule
 	],
 	declarations: [
 		BadgeClassCreateComponent,

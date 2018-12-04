@@ -9,7 +9,7 @@
  * https://validana.io
 -->
 
-<div>
+<div *ngIf="endorsementsEnabled">
 
     <!-- Title with count of current badgeclass endorsements -->
     <h2 class="title title-is-smallmobile" i18n>Current endorsements ({{endorsements?.length}} total)</h2>
@@ -18,48 +18,52 @@
     <div *ngIf="!endorsements?.length">
         <span i18n>No endorsements found on blockchain</span>
     </div>
+
+    <!-- Button to endorse badge class -->
+    <button style="float:right;margin:10px;" class="button" (click)="toggleWithdrawState()" [disabled]="!submitEnabled"
+        *ngIf="validanaService.getLastKnownRole() === 'entity'">{{ hasEndorsedBadgeClass?'Withdraw
+        endorsement':'Endorse Badge Class' }}</button>
+
+    <!-- Table with current endorsers of badge class-->
+    <table class="table" *ngIf="endorsements?.length">
+        <thead>
+            <tr>
+                <th scope="col">Endorser Name</th>
+                <th scope="col">Endorser Institute</th>
+                <th scope="col">Endorser Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let end of endorsements">
+                <th scope="row">
+                    {{ end.name }}
+                </th>
+                <td scope="row">
+                    {{ parents[end.parent] ? parents[end.parent].name : end.parent }}
+                </td>
+                <th scope="row">
+                    {{ end.addr }}
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
 
-<!-- Button to store JSON (metadata) of badgeclass on blockchain-->
-<button type="submit"
-style="float:right;margin:10px;"
-class="button"
-(click)="sendMetadataToBlockchain()"
-[disabled]="!submitEnabled"
-*ngIf="validanaService.getLastKnownRole() === 'entity'">Store JSON on blockchain</button>
+<!-- Endorsements are not enabled for this badge -->
+<div *ngIf="!endorsementsEnabled">
+    <h2 class="title title-is-smallmobile" i18n>Endorsements</h2>
+    <p>Badgeclass was not found on Validana. Endorsements are currently disabled.</p><br />
+    <div *ngIf="canSendToBlockchain">
+        <p>You have access to the issuer assigned with this badgeclass. You can place the badgeclass on Validana to
+            enable endorsements.</p>
 
-<!-- Button to endorse badge class -->
-<button type="submit"
-style="float:right;margin:10px;"
-class="button"
-(click)="toggleWithdrawState()"
-[disabled]="!submitEnabled"
-*ngIf="validanaService.getLastKnownRole() === 'entity'"
->{{ hasEndorsedBadgeClass?'Withdraw endorsement':'Endorse Badge Class' }}</button>
+        <!-- Button to store JSON (metadata) of badgeclass on blockchain-->
+        <button style="margin-top:10px;display:block;margin-left:auto;margin-right:auto;" class="button" (click)="sendMetadataToBlockchain()"
+            [disabled]="!submitEnabled">Store Badgeclass on Validana</button>
+    </div>
+</div>
 
-<!-- Table with current endorsers of badge class-->
-<table class="table" *ngIf="endorsements?.length">
-    <thead>
-        <tr>
-            <th scope="col">Endorser Name</th>
-            <th scope="col">Endorser Institute</th>
-            <th scope="col">Endorser Address</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let end of endorsements">
-            <th scope="row">
-                {{ end.name }}
-            </th>
-            <td scope="row">
-                {{ parents[end.parent] ? parents[end.parent].name : end.parent }}
-            </td>
-            <th scope="row">
-                {{ end.addr }}
-            </th>
-        </tr>
-    </tbody>
-</table>
 
 <!-- Spacer to help visual alignment -->
 <div class="spacer"></div>
