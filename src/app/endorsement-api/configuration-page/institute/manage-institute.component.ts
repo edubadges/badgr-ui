@@ -62,40 +62,40 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      */
     constructor(
         public router: Router,
-		public route: ActivatedRoute,
+        public route: ActivatedRoute,
         public sessionService: SessionService,
-		public formBuilder: FormBuilder,
-		public messageService: MessageService,
+        public formBuilder: FormBuilder,
+        public messageService: MessageService,
         public validanaService: ValidanaBlockchainService) {
-            super(router, route, sessionService);
+        super(router, route, sessionService);
 
-            // Setup form elements for managing institutes
-            this.inputForm = this.formBuilder.group({
+        // Setup form elements for managing institutes
+        this.inputForm = this.formBuilder.group({
 
-                // Public address of new institute
-                publicKey: [ '', [
-                    
-                    // Institute public address field is required
-                    Validators.required,
+            // Public address of new institute
+            publicKey: ['', [
 
-                    // Public address field should contain public address
-                    this.regexValidator(/^[13][1-9A-HJ-NP-Za-km-z]{26,35}/)
-                ]],
+                // Institute public address field is required
+                Validators.required,
 
-                // IRI of new institute
-                publicIRI: [ '', [
-                    
-                    // Institute IRI is required
-                    Validators.required
-                ]],
+                // Public address field should contain public address
+                this.regexValidator(/^[13][1-9A-HJ-NP-Za-km-z]{26,35}/)
+            ]],
 
-                // Public name of new institute
-                publicName: [ '', [
+            // IRI of new institute
+            publicIRI: ['', [
 
-                    // Institute public name field is required
-                    Validators.required
-                ]]
-            } as inputFormControls<any[]>);
+                // Institute IRI is required
+                Validators.required
+            ]],
+
+            // Public name of new institute
+            publicName: ['', [
+
+                // Institute public name field is required
+                Validators.required
+            ]]
+        } as inputFormControls<any[]>);
 
     }
 
@@ -112,11 +112,11 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * Submit the form
      * @param formState The form state to submit
      */
-	public submitForm(formState: inputFormControls<string>) {
+    public submitForm(formState: inputFormControls<string>) {
 
         // Disable submit button in UI
         this.submitEnabled = false;
-        
+
         // Obtain input public address and public name
         const pubKey = formState.publicKey;
         const pubName = formState.publicName;
@@ -130,9 +130,10 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
         // Show message to the user
         // ( Use setTimeout for Badgr scoping bug )
         setTimeout(() => {
-        this.messageService.reportMajorSuccess(
-            'Your request to add '+pubName+' has been send to the blockhain.'
-        ); } , 0);
+            this.messageService.reportMajorSuccess(
+                'Your request to add ' + pubName + ' has been send to the blockhain.'
+            );
+        }, 0);
 
         // Send educational institute information to the blockchain
         this.validanaService.setEducationalInstitute(pubKey, pubName, true, pubIRI).then(() => {
@@ -147,8 +148,8 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
 
             // Re-enable submit buttons
             this.submitEnabled = true;
-        
-        // Transaction could not be processed, something went wrong
+
+            // Transaction could not be processed, something went wrong
         }).catch((e) => {
 
             // Edu institute could not be added
@@ -157,11 +158,21 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
                 undefined, true
             );
 
-            // Log error
-            console.error(e);
-
             // Re-enable submit buttons
             this.submitEnabled = true;
+        });
+    }
+
+
+    /**
+     * Set the institute to edit using the form
+     * @param inst The institute to edit
+     */
+    public async setEditInstitute(inst: ValidanaAddressInfo) {
+        this.inputForm.reset({
+            publicKey: inst.addr,
+            publicIRI: inst.iri,
+            publicName: inst.name
         });
     }
 
@@ -172,9 +183,7 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
 
         // Query the Validana blockchain for institution addresses
         const addresses = await this.validanaService.query('institutions');
-        console.log(addresses);
         this.eduInstitutes = await this.validanaService.getMultipleAddressInfo(addresses);
-        console.log(this.eduInstitutes);
     }
 
     /**
@@ -182,13 +191,13 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * @param institute The institute to update the withdrawn state for
      * @param isWithdrawn The new state for the institute
      */
-    public setWithdrawState(institute:{addr:string, name:string},isWithdrawn:boolean) {
+    public setWithdrawState(institute: { addr: string, name: string }, isWithdrawn: boolean) {
 
         // Set UI button state
-        this.submitEnabled = false;      
-        
+        this.submitEnabled = false;
+
         this.validanaService.setEducationalInstitute(institute.addr, institute.name, !isWithdrawn, '').then(() => {
-            
+
             // Show message to user
             this.messageService.reportMajorSuccess(
                 'Educational institute status updated on blockchain.'
@@ -198,11 +207,9 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
             this.obtainEduInstitutes();
 
             // Set UI button state
-            this.submitEnabled = true; 
+            this.submitEnabled = true;
 
         }).catch((e) => {
-
-            console.error(e);
 
             // Edu institute could not be added
             this.messageService.reportHandledError(
@@ -211,8 +218,8 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
             );
 
             // Set UI button state
-            this.submitEnabled = true; 
-        });      
+            this.submitEnabled = true;
+        });
     }
 
     /**
@@ -220,20 +227,20 @@ export class ManageInstituteComponent extends BaseAuthenticatedRoutableComponent
      * @param checkRE The regex to check the input against
      */
     public regexValidator(checkRE: RegExp): ValidatorFn {
-        return (control: AbstractControl): {[key: string]: any} => {
-          const accepted = checkRE.test(control.value);
-          return accepted ? null : {'regex': {value: control.value}} ;
+        return (control: AbstractControl): { [key: string]: any } => {
+            const accepted = checkRE.test(control.value);
+            return accepted ? null : { 'regex': { value: control.value } };
         };
     }
-    
+
     /**
      * Validate The input form
      */
-	public validateInputForm(ev) {
-		if (! this.inputForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.inputForm);
-		}
+    public validateInputForm(ev) {
+        if (!this.inputForm.valid) {
+            ev.preventDefault();
+            markControlsDirty(this.inputForm);
+        }
     }
 
 }

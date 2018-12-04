@@ -14,41 +14,32 @@
 
 <!-- Info about how to add educational institute to the blockchain -->
 <p i18n>
-    Please provide the public address and human readable name for the educational institute which you would like to add to the blockchain.
+    Please provide the public address and human readable name for the educational institute which you would like to add
+    to the blockchain.
     If the public address is already known the institute will be renamed to the new public name you provide.
     The instutute in its turn can create entities which in turn can endorse badges and badgeclasses.
 </p>
 
 <!-- Input form for new educational institute -->
-<form [formGroup]="inputForm"
-        (ngSubmit)="submitForm(inputForm.getRawValue())"
-        class="l-form"
-        novalidate>
+<form [formGroup]="inputForm" (ngSubmit)="submitForm(inputForm.getRawValue())" class="l-form" novalidate>
     <fieldset>
 
         <!-- The public address of the educational institute -->
-        <bg-formfield-text [control]="inputForm.controls.publicKey"
-                            [label]="'Public Blockchain Address'"
-                            [errorMessage]="'Please provide a valid public address for the educational institute'"></bg-formfield-text>
+        <bg-formfield-text [control]="inputForm.controls.publicKey" [label]="'Public Blockchain Address'"
+            [errorMessage]="'Please provide a valid public address for the educational institute'"></bg-formfield-text>
 
         <!-- The public address of the educational institute -->
-        <bg-formfield-text [control]="inputForm.controls.publicIRI"
-                            [label]="'Issuer / Profile IRI'"
-                            [errorMessage]="'Please provide a valid Issuer / Profile IRI'"></bg-formfield-text>
+        <bg-formfield-text [control]="inputForm.controls.publicIRI" [label]="'Issuer / Profile IRI'" [errorMessage]="'Please provide a valid Issuer / Profile IRI'"></bg-formfield-text>
 
         <!-- The public name of the educational institute -->
-        <bg-formfield-text [control]="inputForm.controls.publicName"
-                            [label]="'Public Name'"
-                            [errorMessage]="'Please provide a name for this institute'"></bg-formfield-text>
+        <bg-formfield-text [control]="inputForm.controls.publicName" [label]="'Public Name'" [errorMessage]="'Please provide a name for this institute'"></bg-formfield-text>
 
     </fieldset>
 
     <!-- Save educational institute to blockchain-->
     <div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-        <button type="submit"
-                class="button"
-                (click)="validateInputForm($event)"
-                [disabled]="!submitEnabled">Save Institute</button>
+        <button type="submit" class="button" (click)="validateInputForm($event)" [disabled]="!submitEnabled">Save
+            Institute</button>
     </div>
 </form>
 
@@ -65,7 +56,7 @@
     <thead>
         <tr>
             <th scope="col">Public Name</th>
-            <th scope="col">Public Address</th>
+            <th scope="col">Public Info</th>
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
         </tr>
@@ -74,9 +65,17 @@
         <tr *ngFor="let inst of eduInstitutes">
             <th scope="row">
                 {{ inst.name }}
+                <span class="small" *ngIf="inst.names.length > 1"><br />History: <br /></span>
+                <span class="small" *ngFor="let name of inst.names | slice:1">
+                    {{ name.name }} ({{name.startTime | date }})
+                    <br />
+                </span>
             </th>
             <td>
-                {{ inst.addr }}
+                {{ inst.addr }} <br />
+                <span class="small" *ngIf="inst.iri">
+                    <a href="{{ inst.iri }}" target="_blank">{{ inst.iri }}</a>
+                </span>
             </td>
             <td>
                 {{ inst.withdrawn?'Withdrawn':'Active' }}
@@ -84,11 +83,12 @@
             <td>
 
                 <!-- Withdraw or Re-activate educational institute on blockchain -->
-                <button type="submit"
-                    class="button"
-                    (click)="setWithdrawState(inst, !inst.withdrawn)"
-                    [disabled]="!submitEnabled">
+                <button class="button" (click)="setWithdrawState(inst, !inst.withdrawn)" [disabled]="!submitEnabled">
                     {{ inst.withdrawn?'Re-Activate':'Withdraw' }}</button>
+
+                <!-- Edit institute -->
+                <button class="button" (click)="setEditInstitute(inst)" [disabled]="!submitEnabled">
+                    Edit</button>
             </td>
         </tr>
     </tbody>
