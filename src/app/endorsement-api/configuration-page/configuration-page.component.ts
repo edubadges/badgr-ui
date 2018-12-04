@@ -30,6 +30,8 @@ import { ValidanaBlockchainService } from '../validana/validanaBlockchain.servic
         'h2 { margin-top: 20px; margin-bottom: 15px; }',
         'form { margin-top: 20px; }',
         'p { margin-top: 10px; }',
+        '.validana-footer { display: block; text-align: center; font-size: 12px; margin-bottom: 16px; }',
+        'table { overflow-x: auto !important; display: block !important; }',
         'button[disabled] { background-color: #998d8e !important; }'],
     encapsulation: ViewEncapsulation.None
 })

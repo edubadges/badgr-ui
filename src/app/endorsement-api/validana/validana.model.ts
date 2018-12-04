@@ -38,6 +38,9 @@ export interface ValidanaAddressInfo {
 	// Address as string
 	addr: string;
 
+	// IRI (if type === 'institution')
+	iri?: string;
+
 	// Known names that were associated with this address
 	names: {
 
