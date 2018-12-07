@@ -71,7 +71,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 							</ng-template>
 					</div><br>
 
-					<div style="display:inline-block;">
+					<div style="display:block;width:100%;">
 
 						<div class="heading-x-text">
 
@@ -110,7 +110,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 
 							<!-- Show badge class endorsements -->
 							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
-								<endorsements-badgeclass [badgeclass]="badgeClass"></endorsements-badgeclass>
+								<endorsements-badgeclass [badgeclass]="badgeClass" style="width:100%;"></endorsements-badgeclass>
 							</div>
 
 							<!-- tags -->
