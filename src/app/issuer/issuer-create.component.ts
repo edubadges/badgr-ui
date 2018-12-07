@@ -217,8 +217,8 @@ export class IssuerCreateComponent extends BaseAuthorizedAndAuthenticatedRoutabl
 				'',
 				Validators.compose([
 					Validators.required,
-					/*Validators.maxLength(75),
-					EmailValidator.validEmail*/
+					Validators.maxLength(345),
+					/*EmailValidator.validEmail*/
 				])
 			],
 			'issuer_url': [

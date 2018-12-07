@@ -83,12 +83,14 @@
   .heading-x-text {
     align-self: stretch;
     flex: 1 1 auto;
+    max-width: 600px;
+    overflow: hidden;
 
     section {
       line-height: $line-height-large1;
       margin-bottom: $gridspacing * 2;
       padding: 0;
-
+      
       h1 {
         color: $color-dark2;
         font-size: $font-size;
