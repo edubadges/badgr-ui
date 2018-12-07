@@ -16,6 +16,8 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 import { QueryParametersService } from "../common/services/query-parameters.service";
 
 @Component({
+	styles: ['h1 { font-size: 30px; font-weight: 600; margin-top: 10px; }',
+		'h2 { margin-top: 20px; }'],
 	template: `
 		<ng-template [bgAwaitPromises]="badgeIdParam">
 			<!-- Embedded View -->
@@ -93,7 +95,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 
 							<!-- criteria -->
 							<section *ngIf="badgeClass.criteria">
-								<h1>Criteria</h1>
+								<h2 class="title title-is-smallmobile" i18n>Criteria</h2>
 								<show-more *ngIf="badgeClass.criteria.narrative">
 									<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
 								</show-more>
@@ -106,9 +108,14 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 								</div>
 							</section>
 
+							<!-- Show badge class endorsements -->
+							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
+								<endorsements-badgeclass [badgeclass]="badgeClass"></endorsements-badgeclass>
+							</div>
+
 							<!-- tags -->
 							<section>
-								<h1 *ngIf="badgeClass.tags">Tags</h1>
+								<h2 class="title title-is-smallmobile" *ngIf="badgeClass.tags" i18n>Tags</h2>
 								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 									<span
 										*ngFor="let tag of badgeClass.tags; last as last">
@@ -197,14 +204,14 @@ export class PublicBadgeClassComponent {
 
 		this.studentsEnrolledButtonDisabled = false
 		this.buttonText = 'Enroll'
-		if (this.sessionService.isLoggedIn){
+		if (this.sessionService.isLoggedIn) {
 			this.profileLoaded = profileManager.userProfilePromise
-			.then(profile => {
-				this.profile = profile
-				this.isCurrentUserAlreadyEnrolled()
-			})
+				.then(profile => {
+					this.profile = profile
+					this.isCurrentUserAlreadyEnrolled()
+				})
 		}
-		if (this.queryParams.queryStringValue("enrollmentStatus", true)){
+		if (this.queryParams.queryStringValue("enrollmentStatus", true)) {
 			let enrollmentStatus = this.queryParams.queryStringValue("enrollmentStatus", true)
 			this.handleEnrollmentStatus(enrollmentStatus)
 		}
@@ -219,14 +226,14 @@ export class PublicBadgeClassComponent {
 	}
 
 	get v1JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "1_1"});
+		return addQueryParamsToUrl(this.rawJsonUrl, { v: "1_1" });
 	}
 
 	get v2JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
+		return addQueryParamsToUrl(this.rawJsonUrl, { v: "2_0" });
 	}
 
-	isCurrentUserAlreadyEnrolled(){
+	isCurrentUserAlreadyEnrolled() {
 		this.badgeIdParam.loadedPromise.then(badgeClass => {
 			let badgeClassSlug = badgeClass.id.split('/').slice(-1)[0]
 			this.userProfileApiService.fetchSocialAccounts()
@@ -238,27 +245,27 @@ export class PublicBadgeClassComponent {
 		})
 	}
 
-	getEduID(socialAccounts:object[]) {
+	getEduID(socialAccounts: object[]) {
 		let eduIDSocialAccount = null
 		for (let account of socialAccounts) {
-			if (account['provider']=='edu_id') {
+			if (account['provider'] == 'edu_id') {
 				return account['uid']
 			}
 		}
 	}
 
-	handleEnrollmentStatus(enrollmentStatus){
-		if (enrollmentStatus=='"enrolled"') {
+	handleEnrollmentStatus(enrollmentStatus) {
+		if (enrollmentStatus == '"enrolled"') {
 			this.buttonText = 'enrolled'
 			this.studentsEnrolledButtonDisabled = true
 		}
-		if (enrollmentStatus=='"alreadyEnrolled"') {
+		if (enrollmentStatus == '"alreadyEnrolled"') {
 			this.buttonText = 'enrolled'
 			this.studentsEnrolledButtonDisabled = true
 		}
 	}
 
-	enrollStudent(socialAccounts:object[]){
+	enrollStudent(socialAccounts: object[]) {
 		if (socialAccounts) {
 			let eduID = this.getEduID(socialAccounts)
 			if (eduID) {
@@ -274,13 +281,13 @@ export class PublicBadgeClassComponent {
 		}
 	}
 
-	clickEnrollStudent(){
+	clickEnrollStudent() {
 		this.userProfileApiService.fetchSocialAccounts()
 			.then(response => this.enrollStudent(response))
 			.catch(e => alert(e))
 	}
 
-	userHasNoEduidWarning(){
+	userHasNoEduidWarning() {
 		alert("Sorry, we couldn't find your eduID. Please log in with EduID and try again")
 	}
 
@@ -289,11 +296,11 @@ export class PublicBadgeClassComponent {
 		this.sessionService.loggedin$.subscribe(
 			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
 		);
-		for (let provider of this.sessionService.enabledExternalAuthProviders){
-      if (provider.name == 'EduID') {
-        this.provider = provider
-      }
-    }
+		for (let provider of this.sessionService.enabledExternalAuthProviders) {
+			if (provider.name == 'EduID') {
+				this.provider = provider
+			}
+		}
 	}
 
 }
