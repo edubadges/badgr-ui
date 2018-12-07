@@ -376,7 +376,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
   public setBadgeClassEndorsement(uriID: string, endorsement: boolean, endorsementComment = ''): Promise<any> {
 
     // Attempt to send badge class endorsement to blockchain
-    return this.executeSmartContract('Badge Class', {
+    return this.executeSmartContract('Endorse Badge Class', {
       badgeClass: uriID,
       endorsementComment,
       endorse: endorsement

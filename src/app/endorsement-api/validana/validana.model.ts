@@ -79,4 +79,7 @@ export interface ValidanaEndorsers {
 
 	// Isuued on 
 	issued_on: number;
+
+	// Revoked on
+	revoked: number | null;
 }
