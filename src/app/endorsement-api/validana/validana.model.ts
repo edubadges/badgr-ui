@@ -82,4 +82,41 @@ export interface ValidanaEndorsers {
 
 	// Revoked on
 	revoked: number | null;
+
+	// JSON of the endorsement
+	json?: Endorsement
+}
+
+export interface Endorsement {
+
+	// Openbadges context
+	'@context': string;
+
+	// Type
+	type: 'Endorsement';
+
+	// Endorsement ID
+	id: string;
+
+	// Endorsement issuer
+	issuer: string;
+
+	// Endorsement claim
+	claim: {
+
+		// Reference to badge(class)
+		id: string;
+
+		// Optional comment
+		endorsementComment?: string;
+	}
+
+	// Date of issue
+	issuedOn: string;
+
+	// Verification method
+	verification: {
+		type: string;
+		[key:string]: any;
+	}
 }

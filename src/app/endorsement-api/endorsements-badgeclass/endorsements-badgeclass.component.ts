@@ -18,12 +18,17 @@ import { MessageService } from '../../common/services/message.service';
 import { PublicApiService } from '../../public/services/public-api.service';
 import { ValidanaAddressInfo, ValidanaEndorsers } from '../validana/validana.model';
 import { ValidanaBlockchainService } from './../validana/validanaBlockchain.service';
+import { CommonDialogsService } from 'app/common/services/common-dialogs.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'endorsements-badgeclass',
     templateUrl: './endorsements-badgeclass.component.html',
     styles: [
         'button[disabled] { background-color: #998d8e !important; }',
+        '.button.small { padding: 3px 6px; }',
+        '.dialog-confirm { width: 800px !important; }',
+        '.endorse-input { min-width: 400px; margin-top: 10px; padding: 10px; border: 2px solid red; border-radius: 5px; }',
         '.spacer { display:block; clear:both; } ',
         'h2 { margin-bottom: 10px; margin-top: 20px; }'
     ],
@@ -72,12 +77,18 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     // Is the endorse button enabled?
     public submitEnabled = true;
 
+    // Toggle submit state
+    public submitActive = false;
+
     // Should we display endorsements for this class?
     public endorsementsEnabled = false;
 
     // Can the user send metadata to the blockchain?
     // For instance, existing badgeclasses which have no endorsements yet
     public canSendToBlockchain = false;
+
+    // Input Form element
+    public inputForm: FormGroup;
 
     /**
      * Create new endorsements component for badgeclasses
@@ -89,9 +100,17 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
         public validanaService: ValidanaBlockchainService,
         public messageService: MessageService,
         public apiService: PublicApiService,
+        public formBuilder: FormBuilder,
         public cd: ChangeDetectorRef,
+        public dialog: CommonDialogsService,
         @Optional() public issuers: IssuerApiService) {
 
+        // Setup form element for WIF input
+        this.inputForm = this.formBuilder.group({
+
+            // WIF private key input
+            comment: ['', [ ]]
+        } as inputFormControls<any[]>);
     }
 
     /**
@@ -101,6 +120,16 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
 
         // Clear interval timer
         clearInterval(this.updateTimer);
+    }
+
+    public endorsementDialog(obj: object) {
+        console.log('click');
+        this.dialog.confirmDialog.openResolveRejectDialog({
+            dialogTitle: 'Endorsement',
+            dialogBody: '<h3>Endorsement JSON</h3><br /><pre>' + JSON.stringify(obj, undefined, 2) + '</pre>',
+            resolveButtonLabel: 'Close',
+            showRejectButton: false
+        });
     }
 
     /**
@@ -190,17 +219,30 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     }
 
     /**
+     * Toggle submit state
+     */
+    public toggleSubmitActive() {
+        if (this.hasEndorsedBadgeClass) {
+            this.toggleWithdrawState();
+            this.submitActive = false;
+        } else {
+            this.submitActive = !this.submitActive;
+        }
+    }
+
+    /**
      * Toggle the withdrawstate for this entity
      */
-    public toggleWithdrawState() {
+    public toggleWithdrawState(comment = '') {
 
         // Disable submit button
         this.submitEnabled = false;
+        this.submitActive = false;
 
         setTimeout(() => {
 
             // Send endorsement of badge class to blockchain
-            this.validanaService.setBadgeClassEndorsement(this.badgeURI, !this.hasEndorsedBadgeClass)
+            this.validanaService.setBadgeClassEndorsement(this.badgeURI, !this.hasEndorsedBadgeClass, comment)
 
                 // Endorsement was accepted
                 .then(async () => {
@@ -318,7 +360,17 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     }
 }
 
+/**
+ * Endorsement info interface
+ */
 interface endorsementInfo {
     entity: ValidanaEndorsers;
     info?: ValidanaAddressInfo;
+}
+
+/**
+ * Interface for the input form fields and types
+ */
+interface inputFormControls<T> {
+	comment: T;
 }

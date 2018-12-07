@@ -13,9 +13,15 @@
 
 
     <!-- Button to endorse badge class -->
-    <button style="float:right;margin:10px;" class="button" (click)="toggleWithdrawState()" [disabled]="!submitEnabled"
-        *ngIf="validanaService.getLastKnownRole() === 'entity' && allowEndorsements">{{ hasEndorsedBadgeClass?'Withdraw
-        endorsement':'Endorse Badge Class' }}</button>
+    <div style="float:right;margin:10px;">
+        <button class="button" (click)="toggleSubmitActive()" [disabled]="!submitEnabled" *ngIf="validanaService.getLastKnownRole() === 'entity' && allowEndorsements">{{
+            hasEndorsedBadgeClass?'Withdraw
+            endorsement':'Endorse Badge Class' }}</button>
+        <div *ngIf="submitActive" class="endorse-input">
+            <bg-formfield-text [control]="inputForm.controls.comment" [label]="'Comment (optional)'" #comment></bg-formfield-text>
+            <button class="button" (click)="toggleWithdrawState(comment.value)" [disabled]="!submitEnabled">Endorse</button>
+        </div>
+    </div>
 
     <!-- Title with count of current badgeclass endorsements -->
     <h2 class="title title-is-smallmobile" i18n>Active endorsements ({{endorsersActive?.length}} total)</h2>
@@ -30,6 +36,7 @@
         <thead>
             <tr>
                 <th scope="col">Endorser Name</th>
+                <th scope="col">Comment</th>
                 <th scope="col">Endorser Institute</th>
                 <th scope="col">Endorser Date</th>
             </tr>
@@ -37,9 +44,12 @@
         <tbody>
             <tr *ngFor="let end of endorsersActive">
                 <th scope="row">
-                    {{ end.info.name }} <br />
+                    {{ end.info.name }} <button class="button small" (click)="endorsementDialog(end.entity.json)">JSON</button><br />
                     <span class="small">{{ end.info.addr }}</span>
                 </th>
+                <td scope="row">
+                    {{ end.entity.json.claim.endorsementComment || '' }}
+                </td>
                 <td scope="row">
                     {{ parents[end.info.parent] ? parents[end.info.parent].name : end.info.parent }}
                 </td>
@@ -60,6 +70,7 @@
         <thead>
             <tr>
                 <th scope="col">Endorser Name</th>
+                <th scope="col">Comment</th>
                 <th scope="col">Endorser Institute</th>
                 <th scope="col">Endorser Date</th>
             </tr>
@@ -67,9 +78,12 @@
         <tbody>
             <tr *ngFor="let end of endorsersHistory">
                 <th scope="row">
-                    {{ end.info.name }} <br />
+                    {{ end.info.name }} <button class="button small" (click)="endorsementDialog(end.entity.json)">JSON</button><br />
                     <span class="small">{{ end.info.addr }}</span>
                 </th>
+                <td scope="row">
+                    {{ end.entity.json.claim.endorsementComment || '' }}
+                </td>
                 <td scope="row">
                     {{ parents[end.info.parent] ? parents[end.info.parent].name : end.info.parent }}
                 </td>
