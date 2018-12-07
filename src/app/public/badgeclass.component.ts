@@ -50,7 +50,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 								<img [loaded-src]="badgeClass.image"
 								     [loading-src]="badgeLoadingImageUrl"
 								     [error-src]="badgeFailedImageUrl"
-								     width="200" />
+								     width="200">
 							</div>
 						</div>
 							<ng-template [ngIf]="loggedIn">
@@ -68,94 +68,96 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 									<button class="button button-major" (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)" >Enroll</button>
 								</div>
 							</ng-template>
-					</div><br>
+					
+						<br>
 
-					<div style="display:inline-block;">
+						<div style="display:inline-block;">
 
-						<div class="heading-x-text">
+							<div class="heading-x-text">
 
-							<!-- Badge Name -->
-							<h1>{{ badgeClass.name }}</h1>
+								<!-- Badge Name -->
+								<h1>{{ badgeClass.name }}</h1>
 
-							<!-- Issuer Information -->
-							<a class="stack" [routerLink]="routerLinkForUrl(issuer.id)">
-								<div class="stack-x-image">
-									<img [loaded-src]="issuer.image"
-									     [loading-src]="issuerImagePlaceholderUrl"
-									     [error-src]="issuerImagePlaceholderUrl"
-									     width="80" />
-								</div>
-								<div class="stack-x-text">
-									<h2>{{ issuer.name }}</h2>
-								</div>
-							</a>
-
-							<p style="font-size: 16px">{{ badgeClass.description }}</p>
-
-							<!-- criteria -->
-							<section *ngIf="badgeClass.criteria">
-								<h1>Criteria</h1>
-								<show-more *ngIf="badgeClass.criteria.narrative">
-									<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
-								</show-more>
-
-								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right"
-								     *ngIf="badgeClass.criteria.criteriaUrl">
-									<a class="button button-primaryghost"
-									   [href]="badgeClass.criteria.criteriaUrl"
-									   target="_blank">View external Criteria URL</a>
-								</div>
-							</section>
-
-							<!-- tags -->
-							<section>
-								<h1 *ngIf="badgeClass.tags">Tags</h1>
-								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
-									<span
-										*ngFor="let tag of badgeClass.tags; last as last">
-										{{tag}}<span *ngIf="!last">,</span>
-									</span>
-								</div>
-							</section>
-
-							<!-- alignment -->
-							<section>
-								<h1 *ngIf="badgeClass.alignment && badgeClass?.alignment.length>0">Alignment</h1>
-								<div class="bordered l-padding-2x l-marginBottom-2x"
-								     *ngFor="let alignment of badgeClass.alignment; let i=index">
-									<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-spacebetween">
-										<h1>{{alignment.targetName}}</h1>
-										<small>{{alignment.targetCode}}</small>
+								<!-- Issuer Information -->
+								<a class="stack" [routerLink]="routerLinkForUrl(issuer.id)">
+									<div class="stack-x-image">
+										<img [loaded-src]="issuer.image"
+												[loading-src]="issuerImagePlaceholderUrl"
+												[error-src]="issuerImagePlaceholderUrl"
+												width="80">
 									</div>
-
-									<ng-template [ngIf]="alignment.targetDescription">
-										{{ alignment.targetDescription }}
-									</ng-template>
-
-									<div *ngIf="alignment.frameworkName">
-										<h1>Framework</h1>
-										{{ alignment.frameworkName }}
+									<div class="stack-x-text">
+										<h2>{{ issuer.name }}</h2>
 									</div>
-									<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-										<a
-											*ngIf="alignment.targetUrl"
-											class="button button-primaryghost"
-											[href]="alignment.targetUrl"
-											target="_blank">View alignment URL</a>
-									</div>
-								</div>
-							</section>
+								</a>
 
-							<!-- URLs -->
-							<section>
-								<a [href]="v2JsonUrl"
-								   class="button button-primaryghost"
-								>v2.0 JSON</a>
-								<a [href]="badgeClass.sourceUrl"
-								   *ngIf="badgeClass.sourceUrl"
-								   class="button button-primaryghost"
-								>View Original</a>
-							</section>
+								<p style="font-size: 16px">{{ badgeClass.description }}</p>
+
+								<!-- criteria -->
+								<section *ngIf="badgeClass.criteria">
+									<h1>Criteria</h1>
+									<show-more *ngIf="badgeClass.criteria.narrative">
+										<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
+									</show-more>
+
+									<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right"
+											*ngIf="badgeClass.criteria.criteriaUrl">
+										<a class="button button-primaryghost"
+											[href]="badgeClass.criteria.criteriaUrl"
+											target="_blank">View external Criteria URL</a>
+									</div>
+								</section>
+
+								<!-- tags -->
+								<section>
+									<h1 *ngIf="badgeClass.tags">Tags</h1>
+									<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
+										<span
+											*ngFor="let tag of badgeClass.tags; last as last">
+											{{tag}}<span *ngIf="!last">,</span>
+										</span>
+									</div>
+								</section>
+
+								<!-- alignment -->
+								<section>
+									<h1 *ngIf="badgeClass.alignment && badgeClass?.alignment.length>0">Alignment</h1>
+									<div class="bordered l-padding-2x l-marginBottom-2x"
+											*ngFor="let alignment of badgeClass.alignment; let i=index">
+										<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-spacebetween">
+											<h1>{{alignment.targetName}}</h1>
+											<small>{{alignment.targetCode}}</small>
+										</div>
+
+										<ng-template [ngIf]="alignment.targetDescription">
+											{{ alignment.targetDescription }}
+										</ng-template>
+
+										<div *ngIf="alignment.frameworkName">
+											<h1>Framework</h1>
+											{{ alignment.frameworkName }}
+										</div>
+										<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+											<a
+												*ngIf="alignment.targetUrl"
+												class="button button-primaryghost"
+												[href]="alignment.targetUrl"
+												target="_blank">View alignment URL</a>
+										</div>
+									</div>
+								</section>
+
+								<!-- URLs -->
+								<section>
+									<a [href]="v2JsonUrl"
+										class="button button-primaryghost"
+									>v2.0 JSON</a>
+									<a [href]="badgeClass.sourceUrl"
+										*ngIf="badgeClass.sourceUrl"
+										class="button button-primaryghost"
+									>View Original</a>
+								</section>
+							</div>
 						</div>
 					</div>
 				</header>
@@ -257,6 +259,10 @@ export class PublicBadgeClassComponent {
 		}
 		if (enrollmentStatus=='"alreadyEnrolled"') {
 			this.buttonText = 'enrolled'
+			this.studentsEnrolledButtonDisabled = true
+		}
+		if (enrollmentStatus=='"noEduID"') {
+			this.buttonText = "Can't enroll"
 			this.studentsEnrolledButtonDisabled = true
 		}
 	}

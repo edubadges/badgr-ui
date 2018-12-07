@@ -540,8 +540,20 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				])
 			],
 			badge_image: [ '', Validators.required ],
-			badge_description: [ '', Validators.required ],
-			badge_criteria_url: [ '' , UrlValidator.validUrl],
+			badge_description: [
+				 '', 
+				 Validators.compose([
+					Validators.required,
+					Validators.maxLength(6000)
+				]),
+			],
+			badge_criteria_url: [
+				'', 
+				Validators.compose([
+				 UrlValidator.validUrl,
+				 Validators.maxLength(6000)
+			 ]),
+		 ],
 			badge_criteria_text: [ '' ],
 			alignments: fb.array([]),
 			extensions: fb.array([])
