@@ -311,7 +311,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
             }
 
             console.error('[Validana] transaction invalid: ' + data.message);
-            reject();
+            reject(new Error(data.message));
           }
 
           // Check if the transaction has status 'rejected'
@@ -328,7 +328,7 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
             }
 
             console.error('[Validana] transaction rejected: ' + data.message);
-            reject();
+            reject(new Error(data.message));
           }
 
           // Check if the transaction has status 'accepted'
@@ -346,11 +346,11 @@ export class ValidanaBlockchainService implements VObserver<Connected> {
           }
 
         }).catch((e) => {
-          reject();
+          reject(e);
         });
 
       } else {
-        reject();
+        reject(new Error('Private Key not specified'));
       }
     });
   }
