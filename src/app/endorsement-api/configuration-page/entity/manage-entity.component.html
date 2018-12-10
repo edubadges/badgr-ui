@@ -14,8 +14,7 @@
 
 <!-- Message if institute is not withdrawn -->
 <p i18n *ngIf="this.validanaService.getLastKnownWithdrawn() !== true">
-    Please provide the public address and human readable name for the educational entity which you would like to add to
-    the blockchain.
+    Please provide the public address and human readable name for the educational entity which you would like to add to Validana.
     If the public address is already known the entity will be renamed to the new public name you provide.
     The entity you add can endorse badges and badgeclasses as long as it is not withdrawn.
 </p>
@@ -52,7 +51,7 @@
 </header>
 
 <!-- Message if there are no educational entities -->
-<p *ngIf="!eduEntities?.length" i18n>There are currently no entities registered on the blockchain.</p>
+<p *ngIf="!eduEntities?.length" i18n>There are currently no entities registered on Validana.</p>
 <table class="table" *ngIf="eduEntities?.length">
 
     <!-- Table headings -->
