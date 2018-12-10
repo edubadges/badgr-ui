@@ -15,7 +15,7 @@
 <!-- Info about how to add educational institute to the blockchain -->
 <p i18n>
     Please provide the public address and human readable name for the educational institute which you would like to add
-    to the blockchain.
+    to Validana.
     If the public address is already known the institute will be renamed to the new public name you provide.
     The instutute in its turn can create entities which in turn can endorse badges and badgeclasses.
 </p>
@@ -25,7 +25,7 @@
     <fieldset>
 
         <!-- The public address of the educational institute -->
-        <bg-formfield-text [control]="inputForm.controls.publicKey" [label]="'Public Blockchain Address'"
+        <bg-formfield-text [control]="inputForm.controls.publicKey" [label]="'Public Validana Address'"
             [errorMessage]="'Please provide a valid public address for the educational institute'"></bg-formfield-text>
 
         <!-- The public address of the educational institute -->
@@ -49,7 +49,7 @@
 </header>
 
 <!-- Message to show if there are no educational institutes -->
-<p *ngIf="!eduInstitutes?.length" i18n>There are currently no institutes registered on the blockchain.</p>
+<p *ngIf="!eduInstitutes?.length" i18n>There are currently no institutes registered on Validana.</p>
 
 <!-- Table with current educational institutes -->
 <table class="table" *ngIf="eduInstitutes?.length">
