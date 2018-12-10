@@ -16,7 +16,7 @@ import { IssuerApiService } from 'app/issuer/services/issuer-api.service';
 import { PublicApiBadgeClassWithIssuer } from 'app/public/models/public-api.model';
 import { MessageService } from '../../common/services/message.service';
 import { PublicApiService } from '../../public/services/public-api.service';
-import { ValidanaAddressInfo, ValidanaEndorsers } from '../validana/validana.model';
+import { ValidanaAddressInfo, ValidanaEndorsers, Endorsement } from '../validana/validana.model';
 import { ValidanaBlockchainService } from './../validana/validanaBlockchain.service';
 import { CommonDialogsService } from 'app/common/services/common-dialogs.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -27,6 +27,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
     styles: [
         'button[disabled] { background-color: #998d8e !important; }',
         '.button.small { padding: 3px 6px; }',
+        '.validana-logo { height: 20px; }',
         '.dialog-confirm { width: 800px !important; }',
         '.endorse-input { min-width: 400px; margin-top: 10px; padding: 10px; border: 2px solid red; border-radius: 5px; }',
         '.spacer { display:block; clear:both; } ',
@@ -35,6 +36,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
     encapsulation: ViewEncapsulation.None
 })
 export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
+    readonly validanaImage = require('../../../breakdown/static/images/logo-validana-sm.png');
 
     // The Badge class
     @Input() set badgeclass(badgeclass: BadgeClass | PublicApiBadgeClassWithIssuer) {
@@ -109,7 +111,7 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
         this.inputForm = this.formBuilder.group({
 
             // WIF private key input
-            comment: ['', [ ]]
+            comment: ['', []]
         } as inputFormControls<any[]>);
     }
 
@@ -122,11 +124,12 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
         clearInterval(this.updateTimer);
     }
 
-    public endorsementDialog(obj: object) {
+    public endorsementDialog(obj: Endorsement) {
         console.log('click');
         this.dialog.confirmDialog.openResolveRejectDialog({
             dialogTitle: 'Endorsement',
-            dialogBody: '<h3>Endorsement JSON</h3><br /><pre>' + JSON.stringify(obj, undefined, 2) + '</pre>',
+            dialogBody: '<h3>Endorsement JSON</h3><br /><pre>' + JSON.stringify(obj, undefined, 2) + '</pre><br />'
+                + '<p><a href="' + obj.id + '" target="_blank"><img class="validana-logo" src="' + this.validanaImage + '" alt="Validana" /> Verified Endorsement</a></p>',
             resolveButtonLabel: 'Close',
             showRejectButton: false
         });
@@ -372,5 +375,5 @@ interface endorsementInfo {
  * Interface for the input form fields and types
  */
 interface inputFormControls<T> {
-	comment: T;
+    comment: T;
 }
