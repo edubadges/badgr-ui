@@ -264,6 +264,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
 			.addControl("selected", false)
+			.addControl("selected_for_removal", false)
 		)
 
 	badge_class: BadgeClass;
@@ -377,6 +378,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_type", 'id')
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
+			.addControl("selected_for_removal", false)
 			.addControl("extensions", typedGroup()
 				.addControl("extensions:recipientProfile", typedGroup()
 					.addControl("@context", recipientProfileContextUrl)
