@@ -166,6 +166,8 @@ import { EventsService } from "../common/services/events.service";
 
 			<div class="l-containerhorizontal l-headeredsection">
 
+				<endorsements-badge [badge]="badge"></endorsements-badge>
+
 			</div>
 			<recipient-badge-collection-selection-dialog #collectionSelectionDialog> </recipient-badge-collection-selection-dialog>
 		</main>

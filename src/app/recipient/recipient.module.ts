@@ -20,6 +20,7 @@ import { RecipientBadgeCollectionSelectionDialog } from "./recipient-badge-colle
 import { CommonEntityManagerModule } from "../entity-manager/entity-manager.module";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 import { UserProfileApiService } from "../common/services/user-profile-api.service"
+import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
 
 
 const routes = [
@@ -65,7 +66,8 @@ const routes = [
 		...COMMON_IMPORTS,
 		BadgrCommonModule,
 		CommonEntityManagerModule,
-		RouterModule.forChild(routes)
+		RouterModule.forChild(routes),
+		EndorsementApiModule
 	],
 	declarations: [
 		RecipientEarnedBadgeListComponent,

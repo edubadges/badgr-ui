@@ -125,7 +125,6 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
     }
 
     public endorsementDialog(obj: Endorsement) {
-        console.log('click');
         this.dialog.confirmDialog.openResolveRejectDialog({
             dialogTitle: 'Endorsement',
             dialogBody: '<h3>Endorsement JSON</h3><br /><pre>' + JSON.stringify(obj, undefined, 2) + '</pre><br />'
@@ -288,7 +287,6 @@ export class EndorsementsBadgeClassComponent implements OnDestroy, OnInit {
 
             // List of endorsers
             const endorsersAddrs: string[] = [];
-            console.log(data);
 
             // Check if we endorsed this badgeclass
             this.hasEndorsedBadgeClass = false;
