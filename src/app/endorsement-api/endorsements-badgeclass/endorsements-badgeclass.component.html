@@ -1,0 +1,116 @@
+<!-- 
+ * @license
+ * Copyright Coinversable B.V. All Rights Reserved.
+ *
+ * Use of this source code is governed by a AGPLv3-style license that can be
+ * found in the LICENSE file at https://coinversable.com/agplv3-license/
+ * 
+ * For more information about the Validana blockchain visit 
+ * https://validana.io
+-->
+
+<div *ngIf="endorsementsEnabled">
+
+
+    <!-- Button to endorse badge class -->
+    <div style="float:right;margin:10px;">
+        <button class="button" (click)="toggleSubmitActive()" [disabled]="!submitEnabled" *ngIf="validanaService.getLastKnownRole() === 'entity' && allowEndorsements">{{
+            hasEndorsedBadgeClass?'Withdraw
+            endorsement':'Endorse Badge Class' }}</button>
+        <div *ngIf="submitActive" class="endorse-input">
+            <bg-formfield-text [control]="inputForm.controls.comment" [label]="'Comment (optional)'" #comment></bg-formfield-text>
+            <button class="button" (click)="toggleWithdrawState(comment.value)" [disabled]="!submitEnabled">Endorse</button>
+        </div>
+    </div>
+
+    <!-- Title with count of current badgeclass endorsements -->
+    <h2 class="title title-is-smallmobile" i18n>Active endorsements ({{endorsersActive?.length}} total)</h2>
+
+    <!-- Message if no endorsements were found on blockchain -->
+    <div *ngIf="!endorsersActive?.length">
+        <span i18n>No endorsements found on Validana</span>
+    </div>
+
+    <!-- Table with current endorsers of badge class-->
+    <table class="table" *ngIf="endorsersActive?.length">
+        <thead>
+            <tr>
+                <th scope="col">Endorser Name</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Endorser Institute</th>
+                <th scope="col">Endorser Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let end of endorsersActive">
+                <th scope="row">
+                    {{ end.info.name }} <button class="button small" (click)="endorsementDialog(end.entity.json)">JSON</button><br />
+                    <span class="small">{{ end.info.addr }}</span>
+                </th>
+                <td scope="row">
+                    {{ end.entity.json.claim.endorsementComment || '' }}
+                </td>
+                <td scope="row">
+                    {{ parents[end.info.parent] ? parents[end.info.parent].name : end.info.parent }}
+                </td>
+                <th scope="row">
+                    {{ end.entity.issued_on | date:medium }}
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- Title with historic badgeclass endorsements -->
+    <h2 class="title title-is-smallmobile" *ngIf="endorsersHistory.length" i18n>Endorsement History
+        ({{endorsersHistory?.length}} total)</h2>
+
+    <!-- Table with historic endorsers of badge class-->
+    <table class="table" *ngIf="endorsersHistory?.length">
+        <thead>
+            <tr>
+                <th scope="col">Endorser Name</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Endorser Institute</th>
+                <th scope="col">Endorser Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let end of endorsersHistory">
+                <th scope="row">
+                    {{ end.info.name }} <button class="button small" (click)="endorsementDialog(end.entity.json)">JSON</button><br />
+                    <span class="small">{{ end.info.addr }}</span>
+                </th>
+                <td scope="row">
+                    {{ end.entity.json.claim.endorsementComment || '' }}
+                </td>
+                <td scope="row">
+                    {{ parents[end.info.parent] ? parents[end.info.parent].name : end.info.parent }}
+                </td>
+                <th scope="row">
+                    {{ end.entity.issued_on | date:medium }} - {{ end.entity.revoked | date:medium }}
+                </th>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<!-- Endorsements are not enabled for this badge -->
+<div *ngIf="!endorsementsEnabled">
+    <h2 class="title title-is-smallmobile" i18n>Endorsements</h2>
+    <p>Badgeclass was not found on Validana. Endorsements are disabled.</p><br />
+    <div *ngIf="canSendToBlockchain">
+        <p>You have access to the issuer assigned with this badgeclass. You can place the badgeclass on Validana to
+            enable endorsements.</p>
+
+        <!-- Button to store JSON (metadata) of badgeclass on blockchain-->
+        <button style="margin-top:10px;display:block;margin-left:auto;margin-right:auto;" class="button" (click)="sendMetadataToBlockchain()"
+            [disabled]="!submitEnabled">Store Badgeclass on Validana</button>
+    </div>
+</div>
+
+
+<!-- Spacer to help visual alignment -->
+<div class="spacer"></div>

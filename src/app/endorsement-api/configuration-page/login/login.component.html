@@ -1,0 +1,33 @@
+<!-- 
+ * @license
+ * Copyright Coinversable B.V. All Rights Reserved.
+ *
+ * Use of this source code is governed by a AGPLv3-style license that can be
+ * found in the LICENSE file at https://coinversable.com/agplv3-license/
+ * 
+ * For more information about the Validana blockchain visit 
+ * https://validana.io
+-->
+
+<!-- Form to login with private key -->
+<form [formGroup]="inputForm"
+        (ngSubmit)="submitForm(inputForm.getRawValue())"
+        class="l-form"
+        novalidate>
+    <fieldset>
+
+        <!-- Form input field for private key -->
+        <bg-formfield-text [control]="inputForm.controls.privateKey"
+                            [label]="'Private Key (WIF)'"
+                            [errorMessage]="'Please provide a valid private key in WIF format'"></bg-formfield-text>
+
+    </fieldset>
+
+    <!-- Button to login with WIF private key-->
+    <div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+        <button type="submit"
+                class="button"
+                (click)="validateInputForm($event)"
+                [disabled]="!submitEnabled">Login with WIF</button>
+    </div>
+</form>

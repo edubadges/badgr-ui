@@ -13,6 +13,7 @@ import { PublicBadgeClassComponent } from "./badgeclass.component";
 import { PublicIssuerComponent } from "./issuer.component";
 import { PublicBadgeCollectionComponent } from "./badge-collection.component";
 import { PublicPrivacyPolicyComponent } from "./privacy-policy.component";
+import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
 
 export const routes: Route[] = [
 	{
@@ -54,9 +55,8 @@ export const routes: Route[] = [
 		...COMMON_IMPORTS,
 		BadgrCommonModule,
 		CommonEntityManagerModule,
-		RouterModule.forChild(routes)
-		/* RouterModule.forChild(routes),
-                EndorsementApiModule */
+		RouterModule.forChild(routes),
+		EndorsementApiModule
 	],
 	declarations: [
 		PublicComponent,

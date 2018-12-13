@@ -14,7 +14,10 @@ import { BadgrRouteReuseStrategy } from "./common/util/route-reuse-strategy";
 import { ProfileModule } from "./profile/profile.module";
 import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from "./common/guards/auth.guard";
-import {RecipientBadgeApiService} from "./recipient/services/recipient-badges-api.service";
+import { RecipientBadgeApiService } from "./recipient/services/recipient-badges-api.service";
+
+import { PublicApiService } from './public/services/public-api.service';
+import { ValidanaBlockchainService } from './endorsement-api/validana/validanaBlockchain.service';
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
@@ -59,11 +62,11 @@ const ROUTE_CONFIG: Routes = [
 		loadChildren: './profile/profile.module#ProfileModule',
 		canActivate: [AuthGuard]
 	},
-//        {
-//                path: 'blockchain',
-//                loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
-//                canActivate: [AuthGuard]
-//        },
+	{
+		path: 'validana',
+		loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
+		canActivate: [AuthGuard]
+	},
 	{
 		path: 'public',
 		loadChildren: './public/public.module#PublicModule'
@@ -117,11 +120,11 @@ const ROUTE_CONFIG: Routes = [
 		Angulartics2GoogleAnalytics,
 		RecipientBadgeApiService,
 
-  //              // Expose the validana blockchain and publicapi service
-  //              ValidanaBlockchainService,
-  //              PublicApiService,
+		// Expose the validana blockchain and publicapi service
+		ValidanaBlockchainService,
+		PublicApiService,
 
-		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy}
+		{ provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy }
 	]
 })
 export class AppModule { }

@@ -13,6 +13,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
+import { ValidanaBlockchainService } from 'app/endorsement-api/validana/validanaBlockchain.service';
 
 
 @Component({
@@ -62,8 +63,6 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		protected issuerManager: IssuerManager,
 		protected badgeClassManager: BadgeClassManager,
 		protected dialogService: CommonDialogsService
-		//protected dialogService: CommonDialogsService,
-		//protected validanaService: ValidanaBlockchainService
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Create Badge Class - Badgr");
@@ -80,21 +79,7 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 
 	badgeClassCreated(promise: Promise<BadgeClass>) {
 		promise.then(
-			badgeClass => { 
-				
-				// Store a copy of the badge class on the blockchain
-				//this.validanaService.storeBadgeClass(badgeClass).then(() => {
-				//	this.messageService.reportMajorSuccess(
-				//		'BadgeClass was saved on the blockchain', true
-				//	);
-				
-				// Report error to user
-				//}).catch(() => {
-				//	this.messageService.reportHandledError(
-				//		'BadgeClass could not be saved on the blockchain. Please review Account -> Blockchain Configuration.',
-				//		undefined, true
-				//	);
-				//});
+			badgeClass => {
 				
 				// Route the user to the issuer page
 				this.router.navigate([

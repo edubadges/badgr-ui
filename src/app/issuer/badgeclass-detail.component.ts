@@ -187,6 +187,11 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						matching filter.</p>
 				</ng-template>
 			</div>
+
+			<!-- Show badge class endorsements -->
+			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
+				<endorsements-badgeclass [badgeclass]="badgeClass"></endorsements-badgeclass>
+			</div>
 		</ng-template>
 	</main>
 	`

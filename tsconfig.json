@@ -19,7 +19,6 @@
 		],
 		"strictNullChecks": false,
 		"baseUrl": "./src",
-		"paths": [],
 		"types": [
 			"core-js",
 			"jasmine",

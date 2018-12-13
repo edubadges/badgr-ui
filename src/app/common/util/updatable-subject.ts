@@ -40,7 +40,7 @@ export class UpdatableSubject<T> extends Subject<T> {
 		return this._valueSet;
 	}
 
-	protected _subscribe(
+	public _subscribe(
 		subscriber: Subscriber<T>
 	) {
 		const subscription = super._subscribe(subscriber);

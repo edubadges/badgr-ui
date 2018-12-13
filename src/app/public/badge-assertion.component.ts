@@ -12,9 +12,9 @@ import {
 import { EmbedService } from "../common/services/embed.service";
 import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url-util";
 import { routerLinkForUrl } from "./public.component";
-import {QueryParametersService} from "../common/services/query-parameters.service";
-import {MessageService} from "../common/services/message.service";
-import {SystemConfigService} from "../common/services/config.service";
+import { QueryParametersService } from "../common/services/query-parameters.service";
+import { MessageService } from "../common/services/message.service";
+import { SystemConfigService } from "../common/services/config.service";
 import { saveAs } from "file-saver";
 
 
@@ -194,6 +194,9 @@ import { saveAs } from "file-saver";
 						
 					</div>
 				</header>
+				<div class="l-containerhorizontal l-headeredsection">
+					<endorsements-badge [badge]="assertion"></endorsements-badge>
+				</div>
 			</main>
 		</ng-template>
 	`
@@ -258,11 +261,11 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get v1JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "1_1"});
+		return addQueryParamsToUrl(this.rawJsonUrl, { v: "1_1" });
 	}
 
 	get v2JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
+		return addQueryParamsToUrl(this.rawJsonUrl, { v: "2_0" });
 	}
 
 	get rawBakedUrl() {
@@ -270,11 +273,11 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get v1BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"})
+		return addQueryParamsToUrl(this.rawBakedUrl, { v: "1_1" })
 	}
 
 	get v2BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"})
+		return addQueryParamsToUrl(this.rawBakedUrl, { v: "2_0" })
 	}
 
 	get verifyUrl() {
@@ -302,7 +305,7 @@ export class PublicBadgeAssertionComponent {
 		xhr.onload = (e) => {
 			if (xhr.status == 200) {
 				let name = this.generateFileName(assertion);
-				saveAs( xhr.response, name);
+				saveAs(xhr.response, name);
 			}
 		};
 		xhr.send();
