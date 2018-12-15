@@ -41,6 +41,10 @@ export class StudentsEnrolledApiService extends BaseHttpApiService {
   
   isStudentEnrolled(badgeClassSlug:string, eduID: string) {
     return this.post(`/lti_edu/isstudentenrolled`, {edu_id: eduID, badgeclass_slug: badgeClassSlug})
-  }
+	}
+	
+	updateEnrollments(badgeClass: string, enrollment: object) {
+		return this.put(`/lti_edu/enrollment`, {badge_class: badgeClass, enrollment: enrollment})
+	}
 
 }

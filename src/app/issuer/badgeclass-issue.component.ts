@@ -60,46 +60,101 @@ import * as sanitizeHtml from "sanitize-html";
 
 				<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-recipientinformation">
 					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Enrolled Students</h3>
+					<br>
+					<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
+					<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, cancelling them can only be done through revokation.</p>
+					<div *ngIf="!issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
+						<h4 class="title title-bordered">No students are enrolled.</h4>
+					</div>
+					
 					<div class="l-formsection-x-container">
-						<div class="l-formsection-x-help">
-							<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
-							<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, cancelling them can only be done through revokation.</p>
-						</div>
-						<div *ngIf="!issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
-							<p class="text text-small">No students are enrolled.</p>
-						</div>
-						<div *ngIf="issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
-							<label class="formcheckbox" style="display:inline-block;">
-								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
-								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Select All for Awardment</span>
-							</label>
-							<label class="formcheckbox" style="display:inline-block;">
-								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllForRemoval()">
-								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Select All Students for Removal</span>
-							</label>
 
-							<div class="l-formsectionnested wrap wrap-welldark"
-								*ngFor="let recipient of issueForm.controls.recipients.controls; let i=index"
-							>
-								<label class="formcheckbox" style="display:inline-block;">
-									<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
-									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Award Badge to this Student</span>
-								</label>
-								<label class="formcheckbox" style="display:inline-block;">
-									<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected_for_removal">
-									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Remove Enrollment</span>
-								</label>
-								<div class="heading">
-									<div class="heading-x-text">
-										<section><h1>{{recipient.untypedControls.recipient_name.value}}</h1></section>
+					<!-- Enrollments -->
+						<div  class="l-formsection-x-inputs">
+							<div *ngIf="issueForm.controls.recipients.controls.length">
+								<hr class="rule l-rule">
+								<h4 class="title title-bordered" id="heading-badgeawarding">Enrollments</h4>
+								<br>
+								<button type="button"
+									class="button button-right"
+									(click)="denyAllEnrollments()"
+								>Deny All</button>
+							</div><br>
+							<label [style.display]="issueForm.controls.recipients.controls.length?'inline-block':'none'" class="formcheckbox">
+								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
+								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Select All for Awarding</span>
+							</label>
+							<div *ngIf="issueForm.controls.recipients.controls.length">
+								<div class="l-formsectionnested wrap wrap-welldark"
+									*ngFor="let recipient of issueForm.controls.recipients.controls; let i=index"
+								>
+									<div>
+										<label class="formcheckbox" style="display:inline-block;">
+											<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
+											<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Award Badge to this Student</span>
+										</label>
+										<button type="button"
+											class="button button-right"
+											(click)="denyEnrollment(i)"
+										>Deny Enrollment</button>
+									</div>
+									<div class="heading">
+										<div class="heading-x-text">
+											<section><h1>{{recipient.untypedControls.recipient_name.value}}</h1></section>
+										</div>
+									</div>
+									<div class="formfield ">
+										<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
 									</div>
 								</div>
-								<div class="formfield ">
-									<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- Denied Enrollments -->
+					<div class="l-formsection-x-container">
+						<div *ngIf="issueForm.controls.deniedRecipients.controls.length" class="l-formsection-x-inputs">
+						<hr class="rule l-rule">
+							<button 
+								*ngIf="!showDeniedEnrollments"
+								type="button"
+								class="button-secondaryghost"
+								(click)="toggleDeniedEnrollments()"
+							>Show denied enrollments</button>
+							<button 
+								*ngIf="showDeniedEnrollments"
+								type="button"
+								class="button-secondaryghost"
+								(click)="toggleDeniedEnrollments()"
+							>Hide denied enrollments</button>
+
+
+							<div *ngIf="showDeniedEnrollments">
+								<div>
+									<h4 class="title title-bordered" id="heading-badgeawarding">Denied Enrollments</h4>
+								</div>
+								<br>
+								<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let recipient of issueForm.controls.deniedRecipients.controls; let i=index">
+									
+									<label class="formcheckbox" style="display:inline-block;">
+										<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.denied">
+									</label>
+									<button type="button"
+										class="button button-right"
+										(click)="undoDenyEnrollment(i)"
+									>Undo Denial</button>
+									<div class="heading">
+										<div class="heading-x-text">
+											<section><h1>{{recipient.untypedControls.recipient_name.value}}</h1></section>
+										</div>
+									</div>
+									<div class="formfield ">
+										<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
+									</div>
 								</div>
 							</div>
-
 						</div>
+
 					</div>
 				</div>
 
@@ -268,7 +323,14 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
 			.addControl("selected", false)
-			.addControl("selected_for_removal", false)
+			.addControl("denied", false)
+		)
+		.addArray("deniedRecipients", typedGroup()
+			.addControl("recipient_name", "")
+			.addControl("recipient_type", "id")
+			.addControl("recipient_identifier", "", [ Validators.required ])
+			.addControl("selected", false)
+			.addControl("denied", false)
 		)
 
 	badge_class: BadgeClass;
@@ -280,6 +342,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	evidenceEnabled = false;
 	narrativeEnabled = false;
 	enrolledStudents = [];
+	showDeniedEnrollments = false;
 
 	constructor(
 		protected title: Title,
@@ -337,42 +400,28 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	selectAllStudents(){
 		this.allStudentsSelected = this.allStudentsSelected? false: true
 		for (let recipient of this.issueForm.controls.recipients.controls){
+			let b = this.allStudentsSelected? true: false
 			recipient.untypedControl.patchValue({'selected': this.allStudentsSelected? true: false})
 		}
 	}
 
-	allStudentsSelectedForRemoval = false
-	selectAllForRemoval(){
-		this.allStudentsSelectedForRemoval = this.allStudentsSelectedForRemoval? false: true
-		for (let recipient of this.issueForm.controls.recipients.controls){
-			recipient.untypedControl.patchValue({'selected_for_removal': this.allStudentsSelectedForRemoval? true: false})
-		}
-	}
-		
 	listener_is_on = false
 	awardButtonEnabled = false
 	onFormChange(){
-			if (this.issueForm.controls.recipients){
-					let recipientsSelectedCount = 0
-					let recipientSelectedForRemovalCount = 0
-				for (let recipient of this.issueForm.controls.recipients.controls){
-					if (recipient.controls.selected.value){
-						recipientsSelectedCount+=1 
-					}
-					if (recipient.controls.selected_for_removal.value){
-						recipientSelectedForRemovalCount+=1
-					}
-					if (recipient.controls.selected_for_removal.value && recipient.controls.selected.value){
-						recipient.untypedControl.patchValue({'selected': false})
-						recipientsSelectedCount-=1
-					}
-					this.awardButtonEnabled = (recipientsSelectedCount > 0 || recipientSelectedForRemovalCount > 0)
+		if (this.issueForm.controls.recipients){
+			let oneIsSelected = false
+			for (let recipient of this.issueForm.controls.recipients.controls){
+				if (recipient.controls.selected.value){
+					oneIsSelected = true 
 				}
+			}
+				this.awardButtonEnabled = oneIsSelected
 			} else {
 				this.awardButtonEnabled = false
 			}
 	}	
-		enableFormListener(){
+	
+	enableFormListener(){
 		if (!this.listener_is_on){
 			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange())
 		}
@@ -396,7 +445,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_type", 'id')
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
-			.addControl("selected_for_removal", false)
+			.addControl("denied", recipient['denied'])
 			.addControl("extensions", typedGroup()
 				.addControl("extensions:recipientProfile", typedGroup()
 					.addControl("@context", recipientProfileContextUrl)
@@ -404,7 +453,11 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 					.addControl("name", name)
 				)
 			)
-			this.issueForm.controls.recipients.push(recipientFormGroup);
+			if (!recipient['denied']) {
+				this.issueForm.controls.recipients.push(recipientFormGroup);
+			} else if (recipient['denied']) {
+				this.issueForm.controls.deniedRecipients.push(recipientFormGroup);
+			}
 		}
 	}
 
@@ -412,31 +465,103 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		this.issueForm.controls.evidence_items.addFromTemplate();
 	}
 
-	onSubmit() {
-		const formState = this.issueForm.value;
+	awardBadges(formState){
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
-		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
-			this.issuerSlug,
-			this.badgeSlug,
-			{
-				issuer: this.issuerSlug,
-				badge_class: this.badgeSlug,
-				narrative: this.narrativeEnabled ? formState.narrative : "",
-				create_notification: formState.notify_earner,
-				evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-				recipients: formState.recipients,
-				// extensions: extensions
-			}
-		).then(() => this.badge_class.update())
+			this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
+				this.issuerSlug,
+				this.badgeSlug,
+				{
+					issuer: this.issuerSlug,
+					badge_class: this.badgeSlug,
+					narrative: this.narrativeEnabled ? formState.narrative : "",
+					create_notification: formState.notify_earner,
+					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
+					recipients: this.extractRecipients(),
+					// extensions: extensions
+				}
+			).then(() => this.badge_class.update())
+				.then(() => {
+				this.eventsService.recipientBadgesStale.next([]);
+				this.router.navigate(
+					['issuer/issuers', this.issuerSlug, 'badges', this.badge_class.slug]
+				);
+				this.messageService.setMessage("Badge(s) succesfully awarded");
+			}, error => {
+				this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).firstMessage, "error");
+			}).then(() => this.issueBadgeFinished = null)
+	}
+
+	toggleDeniedEnrollments(){
+		this.showDeniedEnrollments = this.showDeniedEnrollments? false: true
+	}
+
+	denyAllEnrollments(){
+		let enrollmentMap = {}
+		while (this.issueForm.controls.recipients.controls.length> 0){ // cannot loop through .length, creates infinite loop
+			let enrollment = this.issueForm.controls.recipients.removeAt(0);
+			let id = enrollment.controls.recipient_identifier.value
+			enrollmentMap[id] = enrollment
+		}
+		for (let key of Object.keys(enrollmentMap)) {
+			let enrollment = enrollmentMap[key]
+			enrollment.untypedControl.patchValue({'denied': true})
+			this.studentsEnrolledApiService.updateEnrollments(this.badgeSlug, enrollment.value)
 			.then(() => {
-			this.eventsService.recipientBadgesStale.next([]);
-			this.router.navigate(
-				['issuer/issuers', this.issuerSlug, 'badges', this.badge_class.slug]
-			);
-			this.messageService.setMessage("Badge(s) succesfully awarded");
+				this.messageService.setMessage("Enrollments succesfully updated");
+				this.issueForm.controls.deniedRecipients.controls.push(enrollment)
+			}, error => {
+				this.messageService.setMessage("Unable to deny enrollment: " + BadgrApiFailure.from(error).firstMessage, "error");
+				this.issueForm.controls.recipients.controls.push(enrollment)
+			})
+		}
+	}
+
+	denyEnrollment(index){
+		let enrollment = this.issueForm.controls.recipients.controls[index]
+		enrollment.untypedControl.patchValue({'denied': true})
+		enrollment.untypedControl.patchValue({'selected': false})
+		this.studentsEnrolledApiService.updateEnrollments(this.badgeSlug, enrollment.value)
+		.then(() => {
+			this.messageService.setMessage("Enrollments succesfully updated");
+			this.issueForm.controls.recipients.removeAt(index);
+			this.issueForm.controls.deniedRecipients.controls.push(enrollment)
+
 		}, error => {
-			this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).firstMessage, "error");
-		}).then(() => this.issueBadgeFinished = null)
+			this.messageService.setMessage("Unable to deny enrollment: " + BadgrApiFailure.from(error).firstMessage, "error");
+		})
+	}
+	
+	
+	undoDenyEnrollment(index){
+		let enrollment = this.issueForm.controls.deniedRecipients.controls[index]
+		enrollment.untypedControl.patchValue({'denied': false})
+		this.studentsEnrolledApiService.updateEnrollments(this.badgeSlug, enrollment.value)
+		.then(() => {
+			this.messageService.setMessage("Enrollments succesfully updated");
+			this.issueForm.controls.deniedRecipients.removeAt(index);
+			this.issueForm.controls.recipients.controls.push(enrollment)
+		}, error => {
+			this.messageService.setMessage("Unable to undo enrollment denial: " + BadgrApiFailure.from(error).firstMessage, "error");
+		})
+	}
+
+	extractRecipients(){
+		// extract recipients manually, because issueForm.value is not updated properly when calling controls.push
+		let result = []
+		let recipients = this.issueForm.controls.recipients.controls
+		for (let recipient of recipients){
+			let recipientObject = {}
+			for (let controlKey of Object.keys(recipient.controls)){
+				recipientObject[controlKey] = recipient.controls[controlKey]['value']
+			}
+			result.push(recipientObject)
+		}
+		return result
+	}
+
+	onSubmit(){
+		const formState = this.issueForm.value;
+		this.awardBadges(formState)
 	}
 
 	async removeEvidence(i: number) {
