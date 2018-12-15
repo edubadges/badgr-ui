@@ -61,7 +61,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 									</th>
 									<th scope="row">{{enrollment.badge_class.issuer.name}}</th>
 									<th scope="row">{{enrollment.date_created}}</th>
-									<th scope="row">{{enrollment.revoked? 'Revoked' : enrollment.date_awarded? 'Awarded' : 'Enrolled'}}</th>
+									<th scope="row">{{enrollment.denied? 'Denied' : enrollment.revoked? 'Revoked' : enrollment.date_awarded? 'Awarded' : 'Enrolled'}}</th>
 									<td>
 										<div class="l-childrenhorizontal l-childrenhorizontal-right">
 											<button *ngIf="!enrollment.date_awarded" class="button button-primaryghost" type="button" (click)="withdrawStudent(i, enrollment.id)">Withdraw</button>
@@ -118,6 +118,7 @@ export class RecipientEnrollmentListComponent extends BaseAuthenticatedRoutableC
   getEnrollments(eduID) {
 		this.enrollmentsLoaded = this.apiService.getEnrollments(eduID)
                               .then(response => {
+																console.log((response))
 																this.allEnrollments = response
 															})
   }
