@@ -16,8 +16,6 @@ class AuthGuard implements CanActivate {
 
 	hasPermission(profile){
 		var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
-		// return current_user_permissions.includes('add_issuer');
-		console.log(this.permission)
 		return current_user_permissions.includes(this.permission);
 	}
 
@@ -38,12 +36,24 @@ class AuthGuard implements CanActivate {
 
 
 @Injectable()
-export class IssuerAuthGuard extends AuthGuard{
+export class AddIssuerAuthGuard extends AuthGuard{
 	constructor(
 		router: Router,
 		profileManager: UserProfileManager,
 		) {
 		super(router, profileManager)
-		this.permission = 'add_issuer'
+		this.permission = 'ui_issuer_add'
+	}
+}
+
+
+@Injectable()
+export class ViewIssuerAuthGuard extends AuthGuard{
+	constructor(
+		router: Router,
+		profileManager: UserProfileManager,
+		) {
+		super(router, profileManager)
+		this.permission = 'view_issuer_tab'
 	}
 }

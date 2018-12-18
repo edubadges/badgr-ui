@@ -30,35 +30,3 @@ export class BaseAuthenticatedRoutableComponent extends BaseRoutableComponent im
 		}
 	}
 }
-
-export class BaseAuthorizedAndAuthenticatedRoutableComponent extends BaseAuthenticatedRoutableComponent implements OnInit{
-	currentPermissionLoaded: Promise<any>;
-	constructor(
-		protected router: Router,
-		protected route: ActivatedRoute,
-		protected sessionService: SessionService,
-		protected profileManager: UserProfileManager,
-		protected permission_needed: String,
-	) {
-		super(router, route, sessionService);
-	}
-	
-	hasViewPermission(profile){
-		let current_user_permissions = JSON.parse(profile.apiModel['user_permissions']);
-		if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
-			// do nothing
-		} else {
-			let current_user_has_permission = current_user_permissions.includes(this.permission_needed);
-			if (! current_user_has_permission ) {
-				this.router.navigate(['/auth/unauthorized']);
-			}
-		}
-	}
-	
-	ngOnInit() {
-		super.ngOnInit();
-		this.currentPermissionLoaded = this.profileManager.userProfilePromise
-			.then(profile => this.hasViewPermission(profile))
-			.catch(e =>	this.router.navigate(['/auth/unauthorized']))
-	}
-}

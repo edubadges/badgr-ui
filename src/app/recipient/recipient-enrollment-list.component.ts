@@ -118,7 +118,6 @@ export class RecipientEnrollmentListComponent extends BaseAuthenticatedRoutableC
   getEnrollments(eduID) {
 		this.enrollmentsLoaded = this.apiService.getEnrollments(eduID)
                               .then(response => {
-																console.log((response))
 																this.allEnrollments = response
 															})
   }
