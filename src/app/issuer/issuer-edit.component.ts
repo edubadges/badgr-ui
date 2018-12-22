@@ -383,16 +383,16 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	}
 
 	makeFormGroup(extensionName: string){
-		if (extensionName=='gradingTableExtension'){
-			let gradingTable = (this.issuer.extensions['gradingTableExtension']) ? this.issuer.extensions['gradingTableExtension']['gradingTable'] : ''
+		if (extensionName=='GradingTableExtension'){
+			let gradingTable = (this.issuer.extensions['GradingTableExtension']) ? this.issuer.extensions['GradingTableExtension']['gradingTable'] : ''
 			return this.formBuilder.group({
 				gradingTableExtension: this.formBuilder.group({
 					gradingTable: [gradingTable, Validators.compose([Validators.required, UrlValidator.validUrl])]
 				})
 			})
 		}
-		if (extensionName=='institutionIdentifierExtension'){
-			let institutionIdentifier = (this.issuer.extensions['institutionIdentifierExtension']) ? this.issuer.extensions['institutionIdentifierExtension']['institutionIdentifier'] : ''
+		if (extensionName=='InstitutionIdentifierExtension'){
+			let institutionIdentifier = (this.issuer.extensions['InstitutionIdentifierExtension']) ? this.issuer.extensions['InstitutionIdentifierExtension']['institutionIdentifier'] : ''
 			return this.formBuilder.group({
 				institutionIdentifierExtension: this.formBuilder.group({
 					institutionIdentifier: [institutionIdentifier, Validators.required]
