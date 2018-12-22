@@ -104,16 +104,16 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 							<div class="l-formsection-x-inputs">
 								<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of issuerExtensions.controls">
 
-									<div *ngIf="extension.controls.gradingTableExtension">
-										<bg-formfield-text [urlField]="true" [control]="extension.controls.gradingTableExtension.controls.gradingTable" label="Please Type in the URL to the Grading Table" ></bg-formfield-text>
+									<div *ngIf="extension.controls.GradingTableExtension">
+										<bg-formfield-text [urlField]="true" [control]="extension.controls.GradingTableExtension.controls.gradingTable" label="Please Type in the URL to the Grading Table" ></bg-formfield-text>
 										<button class="l-formsectionnested-x-remove formsectionremove"
 														(click)="removeExtension(extension)"
 														type="button"
 										>Remove</button>
 									</div>
 
-									<div *ngIf="extension.controls.institutionIdentifierExtension">
-										<bg-formfield-text [control]="extension.controls.institutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
+									<div *ngIf="extension.controls.InstitutionIdentifierExtension">
+										<bg-formfield-text [control]="extension.controls.InstitutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
 										<button class="l-formsectionnested-x-remove formsectionremove"
 														(click)="removeExtension(extension)"
 														type="button"
@@ -134,7 +134,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 								<div class="l-squareiconcards">
 									<button class="squareiconcard squareiconcard-extension"
 													type="button"
-													(click)="addExtension('gradingTableExtension')"
+													(click)="addExtension('GradingTableExtension')"
 													[disabled]="gradingTableExtensionEnabled"
 									>
 										<span class="squareiconcard-x-container">grading Table</span>
@@ -142,7 +142,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 
 									<button class="squareiconcard squareiconcard-extension"
 													type="button"
-													(click)="addExtension('institutionIdentifierExtension')"
+													(click)="addExtension('InstitutionIdentifierExtension')"
 													[disabled]="institutionIdentifierExtensionEnabled"
 									>
 										<span class="squareiconcard-x-container">institution Identifier</span>
@@ -386,7 +386,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		if (extensionName=='GradingTableExtension'){
 			let gradingTable = (this.issuer.extensions['GradingTableExtension']) ? this.issuer.extensions['GradingTableExtension']['gradingTable'] : ''
 			return this.formBuilder.group({
-				gradingTableExtension: this.formBuilder.group({
+				GradingTableExtension: this.formBuilder.group({
 					gradingTable: [gradingTable, Validators.compose([Validators.required, UrlValidator.validUrl])]
 				})
 			})
@@ -394,7 +394,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		if (extensionName=='InstitutionIdentifierExtension'){
 			let institutionIdentifier = (this.issuer.extensions['InstitutionIdentifierExtension']) ? this.issuer.extensions['InstitutionIdentifierExtension']['institutionIdentifier'] : ''
 			return this.formBuilder.group({
-				institutionIdentifierExtension: this.formBuilder.group({
+				InstitutionIdentifierExtension: this.formBuilder.group({
 					institutionIdentifier: [institutionIdentifier, Validators.required]
 				})
 			})
