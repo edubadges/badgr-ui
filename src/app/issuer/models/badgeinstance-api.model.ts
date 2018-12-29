@@ -52,6 +52,7 @@ export interface ApiBadgeInstance {
 	slug: BadgeInstanceSlug
 	image: string
 	recipient_identifier: string
+	recipient_email: string
 	recipient_type?: string
 	revoked: boolean
 	revocation_reason?: string

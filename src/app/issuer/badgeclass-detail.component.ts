@@ -155,6 +155,9 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 											Name: {{ instance.apiModel.extensions['extensions:recipientProfile']? instance.apiModel.extensions['extensions:recipientProfile']['name'] : "" }}
 										</label>
 										<label>
+											Email: {{ instance.recipientEmail }}
+										</label>
+										<label>
 											{{ instance.recipientType }}: <br>
 											{{ instance.recipientIdentifier }}
 										</label>
