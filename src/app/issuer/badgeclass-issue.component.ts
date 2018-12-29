@@ -103,7 +103,10 @@ import * as sanitizeHtml from "sanitize-html";
 											<section><h1>{{recipient.untypedControls.recipient_name.value}}</h1></section>
 										</div>
 									</div>
-									<div class="formfield ">
+									<div class="formfield">
+										<label>Email: {{recipient.untypedControls.recipient_email.value}}</label>
+									</div>
+									<div class="formfield">
 										<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
 									</div>
 								</div>
@@ -147,6 +150,9 @@ import * as sanitizeHtml from "sanitize-html";
 										<div class="heading-x-text">
 											<section><h1>{{recipient.untypedControls.recipient_name.value}}</h1></section>
 										</div>
+									</div>
+									<div class="formfield">
+										<label>Email: {{recipient.untypedControls.recipient_email.value}}</label>
 									</div>
 									<div class="formfield ">
 										<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
@@ -320,6 +326,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		)
 		.addArray("recipients", typedGroup()
 			.addControl("recipient_name", "")
+			.addControl("recipient_email", "")
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
 			.addControl("selected", false)
@@ -327,6 +334,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		)
 		.addArray("deniedRecipients", typedGroup()
 			.addControl("recipient_name", "")
+			.addControl("recipient_email", "")
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
 			.addControl("selected", false)
@@ -436,12 +444,15 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	addRecipient(recipient) {
 		if (!recipient['assertion_slug']){
+			console.log('recipient = ', recipient)
 			let first_name = recipient['first_name']? recipient['first_name']: ''
 			let last_name = recipient['last_name']? recipient['last_name']: ''
 			let name = first_name+' '+last_name
+			let email = recipient['email']
 			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 			let recipientFormGroup = typedGroup()
 			.addControl("recipient_name", name)
+			.addControl("recipient_email", email)
 			.addControl("recipient_type", 'id')
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
