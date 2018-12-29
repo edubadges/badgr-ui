@@ -150,9 +150,15 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							<tbody>
 								<tr *ngFor="let instance of instanceResults">
 									<th scope="row" class="l-wordwrap">
-										Name: {{ instanceNames[instance.recipientIdentifier] }}
-										<br><br>
-										{{ instance.recipientType }}: {{ instance.recipientIdentifier }}
+									<div class="formfield">
+										<label>
+											Name: {{ instance.apiModel.extensions['extensions:recipientProfile']? instance.apiModel.extensions['extensions:recipientProfile']['name'] : "" }}
+										</label>
+										<label>
+											{{ instance.recipientType }}: <br>
+											{{ instance.recipientIdentifier }}
+										</label>
+									</div>
 									</th>
 									<td><time [date]="instance.issuedOn" format="mediumDate"></time></td>
 									<td class="table-x-minwidthtablet-400">
@@ -275,18 +281,6 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			this.launchpoints = launchpoints;
 		})
 	}
-	instanceNames = {};
-
-	mapNamesToInstances(instances){
-		for (let instance of instances){
-			if (instance.apiModel.extensions){
-				if (instance.apiModel.extensions['extensions:recipientProfile']){
-					let name = instance.apiModel.extensions['extensions:recipientProfile']['name']
-					this.instanceNames[instance.recipientIdentifier] = name
-				}
-			}
-		}
-	}
 
 	loadInstances(recipientQuery?: string) {
 	  let instances = new BadgeClassInstances(this.badgeInstanceManager, this.issuerSlug, this.badgeSlug, recipientQuery);
@@ -320,7 +314,6 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	private updateResults() {
 		this.instanceResults = this.allBadgeInstances.entities;
 		if (this.recipientCount > this.resultsPerPage) {
-			this.mapNamesToInstances(this.instanceResults)
 			this.showAssertionCount = true;
 		}
 	}
