@@ -444,7 +444,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	addRecipient(recipient) {
 		if (!recipient['assertion_slug']){
-			console.log('recipient = ', recipient)
 			let first_name = recipient['first_name']? recipient['first_name']: ''
 			let last_name = recipient['last_name']? recipient['last_name']: ''
 			let name = first_name+' '+last_name
