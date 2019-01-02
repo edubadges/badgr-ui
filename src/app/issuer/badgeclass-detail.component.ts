@@ -338,7 +338,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 						this.updateResults();
 					},
 					(error) =>
-						this.messageService.reportAndThrowError(`Failed to revoke badge to ${instance.recipientIdentifier}`)
+						this.messageService.reportAndThrowError(`Failed to revoke badge ${error}`)
 				)
 			},
 			() => void 0 // Cancel
