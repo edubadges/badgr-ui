@@ -21,6 +21,7 @@ import { UserProfile, UserProfileEmail } from "../common/model/user-profile.mode
 import { Subscription } from "rxjs/Subscription";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import {OAuthApiService} from "../common/services/oauth-api.service";
+import { UserProfileApiService } from "../common/services/user-profile-api.service";
 
 @Component({
 	selector: 'userProfile',
@@ -214,6 +215,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		router: Router,
 		route: ActivatedRoute,
 		sessionService: SessionService,
+		protected userProfileApiService: UserProfileApiService,
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,
@@ -322,9 +324,22 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		);
 	}
 
+	updateEmailList() {
+		this.userProfileApiService.fetchEmails().then(
+			apiEmail => {
+				for (let email of apiEmail){
+					this.profile.emails.addOrUpdate(email)
+				}
+			}
+		)
+	}
+
 	clickMakePrimary(ev: MouseEvent, email: UserProfileEmail) {
 		email.makePrimary().then(
-			() => this.messageService.reportMajorSuccess(`${email.email} is now your primary email.`),
+			() => {
+				this.messageService.reportMajorSuccess(`${email.email} is now your primary email.`)
+				this.updateEmailList()
+		},
 			error => this.messageService.reportAndThrowError(`Unable to set ${email.email} to primary email: ${BadgrApiFailure.from(error).firstMessage}`, error)
 		);
 	}
