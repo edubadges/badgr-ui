@@ -260,6 +260,10 @@ export class PublicBadgeAssertionComponent {
 		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}.json`;
 	}
 
+	private get noJsonUrl() {
+		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}`;
+	}
+
 	get v1JsonUrl() {
 		return addQueryParamsToUrl(this.rawJsonUrl, { v: "1_1" });
 	}
@@ -281,10 +285,10 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get verifyUrl() {
-		const v = this.queryParametersService.queryStringValue("v") || "2_0";
-		const assertion_url = v == "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
+		// const v = this.queryParametersService.queryStringValue("v") || "2_0";
+		// const assertion_url = v == "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
+		const assertion_url = this.noJsonUrl
 		let url = `${this.configService.assertionVerifyUrl}?url=${assertion_url}`;
-
 		for (let identity_type of ['identity__email', 'identity__url', 'identity__telephone']) {
 			let identity = this.queryParametersService.queryStringValue(identity_type)
 			if (identity) {
