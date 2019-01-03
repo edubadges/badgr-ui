@@ -14,6 +14,8 @@ import { UserProfile } from "../common/model/user-profile.model";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
+import { MessageService } from "../common/services/message.service";
+
 
 @Component({
 	styles: ['h1 { font-size: 30px; font-weight: 600; margin-top: 10px; }',
@@ -192,6 +194,7 @@ export class PublicBadgeClassComponent {
 		protected studentsEnrolledApiService: StudentsEnrolledApiService,
 		protected userProfileApiService: UserProfileApiService,
 		protected dialogService: CommonDialogsService,
+		protected messageService: MessageService,
 	) {
 		this.badgeIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
@@ -278,7 +281,10 @@ export class PublicBadgeClassComponent {
 				let first_name = this.profile.apiModel['first_name']
 				let last_name = this.profile.apiModel['last_name']
 				this.studentsEnrolledApiService.enrollStudent(eduID, email, first_name, last_name, badgeClassSlug)
-					.then(response => this.handleEnrollmentStatus(response._body))
+					.then(
+						response => this.handleEnrollmentStatus(response._body),
+						error => this.messageService.reportAndThrowError(`Failed to enroll: ${error.response._body}`, error)
+					)
 			} else {
 				this.userHasNoEduidWarning()
 			}
