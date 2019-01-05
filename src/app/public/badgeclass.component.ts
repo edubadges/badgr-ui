@@ -15,7 +15,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { MessageService } from "../common/services/message.service";
-
+import { SocialAccountProviderInfo } from '../common/model/user-profile-api.model';
 
 @Component({
 	styles: ['h1 { font-size: 30px; font-weight: 600; margin-top: 10px; }',
@@ -71,7 +71,7 @@ import { MessageService } from "../common/services/message.service";
 							</ng-template>
 							<ng-template [ngIf]="!loggedIn">
 								<div class="heading-x-actions">
-									<button class="button button-major" (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)" >Enroll</button>
+									<button class="button button-major" (click)="clickUnauthenticatedEnrollStudent()" >Enroll</button>
 								</div>
 							</ng-template>
 							<!-- Badge Name -->
@@ -182,7 +182,7 @@ export class PublicBadgeClassComponent {
 	studentsEnrolledButtonDisabled: boolean;
 	buttonText: string;
 	profileLoaded: Promise<any>;
-	provider: object;
+	provider: SocialAccountProviderInfo;
 	consent_body: string;
 
 	constructor(
@@ -291,10 +291,25 @@ export class PublicBadgeClassComponent {
 		}
 	}
 
+	clickUnauthenticatedEnrollStudent() {
+		this.dialogService.enrollmentConsentDialog.openConsentDialog().then(
+			() => {
+					this.sessionService.initiateUnauthenticatedExternalAuth(this.provider)
+			},
+			() => void 0
+		);
+	}
+
 	clickEnrollStudent() {
 		this.userProfileApiService.fetchSocialAccounts()
-			.then(response => this.enrollStudent(response))
-			.catch(e => alert(e))
+			this.dialogService.enrollmentConsentDialog.openConsentDialog().then(
+				() => {
+					this.userProfileApiService.fetchSocialAccounts()
+						.then(response => this.enrollStudent(response))
+						.catch(e => alert(e))
+				},
+				() => void 0
+			);
 	}
 
 	userHasNoEduidWarning() {
