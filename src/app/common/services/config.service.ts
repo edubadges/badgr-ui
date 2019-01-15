@@ -1,4 +1,5 @@
 import { Injectable, Injector } from "@angular/core";
+import { ThemeManager } from "../../../theming/services/theme-api.service";
 
 /**
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
@@ -129,6 +130,8 @@ export class SystemConfigService {
 	}
 
 	get currentTheme() {
+		theme_manager = new ThemeManager();
+		theme = theme_manager.getCurrentTheme();
 		return window["badgrTheme"];
 	}
 }
