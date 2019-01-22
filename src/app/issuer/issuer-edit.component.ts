@@ -115,7 +115,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 									</div>
 
 									<div *ngIf="extension.controls.InstitutionIdentifierExtension">
-										<bg-formfield-text [control]="extension.controls.InstitutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
+										<bg-formfield-text [control]="extension.controls.InstitutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier - BRIN in the Netherlands" ></bg-formfield-text>
 										<button class="l-formsectionnested-x-remove formsectionremove"
 														(click)="removeExtension(extension)"
 														type="button"
