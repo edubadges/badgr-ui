@@ -1,5 +1,5 @@
 import { Injectable, Injector } from "@angular/core";
-import { ThemeManager } from "../../../theming/services/theme-api.service";
+import { ThemeApiService } from "../../../theming/services/theme-api.service";
 
 /**
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
@@ -74,7 +74,7 @@ export interface GoogleAnalyticsConfig {
 }
 
 @Injectable()
-export class SystemConfigService {
+export class SystemConfigService{
 	constructor(private injector: Injector) {}
 
 	private getConfig<T>(getter: (config: BadgrConfig) => T): T {
@@ -130,8 +130,7 @@ export class SystemConfigService {
 	}
 
 	get currentTheme() {
-		theme_manager = new ThemeManager();
-		theme = theme_manager.getCurrentTheme();
+
 		return window["badgrTheme"];
 	}
 }

@@ -26,6 +26,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
 import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dialog.component';
+import { ThemeApiService } from "../theming/services/theme-api.service";
 
 
 // Shim in support for the :scope attribute
@@ -170,7 +171,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return ! this.embedService.isEmbedded;
 	}
 
-	get currentTheme() { return this.configService.currentTheme }
+	get currentTheme() {
+		return this.themeManager.currentTheme
+	}
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
@@ -204,6 +207,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,   // required for angulartics to work
 		private userProfileApiService: UserProfileApiService,
+		private themeManager: ThemeApiService
 
 	) {
 		messageService.useRouter(router);
