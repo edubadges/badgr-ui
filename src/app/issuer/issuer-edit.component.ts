@@ -35,12 +35,13 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 		        <li class="breadcrumb-x-current">Edit Issuer</li>
 		      </ul>
 		    </nav>
-
+				
 		    <div class="heading">
 		      <div class="heading-x-text">
 		        <h1>Edit Issuer</h1>
 		        <p>Edit the information associated with this issuer profile.</p>
 		      </div>
+					<div><small>Your Role: {{ issuer.currentUserStaffMember?.roleInfo.label }}</small></div>
 		    </div>
 
 		  </header>
@@ -67,6 +68,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 			                           [label]="'Website URL'"
 			                           [errorMessage]="'Please enter a valid URL'"
 			                           [urlField]="true"
+																 [attr.aria-readonly]="true" 
 			        ></bg-formfield-text><br>
 
 							<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
@@ -167,6 +169,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 										(click)="clickSubmit($event)"
 										[loading-promises]="[ editIssuerFinished ]"
 										loading-message="Adding"
+										
 						>Save</button>
 					</div>
 		    </form>
