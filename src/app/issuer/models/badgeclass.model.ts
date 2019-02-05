@@ -3,6 +3,7 @@ import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
 import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { ifTrue } from "codelyzer/util/function";
 
 export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	constructor(
@@ -83,7 +84,9 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	set extensions(extensions: Object[]) {
 		this.apiModel.extensions = extensions;
 	}
-
+	get hasExtensions(){
+		return Object.keys(this.apiModel['extensions']).length > 0;
+	}
 	// TODO: The API should give us the issuer slug for a badge, and we should not need to parse the URL.
 	static issuerSlugForApiBadge(apiBadge: ApiBadgeClass) {
 		return BadgeClass.issuerSlugFromUrl(apiBadge.issuer);
