@@ -52,6 +52,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 								<button class="heading-x-edit"
 								        type="button"
 								        [routerLink]="['/issuer/issuers', issuerSlug, 'edit']"
+												*ngIf="issuer.currentUserStaffMember?.roleInfo.label == 'Owner'"
 								>Edit
 								</button>
 							</h1>
