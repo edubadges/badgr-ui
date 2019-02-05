@@ -53,7 +53,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							<button class="heading-x-edit"
 							        type="button"
 							        [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'edit']"
-											*ngIf="issuer.currentUserStaffMember?.roleInfo.label == 'Owner'"	        
+											*ngIf="issuer.canEditBadge"	        
 							>Edit
 							</button>
 						</h1>
@@ -151,7 +151,6 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								</div>
 							</div>
 						</section>
-						<section *ngIf="badgeClass.hasExtensions">Extensions found</section>
 						<section *ngIf="badgeClass.extensions.ECTSExtension;">
 							<h1>ECTS</h1>
 							<show-more>
@@ -190,6 +189,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						<a class="button button-major"
 						   [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"
 						   [disabled-when-requesting]="true"
+							 *ngIf="issuer.canAwardBadge"
 						>Award Badge</a>
 					</div>
 

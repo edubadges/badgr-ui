@@ -52,7 +52,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 								<button class="heading-x-edit"
 								        type="button"
 								        [routerLink]="['/issuer/issuers', issuerSlug, 'edit']"
-												*ngIf="issuer.currentUserStaffMember?.roleInfo.label == 'Owner'"
+												*ngIf="issuer.canEdit"
 								>Edit
 								</button>
 							</h1>
@@ -81,7 +81,8 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 					<div class="l-childrenhorizontal l-childrenhorizontal-right l-marginBottom l-marginBottom-5x l-marginTop l-marginTop-5x ">
 						
 						<div class="l-childrenhorizontal">
-							<a [routerLink]="['badges/create']" class="button">
+							<a [routerLink]="['badges/create']" class="button"
+							*ngIf="issuer.canCreateBadge">
 								<span class="hidden hidden-is-tablet">Create</span> Badge
 							</a>
 							<div *ngIf="launchpoints?.length">
@@ -124,7 +125,9 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 										     [class.confirmswitch-is-active]="confirmingBadgeId && confirmingBadgeId == badge.id">
 											<div class="l-childrenhorizontal l-childrenhorizontal-right">
 												<a class="button button-primaryghost"
-												   [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
+												   [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
+													 *ngIf="issuer.canAwardBadge"
+												>Award</a>
 												<button *ngIf="badge.recipient_count == 0"
 												        type="button"
 												        class="button button-primaryghost"

@@ -131,6 +131,29 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 			return null;
 		}
 	}
+
+	checkRoles(roles : Array<string> ):Boolean {
+		if(this.currentUserStaffMember == null){
+			return false;
+		}
+		return roles.indexOf(this.currentUserStaffMember.roleInfo.label) > -1
+	}
+
+	get canEdit():Boolean {
+		return this.checkRoles(['Editor','Owner'])
+	}
+
+	get canCreateBadge():Boolean {
+		return this.checkRoles(['Owner'])
+	}
+
+	get canEditBadge():Boolean {
+		return this.checkRoles(['Editor','Owner'])
+	}
+
+	get canAwardBadge():Boolean{
+		return this.checkRoles(['Editor','Owner','Staff'])
+	}
 }
 
 export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaffRef> {
