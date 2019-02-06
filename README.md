@@ -1,3 +1,4 @@
+![Edubadges](logo.png)
 # Edubadges UI
 An Angular 2 based front end for the edubadges-server. Uses TypeScript with ES6 style module loading and a webpack-based build process. This is the browser UI for [edubadges-server](https://github.com/edubadges/badgr-server).
 This software is based on the Badgr software from [Concentric Sky](https://github.com/concentricsky/).
