@@ -79,7 +79,7 @@ import { EventsService } from "../common/services/events.service";
 
 						<!-- tags -->
 						<section>
-							<h1 *ngIf="badge.badgeClass.tags">Tags</h1>
+							<h1 *ngIf="badge.badgeClass.tags && badge.badgeClass?.tags.length>0">Tags</h1>
 							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 								<span
 									*ngFor="let tag of badge.badgeClass.tags; last as last">

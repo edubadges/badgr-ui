@@ -78,6 +78,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								class="button button-primaryghost"
 								[disabled-when-requesting]="true"
 								(click)="deleteBadge()"
+								*ngIf="issuer.canCreateBadge"
 							>Delete Badge</a>
 							<a
 								*ngIf="badgeClass.criteria_url"
