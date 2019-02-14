@@ -146,7 +146,7 @@ import { EventsService } from "../common/services/events.service";
 								<p>{{ badge.getExtension('LearningOutcomeExtension','').learningOutcome }}</p>
 							</show-more>
 						</section>
-						<section>
+						<section *ngIf="badge.hasExtensions()">
 							<a
 								class="button button-primaryghost"
 								(click)="showExtensions()"
