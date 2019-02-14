@@ -79,7 +79,7 @@ import { EventsService } from "../common/services/events.service";
 
 						<!-- tags -->
 						<section>
-							<h1 *ngIf="badge.badgeClass.tags">Tags</h1>
+							<h1 *ngIf="badge.badgeClass.tags && badge.badgeClass?.tags.length>0">Tags</h1>
 							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 								<span
 									*ngFor="let tag of badge.badgeClass.tags; last as last">
@@ -131,6 +131,47 @@ import { EventsService } from "../common/services/events.service";
 									target="_blank">VIEW EVIDENCE URL</a>
 							</div>
 						</div>
+						</section>
+						<!-- extentions -->
+						
+						<section *ngIf="badge.hasExtension('ECTSExtension');">
+							<h1>ECTS</h1>
+							<show-more>
+								<p>{{ badge.getExtension('ECTSExtension','').ECTS }}</p>
+							</show-more>
+						</section>
+						<section *ngIf="badge.hasExtension('LearningOutcomeExtension');">
+							<h1>Learning outcome</h1>
+							<show-more>
+								<p>{{ badge.getExtension('LearningOutcomeExtension','').learningOutcome }}</p>
+							</show-more>
+						</section>
+						<section>
+							<a
+								class="button button-primaryghost"
+								(click)="showExtensions()"
+							>Extensions</a>
+						</section>
+						<section *ngIf="show_extensions">
+							<section *ngIf="badge.hasExtension('LanguageExtension');">
+								<h1>Language</h1>
+								<show-more>
+									<p>{{badge.getExtension('LanguageExtension','').language }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badge.hasExtension('EducationProgramIdentifierExtension');">
+								<h1>{{ badge.getExtension('EducationProgramIdentifierExtension','').identifierType }}</h1>
+								<show-more>
+									<p>{{ badge.getExtension('EducationProgramIdentifierExtension','').identifierValue }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badge.hasExtension('NiveauExtension');">
+								<h1>EQF</h1>
+								<show-more>
+									<p>{{ badge.getExtension('NiveauExtension','').EQF }}</p>
+								</show-more>
+							</section>
+							
 						</section>
 
 						<!-- delete button -->
@@ -186,6 +227,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	badge: RecipientBadgeInstance;
 	issuerBadgeCount:string;
 	launchpoints: ApiExternalToolLaunchpoint[];
+	show_extensions: boolean;
 
 
 	get badgeSlug(): string { return this.route.snapshot.params['badgeSlug']; }
@@ -203,7 +245,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
-
+		this.show_extensions = false;
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.then( r => {
 				this.updateBadge(r)
@@ -290,6 +332,10 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		this.externalToolsManager.getLaunchInfo(launchpoint, this.badgeSlug).then(launchInfo => {
 			this.eventService.externalToolLaunch.next(launchInfo);
 		})
+	}
+
+	showExtensions(){
+		this.show_extensions  = !this.show_extensions
 	}
 }
 

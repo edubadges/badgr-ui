@@ -78,6 +78,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								class="button button-primaryghost"
 								[disabled-when-requesting]="true"
 								(click)="deleteBadge()"
+								*ngIf="issuer.canCreateBadge"
 							>Delete Badge</a>
 							<a
 								*ngIf="badgeClass.criteria_url"
@@ -197,7 +198,9 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 
 			</header>
 
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
+			<div class="l-containerhorizontal l-containervertical l-childrenvertical"
+					 *ngIf="issuer.canAwardBadge"
+			>
 
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown.  You may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier..</p>
