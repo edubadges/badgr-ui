@@ -114,7 +114,7 @@ import { SocialAccountProviderInfo } from '../common/model/user-profile-api.mode
 
 							<!-- tags -->
 							<section>
-								<h2 class="title title-is-smallmobile" *ngIf="badgeClass.tags" i18n>Tags</h2>
+								<h2 class="title title-is-smallmobile" *ngIf="badgeClass.tags && badgeClass?.tags.length>0" i18n>Tags</h2>
 								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 									<span
 										*ngFor="let tag of badgeClass.tags; last as last">
