@@ -89,9 +89,9 @@ export class SystemConfigService{
 					alternateLandingRedirect: false
 				},
 				help: {
-					email: "support@badgr.io"
+					email: "info@edubadges.io"
 				},
-				assertionVerifyUrl: "https://badgecheck.io/"
+				assertionVerifyUrl: "https://badgecheck.edubadges.nl/"
 			}),
 		];
 
