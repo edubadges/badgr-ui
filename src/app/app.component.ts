@@ -26,6 +26,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
 import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dialog.component';
+import { ThemeApiService } from "../theming/services/theme-api.service";
 
 
 // Shim in support for the :scope attribute
@@ -99,7 +100,7 @@ import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dia
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/enrollments']">Enrollments</a></li>
+					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/enrollments']">Badge requests</a></li>
 					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
@@ -170,7 +171,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return ! this.embedService.isEmbedded;
 	}
 
-	get currentTheme() { return this.configService.currentTheme }
+	get currentTheme() {
+		return this.themeManager.currentTheme
+	}
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
@@ -204,6 +207,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,   // required for angulartics to work
 		private userProfileApiService: UserProfileApiService,
+		private themeManager: ThemeApiService
 
 	) {
 		messageService.useRouter(router);

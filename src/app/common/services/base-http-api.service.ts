@@ -19,6 +19,7 @@ export class BadgrApiError extends Error {
 @Injectable()
 export abstract class BaseHttpApiService {
 	baseUrl: string;
+	login: boolean;
 
 	constructor(
 		//protected sessionService: LoginService,
@@ -28,13 +29,18 @@ export abstract class BaseHttpApiService {
 		protected messageService: MessageService
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
+		this.login = true;
+	}
+
+	setNoLogin(){
+		this.login = false;
 	}
 
 	get(
 		path: string,
 		queryParams: URLSearchParams | string | {[name: string]: string | string[]} | null = null,
-		requireAuth: boolean = true,
-		useAuth: boolean = true,
+		requireAuth: boolean = this.login,
+		useAuth: boolean = this.login,
 		headers: Headers = new Headers()
 	): Promise<Response> {
 		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;

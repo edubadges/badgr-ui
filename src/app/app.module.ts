@@ -18,6 +18,9 @@ import { RecipientBadgeApiService } from "./recipient/services/recipient-badges-
 
 import { PublicApiService } from './public/services/public-api.service';
 import { ValidanaBlockchainService } from './endorsement-api/validana/validanaBlockchain.service';
+import { ThemeApiService } from "../theming/services/theme-api.service";
+import { HttpClientModule } from '@angular/common/http';
+
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
@@ -106,7 +109,8 @@ const ROUTE_CONFIG: Routes = [
 		RouterModule.forRoot(ROUTE_CONFIG),
 		Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
 		BadgrCommonModule.forRoot(),
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		HttpClientModule,
 	],
 	declarations: [
 		AppComponent,
@@ -123,6 +127,7 @@ const ROUTE_CONFIG: Routes = [
 		// Expose the validana blockchain and publicapi service
 		ValidanaBlockchainService,
 		PublicApiService,
+		ThemeApiService,
 
 		{ provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy }
 	]

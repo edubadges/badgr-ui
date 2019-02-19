@@ -166,7 +166,7 @@ function webpackProdConfiguration(basePath)
                         comments: false,
                         mangle: {
                             screw_ie8: true,
-                            keep_fnames: false,
+                            keep_fnames: true,
                             dead_code: true,
                             booleans: true,
                             loops: true,

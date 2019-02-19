@@ -16,14 +16,14 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
     <header class="wrap wrap-light l-containerhorizontal l-heading">
       <div class="heading">
         <div class="heading-x-text">
-          <h1>Enrollments <span *ngIf="!! allEnrollments">{{ allEnrollments.length }} {{ allEnrollments.length == 1 ? "Enrollment" : "Enrollments" }}</span></h1>
+          <h1>Badge requests <span *ngIf="!! allEnrollments">{{ allEnrollments.length }} {{ allEnrollments.length == 1 ? "Request" : "Requests" }}</span></h1>
         </div>
       </div>
     </header>
   </main>
 	<ng-template [bgAwaitPromises]="[ enrollmentsLoaded ]">		
 		<article class="emptyillustration l-containervertical" *ngIf="allEnrollments?.length == 0">
-			<h1>You have no current enrollments</h1>
+			<h1>You have no current badge requests</h1>
 			<div>
 				Enroll for Badges by visiting the url provided by your teacher.
 			</div>
@@ -37,7 +37,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 							<tr>
 								<th scope="col">Badge</th>
 								<th scope="col">Issuer</th>
-								<th scope="col">Enrollment Date</th>
+								<th scope="col">request Date</th>
 								<th scope="col">Status</th>
 								<th class="table-x-hidetext hidden" scope="col">Actions</th>
 							</tr>
@@ -61,7 +61,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 									</th>
 									<th scope="row">{{enrollment.badge_class.issuer.name}}</th>
 									<th scope="row">{{enrollment.date_created}}</th>
-									<th scope="row">{{enrollment.denied? 'Denied' : enrollment.revoked? 'Revoked' : enrollment.date_awarded? 'Awarded' : 'Enrolled'}}</th>
+									<th scope="row">{{enrollment.denied? 'Denied' : enrollment.revoked? 'Revoked' : enrollment.date_awarded? 'Awarded' : 'Badge requested'}}</th>
 									<td>
 										<div class="l-childrenhorizontal l-childrenhorizontal-right">
 											<button *ngIf="!enrollment.date_awarded" class="button button-primaryghost" type="button" (click)="withdrawStudent(i, enrollment.id)">Withdraw</button>

@@ -101,6 +101,20 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 		return this.badgeClass.criteria_url || this.badgeClass.criteria || null;
 	}
 
+	hasExtensions(){
+		 let hidden_extensions = [
+		 	'LanguageExtension',
+			 'EducationProgramIdentifierExtension',
+			 'NiveauExtension'
+		 ];
+		 for (let ext in hidden_extensions){
+		 	 if(hidden_extensions[ext] in this.apiModel.extensions){
+		 	 	return true;
+			 }
+		 }
+		 return false;
+	}
+
 	hasExtension(extensionName:string) {
 		return (this.apiModel.extensions && extensionName in this.apiModel.extensions);
 	}

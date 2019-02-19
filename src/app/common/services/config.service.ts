@@ -1,4 +1,5 @@
 import { Injectable, Injector } from "@angular/core";
+import { ThemeApiService } from "../../../theming/services/theme-api.service";
 
 /**
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
@@ -73,7 +74,7 @@ export interface GoogleAnalyticsConfig {
 }
 
 @Injectable()
-export class SystemConfigService {
+export class SystemConfigService{
 	constructor(private injector: Injector) {}
 
 	private getConfig<T>(getter: (config: BadgrConfig) => T): T {
@@ -88,9 +89,9 @@ export class SystemConfigService {
 					alternateLandingRedirect: false
 				},
 				help: {
-					email: "support@badgr.io"
+					email: "info@edubadges.io"
 				},
-				assertionVerifyUrl: "https://badgecheck.io/"
+				assertionVerifyUrl: "https://badgecheck.edubadges.nl/"
 			}),
 		];
 
@@ -129,6 +130,7 @@ export class SystemConfigService {
 	}
 
 	get currentTheme() {
+
 		return window["badgrTheme"];
 	}
 }

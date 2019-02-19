@@ -71,7 +71,7 @@ import { SocialAccountProviderInfo } from '../common/model/user-profile-api.mode
 							</ng-template>
 							<ng-template [ngIf]="!loggedIn">
 								<div class="heading-x-actions">
-									<button class="button button-major" (click)="clickUnauthenticatedEnrollStudent()" >Enroll</button>
+									<button class="button button-major" (click)="clickUnauthenticatedEnrollStudent()" >Request badge</button>
 								</div>
 							</ng-template>
 							<!-- Badge Name -->
@@ -114,7 +114,7 @@ import { SocialAccountProviderInfo } from '../common/model/user-profile-api.mode
 
 							<!-- tags -->
 							<section>
-								<h2 class="title title-is-smallmobile" *ngIf="badgeClass.tags" i18n>Tags</h2>
+								<h2 class="title title-is-smallmobile" *ngIf="badgeClass.tags && badgeClass?.tags.length>0" i18n>Tags</h2>
 								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 									<span
 										*ngFor="let tag of badgeClass.tags; last as last">
@@ -206,7 +206,7 @@ export class PublicBadgeClassComponent {
 		);
 
 		this.studentsEnrolledButtonDisabled = false
-		this.buttonText = 'Enroll'
+		this.buttonText = 'Request badge'
 		if (this.sessionService.isLoggedIn) {
 			this.profileLoaded = profileManager.userProfilePromise
 				.then(profile => {
@@ -259,15 +259,15 @@ export class PublicBadgeClassComponent {
 
 	handleEnrollmentStatus(enrollmentStatus) {
 		if (enrollmentStatus == '"enrolled"') {
-			this.buttonText = 'enrolled'
+			this.buttonText = 'Requested'
 			this.studentsEnrolledButtonDisabled = true
 		}
 		if (enrollmentStatus == '"alreadyEnrolled"') {
-			this.buttonText = 'enrolled'
+			this.buttonText = 'Requested'
 			this.studentsEnrolledButtonDisabled = true
 		}
 		if (enrollmentStatus=='"noEduID"') {
-			this.buttonText = "Can't enroll"
+			this.buttonText = "Can't request"
 			this.studentsEnrolledButtonDisabled = true
 		}
 	}

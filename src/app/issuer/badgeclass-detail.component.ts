@@ -53,7 +53,8 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							<button class="heading-x-edit"
 							        type="button"
 							        [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'edit']"
-							        >Edit
+											*ngIf="issuer.canEditBadge"	        
+							>Edit
 							</button>
 						</h1>
 						<!-- Whitespace is reserved, do not add additional whitespace within paragraph elements. -->
@@ -77,6 +78,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								class="button button-primaryghost"
 								[disabled-when-requesting]="true"
 								(click)="deleteBadge()"
+								*ngIf="issuer.canCreateBadge"
 							>Delete Badge</a>
 							<a
 								*ngIf="badgeClass.criteria_url"
@@ -113,12 +115,82 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								<markdown-display [value]="badgeClass.criteria_text"></markdown-display>
 							</show-more>
 						</section>
-					</div>
+						<!-- tags -->
+						<section>
+							<h1 class="title title-is-smallmobile" *ngIf="badgeClass.tags && badgeClass?.tags.length>0" i18n>Tags</h1>
+							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
+									<span
+										*ngFor="let tag of badgeClass.tags; last as last">
+										{{tag}}<span *ngIf="!last">,</span>
+									</span>
+							</div>
+						</section>
+						<!-- alignment -->
+						<section>
+							<h1 *ngIf="badgeClass.alignments && badgeClass?.alignments.length>0">Alignment</h1>
+							<div class="bordered l-padding-2x l-marginBottom-2x"
+									 *ngFor="let alignment of badgeClass.alignments; let i=index">
+								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-spacebetween">
+									<h1>{{alignment.target_name}}</h1>
+									<small>{{alignment.target_code}}</small>
+								</div>
 
+								<ng-template [ngIf]="alignment.target_description">
+									{{ alignment.target_description }}
+								</ng-template>
+
+								<div *ngIf="alignment.target_framework">
+									<h1>Framework</h1>
+									{{ alignment.target_framework }}
+								</div>
+								<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+									<a
+										*ngIf="alignment.target_url"
+										class="button button-primaryghost"
+										[href]="alignment.target_url"
+										target="_blank">View alignment URL</a>
+								</div>
+							</div>
+						</section>
+						<section *ngIf="badgeClass.extensions.ECTSExtension;">
+							<h1>ECTS</h1>
+							<show-more>
+								<p>{{ badgeClass.extensions.ECTSExtension.ECTS }}</p>
+							</show-more>
+						</section>
+						<section *ngIf="badgeClass.extensions.LanguageExtension;">
+							<h1>Language</h1>
+							<show-more>
+								<p>{{badgeClass.extensions.LanguageExtension.language }}</p>
+							</show-more>
+						</section>
+						<section *ngIf="badgeClass.extensions.EducationProgramIdentifierExtension;">
+							<h1>{{ badgeClass.extensions.EducationProgramIdentifierExtension.identifierType }}</h1>
+							<show-more>
+								<p>{{ badgeClass.extensions.EducationProgramIdentifierExtension.identifierValue }}</p>
+							</show-more>
+						</section>
+						<section *ngIf="badgeClass.extensions.NiveauExtension;">
+							<h1>EQF</h1>
+							<show-more>
+								<p>{{ badgeClass.extensions.NiveauExtension.EQF }}</p>
+							</show-more>
+						</section>
+						<section *ngIf="badgeClass.extensions.LearningOutcomeExtension;">
+							<h1>Learning outcome</h1>
+							<show-more>
+								<p>{{ badgeClass.extensions.LearningOutcomeExtension.learningOutcome }}</p>
+							</show-more>
+						</section>
+						
+						
+					</div>
+					
 					<div class="heading-x-actions">
 						<a class="button button-major"
 						   [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"
 						   [disabled-when-requesting]="true"
+							 *ngIf="issuer.canAwardBadge"
 						>Award Badge</a>
 					</div>
 
@@ -126,7 +198,9 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 
 			</header>
 
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
+			<div class="l-containerhorizontal l-containervertical l-childrenvertical"
+					 *ngIf="issuer.canAwardBadge"
+			>
 
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown.  You may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier..</p>

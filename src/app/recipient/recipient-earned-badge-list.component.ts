@@ -318,7 +318,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	}
 
 	shareBadge(badge: RecipientBadgeInstance) {
-		badge.markAccepted();
+		badge.markAccepted(); 
 
 		this.dialogService.shareSocialDialog.openDialog(badgeShareDialogOptionsFor(badge));
 	}
