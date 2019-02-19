@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-
+## [1.0.2] - 2019-02-19
+  - added theming
+  - removed editing/create/remove/award and revoke functionality if the
+  logged in user does not have the proper rights
+  - changed 'Enroll' to 'Request badge' throughout the site
+  - added badge extension to student and public pages
+  - added badge extension to student and public pages
+  
 ## [1.0.1] - 2019-01-08
  - Bumped webpack-dev-server to 3.1.14
  - adds enrollment popup also when not logged in
