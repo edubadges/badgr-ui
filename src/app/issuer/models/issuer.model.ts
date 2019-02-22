@@ -136,23 +136,23 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 		if(this.currentUserStaffMember == null){
 			return false;
 		}
-		return roles.indexOf(this.currentUserStaffMember.roleInfo.label) > -1
+		return roles.indexOf(this.currentUserStaffMember.roleInfo.slug) > -1
 	}
 
 	get canEdit():Boolean {
-		return this.checkRoles(['Editor','Owner'])
+		return this.checkRoles(['editor','owner'])
 	}
 
 	get canCreateBadge():Boolean {
-		return this.checkRoles(['Owner'])
+		return this.checkRoles(['owner'])
 	}
 
 	get canEditBadge():Boolean {
-		return this.checkRoles(['Editor','Owner'])
+		return this.checkRoles(['editor','owner'])
 	}
 
 	get canAwardBadge():Boolean{
-		return this.checkRoles(['Editor','Owner','Staff'])
+		return this.checkRoles(['editor','owner','staff'])
 	}
 }
 
