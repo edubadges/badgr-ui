@@ -36,7 +36,7 @@ export class ThemeApiService extends BaseHttpApiService{
 
 	private updateTheme(response){
 		let theme = response.json();
-		if ('welcomeMessage' in response) {
+		if ('welcomeMessage' in theme) {
 			let base_url = this.configService.apiConfig.baseUrl
 			window['badgrTheme'].logoImg.small = base_url + theme.logoImg.small;
 			window['badgrTheme'].logoImg.desktop = base_url + theme.logoImg.desktop;
