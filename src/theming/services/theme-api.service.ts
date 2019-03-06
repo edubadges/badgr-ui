@@ -36,15 +36,15 @@ export class ThemeApiService extends BaseHttpApiService{
 
 	private updateTheme(response){
 		let theme = response.json();
-		let base_url = this.configService.apiConfig.baseUrl
-		window['badgrTheme'].logoImg.small = base_url + theme.logoImg.small;
-		window['badgrTheme'].logoImg.desktop = base_url + theme.logoImg.desktop;
-		window['badgrTheme'].termsOfServiceLink = theme.termsOfServiceLink;
-		window['badgrTheme'].welcomeMessage = theme.welcomeMessage;
-		window['badgrTheme'].privacyPolicyLink = theme.privacyPolicyLink;
-		window['badgrTheme'].showPoweredByBadgr = theme.showPoweredByBadgr;
-		window['badgrTheme'].showApiDocsLink = theme.showApiDocsLink;
-
+		if ('welcomeMessage' in response) {
+			let base_url = this.configService.apiConfig.baseUrl
+			window['badgrTheme'].logoImg.small = base_url + theme.logoImg.small;
+			window['badgrTheme'].logoImg.desktop = base_url + theme.logoImg.desktop;
+			window['badgrTheme'].termsOfServiceLink = theme.termsOfServiceLink;
+			window['badgrTheme'].welcomeMessage = theme.welcomeMessage;
+			window['badgrTheme'].privacyPolicyLink = theme.privacyPolicyLink;
+			window['badgrTheme'].showPoweredByBadgr = theme.showPoweredByBadgr;
+			window['badgrTheme'].showApiDocsLink = theme.showApiDocsLink;
+		}
 	}
-
 }
