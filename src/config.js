@@ -5,7 +5,7 @@ const queryParams = location.search.substr(1).split("&")
 
 window.config = {
     api: {
-        baseUrl: "http://localhost:8000",
+        baseUrl: "https://daanzap.ngrok.io",
         integrationEndpoints: ['/v1/badgebook/integrations']
     },
     help: {
