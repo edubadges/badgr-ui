@@ -517,10 +517,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			enrollment.untypedControl.patchValue({'denied': true})
 			this.studentsEnrolledApiService.updateEnrollments(this.badgeSlug, enrollment.value)
 			.then(() => {
-				this.messageService.setMessage("Enrollments succesfully updated");
+				this.messageService.setMessage("Badge request succesfully updated");
 				this.issueForm.controls.deniedRecipients.controls.push(enrollment)
 			}, error => {
-				this.messageService.setMessage("Unable to deny enrollment: " + BadgrApiFailure.from(error).firstMessage, "error");
+				this.messageService.setMessage("Unable to deny badge request: " + BadgrApiFailure.from(error).firstMessage, "error");
 				this.issueForm.controls.recipients.controls.push(enrollment)
 			})
 		}
@@ -532,12 +532,12 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		enrollment.untypedControl.patchValue({'selected': false})
 		this.studentsEnrolledApiService.updateEnrollments(this.badgeSlug, enrollment.value)
 		.then(() => {
-			this.messageService.setMessage("Enrollments succesfully updated");
+			this.messageService.setMessage("Badge request succesfully updated");
 			this.issueForm.controls.recipients.removeAt(index);
 			this.issueForm.controls.deniedRecipients.controls.push(enrollment)
 
 		}, error => {
-			this.messageService.setMessage("Unable to deny enrollment: " + BadgrApiFailure.from(error).firstMessage, "error");
+			this.messageService.setMessage("Unable to deny badge request: " + BadgrApiFailure.from(error).firstMessage, "error");
 		})
 	}
 	
@@ -547,11 +547,11 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		enrollment.untypedControl.patchValue({'denied': false})
 		this.studentsEnrolledApiService.updateEnrollments(this.badgeSlug, enrollment.value)
 		.then(() => {
-			this.messageService.setMessage("Enrollments succesfully updated");
+			this.messageService.setMessage("Badge requests succesfully updated");
 			this.issueForm.controls.deniedRecipients.removeAt(index);
 			this.issueForm.controls.recipients.controls.push(enrollment)
 		}, error => {
-			this.messageService.setMessage("Unable to undo enrollment denial: " + BadgrApiFailure.from(error).firstMessage, "error");
+			this.messageService.setMessage("Unable to undo badge request denial: " + BadgrApiFailure.from(error).firstMessage, "error");
 		})
 	}
 
