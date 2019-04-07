@@ -130,6 +130,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
 					</li>
+					<li *ngIf="userMaySeeManagement" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/management']">Management</a></li>
 				</ng-template>
 			</ul>
 		</nav>
@@ -140,6 +141,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	loggedIn: boolean = false;
 	userMaySeeIssuers: boolean = false;
 	userMaySeeEnrollments: boolean = false;
+	userMaySeeManagement: boolean = false;
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
 	currentPermissionLoaded: Promise<any>;
@@ -323,6 +325,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 			current_user_permissions.includes('has_faculty_scope') || 
 			current_user_permissions.includes('is_superuser') ||
 			current_user_permissions.includes('is_staff');
+
+		this.userMaySeeManagement = current_user_permissions.includes('is_staff') ||
+			current_user_permissions.includes('is_superuser');
 
 		this.permissionsChecked = true	
 	}

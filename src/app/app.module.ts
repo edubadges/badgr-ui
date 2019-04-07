@@ -74,6 +74,10 @@ const ROUTE_CONFIG: Routes = [
 		path: 'public',
 		loadChildren: './public/public.module#PublicModule'
 	},
+	{
+		path: 'management',
+		loadChildren: './management/management.module#ManagementModule'
+	},
 	// Legacy Auth Redirects
 	{
 		path: "login",
