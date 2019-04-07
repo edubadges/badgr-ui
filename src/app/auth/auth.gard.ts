@@ -65,6 +65,7 @@ export class ViewManagementAuthGuard extends AuthGuard{
 		profileManager: UserProfileManager,
 		) {
 		super(router, profileManager)
+<<<<<<< HEAD
 		this.permission = 'view_management_tab' 
 	}
 }
@@ -78,5 +79,8 @@ export class HasInstitutionScope extends AuthGuard{
 		) {
 		super(router, profileManager)
 		this.permission = 'has_institution_scope' 
+=======
+		this.permission = 'is_staff' 
+>>>>>>> adds management component and auth gards it
 	}
 }

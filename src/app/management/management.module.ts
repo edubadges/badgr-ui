@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../common/badgr-common.module";
+<<<<<<< HEAD
 import { ManagementUsersListComponent } from "./management-users-list.component"
 import { ManagementUsersEditComponent } from "./management-users-edit.component"
 import { ManagementFacultiesEditComponent } from "./management-faculties-edit.component"
@@ -61,12 +62,27 @@ const routes = [
 	{
 		path: "reports/faculty/:facultySlug",
 		component: ManagementFacultyReportsComponent,
+=======
+import { ManagementComponent } from "./management.component"
+import { UserProfileApiService } from "../common/services/user-profile-api.service";
+import { ViewManagementAuthGuard } from "../auth/auth.gard";
+
+const routes = [
+	/* staff */
+	{
+		path: "",
+		component: ManagementComponent,
+>>>>>>> adds management component and auth gards it
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
 		path: "**",
+<<<<<<< HEAD
 		component: ManagementUsersListComponent,
 		canActivate: [ViewManagementAuthGuard]
+=======
+		redirectTo: '',
+>>>>>>> adds management component and auth gards it
 	},
 ];
 @NgModule({
@@ -77,6 +93,7 @@ const routes = [
 		RouterModule,
 		FormsModule,
 		ReactiveFormsModule,
+<<<<<<< HEAD
 		ChartsModule,
 	],
 	declarations: [
@@ -87,16 +104,25 @@ const routes = [
 		ManagementFacultiesListComponent,
 		ManagementReportsComponent,
 		ManagementFacultyReportsComponent,
+=======
+	],
+	declarations: [
+		ManagementComponent,
+>>>>>>> adds management component and auth gards it
 	],
 	exports: [],
 	providers: [
 		UserProfileApiService,
+<<<<<<< HEAD
 		InstitutionApiService,
 		ViewManagementAuthGuard,
 		HasInstitutionScope,
 		IssuerManager,
 		IssuerApiService,
 		ManagementApiService,
+=======
+		ViewManagementAuthGuard,
+>>>>>>> adds management component and auth gards it
 	]
 })
 export class ManagementModule {}

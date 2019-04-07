@@ -76,15 +76,21 @@ const ROUTE_CONFIG: Routes = [
 		path: 'public',
 		loadChildren: './public/public.module#PublicModule'
 	},
+<<<<<<< HEAD
 	{
 		path: 'management',
 		loadChildren: './management/management.module#ManagementModule'
 	},
+=======
+>>>>>>> adds management component and auth gards it
 	{
 		path: 'lti-badges',
 		loadChildren: './lti-api/lti-api.module#LtiApiModule'
 	},
-
+	{
+		path: 'management',
+		loadChildren: './management/management.module#ManagementModule'
+	},
 	// Legacy Auth Redirects
 	{
 		path: "login",
