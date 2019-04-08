@@ -130,7 +130,19 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
 					</li>
-					<li *ngIf="userMaySeeManagement" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/management']">Management</a></li>
+					<li *ngIf="userMaySeeManagement" class="menuitem" routerLinkActive="menuitem-is-active">
+						<button>Management</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/users']">Users</a></li>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/faculties']">Faculties</a></li>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/lti']">LTI</a></li>
+						</ul>
+					</li>
+					
+					
 				</ng-template>
 			</ul>
 		</nav>
@@ -326,8 +338,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 			current_user_permissions.includes('is_superuser') ||
 			current_user_permissions.includes('is_staff');
 
-		this.userMaySeeManagement = current_user_permissions.includes('is_staff') ||
-			current_user_permissions.includes('is_superuser');
+		this.userMaySeeManagement = current_user_permissions.includes('view_management_tab');
 
 		this.permissionsChecked = true	
 	}

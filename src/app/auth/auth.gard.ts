@@ -65,6 +65,6 @@ export class ViewManagementAuthGuard extends AuthGuard{
 		profileManager: UserProfileManager,
 		) {
 		super(router, profileManager)
-		this.permission = 'is_staff' 
+		this.permission = 'view_management_tab' 
 	}
 }

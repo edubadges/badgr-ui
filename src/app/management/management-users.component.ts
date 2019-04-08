@@ -5,12 +5,12 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { Title } from "@angular/platform-browser";
 
 @Component({
-	selector: 'managementDashboard',
+	selector: 'managementUsers',
 	template: `
-	<span>HELLOOOO</span>
+	<span>Users</span>
 	`
 })
-export class ManagementComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class ManagementUsersComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	constructor(
 		router: Router,
 		route: ActivatedRoute,
