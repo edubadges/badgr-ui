@@ -29,7 +29,7 @@ export class LtiApiService extends BaseHttpApiService{
 
 	private setCurrentContextId(response){
 		let current_context = response.json();
-		window['current_context'] = current_context
+		window['current_context'] = current_context;
 
 	}
 
