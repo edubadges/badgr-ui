@@ -6,6 +6,10 @@ export type BadgeClassUrl = string;
 export type BadgeClassSqlId = number;
 export interface BadgeClassRef extends ApiEntityRef {}
 
+export interface ApiBadgeClassContextId {
+	badgeClassId: string
+}
+
 export interface ApiBadgeClassJsonld {
 	'@context': string
 	type: string

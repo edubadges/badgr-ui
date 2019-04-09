@@ -84,6 +84,7 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	set extensions(extensions: Object[]) {
 		this.apiModel.extensions = extensions;
 	}
+
 	get hasExtensions(){
 		return Object.keys(this.apiModel['extensions']).length > 0;
 	}

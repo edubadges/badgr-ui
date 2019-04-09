@@ -19,6 +19,7 @@ import { RecipientBadgeApiService } from "./recipient/services/recipient-badges-
 import { PublicApiService } from './public/services/public-api.service';
 import { ValidanaBlockchainService } from './endorsement-api/validana/validanaBlockchain.service';
 import { ThemeApiService } from "../theming/services/theme-api.service";
+import { LtiApiService } from "./lti-api/services/lti-api.service";
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -128,6 +129,7 @@ const ROUTE_CONFIG: Routes = [
 		ValidanaBlockchainService,
 		PublicApiService,
 		ThemeApiService,
+		LtiApiService,
 
 		{ provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy }
 	]
