@@ -190,6 +190,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return this.themeManager.currentTheme
 	}
 
+	get ltiContextId(){
+		return this.ltiManager.currentContextId
+	}
+
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
