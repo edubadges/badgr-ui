@@ -96,6 +96,8 @@ export class BadgeClassManager extends BaseHttpApiService {
 			);
 	}
 
+
+
 	loadedBadgeByRef(badgeRef: BadgeClassRef | BadgeClassUrl): BadgeClass {
 		const badgeUrl = EntityRef.urlForRef(badgeRef);
 

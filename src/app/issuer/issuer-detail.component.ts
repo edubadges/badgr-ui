@@ -22,6 +22,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
+import { LtiApiService } from "../lti-api/services/lti-api.service";
 
 
 @Component({
@@ -128,6 +129,10 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 												   [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
 													 *ngIf="issuer.canAwardBadge"
 												>Award</a>
+												<a class="button button-primaryghost"
+													 [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
+													 *ngIf="issuer.canAwardBadge"
+												>Add to LMS {{ ltiContextId }}</a>
 												<button *ngIf="badge.recipient_count == 0"
 												        type="button"
 												        class="button button-primaryghost"
@@ -272,7 +277,8 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected badgeClassService: BadgeClassManager,
 		protected recipientGroupManager: RecipientGroupManager,
 		protected profileManager: UserProfileManager,
-		private externalToolsManager: ExternalToolsManager
+		private externalToolsManager: ExternalToolsManager,
+		private ltiManager: LtiApiService,
 	) {
 		super(router, route, loginService);
 
@@ -361,6 +367,10 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	deletePathway(ev, pathway: LearningPathway) {
 		pathway.deletePathway();
+	}
+
+	get ltiContextId(){
+		return this.ltiManager.currentContextId
 	}
 
 	updateGroupActiveState(

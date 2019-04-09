@@ -28,6 +28,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dialog.component';
 import { ThemeApiService } from "../theming/services/theme-api.service";
+import { LtiApiService } from "./lti-api/services/lti-api.service";
 
 
 // Shim in support for the :scope attribute
@@ -189,6 +190,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return this.themeManager.currentTheme
 	}
 
+	get ltiContextId(){
+		return this.ltiManager.currentContextId
+	}
+
+
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
 	}
@@ -221,7 +227,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,   // required for angulartics to work
 		private userProfileApiService: UserProfileApiService,
-		private themeManager: ThemeApiService
+		private themeManager: ThemeApiService,
+		private ltiManager: LtiApiService
 
 	) {
 		messageService.useRouter(router);
