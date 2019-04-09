@@ -7,8 +7,7 @@ export type BadgeClassSqlId = number;
 export interface BadgeClassRef extends ApiEntityRef {}
 
 export interface ApiBadgeClassContextId {
-	badgeClassEntityId: string
-	contextId:string
+	badgeClassId: string
 }
 
 export interface ApiBadgeClassJsonld {
