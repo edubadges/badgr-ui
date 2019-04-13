@@ -3,11 +3,12 @@ import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../common/badgr-common.module";
 import { ManagementUsersComponent } from "./management-users.component"
-import { ManagementFacultiesComponent } from "./management-faculties.component"
+import { ManagementFacultiesEditComponent } from "./management-faculties-edit.component"
+import { ManagementFacultiesListComponent } from "./management-faculties-list.component"
 import { ManagementLTIComponent } from "./management-lti.component"
 import { InstitutionApiService } from "./services/institution-api.service"
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
-import { ViewManagementAuthGuard } from "../auth/auth.gard";
+import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard";
 
 const routes = [
 	/* staff */
@@ -22,9 +23,16 @@ const routes = [
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
+		path: "faculties/edit/:facultyID",
+		component: ManagementFacultiesEditComponent,
+		canActivate: [ViewManagementAuthGuard, 
+									HasInstitutionScope]
+	},
+	{
 		path: "faculties",
-		component: ManagementFacultiesComponent,
-		canActivate: [ViewManagementAuthGuard]
+		component: ManagementFacultiesListComponent,
+		canActivate: [ViewManagementAuthGuard, 
+									HasInstitutionScope]
 	},
 	{
 		path: "**",
@@ -44,13 +52,15 @@ const routes = [
 	declarations: [
 		ManagementUsersComponent,
 		ManagementLTIComponent,
-		ManagementFacultiesComponent,
+		ManagementFacultiesEditComponent,
+		ManagementFacultiesListComponent,
 	],
 	exports: [],
 	providers: [
 		UserProfileApiService,
 	 	InstitutionApiService,		
 		ViewManagementAuthGuard,
+		HasInstitutionScope,
 	]
 })
 export class ManagementModule {}

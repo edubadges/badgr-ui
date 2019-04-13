@@ -4,19 +4,27 @@ import { SessionService } from "../common/services/session.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { Title } from "@angular/platform-browser";
 import { InstitutionApiService } from "./services/institution-api.service"
-import { UserProfileApiService } from "../common/services/user-profile-api.service";
 
 @Component({
-	selector: 'managementFaculties',
+	selector: 'managementFacultiesList',
 	template: `
 	<span>Faculties</span>
-	<div *bgAwaitPromises="[facultiesLoaded]">{{ faculties }}</div>
+	<div *bgAwaitPromises="[facultiesLoaded]">
+		<a class="card card-large" *ngFor="let faculty of faculties" [routerLink]="['/management/faculties/edit/', faculty.id]">
+			<div class="card-x-main">
+				<div class="card-x-text">
+					<h1>{{faculty.name}}</h1>
+				</div>
+			</div>
+		</a>
+	</div>
 	`
 })
-export class ManagementFacultiesComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
 	faculties: object;
 	facultiesLoaded: Promise<any>;
+
 
 	constructor(
 		router: Router,
@@ -24,17 +32,20 @@ export class ManagementFacultiesComponent extends BaseAuthenticatedRoutableCompo
 		sessionService: SessionService,
 		protected title: Title,
 		protected institutionApi: InstitutionApiService,
-		protected userProfileApiService: UserProfileApiService,
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Management- Faculties");
-		// invalid url: see django
-		// this.faculties = this.institutionApi.getAllInstitutionFaculties()
+		title.setTitle("Profile - Badgr");
 		this.facultiesLoaded = this.institutionApi.getAllInstitutionFaculties()
-			.then((faculties) => {
-				this.faculties = faculties
-			});
-
+		.then((faculties) => {
+			this.faculties = faculties
+		});
+	
+	
 	}
+
+	ngOnInit() {
+		super.ngOnInit();
+	}
+
 
 }
