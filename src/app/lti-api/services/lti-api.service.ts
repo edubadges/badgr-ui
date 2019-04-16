@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SessionService } from "../../common/services/session.service";
 import { Http } from "@angular/http";
 import { SystemConfigService } from "../../common/services/config.service";
@@ -10,7 +10,6 @@ import { BaseHttpApiService } from "../../common/services/base-http-api.service"
 export class LtiApiService extends BaseHttpApiService{
 
 	constructor(
-		//protected sessionService: LoginService,
 		protected sessionService: SessionService,
 		protected http: Http,
 		protected configService: SystemConfigService,
@@ -20,17 +19,14 @@ export class LtiApiService extends BaseHttpApiService{
 	}
 
 
-	get currentContextId(){
-
+	get currentContextId(): Promise<any>{
 		let url = '/lti_edu/lticontext'
-		this.get(url).then(r => this.setCurrentContextId(r));
-		return window[ "current_context" ];
+		return this.get(url).then(r => this.setCurrentContextId(r));
+
 	}
 
 	private setCurrentContextId(response){
-		let current_context = response.json();
-		window['current_context'] = current_context;
-
+		return response.json();
 	}
 
 }
