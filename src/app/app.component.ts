@@ -100,7 +100,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/enrollments']">Badge requests</a></li>
+					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-requests']">Badge requests</a></li>
 					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
