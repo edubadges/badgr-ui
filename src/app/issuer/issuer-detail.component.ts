@@ -265,6 +265,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	badgesLoaded: Promise<any>;
 
 	profileEmailsLoaded: Promise<any>;
+	currentContextId: string;
 
 	constructor(
 		loginService: SessionService,
@@ -283,7 +284,9 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		super(router, route, loginService);
 
 		title.setTitle("Issuer Detail - Badgr");
-
+		ltiManager.currentContextId.then(r => {
+		 	this.currentContextId = r['lticontext'];
+		 })
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
 		this.externalToolsManager.getToolLaunchpoints("issuer_external_launch").then(launchpoints => {
@@ -369,8 +372,8 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		pathway.deletePathway();
 	}
 
-	get ltiContextId(){
-		return this.ltiManager.currentContextId
+	get ltiContextId(): Promise<string>{
+		return this.currentContextId;
 	}
 
 	updateGroupActiveState(

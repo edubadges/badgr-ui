@@ -31,6 +31,7 @@ export class BadgeClassApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
+
 	getBadgeForIssuerSlugAndBadgeSlug(
 		issuerSlug: IssuerSlug,
 		badgeSlug: BadgeClassSlug
