@@ -21,3 +21,4 @@ temp/
 
 src/config.js
 .angulardoc.json
+.vscode/
