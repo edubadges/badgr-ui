@@ -59,12 +59,12 @@ import * as sanitizeHtml from "sanitize-html";
 				<!-- Recipient Information -->
 
 				<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-recipientinformation">
-					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Enrolled Students</h3>
+					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Badge Requests</h3>
 					<br>
 					<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
 					<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, cancelling them can only be done through revokation.</p>
 					<div *ngIf="!issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
-						<h4 class="title title-bordered">No students are enrolled.</h4>
+						<h4 class="title title-bordered">No badge requests.</h4>
 					</div>
 					
 					<div class="l-formsection-x-container">
@@ -73,7 +73,7 @@ import * as sanitizeHtml from "sanitize-html";
 						<div  class="l-formsection-x-inputs">
 							<div *ngIf="issueForm.controls.recipients.controls.length">
 								<hr class="rule l-rule">
-								<h4 class="title title-bordered" id="heading-badgeawarding">Enrollments</h4>
+								<h4 class="title title-bordered" id="heading-badgeawarding">Badge Requests</h4>
 								<br>
 								<button type="button"
 									class="button button-right"
@@ -96,7 +96,7 @@ import * as sanitizeHtml from "sanitize-html";
 										<button type="button"
 											class="button button-right"
 											(click)="denyEnrollment(i)"
-										>Deny Enrollment</button>
+										>Deny Badge Request</button>
 									</div>
 									<div class="heading">
 										<div class="heading-x-text">
@@ -123,18 +123,18 @@ import * as sanitizeHtml from "sanitize-html";
 								type="button"
 								class="button-secondaryghost"
 								(click)="toggleDeniedEnrollments()"
-							>Show denied enrollments</button>
+							>Show denied badge requests</button>
 							<button 
 								*ngIf="showDeniedEnrollments"
 								type="button"
 								class="button-secondaryghost"
 								(click)="toggleDeniedEnrollments()"
-							>Hide denied enrollments</button>
+							>Hide denied badge requests</button>
 
 
 							<div *ngIf="showDeniedEnrollments">
 								<div>
-									<h4 class="title title-bordered" id="heading-badgeawarding">Denied Enrollments</h4>
+									<h4 class="title title-bordered" id="heading-badgeawarding">Denied Badge Requests</h4>
 								</div>
 								<br>
 								<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let recipient of issueForm.controls.deniedRecipients.controls; let i=index">
