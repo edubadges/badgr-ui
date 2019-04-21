@@ -10,7 +10,7 @@ import { InstitutionApiService } from "./services/institution-api.service"
 	template: `
 	<span>Faculties</span>
 	<div *bgAwaitPromises="[facultiesLoaded]">
-		<a class="card card-large" *ngFor="let faculty of faculties" [routerLink]="['/management/faculties/edit/', faculty.id]">
+		<a class="card card-large" *ngFor="let faculty of faculties" [routerLink]="['/management/faculties/edit/', faculty.slug]">
 			<div class="card-x-main">
 				<div class="card-x-text">
 					<h1>{{faculty.name}}</h1>

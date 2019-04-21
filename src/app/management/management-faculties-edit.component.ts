@@ -34,7 +34,7 @@ import { markControlsDirty } from "../common/util/form-util";
 export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
 	faculty: object;
-	facultyID: string;
+	facultySlug: string;
 	facultyLoaded: Promise<any>;
 	facultyForm: FormGroup;
 
@@ -51,9 +51,9 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 		super(router, route, sessionService);
 		title.setTitle("Management- Faculties");
 		
-		this.facultyID = this.route.snapshot.params['facultyID'];
+		this.facultySlug = this.route.snapshot.params['facultySlug'];
 		
-		this.facultyLoaded = this.institutionApi.getFaculty(this.facultyID)
+		this.facultyLoaded = this.institutionApi.getFaculty(this.facultySlug)
 			.then(
 				(faculty) => { 	this.faculty = faculty
 												this.initFormFromExistingFaculties(faculty)	},
@@ -67,14 +67,14 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 
 	initFormFromExistingFaculties(faculty) {
 		this.facultyForm = this.formBuilder.group({
-			'id': faculty['id'],
+			'slug': faculty['slug'],
 			'name': faculty['name'],
 		})
 	}
 
 	onSubmit(formState) {
 		console.log(formState)
-		this.institutionApi.editFaculty(this.facultyID, formState)
+		this.institutionApi.editFaculty(this.facultySlug, formState)
 	}
 
 	clickSubmit(ev) {

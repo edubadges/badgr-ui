@@ -23,7 +23,7 @@ const routes = [
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
-		path: "faculties/edit/:facultyID",
+		path: "faculties/edit/:facultySlug",
 		component: ManagementFacultiesEditComponent,
 		canActivate: [ViewManagementAuthGuard, 
 									HasInstitutionScope]

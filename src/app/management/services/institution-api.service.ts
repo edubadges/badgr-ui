@@ -22,16 +22,16 @@ export class InstitutionApiService extends BaseHttpApiService {
 		.then(r => r.json())
 	}
 
-	getFaculty(facultyID: string): Promise<any[]> {
-		return this.get(`/institution/faculties/${facultyID}`)
+	getFaculty(facultySlug: string): Promise<any[]> {
+		return this.get(`/institution/faculties/${facultySlug}`)
 		.then(r => r.json())
 	}
 
 	editFaculty(
-		facultyID: string,
+		facultySlug: string,
 		facultyToEdit: object
 		): Promise<any> {
-			return this.put(`/institution/faculties/${facultyID}`, facultyToEdit)
+			return this.put(`/institution/faculties/${facultySlug}`, facultyToEdit)
 				.then(r => r.json())
 	}
 
