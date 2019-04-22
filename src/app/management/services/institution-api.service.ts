@@ -35,4 +35,11 @@ export class InstitutionApiService extends BaseHttpApiService {
 				.then(r => r.json())
 	}
 
+	createFaculty(
+		facultyToCreate: object
+		): Promise<any> {
+			return this.post(`/institution/faculties`, facultyToCreate)
+				.then(r => r.json())
+	}
+
 }

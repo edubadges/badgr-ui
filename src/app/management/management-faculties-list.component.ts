@@ -8,16 +8,31 @@ import { InstitutionApiService } from "./services/institution-api.service"
 @Component({
 	selector: 'managementFacultiesList',
 	template: `
-	<span>Faculties</span>
-	<div *bgAwaitPromises="[facultiesLoaded]">
-		<a class="card card-large" *ngFor="let faculty of faculties" [routerLink]="['/management/faculties/edit/', faculty.slug]">
-			<div class="card-x-main">
-				<div class="card-x-text">
-					<h1>{{faculty.name}}</h1>
+	<main>
+		<header class="wrap wrap-light l-containerhorizontal l-heading">
+			<div class="heading">
+				<div class="heading-x-text">
+					<h1>Faculties <span *ngIf="faculties">{{ faculties?.length }} Faculties</span></h1>
+				</div>
+				<div class="heading-x-actions">
+					<a [routerLink]="['/management/faculties/create/']"
+						class="button button-major"
+						[disabled-when-requesting]="true">Create Faculty</a>
 				</div>
 			</div>
+
+		</header>
+
+		<div *bgAwaitPromises="[facultiesLoaded]">
+		<a class="card card-large" *ngFor="let faculty of faculties" [routerLink]="['/management/faculties/edit/', faculty.slug]">
+		<div class="card-x-main">
+		<div class="card-x-text">
+		<h1>{{faculty.name}}</h1>
+		</div>
+		</div>
 		</a>
-	</div>
+		</div>
+	</main>
 	`
 })
 export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {

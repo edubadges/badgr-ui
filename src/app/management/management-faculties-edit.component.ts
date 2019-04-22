@@ -73,7 +73,6 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 	}
 
 	onSubmit(formState) {
-		console.log(formState)
 		this.institutionApi.editFaculty(this.facultySlug, formState)
 	}
 
