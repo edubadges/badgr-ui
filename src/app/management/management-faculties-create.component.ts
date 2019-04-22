@@ -106,8 +106,8 @@ export class ManagementFacultiesCreateComponent extends BaseAuthenticatedRoutabl
 
 	onSubmit(formState) {
 		this.addFacultyFinished = this.institutionApi.createFaculty(formState).then((new_faculty) => {
-				this.router.navigate([ 'management/faculties' ]);
-				this.messageService.setMessage("Faculty created successfully.", "success");
+			this.messageService.reportMajorSuccess("Faculty created successfully.", true);
+			this.router.navigate([ 'management/faculties' ]);
 		}, error => {
 				this.messageService.setMessage("Unable to create faculty: " + error, "error");
 		})
