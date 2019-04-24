@@ -13,21 +13,57 @@ import { markControlsDirty } from "../common/util/form-util";
 @Component({
 	selector: 'managementFacultiesEdit',
 	template: `
-	<span>Faculty</span>
-	<div *bgAwaitPromises="[facultyLoaded]">
-		<form (ngSubmit)="onSubmit(facultyForm.value)" novalidate>
-				<div>
-					<bg-formfield-text [control]="facultyForm.controls.name" ></bg-formfield-text>
-				</div>
 
-			<button
-					type="submit"
-					class="button"
-					(click)="clickSubmit($event)"
+
+	<main>
+		<form-message></form-message>
+		<header class="wrap wrap-light l-containerhorizontal l-heading">
+
+			<nav>
+				<h1 class="visuallyhidden">Breadcrumbs</h1>
+				<ul class="breadcrumb">
+					<li><a [routerLink]="['/management']">Management</a></li>
+					<li class="breadcrumb-x-current">Edit Faculty</li>
+				</ul>
+			</nav>
+
+			<div class="heading">
+				<div class="heading-x-text">
+					<h1>Edit Faculty</h1>
+					<p>Edit this faculty belonging to your institution.</p>
+				</div>
+			</div>
+
+		</header>
+	</main>
+
+	<div *bgAwaitPromises="[facultyLoaded]" class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
+		<form (ngSubmit)="onSubmit(facultyForm.value)" novalidate>
+			<div class="l-formsection wrap wrap-well" role="group">
+				<fieldset>
+					<bg-formfield-text 	[control]="facultyForm.controls.name"
+															[label]="'Name'"
+															[errorMessage]="{required:'Please enter a faculty name'}"
+															[autofocus]="true"
+					></bg-formfield-text>
+				</fieldset>
+			</div>
+
+			<hr class="rule l-rule">
+			<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+				<a [routerLink]="['/management/faculties']"
+						class="button button-primaryghost"
+						[disabled-when-requesting]="true"
+				>Cancel</a>
+				<button
+						type="submit"
+						class="button"
+						(click)="clickSubmit($event)"
 				>Submit</button>
+			</div>
+
 		</form>
 	</div>
-
 
 	`
 })
