@@ -6,7 +6,7 @@ import { Title } from "@angular/platform-browser";
 import { LTIClientApiService } from "./services/lti-client-api.service"
 
 @Component({
-	selector: 'managementLTI',
+	selector: 'managementLTIList',
 	template: `
 	<main>
 		<header class="wrap wrap-light l-containerhorizontal l-heading">
@@ -37,7 +37,7 @@ import { LTIClientApiService } from "./services/lti-client-api.service"
 	</main>
 	`
 })
-export class ManagementLTIComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class ManagementLTIClientListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
 	ltiClients: object;
 	ltiClientsLoaded: Promise<any>;
