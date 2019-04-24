@@ -50,7 +50,7 @@ export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableC
 		protected institutionApi: InstitutionApiService,
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Profile - Badgr");
+		title.setTitle("Management - Faculties");
 		this.facultiesLoaded = this.institutionApi.getAllInstitutionFaculties()
 		.then((faculties) => {
 			this.faculties = faculties

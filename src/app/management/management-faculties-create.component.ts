@@ -73,8 +73,6 @@ import { markControlsDirty } from "../common/util/form-util";
 export class ManagementFacultiesCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
 	faculty: object;
-	facultySlug: string;
-	facultyLoaded: Promise<any>;
 	facultyForm: FormGroup;
 	addFacultyFinished: Promise<any>;
 
