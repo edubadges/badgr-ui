@@ -8,6 +8,7 @@ import { ManagementFacultiesCreateComponent } from "./management-faculties-creat
 import { ManagementFacultiesListComponent } from "./management-faculties-list.component"
 import { ManagementLTIClientCreateComponent } from "./management-lti-create.component"
 import { ManagementLTIClientListComponent } from "./management-lti-list.component"
+import { ManagementLTIClientEditComponent } from "./management-lti-edit.component"
 import { InstitutionApiService } from "./services/institution-api.service"
 import { LTIClientApiService } from "./services/lti-client-api.service"
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
@@ -33,6 +34,11 @@ const routes = [
 	{
 		path: "lti/create",
 		component: ManagementLTIClientCreateComponent,
+		canActivate: [ViewManagementAuthGuard]
+	},
+	{
+		path: "lti/edit/:ltiClientSlug",
+		component: ManagementLTIClientEditComponent,
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
@@ -71,10 +77,11 @@ const routes = [
 	declarations: [
 		ManagementUsersComponent,
 		ManagementLTIClientListComponent,
+		ManagementLTIClientCreateComponent,
+		ManagementLTIClientEditComponent,
 		ManagementFacultiesEditComponent,
 		ManagementFacultiesCreateComponent,
 		ManagementFacultiesListComponent,
-		ManagementLTIClientCreateComponent,
 	],
 	exports: [],
 	providers: [

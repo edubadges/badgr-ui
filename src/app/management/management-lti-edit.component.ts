@@ -11,7 +11,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 import { markControlsDirty } from "../common/util/form-util";
 
 @Component({
-	selector: 'managementLTICreate',
+	selector: 'managementLTIClientEdit',
 	template: `
 
 	<main>
@@ -22,14 +22,14 @@ import { markControlsDirty } from "../common/util/form-util";
 				<h1 class="visuallyhidden">Breadcrumbs</h1>
 				<ul class="breadcrumb">
 					<li><a [routerLink]="['/management']">Management</a></li>
-					<li class="breadcrumb-x-current">Create LTI Client</li>
+					<li class="breadcrumb-x-current">Edit LTI Client</li>
 				</ul>
 			</nav>
 
 			<div class="heading">
 				<div class="heading-x-text">
-					<h1>Create LTI Client</h1>
-					<p>Creating LTI clients allows you to connect badgr with your learning management system.</p>
+					<h1>Edit LTI Client</h1>
+					<p>Edit the LTI client here.</p>
 				</div>
 			</div>
 
@@ -39,18 +39,26 @@ import { markControlsDirty } from "../common/util/form-util";
 
 
 
-	<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
+	<div *bgAwaitPromises="[ltiClientLoaded]" class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
 		<form (ngSubmit)="onSubmit(ltiClientForm.value)" novalidate>
 			<div class="l-formsection wrap wrap-well" role="group">
 				<fieldset>
 					<bg-formfield-text 	[control]="ltiClientForm.controls.name"
 															[label]="'Name'"
-															[errorMessage]="{required:'Please enter a faculty name'}"
-															[autofocus]="true"
+															[errorMessage]="{required:'Please enter an LTI client name'}"
 					></bg-formfield-text>
 					<bg-formfield-text 	[control]="ltiClientForm.controls.issuer_slug"
-															[label]="'slug'"
+															[label]="'Issuer Slug'"
 															[errorMessage]="{required:'Please enter a slug'}"
+					></bg-formfield-text>
+
+					<bg-formfield-text 	[control]="ltiClientForm.controls.consumer_key"
+															[label]="'Consumer Key'"
+															[locked]='true'
+					></bg-formfield-text>
+					<bg-formfield-text 	[control]="ltiClientForm.controls.shared_secret"
+															[label]="'Shared Secret'"
+															[locked]='true'
 					></bg-formfield-text>
 				</fieldset>
 			</div>
@@ -74,9 +82,12 @@ import { markControlsDirty } from "../common/util/form-util";
 
 	`
 })
-export class ManagementLTIClientCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
+	ltiClient: object;
+	ltiClientSlug: string;
 	ltiClientForm: FormGroup;
+	ltiClientLoaded: Promise<any>;
 	addLTIClientFinished: Promise<any>;
 
 	constructor(
@@ -85,17 +96,22 @@ export class ManagementLTIClientCreateComponent extends BaseAuthenticatedRoutabl
 		sessionService: SessionService,
 		protected title: Title,
 		protected formBuilder: FormBuilder,
-		protected ltiClientApiService: LTIClientApiService,
+		protected ltiClientApi: LTIClientApiService,
 		protected userProfileApiService: UserProfileApiService,
 		protected messageService: MessageService,
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Management- Faculties");
+		title.setTitle("Management - LTI");
 		
-		this.ltiClientForm = this.formBuilder.group({
-			'name': [ '', Validators.compose([Validators.required, Validators.maxLength(1024)])],
-			'issuer_slug': [ '', Validators.compose([Validators.required, Validators.maxLength(1024)])],
-		})
+		this.ltiClientSlug = this.route.snapshot.params['ltiClientSlug'];
+
+		this.ltiClientLoaded = this.ltiClientApi.getLTIClient(this.ltiClientSlug)
+			.then(
+				(ltiClient) => { 	this.ltiClient = ltiClient
+													this.initFormFromExistingClients(ltiClient)	},
+				error => this.messageService.reportAndThrowError(`Failed to load LTI client, error: ${error.response.status}`)
+			);
+
 	}
 
 
@@ -104,15 +120,25 @@ export class ManagementLTIClientCreateComponent extends BaseAuthenticatedRoutabl
 	}
 
 
+	initFormFromExistingClients(ltiClient) {
+		this.ltiClientForm = this.formBuilder.group({
+			'slug': ltiClient['slug'], 
+			'name': [ltiClient['name'], Validators.compose([Validators.required, Validators.maxLength(1024)])],
+			'issuer_slug': [ltiClient['issuer_slug'], Validators.compose([Validators.required, Validators.maxLength(1024)])],
+			'consumer_key': [ltiClient['consumer_key'], Validators.compose([Validators.required, Validators.maxLength(1024)])],
+			'shared_secret': [ltiClient['shared_secret'], Validators.compose([Validators.required, Validators.maxLength(1024)])],
+		})
+	}
+
+
 	onSubmit(formState) {
-		this.addLTIClientFinished = this.ltiClientApiService.createClient(formState).then((new_client) => {
+		this.ltiClientApi.editClient(this.ltiClientSlug, formState).then((new_client) => {
 			this.messageService.reportMajorSuccess("LTI client created successfully.", true);
 			this.router.navigate([ 'management/lti/edit', new_client.slug ]);
 		}, error => {
 				this.messageService.setMessage("Unable to create LTI client: " + error, "error");
 		})
 		.then(() => this.addLTIClientFinished = null);
-
 	}
 
 

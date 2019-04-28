@@ -22,18 +22,18 @@ export class LTIClientApiService extends BaseHttpApiService {
 		.then(r => r.json())
 	}
 
-	// getFaculty(facultySlug: string): Promise<any[]> {
-	// 	return this.get(`/institution/faculties/${facultySlug}`)
-	// 	.then(r => r.json())
-	// }
+	getLTIClient(ltiClientSlug: string): Promise<any[]> {
+		return this.get(`/lti_edu/clients/${ltiClientSlug}`)
+		.then(r => r.json())
+	}
 
-	// editFaculty(
-	// 	facultySlug: string,
-	// 	facultyToEdit: object
-	// 	): Promise<any> {
-	// 		return this.put(`/institution/faculties/${facultySlug}`, facultyToEdit)
-	// 			.then(r => r.json())
-	// }
+	editClient(
+		clientSlug: string,
+		clientToEdit: object
+		): Promise<any> {
+			return this.put(`/lti_edu/clients/${clientSlug}`, clientToEdit)
+				.then(r => r.json())
+	}
 
 	createClient(
 		clientToCreate: object
