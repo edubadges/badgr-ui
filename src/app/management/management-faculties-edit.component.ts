@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, Input } from "@angular/core";
-import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
 import { MessageService } from "../common/services/message.service";
@@ -44,7 +44,6 @@ import { markControlsDirty } from "../common/util/form-util";
 					<bg-formfield-text 	[control]="facultyForm.controls.name"
 															[label]="'Name'"
 															[errorMessage]="{required:'Please enter a faculty name'}"
-															[autofocus]="true"
 					></bg-formfield-text>
 				</fieldset>
 			</div>
@@ -73,6 +72,7 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 	facultySlug: string;
 	facultyLoaded: Promise<any>;
 	facultyForm: FormGroup;
+	editFacultyFinished: Promise<any>;
 
 	constructor(
 		router: Router,
@@ -85,7 +85,7 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 		protected messageService: MessageService,
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Management- Faculties");
+		title.setTitle("Management - Faculties");
 		
 		this.facultySlug = this.route.snapshot.params['facultySlug'];
 		
@@ -104,12 +104,18 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 	initFormFromExistingFaculties(faculty) {
 		this.facultyForm = this.formBuilder.group({
 			'slug': faculty['slug'],
-			'name': faculty['name'],
+			'name': [faculty['name'], Validators.compose([Validators.required, Validators.maxLength(1024)])],
 		})
 	}
 
 	onSubmit(formState) {
-		this.institutionApi.editFaculty(this.facultySlug, formState)
+		this.editFacultyFinished = this.institutionApi.editFaculty(this.facultySlug, formState).then((new_faculty) => {
+			this.router.navigate([ 'management/faculties' ]);
+			this.messageService.setMessage("Faculty edited successfully.", "success");
+			this.messageService.reportMajorSuccess("Faculty edited successfully.", true);
+		}, error => {
+			this.messageService.setMessage("Unable to edit Faculty: " + error, "error");
+		}).then(() => this.editFacultyFinished = null);
 	}
 
 	clickSubmit(ev) {
