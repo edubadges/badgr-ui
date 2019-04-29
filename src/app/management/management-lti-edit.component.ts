@@ -194,12 +194,12 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 	}
 
 	updateIssuerSlugInForm(){
-		this.ltiClientForm.controls.issuer_slug.patchValue(this.selectedIssuer.slug)
+		this.ltiClientForm.controls.issuer_slug.patchValue(this.selectedIssuer['slug'])
 	}
 
 	setAsSelectedIssuer(issuer_slug) {
 		for (let issuer of this.issuers) {
-			if (issuer.slug == issuer_slug) {
+			if (issuer['slug'] == issuer_slug) {
 				this.selectedIssuer = issuer
 				this.updateIssuerSlugInForm()
 				this.selectingNewIssuer = false 
