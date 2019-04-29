@@ -1,4 +1,5 @@
 import { Component, forwardRef, Inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef } from '@angular/core';
 
 import { ActivatedRoute, Router } from "@angular/router";
 import { SessionService } from "../common/services/session.service";
@@ -23,6 +24,8 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
 import { LtiApiService } from "../lti-api/services/lti-api.service";
+import { ApiBadgeClassContextId } from "./models/badgeclass-api.model";
+import { ifTrue } from "codelyzer/util/function";
 
 
 @Component({
@@ -129,14 +132,18 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 												   [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
 													 *ngIf="issuer.canAwardBadge"
 												>Award</a>
-												<a class="button button-primaryghost"
-													 [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
-													 *ngIf="issuer.canAwardBadge"
-												>Add to LMS {{ ltiContextId }}</a>
+												<button class="button button-primaryghost"
+													 	 (click)="addBadgeClassToLMS($event, badge,ltiContextId)"
+													 *ngIf="issuer.canAwardBadge && ltiContextId && !isBadgeInLms(badge)"
+												>Add badge to this LMS course</button>
+												<button class="button button-primaryghost"
+																(click)="removeBadgeClassFromLMS($event, badge,ltiContextId)"
+																*ngIf="isBadgeInLms(badge)"
+												>Remove badge from this LMS course</button>
 												<button *ngIf="badge.recipient_count == 0"
 												        type="button"
 												        class="button button-primaryghost"
-												        (click)="clickConfirmRemove($event, badge)"
+												        (click)="clickConfirmRemove($event)"
 												        [disabled-when-requesting]="true"
 												>Delete
 												</button>
@@ -251,6 +258,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	issuer: Issuer;
 	issuerSlug: string;
 	badges: Array<BadgeClass>;
+	currentLtiBadges: Array<BadgeClass>;
 	confirmingBadgeId: number;
 	confirmingRecipientGroup: RecipientGroup;
 	launchpoints: ApiExternalToolLaunchpoint[];
@@ -265,7 +273,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	badgesLoaded: Promise<any>;
 
 	profileEmailsLoaded: Promise<any>;
-	currentContextId: string;
+	currentContextId: string = "";
 
 	constructor(
 		loginService: SessionService,
@@ -286,7 +294,13 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		title.setTitle("Issuer Detail - Badgr");
 		ltiManager.currentContextId.then(r => {
 		 	this.currentContextId = r['lticontext'];
-		 })
+			ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});
+
+		 });
+
+
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
 		this.externalToolsManager.getToolLaunchpoints("issuer_external_launch").then(launchpoints => {
@@ -352,6 +366,49 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		this.confirmingBadgeId = null;
 	}
 
+	addBadgeClassToLMS(ev,badge,ltiContextId){
+		console.log('button clicked');
+
+		let badgeClassContextId = {
+			badgeClassEntityId:badge.slug,
+			contextId: ltiContextId
+		} as ApiBadgeClassContextId;
+		badgeClassContextId.badgeClassId = badge.slug;
+		badgeClassContextId.contextId = ltiContextId;
+		this.ltiManager.addBadgeClassToLMS(badgeClassContextId).then(r => { console.log('succes');
+			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});});
+
+	}
+
+	removeBadgeClassFromLMS(ev,badge,ltiContextId){
+		console.log('button remove clicked');
+
+		let badgeClassContextId = {
+			badgeClassEntityId:badge.slug,
+			contextId: ltiContextId
+		} as ApiBadgeClassContextId;
+		badgeClassContextId.badgeClassId = badge.slug;
+		badgeClassContextId.contextId = ltiContextId;
+		this.ltiManager.removeBadgeClassFromLMS(badgeClassContextId).then(r => { console.log('succes');
+			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});
+		});
+
+	}
+
+	isBadgeInLms(badge:BadgeClass){
+		for(let lmsBadge in this.currentLtiBadges){
+			let entity_id = this.currentLtiBadges[lmsBadge]['badgeClassEntityId']
+			if(badge.slug == this.currentLtiBadges[lmsBadge]['badgeClassEntityId']){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	clickConfirmRemove(ev, badge) {
 		if (badge.recipientCount > 0) {
 			ev.preventDefault();
@@ -372,7 +429,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		pathway.deletePathway();
 	}
 
-	get ltiContextId(): Promise<string>{
+	get ltiContextId(): string{
 		return this.currentContextId;
 	}
 

@@ -4,7 +4,12 @@ import { BaseHttpApiService } from "../../common/services/base-http-api.service"
 import { SessionService } from "../../common/services/session.service";
 import { SystemConfigService } from "../../common/services/config.service";
 import { IssuerSlug } from "../models/issuer-api.model";
-import { ApiBadgeClass, BadgeClassSlug, ApiBadgeClassForCreation } from "../models/badgeclass-api.model";
+import {
+	ApiBadgeClass,
+	BadgeClassSlug,
+	ApiBadgeClassForCreation,
+	ApiBadgeClassContextId
+} from "../models/badgeclass-api.model";
 import { MessageService } from "../../common/services/message.service";
 
 
@@ -23,6 +28,8 @@ export class BadgeClassApiService extends BaseHttpApiService {
 		return this.get('/v1/issuer/all-badges')
 			.then(r => r.json());
 	}
+
+
 
 	getBadgesForIssuer(
 		issuerSlug?: IssuerSlug
@@ -62,4 +69,6 @@ export class BadgeClassApiService extends BaseHttpApiService {
 		return this.put(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeClass.slug}`, badgeClass)
 			.then(r => r.json() as ApiBadgeClass);
 	}
+
+
 }

@@ -11,7 +11,7 @@ import {
 	ApiBadgeClassForCreation,
 	BadgeClassSlug,
 	BadgeClassRef,
-	BadgeClassUrl
+	BadgeClassUrl, ApiBadgeClassContextId
 } from "../models/badgeclass-api.model";
 import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
 import { BadgeClassApiService } from "./badgeclass-api.service";
@@ -131,6 +131,8 @@ export class BadgeClassManager extends BaseHttpApiService {
 			.first()
 			.toPromise();
 	}
+
+
 
 	private throwError(message: string): never {
 		throw new Error(message);

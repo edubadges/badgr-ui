@@ -83,7 +83,7 @@ const ROUTE_CONFIG: Routes = [
 	},
 	{
 		path: "login/:name",
-		redirectTo: "/auth/login/:name",
+		redirectTo: "/auth/log in/:name",
 		pathMatch: 'full',
 	},
 	{
