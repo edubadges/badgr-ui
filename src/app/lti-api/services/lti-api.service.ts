@@ -4,6 +4,7 @@ import { Http } from "@angular/http";
 import { SystemConfigService } from "../../common/services/config.service";
 import { MessageService } from "../../common/services/message.service"
 import { BaseHttpApiService } from "../../common/services/base-http-api.service";
+import { ApiBadgeClass, ApiBadgeClassContextId } from "../../issuer/models/badgeclass-api.model";
 
 
 @Injectable()
@@ -27,6 +28,30 @@ export class LtiApiService extends BaseHttpApiService{
 
 	private setCurrentContextId(response){
 		return response.json();
+	}
+
+	getAllContextIdBadgeClasses(
+		contextId:string
+	): Promise<ApiBadgeClass[]> {
+		return this.get('/lti_edu/badgeclasslticontext/'+contextId+'/')
+			.then(r => r.json());
+
+	}
+
+	addBadgeClassToLMS(
+		badgeClassContextId : ApiBadgeClassContextId
+	):Promise<string>{
+		console.log('in function addBadgeClassToLMS');
+		return this.post(`/lti_edu/addbadgeclasslticontext`, badgeClassContextId)
+			.then(r => r.json() as string);
+	}
+
+	removeBadgeClassFromLMS(
+		badgeClassContextId : ApiBadgeClassContextId
+	):Promise<string>{
+		console.log('in function removeBadgeClassFromLMS');
+		return this.delete(`/lti_edu/addbadgeclasslticontext`, badgeClassContextId)
+			.then(r => r.json() as string);
 	}
 
 }
