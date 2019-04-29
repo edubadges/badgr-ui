@@ -2,7 +2,8 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../common/badgr-common.module";
-import { ManagementUsersComponent } from "./management-users.component"
+import { ManagementUsersListComponent } from "./management-users-list.component"
+import { ManagementUsersEditComponent } from "./management-users-edit.component"
 import { ManagementFacultiesEditComponent } from "./management-faculties-edit.component"
 import { ManagementFacultiesCreateComponent } from "./management-faculties-create.component"
 import { ManagementFacultiesListComponent } from "./management-faculties-list.component"
@@ -25,7 +26,12 @@ const routes = [
 	},
 	{
 		path: "users",
-		component: ManagementUsersComponent,
+		component: ManagementUsersListComponent,
+		canActivate: [ViewManagementAuthGuard]
+	},
+	{
+		path: "users/edit",
+		component: ManagementUsersEditComponent,
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
@@ -63,7 +69,7 @@ const routes = [
 	},
 	{
 		path: "**",
-		component: ManagementUsersComponent,
+		component: ManagementUsersListComponent,
 		canActivate: [ViewManagementAuthGuard]
 	},
 ];
@@ -77,7 +83,8 @@ const routes = [
 		ReactiveFormsModule,
 	],
 	declarations: [
-		ManagementUsersComponent,
+		ManagementUsersListComponent,
+		ManagementUsersEditComponent,
 		ManagementLTIClientListComponent,
 		ManagementLTIClientCreateComponent,
 		ManagementLTIClientEditComponent,
