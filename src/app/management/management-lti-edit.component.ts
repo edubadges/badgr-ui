@@ -9,6 +9,9 @@ import { LTIClientApiService } from "./services/lti-client-api.service"
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { markControlsDirty } from "../common/util/form-util";
+import { IssuerManager } from "../issuer/services/issuer-manager.service";
+import { preloadImageURL } from "../common/util/file-util";
+
 
 @Component({
 	selector: 'managementLTIClientEdit',
@@ -36,9 +39,6 @@ import { markControlsDirty } from "../common/util/form-util";
 		</header>
 	</main>
 
-
-
-
 	<div *bgAwaitPromises="[ltiClientLoaded]" class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
 		<form (ngSubmit)="onSubmit(ltiClientForm.value)" novalidate>
 			<div class="l-formsection wrap wrap-well" role="group">
@@ -46,24 +46,77 @@ import { markControlsDirty } from "../common/util/form-util";
 					<bg-formfield-text 	[control]="ltiClientForm.controls.name"
 															[label]="'Name'"
 															[errorMessage]="{required:'Please enter an LTI client name'}"
-					></bg-formfield-text>
-					<bg-formfield-text 	[control]="ltiClientForm.controls.issuer_slug"
-															[label]="'Issuer Slug'"
-															[errorMessage]="{required:'Please enter a slug'}"
-					></bg-formfield-text>
-
+					></bg-formfield-text><br>
 					<bg-formfield-text 	[control]="ltiClientForm.controls.consumer_key"
 															[label]="'Consumer Key'"
 															[locked]='true'
-					></bg-formfield-text>
+					></bg-formfield-text><br>
 					<bg-formfield-text 	[control]="ltiClientForm.controls.shared_secret"
 															[label]="'Shared Secret'"
 															[locked]='true'
-					></bg-formfield-text>
-				</fieldset>
+					></bg-formfield-text><br>
+				</fieldset><br>
+				<table class="table" >
+					<thead>
+						<tr>
+							<th scope="col">Issuer</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+						<tbody *ngIf="!selectingNewIssuer">
+							<tr *bgAwaitPromises="[selectedIssuerLoaded]">
+								<th scope="row">
+									<div class="l-childrenhorizontal l-childrenhorizontal-small">
+										<img class="l-childrenhorizontal-x-offset"
+										src="{{selectedIssuer.image}}"
+										alt="{{selectedIssuer.name}}"
+										width="40">
+										<a [routerLink]="['/issuer/issuers', selectedIssuer.slug]">{{selectedIssuer.name}}</a>
+									</div>
+								</th>
+								<td *ngIf="!selectingNewIssuer">
+									<div class="l-childrenhorizontal l-childrenhorizontal-right">
+										<button type="button"
+														class="button button-primaryghost"
+														(click)="loadIssuers()"
+														[disabled-when-requesting]="true"
+										>Change Issuer
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					<ng-container *bgAwaitPromises="[issuersLoaded]">
+						<tbody *ngIf="selectingNewIssuer">
+							<tr *ngFor="let issuer of issuers">
+								<th scope="row">
+									<div class="l-childrenhorizontal l-childrenhorizontal-small">
+										<img class="l-childrenhorizontal-x-offset"
+										src="{{issuer.image}}"
+										alt="{{issuer.name}}"
+										width="40">
+										<a [routerLink]="['/issuer/issuers', issuer.slug]">{{issuer.name}}</a>
+									</div>
+								</th>
+								<td>
+									<div class="l-childrenhorizontal l-childrenhorizontal-right">
+										<button type="button"
+														class="button button-primaryghost"
+														(click)="setAsSelectedIssuer(issuer.slug)"
+														[disabled-when-requesting]="true"
+										>Select Issuer
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</ng-container>
+				</table>
+
 			</div>
 
 			<hr class="rule l-rule">
+
 			<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 				<a [routerLink]="['/management/lti']"
 						class="button button-primaryghost"
@@ -72,23 +125,31 @@ import { markControlsDirty } from "../common/util/form-util";
 				<button
 						type="submit"
 						class="button"
+						[disabled]="!! [savePromise]"
+						[loading-promises]="[ savePromise ]"
 						(click)="clickSubmit($event)"
-				>Submit</button>
+				>Save Changes</button>
 			</div>
 
 		</form>
 	</div>
 
-
 	`
 })
 export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
+	readonly issuerPlaceholderSrc = preloadImageURL(require('../../breakdown/static/images/placeholderavatar-issuer.svg'));
+	selectedIssuer: object;
+	issuers: Array<object>;
 	ltiClient: object;
 	ltiClientSlug: string;
 	ltiClientForm: FormGroup;
 	ltiClientLoaded: Promise<any>;
+	selectedIssuerLoaded: Promise<any>;
+	issuersLoaded: Promise<any>;
+	savePromise: Promise<any> | null = null;
 	addLTIClientFinished: Promise<any>;
+	selectingNewIssuer: boolean = false;
 
 	constructor(
 		router: Router,
@@ -99,6 +160,7 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 		protected ltiClientApi: LTIClientApiService,
 		protected userProfileApiService: UserProfileApiService,
 		protected messageService: MessageService,
+		protected issuerManager: IssuerManager,
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Management - LTI");
@@ -108,10 +170,11 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 		this.ltiClientLoaded = this.ltiClientApi.getLTIClient(this.ltiClientSlug)
 			.then(
 				(ltiClient) => { 	this.ltiClient = ltiClient
-													this.initFormFromExistingClients(ltiClient)	},
+													this.initFormFromExistingClients(ltiClient)
+													this.loadSelectedIssuer(ltiClient['issuer_slug'])
+													},
 				error => this.messageService.reportAndThrowError(`Failed to load LTI client, error: ${error.response.status}`)
 			);
-
 	}
 
 
@@ -130,10 +193,54 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 		})
 	}
 
+	updateIssuerSlugInForm(){
+		this.ltiClientForm.controls.issuer_slug.patchValue(this.selectedIssuer.slug)
+	}
+
+	setAsSelectedIssuer(issuer_slug) {
+		for (let issuer of this.issuers) {
+			if (issuer.slug == issuer_slug) {
+				this.selectedIssuer = issuer
+				this.updateIssuerSlugInForm()
+				this.selectingNewIssuer = false 
+			} 
+		}
+	}
+
+	loadSelectedIssuer(issuer_slug){
+			this.selectedIssuerLoaded = this.issuerManager.issuerBySlug(issuer_slug).then(
+			(issuer) => {
+				this.selectedIssuer = issuer
+				this.issuers= [issuer]
+			},
+			error => {
+				this.messageService.reportAndThrowError(`Failed to load Issuer, error: ${error.response.status}`)
+			})
+	}
+
+	loadIssuers(){
+		this.selectingNewIssuer = true
+		this.issuersLoaded =  new Promise((resolve, reject) => {
+			this.issuerManager.allIssuers$.subscribe(
+				(issuers) => {
+					let issuersWithinScope = issuers.slice().sort(
+						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+					);
+					this.issuers = issuersWithinScope
+					resolve()
+				},
+				error => {
+					this.messageService.reportAndThrowError("Failed to load issuers", error);
+					resolve();
+				}
+			);
+		});
+	}
+
 
 	onSubmit(formState) {
-		this.ltiClientApi.editClient(this.ltiClientSlug, formState).then((new_client) => {
-			this.messageService.reportMajorSuccess("LTI client created successfully.", true);
+		this.savePromise = this.ltiClientApi.editClient(this.ltiClientSlug, formState).then((new_client) => {
+			this.messageService.reportMajorSuccess("LTI client updated successfully.", true);
 			this.router.navigate([ 'management/lti/edit', new_client.slug ]);
 		}, error => {
 				this.messageService.setMessage("Unable to create LTI client: " + error, "error");

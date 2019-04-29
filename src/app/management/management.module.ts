@@ -13,6 +13,8 @@ import { InstitutionApiService } from "./services/institution-api.service"
 import { LTIClientApiService } from "./services/lti-client-api.service"
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard";
+import { IssuerManager } from "../issuer/services/issuer-manager.service";
+import { IssuerApiService } from "../issuer/services/issuer-api.service";
 
 const routes = [
 	/* institution */
@@ -90,6 +92,8 @@ const routes = [
 		LTIClientApiService,	
 		ViewManagementAuthGuard,
 		HasInstitutionScope,
+		IssuerManager,
+		IssuerApiService,
 	]
 })
 export class ManagementModule {}
