@@ -30,7 +30,7 @@ const routes = [
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
-		path: "users/edit",
+		path: "users/edit/:userSlug",
 		component: ManagementUsersEditComponent,
 		canActivate: [ViewManagementAuthGuard]
 	},

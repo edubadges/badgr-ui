@@ -24,6 +24,23 @@ export class UserProfileApiService extends BaseHttpApiService {
 		return this.get('/v1/user/profile').then(r => r.json());
 	}
 
+	getUsersWithinScope(): Promise<any> {
+		return this.get('/v1/user/users').then(r => r.json());
+	}
+	
+	getUser(userSlug: string): Promise<any> {
+		return this.get(`/v1/user/users/${userSlug}`)
+		.then(r => r.json());
+	}
+
+	editUser(
+		userSlug: string,
+		userToEdit: object
+		): Promise<any> {
+			return this.put(`/v1/user/users/${userSlug}`, userToEdit)
+				.then(r => r.json())
+	}
+
 	updatePassword(new_password: string, current_password: string): Promise<ApiUserProfile> {
 		return this.put('/v1/user/profile', { 'password': new_password, 'current_password': current_password })
 			.then(r => r.json());
