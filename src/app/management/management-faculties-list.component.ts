@@ -25,13 +25,33 @@ import { InstitutionApiService } from "./services/institution-api.service"
 
 		<div 	class="l-containerhorizontal l-containervertical l-childrenvertical wrap"
 					*bgAwaitPromises="[facultiesLoaded]">
-			<a class="card card-large" *ngFor="let faculty of faculties" [routerLink]="['/management/faculties/edit/', faculty.slug]">
-				<div class="card-x-main">
-					<div class="card-x-text">
-						<h1>{{faculty.name}}</h1>
-					</div>
-				</div>
-			</a>
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">Faculty</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let faculty of faculties">
+						<th scope="row">
+							<div class="l-childrenhorizontal l-childrenhorizontal-small">
+								<a [routerLink]="['/management/faculties/edit/', faculty.slug]">{{faculty.name}}</a>
+							</div>
+						</th>
+						<td>
+							<div class="l-childrenhorizontal l-childrenhorizontal-right">
+								<button type="button"
+												class="button button-primaryghost"
+												[routerLink]="['/management/faculties/edit/', faculty.slug]"
+												[disabled-when-requesting]="true"
+								>Edit Faculty
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</main>
 	`
@@ -51,7 +71,7 @@ export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableC
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Management - Faculties");
-		this.facultiesLoaded = this.institutionApi.getAllInstitutionFaculties()
+		this.facultiesLoaded = this.institutionApi.getAllFacultiesWithinScope()
 		.then((faculties) => {
 			this.faculties = faculties
 		});

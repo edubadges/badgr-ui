@@ -17,7 +17,7 @@ export class InstitutionApiService extends BaseHttpApiService {
 		super(loginService, http, configService, messageService);
 	}
 
-	getAllInstitutionFaculties(): Promise<any[]> {
+	getAllFacultiesWithinScope(): Promise<any[]> {
 		return this.get(`/institution/faculties`)
 		.then(r => r.json())
 	}
