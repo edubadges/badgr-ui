@@ -100,11 +100,19 @@ import { preloadImageURL } from "../common/util/file-util";
 								</th>
 								<td>
 									<div class="l-childrenhorizontal l-childrenhorizontal-right">
-										<button type="button"
+										<button *ngIf="selectedIssuer.slug != issuer.slug"
+														type="button"
 														class="button button-primaryghost"
 														(click)="setAsSelectedIssuer(issuer.slug)"
 														[disabled-when-requesting]="true"
 										>Select Issuer
+										</button>
+										<button  *ngIf="selectedIssuer.slug == issuer.slug"
+														type="button"
+														class="button button-primaryghost"
+														(click)="setAsSelectedIssuer(issuer.slug)"
+														[disabled-when-requesting]="true"
+										>Select Previous
 										</button>
 									</div>
 								</td>
@@ -123,11 +131,17 @@ import { preloadImageURL } from "../common/util/file-util";
 						[disabled-when-requesting]="true"
 				>Cancel</a>
 				<button
+						*ngIf="ltiClientForm.dirty"
 						type="submit"
 						class="button"
 						[disabled]="!! [savePromise]"
 						[loading-promises]="[ savePromise ]"
 						(click)="clickSubmit($event)"
+				>Save Changes</button>
+				<button 
+						*ngIf="!ltiClientForm.dirty"
+						class="button button-is-disabled"
+						[disabled] = 'true'
 				>Save Changes</button>
 			</div>
 
@@ -198,6 +212,7 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 	}
 
 	setAsSelectedIssuer(issuer_slug) {
+		markControlsDirty(this.ltiClientForm.controls.issuer_slug);
 		for (let issuer of this.issuers) {
 			if (issuer['slug'] == issuer_slug) {
 				this.selectedIssuer = issuer

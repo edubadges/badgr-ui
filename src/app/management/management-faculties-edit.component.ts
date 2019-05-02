@@ -55,10 +55,16 @@ import { markControlsDirty } from "../common/util/form-util";
 						[disabled-when-requesting]="true"
 				>Cancel</a>
 				<button
+						*ngIf="facultyForm.dirty"
 						type="submit"
 						class="button"
 						(click)="clickSubmit($event)"
-				>Submit</button>
+				>Save Changes</button>
+				<button 
+						*ngIf="!facultyForm.dirty"
+						class="button button-is-disabled"
+						[disabled] = 'true'
+				>Save Changes</button>
 			</div>
 
 		</form>
