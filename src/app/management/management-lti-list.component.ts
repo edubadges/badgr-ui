@@ -25,13 +25,33 @@ import { LTIClientApiService } from "./services/lti-client-api.service"
 
 		<div 	class="l-containerhorizontal l-containervertical l-childrenvertical wrap"
 					*bgAwaitPromises="[ltiClientsLoaded]">
-			<a class="card card-large" *ngFor="let client of ltiClients" [routerLink]="['/management/lti/edit/', client.slug]">
-				<div class="card-x-main">
-					<div class="card-x-text">
-						<h1>{{client.name}}</h1>
-					</div>
-				</div>
-			</a>
+			<table class="table" >
+				<thead>
+					<tr>
+						<th scope="col">Client</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let client of ltiClients">
+						<th scope="row">
+							<div class="l-childrenhorizontal l-childrenhorizontal-small">
+								<a [routerLink]="['/management/lti/edit/', client.slug]">{{client.name}}</a>
+							</div>
+						</th>
+						<td>
+							<div class="l-childrenhorizontal l-childrenhorizontal-right">
+								<button type="button"
+												class="button button-primaryghost"
+												[routerLink]="['/management/lti/edit/', client.slug]"
+												[disabled-when-requesting]="true"
+								>Edit Client
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>gd
+			</table>
 		</div>
 
 	</main>

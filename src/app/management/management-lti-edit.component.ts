@@ -63,29 +63,29 @@ import { preloadImageURL } from "../common/util/file-util";
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
-						<tbody *ngIf="!selectingNewIssuer">
-							<tr *bgAwaitPromises="[selectedIssuerLoaded]">
-								<th scope="row">
-									<div class="l-childrenhorizontal l-childrenhorizontal-small">
-										<img class="l-childrenhorizontal-x-offset"
-										src="{{selectedIssuer.image}}"
-										alt="{{selectedIssuer.name}}"
-										width="40">
-										<a [routerLink]="['/issuer/issuers', selectedIssuer.slug]">{{selectedIssuer.name}}</a>
-									</div>
-								</th>
-								<td *ngIf="!selectingNewIssuer">
-									<div class="l-childrenhorizontal l-childrenhorizontal-right">
-										<button type="button"
-														class="button button-primaryghost"
-														(click)="loadIssuers()"
-														[disabled-when-requesting]="true"
-										>Change Issuer
-										</button>
-									</div>
-								</td>
-							</tr>
-						</tbody>
+					<tbody *ngIf="!selectingNewIssuer">
+						<tr *bgAwaitPromises="[selectedIssuerLoaded]">
+							<th scope="row">
+								<div class="l-childrenhorizontal l-childrenhorizontal-small">
+									<img class="l-childrenhorizontal-x-offset"
+									src="{{selectedIssuer.image}}"
+									alt="{{selectedIssuer.name}}"
+									width="40">
+									<a [routerLink]="['/issuer/issuers', selectedIssuer.slug]">{{selectedIssuer.name}}</a>
+								</div>
+							</th>
+							<td *ngIf="!selectingNewIssuer">
+								<div class="l-childrenhorizontal l-childrenhorizontal-right">
+									<button type="button"
+													class="button button-primaryghost"
+													(click)="loadIssuers()"
+													[disabled-when-requesting]="true"
+									>Change Issuer
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
 					<ng-container *bgAwaitPromises="[issuersLoaded]">
 						<tbody *ngIf="selectingNewIssuer">
 							<tr *ngFor="let issuer of issuers">
