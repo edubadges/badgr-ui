@@ -27,10 +27,10 @@ import { markControlsDirty } from "../common/util/form-util";
 				</ul>
 			</nav>
 
-			<div class="heading">
+			<div *bgAwaitPromises="[facultyLoaded]" class="heading">
 				<div class="heading-x-text">
-					<h1>Edit Faculty</h1>
-					<p>Edit this faculty belonging to your institution.</p>
+					<h1>{{faculty.name}}</h1>
+					<p>Edit the faculty name here.</p>
 				</div>
 			</div>
 

@@ -29,9 +29,9 @@ import { preloadImageURL } from "../common/util/file-util";
 				</ul>
 			</nav>
 
-			<div class="heading">
+			<div *bgAwaitPromises="[ltiClientLoaded]"  class="heading">
 				<div class="heading-x-text">
-					<h1>Edit LTI Client</h1>
+					<h1>{{ ltiClient.name }}</h1>
 					<p>Edit the LTI client here.</p>
 				</div>
 			</div>
