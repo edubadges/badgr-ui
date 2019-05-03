@@ -262,7 +262,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	issuer: Issuer;
 	issuerSlug: string;
 	badges: Array<BadgeClass>;
-	currentLtiBadges: Array<BadgeClass>;
+	currentLtiBadges: Array<ApiBadgeClassContextId>;
 	confirmingBadgeId: number;
 	confirmingRecipientGroup: RecipientGroup;
 	launchpoints: ApiExternalToolLaunchpoint[];
@@ -377,12 +377,13 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 			badgeClassEntityId:badge.slug,
 			contextId: ltiContextId
 		} as ApiBadgeClassContextId;
-		badgeClassContextId.badgeClassId = badge.slug;
+		badgeClassContextId.badgeClassEntityId = badge.slug;
 		badgeClassContextId.contextId = ltiContextId;
 		this.ltiManager.addBadgeClassToLMS(badgeClassContextId).then(r => { console.log('succes');
 			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
 				this.currentLtiBadges = r;
-			});});
+			});
+		});
 
 	}
 
@@ -393,7 +394,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 			badgeClassEntityId:badge.slug,
 			contextId: ltiContextId
 		} as ApiBadgeClassContextId;
-		badgeClassContextId.badgeClassId = badge.slug;
+		badgeClassContextId.badgeClassEntityId = badge.slug;
 		badgeClassContextId.contextId = ltiContextId;
 		this.ltiManager.removeBadgeClassFromLMS(badgeClassContextId).then(r => { console.log('succes');
 			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {

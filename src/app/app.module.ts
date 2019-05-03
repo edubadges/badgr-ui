@@ -21,6 +21,7 @@ import { ValidanaBlockchainService } from './endorsement-api/validana/validanaBl
 import { ThemeApiService } from "../theming/services/theme-api.service";
 import { LtiApiService } from "./lti-api/services/lti-api.service";
 import { HttpClientModule } from '@angular/common/http';
+import { LtiBadgesComponent } from "./lti-api/lti-badges.component";
 
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
@@ -79,6 +80,11 @@ const ROUTE_CONFIG: Routes = [
 		path: 'management',
 		loadChildren: './management/management.module#ManagementModule'
 	},
+	{
+		path: 'lti-badges',
+		loadChildren: './lti-api/lti-api.module#LtiApiModule'
+	},
+
 	// Legacy Auth Redirects
 	{
 		path: "login",
@@ -104,7 +110,7 @@ const ROUTE_CONFIG: Routes = [
 	{
 		"path": "**",
 		redirectTo: "/initial-redirect",
-	},
+	}
 ];
 
 @NgModule({
