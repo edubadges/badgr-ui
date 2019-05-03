@@ -30,6 +30,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 import { LtiApiService } from "./lti-api/services/lti-api.service";
 
 
+
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
 // https://stackoverflow.com/questions/3680876/using-queryselectorall-to-retrieve-direct-children/21126966#21126966

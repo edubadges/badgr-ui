@@ -16,6 +16,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { MessageService } from "../common/services/message.service";
 import { SocialAccountProviderInfo } from '../common/model/user-profile-api.model';
+import { LtiApiService } from "../lti-api/services/lti-api.service";
 
 @Component({
 	styles: ['h1 { font-size: 30px; font-weight: 600; margin-top: 10px; }',
@@ -195,6 +196,7 @@ export class PublicBadgeClassComponent {
 		protected userProfileApiService: UserProfileApiService,
 		protected dialogService: CommonDialogsService,
 		protected messageService: MessageService,
+		private ltiManager: LtiApiService,
 	) {
 		this.badgeIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),

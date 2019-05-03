@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import { SessionService } from "../../common/services/session.service";
 import { Http } from "@angular/http";
 import { SystemConfigService } from "../../common/services/config.service";
@@ -32,7 +32,7 @@ export class LtiApiService extends BaseHttpApiService{
 
 	getAllContextIdBadgeClasses(
 		contextId:string
-	): Promise<ApiBadgeClass[]> {
+	): Promise<ApiBadgeClassContextId[]> {
 		return this.get('/lti_edu/badgeclasslticontext/'+contextId+'/')
 			.then(r => r.json());
 
