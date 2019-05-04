@@ -98,7 +98,7 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 		this.facultyLoaded = this.institutionApi.getFaculty(this.facultySlug)
 			.then(
 				(faculty) => { 	this.faculty = faculty
-												this.initFormFromExistingFaculties(faculty)	},
+												this.initFormFromExistingFaculty(faculty)	},
 				error => this.messageService.reportAndThrowError(`Failed to load faculty, error: ${error.response.status}`)
 			);
 	}
@@ -107,7 +107,7 @@ export class ManagementFacultiesEditComponent extends BaseAuthenticatedRoutableC
 		super.ngOnInit();
 	}
 
-	initFormFromExistingFaculties(faculty) {
+	initFormFromExistingFaculty(faculty) {
 		this.facultyForm = this.formBuilder.group({
 			'slug': faculty['slug'],
 			'name': [faculty['name'], Validators.compose([Validators.required, Validators.maxLength(1024)])],

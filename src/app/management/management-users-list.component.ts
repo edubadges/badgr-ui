@@ -77,6 +77,7 @@ export class ManagementUsersListComponent extends BaseAuthenticatedRoutableCompo
 		if (value == 0){
 			return a['first_name'].localeCompare(b['first_name'])
 		}
+		return value
 	}
 
 }

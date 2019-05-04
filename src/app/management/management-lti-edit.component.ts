@@ -8,7 +8,7 @@ import { SessionService } from "../common/services/session.service";
 import { LTIClientApiService } from "./services/lti-client-api.service"
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
-import { markControlsDirty } from "../common/util/form-util";
+import { markControlsDirty, markControlsPristine } from "../common/util/form-util";
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { preloadImageURL } from "../common/util/file-util";
 
@@ -100,14 +100,14 @@ import { preloadImageURL } from "../common/util/file-util";
 								</th>
 								<td>
 									<div class="l-childrenhorizontal l-childrenhorizontal-right">
-										<button *ngIf="selectedIssuer.slug != issuer.slug"
+										<button *ngIf="issuerLoadedFromDb.slug != issuer.slug"
 														type="button"
 														class="button button-primaryghost"
 														(click)="setAsSelectedIssuer(issuer.slug)"
 														[disabled-when-requesting]="true"
 										>Select Issuer
 										</button>
-										<button  *ngIf="selectedIssuer.slug == issuer.slug"
+										<button  *ngIf="issuerLoadedFromDb.slug == issuer.slug"
 														type="button"
 														class="button button-primaryghost"
 														(click)="setAsSelectedIssuer(issuer.slug)"
@@ -154,6 +154,7 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 	
 	readonly issuerPlaceholderSrc = preloadImageURL(require('../../breakdown/static/images/placeholderavatar-issuer.svg'));
 	selectedIssuer: object;
+	issuerLoadedFromDb: object;
 	issuers: Array<object>;
 	ltiClient: object;
 	ltiClientSlug: string;
@@ -212,7 +213,11 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 	}
 
 	setAsSelectedIssuer(issuer_slug) {
-		markControlsDirty(this.ltiClientForm.controls.issuer_slug);
+		if (issuer_slug != this.issuerLoadedFromDb['slug']){
+			markControlsDirty(this.ltiClientForm.controls.issuer_slug);
+		} else if (issuer_slug == this.issuerLoadedFromDb['slug']) {
+			markControlsPristine(this.ltiClientForm.controls.issuer_slug)
+		}
 		for (let issuer of this.issuers) {
 			if (issuer['slug'] == issuer_slug) {
 				this.selectedIssuer = issuer
@@ -227,6 +232,7 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 			(issuer) => {
 				this.selectedIssuer = issuer
 				this.issuers= [issuer]
+				this.issuerLoadedFromDb = issuer
 			},
 			error => {
 				this.messageService.reportAndThrowError(`Failed to load Issuer, error: ${error.response.status}`)
@@ -242,6 +248,7 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
 					);
 					this.issuers = issuersWithinScope
+					this.issuers.sort(this.compareIssuers)
 					resolve()
 				},
 				error => {
@@ -271,4 +278,7 @@ export class ManagementLTIClientEditComponent extends BaseAuthenticatedRoutableC
 		}
 	}
 
+	compareIssuers(a, b){
+		return a['name'].localeCompare(b['name'])
+	}
 }

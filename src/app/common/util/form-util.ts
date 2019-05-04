@@ -8,6 +8,9 @@ export function markControlsTouched(control: AbstractControl) {
 	walkControls(control, c => c.markAsTouched());
 }
 
+export function markControlsPristine(control: AbstractControl) {
+	walkControls(control, c => c.markAsPristine());
+}
 
 function walkControls(control: AbstractControl, fn: (ctrl: AbstractControl) => void) {
 	fn(control);

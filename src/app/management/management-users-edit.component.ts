@@ -202,6 +202,7 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 
 	initFormFromExistingUser(user){
 		this.editControls.slug.setValue(user['slug'], { emitEvent: false });
+		user['faculties'].sort(this.compareFaculties)
 		for (let faculty of user['faculties']){
 			this.addFacultyToForm(faculty)
 		}
@@ -212,8 +213,8 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		let removed_faculty = this.faculties.value[index]
 		this.faculties.removeAt(index)
 		if (this.facultiesForSelection != undefined){
-			removed_faculty // make into object?
 			this.facultiesForSelection.push(removed_faculty)
+			this.facultiesForSelection.sort(this.compareFaculties)
 		}
 	}
 
@@ -227,6 +228,7 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		this.facultiesForSelectionLoaded = this.institutionApi.getAllFacultiesWithinScope()
 			.then((faculties) => {
 				this.facultiesForSelection = faculties
+				this.facultiesForSelection.sort(this.compareFaculties)
 				this.filterFacultiesForSelection()
 			})
 	}
@@ -270,6 +272,10 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 			ev.preventDefault();
 			markControlsDirty(this.userForm);
 		}
+	}
+
+	compareFaculties(a, b){
+		return a['name'].localeCompare(b['name'])
 	}
 
 }
