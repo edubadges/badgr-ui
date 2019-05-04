@@ -50,7 +50,7 @@ import { LTIClientApiService } from "./services/lti-client-api.service"
 							</div>
 						</td>
 					</tr>
-				</tbody>gd
+				</tbody>
 			</table>
 		</div>
 
@@ -59,7 +59,7 @@ import { LTIClientApiService } from "./services/lti-client-api.service"
 })
 export class ManagementLTIClientListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
-	ltiClients: object;
+	ltiClients: Array<any>;
 	ltiClientsLoaded: Promise<any>;
 	
 	constructor(
@@ -74,11 +74,17 @@ export class ManagementLTIClientListComponent extends BaseAuthenticatedRoutableC
 		this.ltiClientsLoaded = this.ltiClientApi.getLTIClientsWithinScope()
 		.then((ltiClients) => {
 			this.ltiClients = ltiClients
+			this.ltiClients.sort(this.compareClients)
 		});
 	}
 
 	ngOnInit() {
 		super.ngOnInit();
+	}
+
+
+	compareClients(a, b){
+		return a['name'].localeCompare(b['name'])
 	}
 
 }

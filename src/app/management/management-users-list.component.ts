@@ -29,7 +29,7 @@ import { Title } from "@angular/platform-browser";
 					<tr *ngFor="let user of users">
 						<th scope="row">
 							<div class="l-childrenhorizontal l-childrenhorizontal-small">
-								<a [routerLink]="['/management/users/edit', user.slug]">{{user.first_name}}</a>
+								<a [routerLink]="['/management/users/edit', user.slug]">{{user.last_name}}, {{user.first_name}}</a>
 							</div>
 						</th>
 						<td>
@@ -52,7 +52,7 @@ import { Title } from "@angular/platform-browser";
 })
 export class ManagementUsersListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
-	users: object;
+	users: Array<any>;
 	usersLoaded: Promise<any>;
 
 	constructor(
@@ -67,6 +67,16 @@ export class ManagementUsersListComponent extends BaseAuthenticatedRoutableCompo
 		this.usersLoaded = this.userProfileApi.getUsersWithinScope()
 		.then((users) => {
 			this.users = users
+			this.users.sort(this.compareUsers)
 		});
+
 	}
+
+	compareUsers(a, b){
+		let value = a['last_name'].localeCompare(b['last_name'])
+		if (value == 0){
+			return a['first_name'].localeCompare(b['first_name'])
+		}
+	}
+
 }

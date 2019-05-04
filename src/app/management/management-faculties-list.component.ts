@@ -58,7 +58,7 @@ import { InstitutionApiService } from "./services/institution-api.service"
 })
 export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	
-	faculties: object;
+	faculties: Array<any>;
 	facultiesLoaded: Promise<any>;
 
 
@@ -74,6 +74,7 @@ export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableC
 		this.facultiesLoaded = this.institutionApi.getAllFacultiesWithinScope()
 		.then((faculties) => {
 			this.faculties = faculties
+			this.faculties.sort(this.compareFaculties)
 		});
 	
 	
@@ -83,5 +84,8 @@ export class ManagementFacultiesListComponent extends BaseAuthenticatedRoutableC
 		super.ngOnInit();
 	}
 
+	compareFaculties(a, b){
+		return a['name'].localeCompare(b['name'])
+	}
 
 }
