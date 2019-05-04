@@ -92,7 +92,13 @@ import { InstitutionApiService } from "./services/institution-api.service"
 				<thead>
 					<tr>
 						<th> Select New Faculties </th>
-						<th scope="col">Actions</th>
+						<th scope="col">
+							Actions
+							<button style="float:right;"
+											(click)="stopAddingFaculties()"	> 
+								<span style="color:white;">X</span>
+							</button>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -190,6 +196,10 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 
 	get faculties() {
 		return this.userForm.controls['faculties'] as FormArray;
+	}
+
+	stopAddingFaculties(){
+		this.addingFacultiesForSelection = false
 	}
 
 	addFacultyToForm(faculty){
