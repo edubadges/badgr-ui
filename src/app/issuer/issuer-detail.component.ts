@@ -132,10 +132,7 @@ import { ifTrue } from "codelyzer/util/function";
 												   [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
 													 *ngIf="issuer.canAwardBadge"
 												>Award</a>
-												<a class="button button-primaryghost"
-													 [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']"
-													 *ngIf="issuer.canAwardBadge"
-												>Add to LMS {{ ltiContextId }}</a>
+												
 												<button class="button button-primaryghost"
 													 	 (click)="addBadgeClassToLMS($event, badge,ltiContextId)"
 													 *ngIf="issuer.canAwardBadge && ltiContextId && !isBadgeInLms(badge)"
