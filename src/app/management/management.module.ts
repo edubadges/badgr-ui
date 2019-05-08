@@ -16,6 +16,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard";
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { IssuerApiService } from "../issuer/services/issuer-api.service";
+import { GroupApiService } from "../management/services/group-api.service";
 
 const routes = [
 	/* institution */
@@ -101,6 +102,7 @@ const routes = [
 		HasInstitutionScope,
 		IssuerManager,
 		IssuerApiService,
+		GroupApiService,
 	]
 })
 export class ManagementModule {}

@@ -8,6 +8,7 @@ import { MessageService } from "../common/services/message.service";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from "@angular/forms";
 import { markControlsDirty } from "../common/util/form-util";
 import { InstitutionApiService } from "./services/institution-api.service"
+import { GroupApiService } from "../management/services/group-api.service";
 
 
 @Component({
@@ -40,6 +41,8 @@ import { InstitutionApiService } from "./services/institution-api.service"
 
 	<div *bgAwaitPromises="[userLoaded]" class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
 	
+		<!--  Faculties  -->
+
 		<form (ngSubmit)="onSubmit(userForm.value)" novalidate>
 			<table class="table">
 				<thead>
@@ -49,69 +52,118 @@ import { InstitutionApiService } from "./services/institution-api.service"
 					</tr>
 				</thead>
 				<tbody>
-				<tr *ngFor="let faculty of faculties.value; let i = index">
-					<th scope="row">
-						<a [routerLink]="['/management/faculties/edit', faculty.slug]">{{faculty.name}}</a>
-					</th>
-					<td scope="row">
-						<div class="l-childrenhorizontal l-childrenhorizontal-right">
-							<button type="button"
-											class="button button-primaryghost"
-											(click)="removeFacultyFromForm(i)"
-											[disabled-when-requesting]="true"
-							>Remove Faculty
-							</button>
-						</div>
-					</td>
-				</tr>
-				<tr *ngIf="faculties.value.length==0;">
-					<th scope="row">
-						<span>No Faculties</span>
-					</th>
-				</tr>
-				<tr>
-					<th scope="row">
-					</th>
-					<td scope="row">
-						<div *ngIf="!addingFacultiesForSelection" class="l-childrenhorizontal l-childrenhorizontal-right">
-							<button type="button"
-											class="button button-primaryghost"
-											(click)="triggerFacultyAddition()"
-											[disabled-when-requesting]="true"
-							>Add Faculties
-							</button>
-						</div>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-			<br><br>
-			
-			<ng-container *ngIf="addingFacultiesForSelection">
-			<table  class="table">
-				<thead>
-					<tr>
-						<th> Select New Faculties </th>
-						<th scope="col">
-							Actions
-							<button style="float:right;"
-											(click)="stopAddingFaculties()"	> 
-								<span style="color:white;">X</span>
-							</button>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let faculty of facultiesForSelection; let i = index">
-						<th>
+					<tr *ngFor="let faculty of faculties.value; let i = index">
+						<th scope="row">
 							<a [routerLink]="['/management/faculties/edit', faculty.slug]">{{faculty.name}}</a>
 						</th>
 						<td scope="row">
 							<div class="l-childrenhorizontal l-childrenhorizontal-right">
 								<button type="button"
 												class="button button-primaryghost"
-												(click)="selectFaculty(i)"
-								>Add Faculty
+												(click)="removeFacultyFromForm(i)"
+												[disabled-when-requesting]="true"
+								>Remove Faculty
+								</button>
+							</div>
+						</td>
+					</tr>
+					<tr *ngIf="faculties.value.length==0;">
+						<th scope="row">
+							<span>No Faculties</span>
+						</th>
+					</tr>
+					<tr>
+						<th scope="row">
+						</th>
+						<td scope="row">
+							<div *ngIf="!addingFacultiesForSelection" class="l-childrenhorizontal l-childrenhorizontal-right">
+								<button type="button"
+												class="button button-primaryghost"
+												(click)="triggerFacultyAddition()"
+												[disabled-when-requesting]="true"
+								>Add Faculties
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<br><br>
+	
+			<ng-container *ngIf="addingFacultiesForSelection">
+				<table  class="table">
+					<thead>
+						<tr>
+							<th> Select New Faculties </th>
+							<th scope="col">
+								Actions
+								<button style="float:right;"
+												(click)="stopAddingFaculties()"	> 
+									<span style="color:white;">X</span>
+								</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let faculty of facultiesForSelection; let i = index">
+							<th>
+								<a [routerLink]="['/management/faculties/edit', faculty.slug]">{{faculty.name}}</a>
+							</th>
+							<td scope="row">
+								<div class="l-childrenhorizontal l-childrenhorizontal-right">
+									<button type="button"
+													class="button button-primaryghost"
+													(click)="selectFaculty(i)"
+									>Add Faculty
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</ng-container>
+
+			<!--  Groups  -->
+
+			<table class='table'>
+				<thead>
+					<tr>
+						<th scope="col">Groups</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let group of groups.value; let i = index">
+						<th scope="row">
+							{{group.name}}
+						</th>
+						<td scope="row">
+							<div class="l-childrenhorizontal l-childrenhorizontal-right">
+								<button type="button"
+												class="button button-primaryghost"
+												(click)="removeGroupFromForm(i)"
+												[disabled-when-requesting]="true"
+								>Remove Group
+								</button>
+							</div>
+						</td>
+					</tr>
+					<tr *ngIf="groups.value.length==0;">
+						<th scope="row">
+							<span>No Groups</span>
+						</th>
+					</tr>
+					<tr>
+						<th scope="row">
+						</th>
+						<td scope="row">
+							<div *ngIf="!addingGroupsForSelection" class="l-childrenhorizontal l-childrenhorizontal-right">
+								<button type="button"
+												class="button button-primaryghost"
+												(click)="triggerGroupAddition()"
+												[disabled-when-requesting]="true"
+								>Add Groups
 								</button>
 							</div>
 						</td>
@@ -119,8 +171,41 @@ import { InstitutionApiService } from "./services/institution-api.service"
 				</tbody>
 			</table>
 			<br><br>
+	
+			<ng-container *ngIf="addingGroupsForSelection">
+				<table  class="table">
+					<thead>
+						<tr>
+							<th> Select New Groups </th>
+							<th scope="col">
+								Actions
+								<button style="float:right;"
+												(click)="stopAddingGroups()"	> 
+									<span style="color:white;">X</span>
+								</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let group of groupsForSelection; let i = index">
+							<th>
+								{{group.name}}
+							</th>
+							<td scope="row">
+								<div class="l-childrenhorizontal l-childrenhorizontal-right">
+									<button type="button"
+													class="button button-primaryghost"
+													(click)="selectGroup(i)"
+									>Add Group
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</ng-container>
-			
+
+			<br><br>
 
 			<div  class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 				<a [routerLink]="['/management/user']"
@@ -158,6 +243,10 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 	facultiesForSelection: Array<any>;
 	addingFacultiesForSelection: boolean = false;
 	
+	groupsForSelectionLoaded: Promise<any>;
+	groupsForSelection: Array<any>;
+	addingGroupsForSelection: boolean = false;
+	
 	savePromise: Promise<any> | null = null;
 
 	constructor(
@@ -169,6 +258,7 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		protected userProfileApi: UserProfileApiService,
 		protected messageService: MessageService,
 		protected institutionApi: InstitutionApiService,
+		protected groupApi: GroupApiService,
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Management - User");
@@ -177,8 +267,9 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 
 		this.userForm = formBuilder.group({
 			'slug' : [ '' ],
-			'faculties' : formBuilder.array([])
-		} as userForm<any[], FormArray>);
+			'faculties' : formBuilder.array([]),
+			'groups' : formBuilder.array([])
+		} as userForm<any[], FormArray, FormArray>);
 
 		this.userLoaded = this.userProfileApi.getUser(this.userSlug)
 		.then(
@@ -190,16 +281,24 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 
 	}
 
-	get editControls(): userForm<FormControl, FormArray> {
+	get editControls(): userForm<FormControl, FormArray, FormArray> {
 		return this.userForm.controls as any;
 	}
 
 	get faculties() {
 		return this.userForm.controls['faculties'] as FormArray;
 	}
+	
+	get groups() {
+		return this.userForm.controls['groups'] as FormArray;
+	}
 
 	stopAddingFaculties(){
 		this.addingFacultiesForSelection = false
+	}
+
+	stopAddingGroups(){
+		this.addingGroupsForSelection = false
 	}
 
 	addFacultyToForm(faculty){
@@ -210,11 +309,23 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 			this.editControls.faculties.push(fac)
 	}
 
+	addGroupToForm(permissionGroup){
+		let permGroup = this.formBuilder.group({
+			name: [ permissionGroup['name'] ],
+			slug: [ permissionGroup['slug'] ],
+			})
+			this.editControls.groups.push(permGroup)
+	}
+
 	initFormFromExistingUser(user){
 		this.editControls.slug.setValue(user['slug'], { emitEvent: false });
-		user['faculties'].sort(this.compareFaculties)
+		user['faculties'].sort(this.compareByName)
 		for (let faculty of user['faculties']){
 			this.addFacultyToForm(faculty)
+		}
+		user['groups'].sort(this.compareByName)
+		for (let group of user['groups']){
+			this.addGroupToForm(group)
 		}
 	}
 
@@ -224,7 +335,17 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		this.faculties.removeAt(index)
 		if (this.facultiesForSelection != undefined){
 			this.facultiesForSelection.push(removed_faculty)
-			this.facultiesForSelection.sort(this.compareFaculties)
+			this.facultiesForSelection.sort(this.compareByName)
+		}
+	}
+
+	removeGroupFromForm(index){
+		markControlsDirty(this.userForm.controls.groups)
+		let removed_group = this.groups.value[index]
+		this.groups.removeAt(index)
+		if (this.groupsForSelection != undefined){
+			this.groupsForSelection.push(removed_group)
+			this.groupsForSelection.sort(this.compareByName)
 		}
 	}
 
@@ -234,18 +355,42 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		this.addFacultyToForm(selectedFaculty[0])
 	}
 
+	selectGroup(index){
+		markControlsDirty(this.userForm.controls.groups)
+		let selectedGroup = this.groupsForSelection.splice(index, 1)
+		this.addGroupToForm(selectedGroup[0])
+	}
+
 	loadFacultiesForSelection(){
 		this.facultiesForSelectionLoaded = this.institutionApi.getAllFacultiesWithinScope()
 			.then((faculties) => {
 				this.facultiesForSelection = faculties
-				this.facultiesForSelection.sort(this.compareFaculties)
+				this.facultiesForSelection.sort(this.compareByName)
 				this.filterFacultiesForSelection()
+			})
+	}
+
+	loadGroupsForSelection(){
+		this.groupsForSelectionLoaded = this.groupApi.getAllGroupsWithinScope()
+			.then((groups) => {
+				this.groupsForSelection = groups
+				this.groupsForSelection.sort(this.compareByName)
+				this.filterGroupsForSelection()
 			})
 	}
 
 	facultyHasBeenSelected(slug){
 		for (let f of this.faculties.value){
 			if (f['slug'] == slug){
+				return true
+			}
+		}
+		return false
+	}
+
+	groupHasBeenSelected(slug){
+		for (let g of this.groups.value){
+			if (g['slug'] == slug){
 				return true
 			}
 		}
@@ -262,9 +407,24 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		}
 	}
 
+	filterGroupsForSelection(){
+		for (var i = 0; i < this.groupsForSelection.length; i++){
+			let group = this.groupsForSelection[i]
+			if (this.groupHasBeenSelected(group['slug'])){
+				this.groupsForSelection.splice(i, 1)
+				i -= 1
+			} 
+		}
+	}
+
 	triggerFacultyAddition(){
 		this.addingFacultiesForSelection = true
 		this.loadFacultiesForSelection()
+	}
+
+	triggerGroupAddition(){
+		this.addingGroupsForSelection = true
+		this.loadGroupsForSelection()
 	}
 
 	onSubmit(formState) {
@@ -284,13 +444,14 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		}
 	}
 
-	compareFaculties(a, b){
+	compareByName(a, b){
 		return a['name'].localeCompare(b['name'])
 	}
 
 }
 
-interface userForm<T, FacultyType> {
+interface userForm<T, FacultyType, GroupType> {
 	slug: T;
 	faculties: FacultyType;
+	groups: GroupType;
 }
