@@ -90,38 +90,49 @@ import { GroupApiService } from "../management/services/group-api.service";
 			</table>
 
 			<br><br>
-	
-			<ng-container *ngIf="addingFacultiesForSelection">
-				<table  class="table">
-					<thead>
-						<tr>
-							<th> Select New Faculties </th>
-							<th scope="col">
-								Actions
-								<button style="float:right;"
-												(click)="stopAddingFaculties()"	> 
-									<span style="color:white;">X</span>
-								</button>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let faculty of facultiesForSelection; let i = index">
-							<th>
-								<a [routerLink]="['/management/faculties/edit', faculty.slug]">{{faculty.name}}</a>
-							</th>
-							<td scope="row">
-								<div class="l-childrenhorizontal l-childrenhorizontal-right">
-									<button type="button"
-													class="button button-primaryghost"
-													(click)="selectFaculty(i)"
-									>Add Faculty
+
+			<ng-container *bgAwaitPromises='[facultiesForSelectionLoaded]'>
+				<ng-container *ngIf="addingFacultiesForSelection">
+					<table  class="table">
+						<thead>
+							<tr>
+								<th scope="col"> Select New Faculties </th>
+								<th scope="col">
+									<button style="float:right;"
+													(click)="stopAddingFaculties()"	> 
+										<span style="color:white;">X</span>
 									</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+								</th>
+							</tr>
+						</thead>
+						<tbody *ngIf="facultiesForSelection.length > 0">
+							<tr *ngFor="let faculty of facultiesForSelection; let i = index">
+								<th scope="row">
+									<a [routerLink]="['/management/faculties/edit', faculty.slug]">{{faculty.name}}</a>
+								</th>
+								<td scope="row">
+									<div class="l-childrenhorizontal l-childrenhorizontal-right">
+										<button type="button"
+														class="button button-primaryghost"
+														(click)="selectFaculty(i)"
+										>Add Faculty
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tbody *ngIf="facultiesForSelection.length == 0">
+							<tr>
+								<th scope="row">
+									No Faculties
+								</th>
+								<td scope="row">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br><br>
+				</ng-container>
 			</ng-container>
 
 			<!--  Groups  -->
@@ -172,37 +183,48 @@ import { GroupApiService } from "../management/services/group-api.service";
 			</table>
 			<br><br>
 	
-			<ng-container *ngIf="addingGroupsForSelection">
-				<table  class="table">
-					<thead>
-						<tr>
-							<th> Select New Groups </th>
-							<th scope="col">
-								Actions
-								<button style="float:right;"
-												(click)="stopAddingGroups()"	> 
-									<span style="color:white;">X</span>
-								</button>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr *ngFor="let group of groupsForSelection; let i = index">
-							<th>
-								{{group.name}}
-							</th>
-							<td scope="row">
-								<div class="l-childrenhorizontal l-childrenhorizontal-right">
-									<button type="button"
-													class="button button-primaryghost"
-													(click)="selectGroup(i)"
-									>Add Group
+
+			<ng-container *bgAwaitPromises="[groupsForSelectionLoaded]">
+				<ng-container *ngIf="addingGroupsForSelection">
+					<table  class="table">
+						<thead>
+							<tr>
+								<th> Select New Groups </th>
+								<th scope="col">
+									<button style="float:right;"
+													(click)="stopAddingGroups()"	> 
+										<span style="color:white;">X</span>
 									</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+								</th>
+							</tr>
+						</thead>
+						<tbody *ngIf="groupsForSelection.length > 0">
+							<tr *ngFor="let group of groupsForSelection; let i = index">
+								<th>
+									{{group.name}}
+								</th>
+								<td scope="row">
+									<div class="l-childrenhorizontal l-childrenhorizontal-right">
+										<button type="button"
+														class="button button-primaryghost"
+														(click)="selectGroup(i)"
+										>Add Group
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tbody *ngIf="groupsForSelection.length == 0">
+							<tr>
+								<th>
+									No Groups
+								</th>
+								<td scope="row">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</ng-container>
 			</ng-container>
 
 			<br><br>
