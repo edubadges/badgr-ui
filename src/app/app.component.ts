@@ -135,7 +135,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/users']">Users</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+							<li *ngIf="userMaySeeFaculties" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/faculties']">Faculties</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/lti']">LTI</a></li>
@@ -154,6 +154,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	userMaySeeIssuers: boolean = false;
 	userMaySeeEnrollments: boolean = false;
 	userMaySeeManagement: boolean = false;
+	userMaySeeFaculties: boolean = false;
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
 	currentPermissionLoaded: Promise<any>;
@@ -335,6 +336,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 		// Show Validana settings page if user has institution or faculty scope
 		this.userMaySeeValidana = current_user_permissions.includes('has_institution_scope') ||
 			current_user_permissions.includes('has_faculty_scope') || 
+			current_user_permissions.includes('is_superuser') ||
+			current_user_permissions.includes('is_staff');
+
+		this.userMaySeeFaculties = current_user_permissions.includes('has_institution_scope') ||
 			current_user_permissions.includes('is_superuser') ||
 			current_user_permissions.includes('is_staff');
 
