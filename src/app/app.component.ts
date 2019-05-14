@@ -342,15 +342,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 			current_user_permissions.includes('is_superuser') ||
 			current_user_permissions.includes('is_staff');
 
-<<<<<<< HEAD
 		this.userMaySeeFaculties = current_user_permissions.includes('has_institution_scope') ||
 			current_user_permissions.includes('is_superuser')
 
 		this.userMaySeeManagement = current_user_permissions.includes('view_management_tab');
-=======
-		this.userMaySeeManagement = current_user_permissions.includes('is_staff') ||
-			current_user_permissions.includes('is_superuser');
->>>>>>> adds management component and auth gards it
 
 		this.permissionsChecked = true	
 	}
