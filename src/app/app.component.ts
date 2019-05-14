@@ -137,6 +137,8 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 								<a [routerLink]="['/management/users']">Users</a></li>
 							<li *ngIf="userMaySeeFaculties" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/faculties']">Faculties</a></li>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/overview']">Overview</a></li>
 						</ul>
 					</li>
 					

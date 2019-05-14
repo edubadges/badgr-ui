@@ -7,6 +7,7 @@ import { ManagementUsersEditComponent } from "./management-users-edit.component"
 import { ManagementFacultiesEditComponent } from "./management-faculties-edit.component"
 import { ManagementFacultiesCreateComponent } from "./management-faculties-create.component"
 import { ManagementFacultiesListComponent } from "./management-faculties-list.component"
+import { ManagementOverviewComponent } from "./management-overview.component"
 import { InstitutionApiService } from "./services/institution-api.service"
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard";
@@ -50,6 +51,11 @@ const routes = [
 									HasInstitutionScope]
 	},
 	{
+		path: "overview",
+		component: ManagementOverviewComponent,
+		canActivate: [ViewManagementAuthGuard]
+	},
+	{
 		path: "**",
 		component: ManagementUsersListComponent,
 		canActivate: [ViewManagementAuthGuard]
@@ -70,6 +76,7 @@ const routes = [
 		ManagementFacultiesEditComponent,
 		ManagementFacultiesCreateComponent,
 		ManagementFacultiesListComponent,
+		ManagementOverviewComponent,
 	],
 	exports: [],
 	providers: [
