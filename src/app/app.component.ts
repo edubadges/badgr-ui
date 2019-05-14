@@ -123,10 +123,6 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/app-integrations']">App Integrations</a></li>
-								<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/validana/settings']">Validana</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
 					</li>
@@ -134,11 +130,13 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 						<button>Management</button>
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/overview']">Overview</a></li>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/users']">Users</a></li>
 							<li *ngIf="userMaySeeFaculties" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/faculties']">Faculties</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/management/overview']">Overview</a></li>
+							<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/validana/settings']">Validana</a></li>
 						</ul>
 					</li>
 					
