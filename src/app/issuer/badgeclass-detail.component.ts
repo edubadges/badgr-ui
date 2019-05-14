@@ -179,7 +179,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						<section *ngIf="badgeClass.extensions.LearningOutcomeExtension;">
 							<h1>Learning outcome</h1>
 							<show-more>
-								<p>{{ badgeClass.extensions.LearningOutcomeExtension.learningOutcome }}</p>
+								<markdown-display [value]="badgeClass.extensions.LearningOutcomeExtension.learningOutcome"></markdown-display>
 							</show-more>
 						</section>
 						

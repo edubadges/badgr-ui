@@ -44,7 +44,7 @@ export interface EduIDDialogOptions {
 })
 export class EduIDFailureDialog extends BaseDialog {
 	static defaultOptions = {
-		dialogTitle: "Your EduID account does not have you institution information.",
+		dialogTitle: "Your EduID account does not have your institution information.",
 		dialogBody: "Please login into you EduID account to add your institution account.",
 		rejectButtonLabel: "go back",
 		resolveButtonLabel: "Go to EduID",

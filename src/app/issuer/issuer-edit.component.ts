@@ -8,6 +8,7 @@ import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { UrlValidator } from "../common/validators/url.validator";
+import { EmailValidator } from "../common/validators/email.validator";
 import { Title } from "@angular/platform-browser";
 import { ApiIssuerForEditing } from "./models/issuer-api.model";
 import { markControlsDirty } from "../common/util/form-util";
@@ -77,12 +78,10 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 																 [options]="facultiesOptions"
 			        ></bg-formfield-select><br>
 
-			        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
-			                           [label]="'Contact Email'"
-			                           [placeholder]="'Please select a verified email'"
-			                           [options]="emailsOptions"
-			                           [errorMessage]="{required:'Please select a verified email'}"
-			        ></bg-formfield-select><br>
+							<bg-formfield-text 	[control]="issuerForm.controls.issuer_email"
+																	[label]="'Contact Email'"
+			                		        [errorMessage]="{required:'Please enter a valid email address'}"
+			        ></bg-formfield-text><br>
 
 			        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
 			                           [label]="'Description'"
@@ -189,7 +188,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	facultiesOptions: FormFieldSelectOption[];
 
 	editIssuerFinished: Promise<any>;
-	emailsLoaded: Promise<any>;
+	// emailsLoaded: Promise<any>;
 	issuerLoaded: Promise<any>;
 	facultiesLoaded: Promise<any>;
 	issuerExtensions: Object;
@@ -228,8 +227,8 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 				'',
 				Validators.compose([
 					Validators.required,
-					/*Validators.maxLength(75),
-					EmailValidator.validEmail*/
+					EmailValidator.validEmail
+					/*Validators.maxLength(75),*/
 				])
 			],
 			'issuer_url': [
@@ -278,17 +277,19 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 			}
 		);
 
-		this.emailsLoaded = this.profileManager.userProfilePromise
-			.then(profile => profile.emails.loadedPromise)
-			.then(emails => {
-				this.emails = emails.entities.filter(e => e.verified);
-				this.emailsOptions = this.emails.map((e) => {
-					return {
-						label: e.email,
-						value: e.email,
-					}
-				});
-			});
+		// this.emailsLoaded = this.profileManager.userProfilePromise
+		// 	.then(profile => profile.emails.loadedPromise)
+		// 	.then(emails => {
+		// 		this.emails = emails.entities.filter(e => e.verified);
+		// 		this.emailsOptions = this.emails.map((e) => {
+		// 			return {
+		// 				label: e.email,
+		// 				value: e.email,
+		// 			}
+		// 		});
+		// 	});
+
+
 
 		this.facultiesLoaded = this.profileManager.userProfilePromise
 			.then(profile => profile.faculties.loadedPromise)

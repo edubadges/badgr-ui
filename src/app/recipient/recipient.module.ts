@@ -38,7 +38,7 @@ const routes = [
 		component: RecipientEarnedBadgeDetailComponent
 	},
 	{
-		path: "enrollments",
+		path: "badge-requests",
 		component: RecipientEnrollmentListComponent
 	},
 

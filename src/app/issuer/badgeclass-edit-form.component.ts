@@ -366,7 +366,14 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							</div>
 
 							<div *ngIf="extension.controls.LearningOutcomeExtension">
-								<bg-formfield-text [multiline]="true" [control]="extension.controls.LearningOutcomeExtension.controls.learningOutcome" label="Please Type in the learning Outcome" ></bg-formfield-text>
+								
+								<bg-formfield-markdown
+								[control]="extension.controls.LearningOutcomeExtension.controls.learningOutcome"
+								label="Please Type in the learning Outcome" 
+								class="l-formsection-x-inputoffset"
+						></bg-formfield-markdown>
+
+
 								<button class="l-formsectionnested-x-remove formsectionremove"
 												(click)="removeExtension(extension)"
 												type="button"

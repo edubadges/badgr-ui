@@ -5,6 +5,7 @@ import { MessageService } from "../common/services/message.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { UrlValidator } from "../common/validators/url.validator";
+import { EmailValidator } from "../common/validators/email.validator";
 import { Title } from "@angular/platform-browser";
 import { ApiIssuerForCreation } from "./models/issuer-api.model";
 import { markControlsDirty } from "../common/util/form-util";
@@ -70,13 +71,11 @@ import {SystemConfigService} from "../common/services/config.service";
 																 [placeholder]="'No faculty selected'"
 																 [options]="facultiesOptions"
 			        ></bg-formfield-select><br>
-
-			        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
-			                           [label]="'Contact Email'"
-			                           [placeholder]="'Please select a verified email'"
-			                           [options]="emailsOptions"
-			                           [errorMessage]="{required:'Please select a verified email'}"
-			        ></bg-formfield-select><br>
+									   
+							<bg-formfield-text 	[control]="issuerForm.controls.issuer_email"
+																	[label]="'Contact Email'"
+			                		        [errorMessage]="{required:'Please enter a valid email address'}"
+			        ></bg-formfield-text><br>
 
 			        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
 			                           [label]="'Description'"
@@ -218,7 +217,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 				Validators.compose([
 					Validators.required,
 					Validators.maxLength(345),
-					/*EmailValidator.validEmail*/
+					EmailValidator.validEmail
 				])
 			],
 			'issuer_url': [
