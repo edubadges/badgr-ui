@@ -7,7 +7,7 @@ import { MessageService } from "../../common/services/message.service";
 
 
 @Injectable()
-export class GroupApiService extends BaseHttpApiService {
+export class ManagementApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
 		protected http: Http,

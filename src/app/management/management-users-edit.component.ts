@@ -8,7 +8,7 @@ import { MessageService } from "../common/services/message.service";
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from "@angular/forms";
 import { markControlsDirty } from "../common/util/form-util";
 import { InstitutionApiService } from "./services/institution-api.service"
-import { GroupApiService } from "../management/services/group-api.service";
+import { ManagementApiService } from "../management/services/management-api.service";
 
 
 @Component({
@@ -280,7 +280,7 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 		protected userProfileApi: UserProfileApiService,
 		protected messageService: MessageService,
 		protected institutionApi: InstitutionApiService,
-		protected groupApi: GroupApiService,
+		protected managementApi: ManagementApiService,
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Management - User");
@@ -393,7 +393,7 @@ export class ManagementUsersEditComponent extends BaseAuthenticatedRoutableCompo
 	}
 
 	loadGroupsForSelection(){
-		this.groupsForSelectionLoaded = this.groupApi.getAllGroupsWithinScope()
+		this.groupsForSelectionLoaded = this.managementApi.getAllGroupsWithinScope()
 			.then((groups) => {
 				this.groupsForSelection = groups
 				this.groupsForSelection.sort(this.compareByName)
