@@ -7,11 +7,7 @@ import { ManagementUsersEditComponent } from "./management-users-edit.component"
 import { ManagementFacultiesEditComponent } from "./management-faculties-edit.component"
 import { ManagementFacultiesCreateComponent } from "./management-faculties-create.component"
 import { ManagementFacultiesListComponent } from "./management-faculties-list.component"
-import { ManagementLTIClientCreateComponent } from "./management-lti-create.component"
-import { ManagementLTIClientListComponent } from "./management-lti-list.component"
-import { ManagementLTIClientEditComponent } from "./management-lti-edit.component"
 import { InstitutionApiService } from "./services/institution-api.service"
-import { LTIClientApiService } from "./services/lti-client-api.service"
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard";
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
@@ -33,21 +29,6 @@ const routes = [
 	{
 		path: "users/edit/:userSlug",
 		component: ManagementUsersEditComponent,
-		canActivate: [ViewManagementAuthGuard]
-	},
-	{
-		path: "lti",
-		component: ManagementLTIClientListComponent,
-		canActivate: [ViewManagementAuthGuard]
-	},
-	{
-		path: "lti/create",
-		component: ManagementLTIClientCreateComponent,
-		canActivate: [ViewManagementAuthGuard]
-	},
-	{
-		path: "lti/edit/:ltiClientSlug",
-		component: ManagementLTIClientEditComponent,
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
@@ -86,9 +67,6 @@ const routes = [
 	declarations: [
 		ManagementUsersListComponent,
 		ManagementUsersEditComponent,
-		ManagementLTIClientListComponent,
-		ManagementLTIClientCreateComponent,
-		ManagementLTIClientEditComponent,
 		ManagementFacultiesEditComponent,
 		ManagementFacultiesCreateComponent,
 		ManagementFacultiesListComponent,
@@ -97,7 +75,6 @@ const routes = [
 	providers: [
 		UserProfileApiService,
 		InstitutionApiService,
-		LTIClientApiService,	
 		ViewManagementAuthGuard,
 		HasInstitutionScope,
 		IssuerManager,
