@@ -1,3 +1,4 @@
+import { Endorsement } from './endorsement-api/validana/validana.model';
 import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
@@ -136,7 +137,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 							<li *ngIf="userMaySeeFaculties" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/faculties']">Faculties</a></li>
 							<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/validana/settings']">Validana</a></li>
+								<a [routerLink]="['/validana/settings']">Endorsement</a></li>
 						</ul>
 					</li>
 					
