@@ -21,6 +21,10 @@ export class ManagementApiService extends BaseHttpApiService {
 		return this.get(`/management/groups`)
 		.then(r => r.json())
 	}
-
+	
+	getFacultyStats(facultySlug: string): Promise<any[]> {
+		return this.get(`/management/faculty-stats/${facultySlug}`)
+		.then(r => r.json())
+	}
 
 }

@@ -14,6 +14,8 @@ import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard"
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { IssuerApiService } from "../issuer/services/issuer-api.service";
 import { ManagementApiService } from "../management/services/management-api.service";
+import { ChartsModule } from 'ng2-charts';
+
 
 const routes = [
 	/* institution */
@@ -69,6 +71,7 @@ const routes = [
 		RouterModule,
 		FormsModule,
 		ReactiveFormsModule,
+		ChartsModule,
 	],
 	declarations: [
 		ManagementUsersListComponent,
