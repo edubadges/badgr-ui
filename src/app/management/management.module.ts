@@ -8,6 +8,7 @@ import { ManagementFacultiesEditComponent } from "./management-faculties-edit.co
 import { ManagementFacultiesCreateComponent } from "./management-faculties-create.component"
 import { ManagementFacultiesListComponent } from "./management-faculties-list.component"
 import { ManagementOverviewComponent } from "./management-overview.component"
+import { ManagementFacultyOverviewComponent } from "./management-faculty-overview.component"
 import { InstitutionApiService } from "./services/institution-api.service"
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { ViewManagementAuthGuard, HasInstitutionScope } from "../auth/auth.gard";
@@ -58,6 +59,11 @@ const routes = [
 		canActivate: [ViewManagementAuthGuard]
 	},
 	{
+		path: "overview/faculty/:facultySlug",
+		component: ManagementFacultyOverviewComponent,
+		canActivate: [ViewManagementAuthGuard]
+	},
+	{
 		path: "**",
 		component: ManagementUsersListComponent,
 		canActivate: [ViewManagementAuthGuard]
@@ -80,6 +86,7 @@ const routes = [
 		ManagementFacultiesCreateComponent,
 		ManagementFacultiesListComponent,
 		ManagementOverviewComponent,
+		ManagementFacultyOverviewComponent,
 	],
 	exports: [],
 	providers: [
