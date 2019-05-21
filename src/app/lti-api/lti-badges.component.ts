@@ -35,13 +35,22 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 								</tr>
 							</thead>
 							<tbody>
+								
 								<tr *ngFor="let badge of currentLtiBadges">
-									<td scope="row">
-										<div class="l-childrenhorizontal l-childrenhorizontal-small">
+									<td>
+										<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.badgeClassEntityId}}
+													<span class="stack-x-image">
+														<img [loaded-src]="badge.image"
+																 
+																 width="40" />
+													</span>
 											
-											<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.badgeClassEntityId}}</a>
-										</div>
+											<span class="stack-x-text">
+														<span class="stack-x-title">{{ badge.name }}</span>
+													</span>
+										</a>
 									</td>
+									
 									
 								</tr>
 							</tbody>
