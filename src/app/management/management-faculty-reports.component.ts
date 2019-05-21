@@ -10,7 +10,7 @@ import { preloadImageURL } from "../common/util/file-util";
 
 
 @Component({
-	selector: 'managementFacultyOverview',
+	selector: 'ManagementFacultyReports',
 	template: `
 
 	<main>
@@ -18,7 +18,7 @@ import { preloadImageURL } from "../common/util/file-util";
 			<div class="heading">
 				<div *bgAwaitPromises="[facultyStatsLoaded]" class="heading-x-text">
 					<h1>{{faculty.name}}</h1>
-					<h2>Overview of Issuers belonging to this faculty</h2>
+					<h2>Reports of Issuers belonging to this faculty</h2>
 				</div>
 			</div>
 		</header>
@@ -128,7 +128,7 @@ import { preloadImageURL } from "../common/util/file-util";
 	</main>
 	`
 })
-export class ManagementFacultyOverviewComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class ManagementFacultyReportsComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerPlaceholderSrc = preloadImageURL(require('../../breakdown/static/images/placeholderavatar-issuer.svg'));
 	readonly badgeLoadingImageUrl = require('../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../breakdown/static/images/badge-failed.svg');

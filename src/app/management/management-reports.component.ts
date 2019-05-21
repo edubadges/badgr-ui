@@ -10,14 +10,14 @@ import { preloadImageURL } from "../common/util/file-util";
 
 
 @Component({
-	selector: 'managementOverview',
+	selector: 'managementReports',
 	template: `
 
 	<main>
 		<header class="wrap wrap-light l-containerhorizontal l-heading">
 			<div class="heading">
 				<div class="heading-x-text">
-					<h1>Overview <span *ngIf="faculties">{{ faculties?.length }} Faculties</span></h1>
+					<h1>Reports <span *ngIf="faculties">{{ faculties?.length }} Faculties</span></h1>
 				</div>
 			</div>
 
@@ -44,9 +44,9 @@ import { preloadImageURL } from "../common/util/file-util";
 								<div class="l-childrenhorizontal l-childrenhorizontal-right">
 									<button type="button"
 													class="button button-primaryghost"
-													[routerLink]="['/management/overview/faculty/', faculty.slug]"
+													[routerLink]="['/management/reports/faculty/', faculty.slug]"
 													[disabled-when-requesting]="true"
-									>Show Statistics
+									>Show Reports
 									</button>
 								</div>
 							</td>
@@ -58,7 +58,7 @@ import { preloadImageURL } from "../common/util/file-util";
 	</main>
 	`
 })
-export class ManagementOverviewComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class ManagementReportsComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
 	faculties: Array<any>;
 	facultiesLoaded: Promise<any>;

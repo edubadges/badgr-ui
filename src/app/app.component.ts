@@ -131,7 +131,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 						<button>Management</button>
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/management/overview']">Overview</a></li>
+								<a [routerLink]="['/management/reports']">Reporting</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/management/users']">Users</a></li>
 							<li *ngIf="userMaySeeFaculties" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
