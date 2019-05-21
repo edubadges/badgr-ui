@@ -9,6 +9,9 @@ export interface BadgeClassRef extends ApiEntityRef {}
 export interface ApiBadgeClassContextId {
 	badgeClassEntityId: string
 	contextId:string
+	name: string
+	image: string
+
 }
 
 export interface ApiBadgeClassJsonld {

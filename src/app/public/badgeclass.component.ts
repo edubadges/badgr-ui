@@ -24,7 +24,7 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 	template: `
 	<ng-template [bgAwaitPromises]="badgeIdParam">
 		<!-- Embedded View -->
-		<div class="l-cardembedded" *ngIf="embedService.isEmbedded">
+		<div class="l-cardembedded" *ngIf="embedService.isEmbedded && false">
 			<div class="card card-largeimage">
 				<a class="card-x-main" [href]="badgeClass.id" target="_blank">
 					<div class="card-x-image">
@@ -43,7 +43,7 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 		</div>
 
 		<!-- Regular View -->
-		<main *ngIf="! embedService.isEmbedded">
+		<main *ngIf="! embedService.isEmbedded || true">
 			<form-message></form-message>
 
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
