@@ -50,12 +50,7 @@ module.exports = {
             },
             text: 'Profile'
           },
-          {
-            context: {
-              modifier: 'menuitem-secondary'
-            },
-            text: 'App Integrations'
-          },
+
           {
             context: {
               modifier: 'menuitem-secondary'
@@ -112,12 +107,7 @@ module.exports = {
             },
             text: 'Profile'
           },
-          {
-            context: {
-              modifier: 'menuitem-secondary'
-            },
-            text: 'App Integrations'
-          },
+
           {
             context: {
               modifier: 'menuitem-secondary'
