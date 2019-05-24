@@ -124,8 +124,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/app-integrations']">App Integrations</a></li>
+							
 								<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/validana/settings']">Validana</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
