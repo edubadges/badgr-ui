@@ -30,6 +30,7 @@ export class LtiApiService extends BaseHttpApiService{
 		return response.json();
 	}
 
+
 	getAllContextIdBadgeClasses(
 		contextId:string
 	): Promise<ApiBadgeClassContextId[]> {
