@@ -38,17 +38,12 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 								
 								<tr *ngFor="let badge of currentLtiBadges">
 									<td>
-										<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.badgeClassEntityId}}
-													<span class="stack-x-image">
-														<img [loaded-src]="badge.image"
-																 
-																 width="40" />
-													</span>
-											
-											<span class="stack-x-text">
-														<span class="stack-x-title">{{ badge.name }}</span>
-													</span>
-										</a>
+											<div class="l-childrenhorizontal l-childrenhorizontal-small">
+												<img class="l-childrenhorizontal-x-offset"
+														 src="{{badge.image}}"
+														 width="40">
+												<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.name}}</a>
+											</div>
 									</td>
 									
 									
@@ -109,6 +104,7 @@ export class LtiBadgesComponent extends BaseAuthenticatedRoutableComponent imple
 	get ltiContextId(): string{
 		return this.currentContextId;
 	}
+
 
 
 }
