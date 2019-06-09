@@ -227,6 +227,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 					UrlValidator.validUrl
 				])
 			],
+			// 'issuer_faculty': formBuilder.group({}),
 			'issuer_faculty': [ '' ],
 			'issuer_image': [ '' ],
 			'issuer_extensions' : formBuilder.array([])
@@ -268,7 +269,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
-			'faculty': formState.issuer_faculty,
+			'faculty': JSON.parse(formState.issuer_faculty),
 			'extensions': this.extensionsEnabled ? formState.issuer_extensions : []
 		};
 

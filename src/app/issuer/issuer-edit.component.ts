@@ -322,7 +322,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
-			'faculty': formState.issuer_faculty,
+			'faculty': JSON.parse(formState.issuer_faculty),
 			'extensions': this.extensionsEnabled ? formState.issuer_extensions: [],
 		};
 
