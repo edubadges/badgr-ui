@@ -323,7 +323,7 @@ export class ShareSocialDialog extends BaseDialog {
 			: this.options.shareUrl;
 
 		let params = {};
-		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+		params[`identity__${this.options.recipientType || "id"}`] = this.options.recipientIdentifier;
 		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versioned_url, params) : versioned_url;
 	}
 
@@ -354,7 +354,7 @@ export class ShareSocialDialog extends BaseDialog {
 		);
 		if (this.includeRecipientIdentifier && this.options.recipientIdentifier) {
 			let params = {};
-			params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+			params[`identity__${this.options.recipientType || "id"}`] = this.options.recipientIdentifier;
 			embedUrlWithParams = addQueryParamsToUrl(embedUrlWithParams, params);
 		}
 
