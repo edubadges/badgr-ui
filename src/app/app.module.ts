@@ -78,10 +78,13 @@ const ROUTE_CONFIG: Routes = [
 	},
 
 	{
+		path: 'management',
+		loadChildren: './management/management.module#ManagementModule'
+	},
+	{
 		path: 'lti-badges',
 		loadChildren: './lti-api/lti-api.module#LtiApiModule'
 	},
-
 	// Legacy Auth Redirects
 	{
 		path: "login",

@@ -172,6 +172,12 @@
 
 }
 
+.card-no-hover {
+  &:hover {
+    box-shadow: 0 0px 0px 0 $color-dark4, 0 0 0px 0 $color-dark4;
+  }
+}
+
 .card-placeholder {
   border-style: dashed;
 

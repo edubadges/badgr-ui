@@ -1,3 +1,4 @@
+import { Endorsement } from './endorsement-api/validana/validana.model';
 import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
@@ -124,13 +125,25 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
-							
-								<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/validana/settings']">Validana</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
 					</li>
+					<li *ngIf="userMaySeeManagement" class="menuitem" routerLinkActive="menuitem-is-active">
+						<button>Management</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/reports']">Reporting</a></li>
+							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/users']">Users</a></li>
+							<li *ngIf="userMaySeeFaculties" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/management/faculties']">Faculties</a></li>
+							<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/validana/settings']">Endorsement</a></li>
+						</ul>
+					</li>
+					
+					
 				</ng-template>
 			</ul>
 		</nav>
@@ -141,6 +154,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	loggedIn: boolean = false;
 	userMaySeeIssuers: boolean = false;
 	userMaySeeEnrollments: boolean = false;
+	userMaySeeManagement: boolean = false;
+	userMaySeeFaculties: boolean = false;
 	isUnsupportedBrowser: boolean = false;
 	launchpoints: ApiExternalToolLaunchpoint[];
 	currentPermissionLoaded: Promise<any>;
@@ -326,6 +341,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 			current_user_permissions.includes('has_faculty_scope') || 
 			current_user_permissions.includes('is_superuser') ||
 			current_user_permissions.includes('is_staff');
+
+		this.userMaySeeFaculties = current_user_permissions.includes('has_institution_scope') ||
+			current_user_permissions.includes('is_superuser')
+
+		this.userMaySeeManagement = current_user_permissions.includes('view_management_tab');
 
 		this.permissionsChecked = true	
 	}

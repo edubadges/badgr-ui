@@ -57,3 +57,26 @@ export class ViewIssuerAuthGuard extends AuthGuard{
 		this.permission = 'view_issuer_tab'
 	}
 }
+
+@Injectable()
+export class ViewManagementAuthGuard extends AuthGuard{
+	constructor(
+		router: Router,
+		profileManager: UserProfileManager,
+		) {
+		super(router, profileManager)
+		this.permission = 'view_management_tab' 
+	}
+}
+
+
+@Injectable()
+export class HasInstitutionScope extends AuthGuard{
+	constructor(
+		router: Router,
+		profileManager: UserProfileManager,
+		) {
+		super(router, profileManager)
+		this.permission = 'has_institution_scope' 
+	}
+}

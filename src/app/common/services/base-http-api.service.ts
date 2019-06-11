@@ -178,7 +178,7 @@ export abstract class BaseHttpApiService {
 			}
 			else {
 				throw new BadgrApiError(
-					`${response._body} Expected 2xx response; got ${response.status}`,
+					`Expected 2xx response; got ${response.status}`,
 					response
 				);
 			}
