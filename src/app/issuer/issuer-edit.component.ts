@@ -188,7 +188,6 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	facultiesOptions: FormFieldSelectOption[];
 
 	editIssuerFinished: Promise<any>;
-	// emailsLoaded: Promise<any>;
 	issuerLoaded: Promise<any>;
 	facultiesLoaded: Promise<any>;
 	issuerExtensions: Object;
@@ -252,44 +251,19 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 				this.editControls.issuer_email.setValue(this.issuer.email, { emitEvent: false });
 				this.editControls.issuer_url.setValue(this.issuer.websiteUrl, { emitEvent: false });
 				this.editControls.issuer_image.setValue(this.issuer.image, { emitEvent: false });
+				delete this.issuer.faculty['slug']
 				this.editControls.issuer_faculty.setValue(JSON.stringify(this.issuer.faculty), { emitEvent: false });
+
+
 				for (let extension of Object.keys(this.issuer.extensions)){
 					(this.editControls.issuer_extensions as FormArray).push(this.initExtensionFromExisting(extension))
 				}
 				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");
 
-				/*this.badgesLoaded = new Promise((resolve, reject) => {
-					this.badgeClassService.badgesByIssuerUrl$.subscribe(
-						badgesByIssuer => {
-							this.badges = badgesByIssuer[this.issuer.issuerUrl];
-							resolve();
-						},
-						error => {
-							this.messageService.reportAndThrowError(
-								`Failed to load badges for ${this.issuer ? this.issuer.name : this.issuerSlug}`, error
-							);
-							resolve();
-						}
-					);
-				});*/
 			}, error => {
 				this.messageService.reportLoadingError(`Issuer '${this.issuerSlug}' does not exist.`, error);
 			}
 		);
-
-		// this.emailsLoaded = this.profileManager.userProfilePromise
-		// 	.then(profile => profile.emails.loadedPromise)
-		// 	.then(emails => {
-		// 		this.emails = emails.entities.filter(e => e.verified);
-		// 		this.emailsOptions = this.emails.map((e) => {
-		// 			return {
-		// 				label: e.email,
-		// 				value: e.email,
-		// 			}
-		// 		});
-		// 	});
-
-
 
 		this.facultiesLoaded = this.profileManager.userProfilePromise
 			.then(profile => profile.faculties.loadedPromise)
@@ -322,9 +296,12 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
-			'faculty': JSON.parse(formState.issuer_faculty),
 			'extensions': this.extensionsEnabled ? formState.issuer_extensions: [],
 		};
+
+		if (formState.issuer_faculty){
+			issuer['faculty'] = JSON.parse(formState.issuer_faculty)
+		}
 
 		if (formState.issuer_image && String(formState.issuer_image).length > 0) {
 			issuer.image = formState.issuer_image;
