@@ -14,7 +14,7 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 
 
 @Component({
-	selector: 'lti-badges',
+	selector: 'lti-badges-staff',
 	template:`
 		<main>
 			<form-message></form-message>
@@ -54,7 +54,9 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 						<p class="empty" *ngIf="! currentLtiBadges?.length">
 							There are no badges for this course
 						</p>
-						
+						<p>
+							<a [routerLink]="['/issuer/']">Voeg Badge toe aan cursus</a>
+						</p>
 					</div>
 				
 				
@@ -62,7 +64,7 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 		</main>
 	`,
 })
-export class LtiBadgesComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+export class LtiBadgesStaffComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
 
 	badges: Array<BadgeClass>;

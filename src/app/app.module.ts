@@ -22,6 +22,7 @@ import { ThemeApiService } from "../theming/services/theme-api.service";
 import { LtiApiService } from "./lti-api/services/lti-api.service";
 import { HttpClientModule } from '@angular/common/http';
 import { LtiBadgesComponent } from "./lti-api/lti-badges.component";
+import { LtiBadgesStaffComponent } from "./lti-api/lti-badges.component";
 
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because

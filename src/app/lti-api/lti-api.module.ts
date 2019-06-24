@@ -6,13 +6,17 @@ import { CommonEntityManagerModule } from "../entity-manager/entity-manager.modu
 import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
 import { LtiBadgesComponent } from "./lti-badges.component";
 import { LtiApiService } from "./services/lti-api.service";
+import { LtiBadgesStaffComponent } from "./lti-badges-staff.component";
 
 export const routes: Route[] = [
 	{
 		path: "",
 		component: LtiBadgesComponent
 	},
-
+	{
+		path: "staff",
+		component: LtiBadgesStaffComponent
+	},
 
 ];
 
@@ -25,7 +29,8 @@ export const routes: Route[] = [
 		EndorsementApiModule
 	],
 	declarations: [
-		LtiBadgesComponent
+		LtiBadgesComponent,
+		LtiBadgesStaffComponent
 	],
 	exports: [],
 	providers: [
