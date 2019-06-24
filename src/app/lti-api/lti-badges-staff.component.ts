@@ -54,9 +54,11 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 						<p class="empty" *ngIf="! currentLtiBadges?.length">
 							There are no badges for this course
 						</p>
-						<p>
-							<a [routerLink]="['/issuer/']">Voeg Badge toe aan cursus</a>
-						</p>
+						<div>
+							<p>
+								<a class="button button-primaryghost" [routerLink]="['/issuer/']">Voeg Badge toe aan cursus</a>
+							</p>
+						</div>
 					</div>
 				
 				
