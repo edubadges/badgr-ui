@@ -289,7 +289,7 @@ export class PublicBadgeAssertionComponent {
 		// const assertion_url = v == "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
 		const assertion_url = this.noJsonUrl
 		let url = `${this.configService.assertionVerifyUrl}?url=${assertion_url}`;
-		for (let identity_type of ['identity__email', 'identity__url', 'identity__telephone']) {
+		for (let identity_type of ['identity__email', 'identity__url', 'identity__telephone', 'identity__id']) {
 			let identity = this.queryParametersService.queryStringValue(identity_type)
 			if (identity) {
 				url = `${url}&${identity_type}=${identity}`;

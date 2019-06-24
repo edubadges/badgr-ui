@@ -29,7 +29,7 @@ import { Title } from "@angular/platform-browser";
 					<tr *ngFor="let user of users">
 						<th scope="row">
 							<div class="l-childrenhorizontal l-childrenhorizontal-small">
-								<a [routerLink]="['/management/users/edit', user.slug]">{{user.last_name}}, {{user.first_name}}</a>
+								<a [routerLink]="['/management/users/edit', user.slug]">{{user.email}}</a>
 							</div>
 						</th>
 						<td>
@@ -73,10 +73,7 @@ export class ManagementUsersListComponent extends BaseAuthenticatedRoutableCompo
 	}
 
 	compareUsers(a, b){
-		let value = a['last_name'].localeCompare(b['last_name'])
-		if (value == 0){
-			return a['first_name'].localeCompare(b['first_name'])
-		}
+		let value = a['email'].localeCompare(b['email'])
 		return value
 	}
 
