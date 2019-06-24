@@ -24,7 +24,7 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 	
 					<!-- Badge Class List =============================================================================================-->
 					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
-						<h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Badge Classes available for this course</h2>
+						<h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Badges die beschikbaar zijn voor deze cursus</h2>
 					</header>
 					<div class="l-overflowhorizontal" *bgAwaitPromises="[badgesLoaded]">
 						<table class="table" *ngIf="currentLtiBadges?.length">
