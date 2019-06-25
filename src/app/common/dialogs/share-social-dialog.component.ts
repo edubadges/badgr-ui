@@ -52,7 +52,7 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 						<label class="formcheckbox" for="form-checkbox">
 							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
-							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include eduID Identifier: {{ options.recipientIdentifier }}</span>
 						</label>
 					</div>
 				</div>
@@ -107,7 +107,7 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 						<label class="formcheckbox" for="form-checkbox">
 							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
-							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include eduID Identifier: {{ options.recipientIdentifier }}</span>
 						</label>
 					</div>
 				</div>
@@ -167,7 +167,7 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 
 						<label class="formcheckbox" for="form-checkbox">
 							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
-							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include eduID Identifier: {{ options.recipientIdentifier }}</span>
 						</label>
 						
 						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox1">
