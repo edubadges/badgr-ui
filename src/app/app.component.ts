@@ -231,7 +231,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		messageService.useRouter(router);
 
 		this.initScrollFix();
-		this.initAnalytics();
+		// this.initAnalytics();
 
 		const authCode = this.queryParams.queryStringValue("authCode", true);
 		if (sessionService.isLoggedIn && !authCode) {
@@ -285,23 +285,23 @@ export class AppComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	private initAnalytics() {
-		if (this.configService.googleAnalyticsConfig.trackingId) {
-			(function (i, s, o, g, r, a?, m?) {
-				i[ 'GoogleAnalyticsObject' ] = r;
-				i[ r ] = i[ r ] || function () {
-					(i[ r ].q = i[ r ].q || []).push(arguments)
-				}, i[ r ].l = 1 * (new Date() as any);
-				a = s.createElement(o),
-					m = s.getElementsByTagName(o)[ 0 ];
-				a.async = 1;
-				a.src = g;
-				m.parentNode.insertBefore(a, m)
-			})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+	// private initAnalytics() {
+	// 	if (this.configService.googleAnalyticsConfig.trackingId) {
+	// 		(function (i, s, o, g, r, a?, m?) {
+	// 			i[ 'GoogleAnalyticsObject' ] = r;
+	// 			i[ r ] = i[ r ] || function () {
+	// 				(i[ r ].q = i[ r ].q || []).push(arguments)
+	// 			}, i[ r ].l = 1 * (new Date() as any);
+	// 			a = s.createElement(o),
+	// 				m = s.getElementsByTagName(o)[ 0 ];
+	// 			a.async = 1;
+	// 			a.src = g;
+	// 			m.parentNode.insertBefore(a, m)
+	// 		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-			window[ "ga" ]('create', this.configService.googleAnalyticsConfig.trackingId, 'auto');
-		}
-	}
+	// 		window[ "ga" ]('create', this.configService.googleAnalyticsConfig.trackingId, 'auto');
+	// 	}
+	// }
 
 	ngOnInit() {
 		this.loggedIn = this.sessionService.isLoggedIn;
