@@ -108,6 +108,37 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 								</div>
 							</section>
 
+							<section *ngIf="badgeClass.ECTSExtension;">
+								<h1>ECTS</h1>
+								<show-more>
+									<p>{{ badgeClass.ECTSExtension.ECTS }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badgeClass.LanguageExtension;">
+								<h1>Language</h1>
+								<show-more>
+									<p>{{badgeClass.LanguageExtension.language }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badgeClass.EducationProgramIdentifierExtension;">
+								<h1>{{ badgeClass.EducationProgramIdentifierExtension.identifierType }}</h1>
+								<show-more>
+									<p>{{ badgeClass.EducationProgramIdentifierExtension.identifierValue }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badgeClass.NiveauExtension;">
+								<h1>EQF</h1>
+								<show-more>
+									<p>{{ badgeClass.NiveauExtension.EQF }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badgeClass.LearningOutcomeExtension;">
+								<h1>Learning outcome</h1>
+								<show-more>
+									<markdown-display [value]="badgeClass.LearningOutcomeExtension.learningOutcome"></markdown-display>
+								</show-more>
+							</section>
+				
 							<!-- Show badge class endorsements -->
 							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 								<endorsements-badgeclass [badgeclass]="badgeClass" style="width:100%;"></endorsements-badgeclass>
