@@ -8,6 +8,7 @@ import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { EmailValidator, ValidationResult } from "../common/validators/email.validator";
+import { DateValidator } from "../common/validators/date.validator";
 import { UrlValidator } from "../common/validators/url.validator";
 import { MdImgValidator } from "../common/validators/md-img.validator";
 
@@ -19,7 +20,6 @@ import {Issuer} from "./models/issuer.model";
 import {BadgeClass} from "./models/badgeclass.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
-// import { RecipientIdentifierType } from "./models/badgeinstance-api.model";
 import { typedGroup } from "../common/util/typed-forms";
 import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
@@ -62,7 +62,7 @@ import * as sanitizeHtml from "sanitize-html";
 					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Badge Requests</h3>
 					<br>
 					<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
-					<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, cancelling them can only be done through revokation.</p>
+					<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, canceling them can only be done through revokation of a badge.</p>
 					<div *ngIf="!issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
 						<h4 class="title title-bordered">No badge requests.</h4>
 					</div>
@@ -71,9 +71,27 @@ import * as sanitizeHtml from "sanitize-html";
 
 					<!-- Enrollments -->
 						<div  class="l-formsection-x-inputs">
+							<label class="formcheckbox">
+								<input 
+										name="form-checkbox2" 
+										id="form-checkbox2" 
+										type="checkbox" 
+										[formControl]="issueForm.controls.expires.untypedControl">
+								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Set an expiration date.</span>
+							</label>
+							<div *ngIf="issueForm.controls.expires.untypedControl.value">
+								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">The expiration date will only be set for the badges that you will award next.</span>
+								<br><br>
+								<dp-date-picker
+									[formControl]="issueForm.controls.expires_at.untypedControl"
+									[dpDayPicker]="expirationDatePickerConfig"
+									
+								></dp-date-picker>
+								<span *ngIf="hasDateError" class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Date must be set in the future.</span>
+							</div>
+
 							<div *ngIf="issueForm.controls.recipients.controls.length">
 								<hr class="rule l-rule">
-								<h4 class="title title-bordered" id="heading-badgeawarding">Badge Requests</h4>
 								<br>
 								<button type="button"
 									class="button button-right"
@@ -314,12 +332,12 @@ import * as sanitizeHtml from "sanitize-html";
 })
 export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
-
-
 	issuer: Issuer;
 	issueForm = typedGroup()
 		.addControl("narrative", "", MdImgValidator.imageTest)
 		.addControl("notify_earner", true)
+		.addControl("expires_at", undefined)
+		.addControl("expires", false)
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "")
@@ -347,10 +365,12 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	issuerLoaded: Promise<any>;
 	badgeClassLoaded: Promise<any>;
 
+	hasDateError = false
 	evidenceEnabled = false;
 	narrativeEnabled = false;
 	enrolledStudents = [];
 	showDeniedEnrollments = false;
+	expirationDatePickerConfig: object;
 
 	constructor(
 		protected title: Title,
@@ -416,6 +436,13 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	listener_is_on = false
 	awardButtonEnabled = false
 	onFormChange(){
+		if (this.issueForm.controls.expires_at.invalid) {
+			console.log('invalid', this.issueForm.controls.expires_at.invalid)
+			this.hasDateError = true
+		} else {
+			console.log('valid', this.issueForm.controls.expires_at.invalid)
+			this.hasDateError = false
+		}
 		if (this.issueForm.controls.recipients){
 			let oneIsSelected = false
 			for (let recipient of this.issueForm.controls.recipients.controls){
@@ -432,6 +459,13 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	enableFormListener(){
 		if (!this.listener_is_on){
 			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange())
+			this.issueForm.controls.expires.untypedControl.valueChanges.subscribe(checked => {
+				if (checked) {
+					this.issueForm.controls.expires_at.untypedControl.setValidators([Validators.required, DateValidator.validDate])
+				} else {
+					this.issueForm.controls.expires_at.untypedControl.setValidators(null)
+				}
+			})
 		}
 	}
 
@@ -487,7 +521,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 					create_notification: formState.notify_earner,
 					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
 					recipients: this.extractRecipients(),
-					// extensions: extensions
+					expires_at: formState.expires ? formState.expires_at : ""
 				}
 			).then(() => this.badge_class.update())
 				.then(() => {
@@ -592,6 +626,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		if (!this.issueForm.valid) {
 			ev.preventDefault();
 			this.issueForm.markTreeDirty();
+			setTimeout(() => {
+				window.scrollTo(0,0);
+				this.messageService.reportHandledError("There were errors in your submission. Please review and try again.")
+			});
 		}
 	}
 }

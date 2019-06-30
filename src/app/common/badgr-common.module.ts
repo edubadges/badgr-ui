@@ -20,6 +20,7 @@ import { FormMessageComponent } from "./components/form-message.component";
 import { FormFieldText } from "./components/formfield-text";
 import { FormFieldMarkdown } from "./components/formfield-markdown";
 import { FormFieldSelect } from "./components/formfield-select";
+import { DpDatePickerModule } from "ng2-date-picker";
 import { LoadingDotsComponent } from "./components/loading-dots.component";
 import { LoadingErrorComponent } from "./components/loading-error.component";
 import { BgIssuerLinkComponent } from "./components/issuer-link.component";
@@ -37,7 +38,6 @@ import { UcFirstPipe } from "./pipes/ucfirst.pipe";
 
 import { MarkdownToHtmlModule } from "markdown-to-html-pipe";
 import { Autosize } from "angular2-autosize/src/autosize.directive";
-//import { TooltipDirective } from "./directives/tooltip.directive";
 import { BgCopyInputDirective } from "./directives/bg-copy-input.directive";
 import { ShareSocialDialog } from "./dialogs/share-social-dialog.component";
 import { TimeComponent } from "./components/time.component";
@@ -68,7 +68,6 @@ const DIRECTIVES = [
 	ScrollPinDirective,
 	BgCopyInputDirective,
 	Autosize,
-	//TooltipDirective,
 ];
 
 const COMPONENTS = [
@@ -132,6 +131,7 @@ export const COMMON_IMPORTS = [
 	ReactiveFormsModule,
 	HttpModule,
 	RouterModule,
+	DpDatePickerModule,
 ];
 
 @NgModule({

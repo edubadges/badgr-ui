@@ -31,6 +31,7 @@ export interface ApiBadgeInstanceForCreation {
 	badge_class: BadgeClassUrl
 	narrative?: string
 	create_notification?: boolean
+	expires_at?: string
 	evidence_items?: ApiBadgeInstanceEvidenceItem[]
 	extensions?: object
 	recipients?: ApiBadgeInstanceRecipient[]
