@@ -70,16 +70,16 @@ import * as sanitizeHtml from "sanitize-html";
 					<div class="l-formsection-x-container">
 
 					<!-- Enrollments -->
-						<div  class="l-formsection-x-inputs">
+						<div *ngIf="issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
 							<label class="formcheckbox">
 								<input 
 										name="form-checkbox2" 
 										id="form-checkbox2" 
 										type="checkbox" 
-										[formControl]="issueForm.controls.expires.untypedControl">
+										[formControl]="issueForm.controls.does_expire.untypedControl">
 								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Set an expiration date.</span>
 							</label>
-							<div *ngIf="issueForm.controls.expires.untypedControl.value">
+							<div *ngIf="issueForm.controls.does_expire.untypedControl.value">
 								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">The expiration date will only be set for the badges that you will award next.</span>
 								<br><br>
 								<dp-date-picker
@@ -337,7 +337,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addControl("narrative", "", MdImgValidator.imageTest)
 		.addControl("notify_earner", true)
 		.addControl("expires_at", undefined)
-		.addControl("expires", false)
+		.addControl("does_expire", false)
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "")
@@ -437,10 +437,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	awardButtonEnabled = false
 	onFormChange(){
 		if (this.issueForm.controls.expires_at.invalid) {
-			console.log('invalid', this.issueForm.controls.expires_at.invalid)
 			this.hasDateError = true
 		} else {
-			console.log('valid', this.issueForm.controls.expires_at.invalid)
 			this.hasDateError = false
 		}
 		if (this.issueForm.controls.recipients){
@@ -459,7 +457,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	enableFormListener(){
 		if (!this.listener_is_on){
 			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange())
-			this.issueForm.controls.expires.untypedControl.valueChanges.subscribe(checked => {
+			this.issueForm.controls.does_expire.untypedControl.valueChanges.subscribe(checked => {
 				if (checked) {
 					this.issueForm.controls.expires_at.untypedControl.setValidators([Validators.required, DateValidator.validDate])
 				} else {
@@ -521,7 +519,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 					create_notification: formState.notify_earner,
 					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
 					recipients: this.extractRecipients(),
-					expires_at: formState.expires ? formState.expires_at : ""
+					expires_at: formState.does_expire ? formState.expires_at : ""
 				}
 			).then(() => this.badge_class.update())
 				.then(() => {
