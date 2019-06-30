@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - tba
+ - shows extensions in public badgeclass page
+ - adds expiation date option in award badgeclass page 
+
 ## [1.0.2] - 2019-06-11
   - add management dashboard
   - fixes url sent to badgecheck
   - makes error messages less vebose, no more screen filling messages
   - adds EduID registration button to login
+  - lti
 
 
 ## [1.0.2] - 2019-02-19
