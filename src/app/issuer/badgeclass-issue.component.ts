@@ -84,8 +84,6 @@ import * as sanitizeHtml from "sanitize-html";
 								<br><br>
 								<dp-date-picker
 									[formControl]="issueForm.controls.expires_at.untypedControl"
-									[dpDayPicker]="expirationDatePickerConfig"
-									
 								></dp-date-picker>
 								<span *ngIf="hasDateError" class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Date must be set in the future.</span>
 							</div>
@@ -370,7 +368,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	narrativeEnabled = false;
 	enrolledStudents = [];
 	showDeniedEnrollments = false;
-	expirationDatePickerConfig: object;
 
 	constructor(
 		protected title: Title,
@@ -603,6 +600,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	onSubmit(){
 		const formState = this.issueForm.value;
+		formState.expires_at = formState.expires_at.format('DD/MM/YYYY')  // force remove timezone
 		this.awardBadges(formState)
 	}
 

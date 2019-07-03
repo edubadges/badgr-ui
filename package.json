@@ -102,7 +102,7 @@
     "jasmine-promises": "0.4.1",
     "markdown-to-html-pipe": "^1.2.0",
     "ng2-charts": "1.6.0",
-    "ng2-date-picker": "^2.11.0",
+    "ng2-date-picker": "2.8.1",
     "ngc": "^1.0.0",
     "postcss-cssnext": "2.10.0",
     "reflect-metadata": "0.1.10",

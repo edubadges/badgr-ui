@@ -7,14 +7,13 @@ export type ValidationResult = null | {
 
 function checkSelectedDate(date){
 
-	let selected_date = date.split('-')
-	let selected_day = Number(selected_date[0])
-	let selected_month = Number(selected_date[1])
-	let selected_year = Number(selected_date[2])
+	let selected_day = date.day()
+	let selected_month = date.month() //January is 0!
+	let selected_year = date.year()
 
 	let date_today = new Date();
 	let day_now = String(date_today.getDate());
-	let month_now = String(date_today.getMonth() + 1); //January is 0!
+	let month_now = String(date_today.getMonth()); //January is 0!
 	let year_now = date_today.getFullYear();
 	if (Number(day_now) < 10) {
 		day_now = '0' + String(day_now);
