@@ -40,11 +40,18 @@ export class ThemeApiService extends BaseHttpApiService{
 			let base_url = this.configService.apiConfig.baseUrl
 			window['badgrTheme'].logoImg.small = base_url + theme.logoImg.small;
 			window['badgrTheme'].logoImg.desktop = base_url + theme.logoImg.desktop;
-			window['badgrTheme'].termsOfServiceLink = theme.termsOfServiceLink;
+			// window['badgrTheme'].termsOfServiceLink = theme.termsOfServiceLink;
 			window['badgrTheme'].welcomeMessage = theme.welcomeMessage;
-			window['badgrTheme'].privacyPolicyLink = theme.privacyPolicyLink;
+			// window['badgrTheme'].privacyPolicyLink = theme.privacyPolicyLink;
 			window['badgrTheme'].showPoweredByBadgr = theme.showPoweredByBadgr;
 			window['badgrTheme'].showApiDocsLink = theme.showApiDocsLink;
+			window['badgrTheme'].consent_apply_badge= theme.consent_apply_badge;
+			window['badgrTheme'].consent_apply_badge_en = theme.consent_apply_badge_en;
+			window['badgrTheme'].privacy_statement = theme.privacy_statement;
+			window['badgrTheme'].privacy_statement_en = theme.privacy_statement_en;
+			window['badgrTheme'].language_detected = theme.language_detected;
+			window['badgrTheme'].dutch_language_codes = theme.dutch_language_codes;
+
 		}
 	}
 }
