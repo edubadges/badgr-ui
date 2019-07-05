@@ -14,6 +14,8 @@ import { PublicIssuerComponent } from "./issuer.component";
 import { PublicBadgeCollectionComponent } from "./badge-collection.component";
 import { PublicPrivacyPolicyComponent } from "./privacy-policy.component";
 import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
+import {MarkdownToHtmlModule} from 'markdown-to-html-pipe';
+
 
 export const routes: Route[] = [
 	{
@@ -56,7 +58,8 @@ export const routes: Route[] = [
 		BadgrCommonModule,
 		CommonEntityManagerModule,
 		RouterModule.forChild(routes),
-		EndorsementApiModule
+		EndorsementApiModule,
+		MarkdownToHtmlModule
 	],
 	declarations: [
 		PublicComponent,
