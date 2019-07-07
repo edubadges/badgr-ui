@@ -195,7 +195,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							>Award Badge</a>
 							<br>
 						</div>
-						<div style='display: inline-block;' class="heading-x-text">
+						<div *bgAwaitPromises='[enrollmentsLoaded]' style='display: inline-block;' class="heading-x-text">
 							<h3 *ngIf="!enrollments.length">No Badge Requests</h3>
 							<h3 *ngIf="enrollments.length == 1">{{enrollments.length}} Badge Request</h3>
 							<h3 *ngIf="enrollments.length > 1">{{enrollments.length}} Badge Requests</h3>
@@ -311,6 +311,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	issuerLoaded: Promise<any>;
 	showAssertionCount: boolean = false;
 	enrollments: object;
+	enrollmentsLoaded: Promise<any>;
 
 	get issuerSlug() {
 		return this.route.snapshot.params['issuerSlug'];
@@ -352,7 +353,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 				this.badgeClass = badge;
 				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - Badgr`);
 				this.loadInstances();
-				this.studentsEnrolledApiService.getEnrolledStudents(this.badgeSlug)
+				this.enrollmentsLoaded = this.studentsEnrolledApiService.getEnrolledStudents(this.badgeSlug)
 					.then(r => {
 						this.enrollments = r.filter(function(i){return !i.denied})
 					})
