@@ -13,7 +13,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 import { BadgeInstanceManager } from "./services/badgeinstance-manager.service";
 import { BadgeClassInstances, BadgeInstance } from "./models/badgeinstance.model";
 
-
+import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { preloadImageURL } from "../common/util/file-util";
@@ -186,14 +186,21 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 						
 					</div>
 					
-					<div class="heading-x-actions">
-						<a class="button button-major"
-						   [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"
-						   [disabled-when-requesting]="true"
-							 *ngIf="issuer.canAwardBadge"
-						>Award Badge</a>
+					<div style="text-align:center;">
+						<div class="heading-x-actions">
+							<a class="button button-major"
+								[routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"
+								[disabled-when-requesting]="true"
+								*ngIf="issuer.canAwardBadge"
+							>Award Badge</a>
+							<br>
+						</div>
+						<div style='display: inline-block;' class="heading-x-text">
+							<h3 *ngIf="!enrollments.length">No Badge Requests</h3>
+							<h3 *ngIf="enrollments.length == 1">{{enrollments.length}} Badge Request</h3>
+							<h3 *ngIf="enrollments.length > 1">{{enrollments.length}} Badge Requests</h3>
+						</div>
 					</div>
-
 				</div>
 
 			</header>
@@ -303,6 +310,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	assertionsLoaded: Promise<any>;
 	issuerLoaded: Promise<any>;
 	showAssertionCount: boolean = false;
+	enrollments: object;
 
 	get issuerSlug() {
 		return this.route.snapshot.params['issuerSlug'];
@@ -326,6 +334,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		protected badgeManager: BadgeClassManager,
 		protected issuerManager: IssuerManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
+		protected studentsEnrolledApiService: StudentsEnrolledApiService,
 		sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
@@ -343,6 +352,10 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 				this.badgeClass = badge;
 				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - Badgr`);
 				this.loadInstances();
+				this.studentsEnrolledApiService.getEnrolledStudents(this.badgeSlug)
+					.then(r => {
+						this.enrollments = r.filter(function(i){return !i.denied})
+					})
 			},
 			error => this.messageService.reportLoadingError(`Cannot find badge ${this.issuerSlug} / ${this.badgeSlug}`,
 				error)
