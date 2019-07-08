@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer2 } from "@angular/core";
 
 import { SystemConfigService } from "../services/config.service";
 import { BaseDialog } from './base-dialog';
+import { SessionService } from "../services/session.service";
 
 @Component({
 	selector: 'enrollment-consent-dialog',
@@ -9,6 +10,12 @@ import { BaseDialog } from './base-dialog';
     <dialog class="dialog dialog-large dialog-confirm">
         <header class="heading heading-small l-container">
 					<div class="heading-x-text">
+						<div>
+							<button class="button" (click)="openInOtherLanguage()">{{ switchLanguageText}}</button>
+							<br><br><br>
+						</div>
+						
+						
 						<markdown-display value="{{options.dialogBody}}">  </markdown-display>
 					</div>
         </header>
@@ -29,24 +36,32 @@ export class EnrollmentConsentDialog extends BaseDialog {
 		showCloseBox: true,
 		showRejectButton: true
 	};
-
+	switchLanguageText = ''
+	currentLangNl = false;
 	options = EnrollmentConsentDialog.defaultOptions;
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-
+	link_text_dutch()
 	get currentTheme() { return this.configService.currentTheme }
+
 
 	constructor(
 		private configService: SystemConfigService,
+		sessionService: SessionService,
 		componentElem: ElementRef,
 		renderer: Renderer2,
 	) {
 		super(componentElem, renderer);
+		this.currentLangNl = this.currentTheme.dutch_language_codes.includes(this.currentTheme.language_detected);
 	}
 
 	openConsentDialog(): Promise<void> {
 		let options = {dialogBody: this.currentTheme.consent_apply_badge};
-		if(!(this.currentTheme.dutch_language_codes.includes(this.currentTheme.language_detected ))) {
+		EnrollmentConsentDialog.defaultOptions.rejectButtonLabel = 'Ik geef geen toestemming';
+		EnrollmentConsentDialog.defaultOptions.resolveButtonLabel = 'Ik geef toestemming';
+		this.switchLanguageText = 'View in English';
+		if(!(this.currentLangNl )) {
+			this.switchLanguageText = 'Bekijk in het Nederlands';
 			options = {dialogBody: this.currentTheme.consent_apply_badge_en};
 			EnrollmentConsentDialog.defaultOptions.rejectButtonLabel = 'I DO NOT CONSENT';
 			EnrollmentConsentDialog.defaultOptions.resolveButtonLabel = 'I CONSENT';
@@ -72,5 +87,24 @@ export class EnrollmentConsentDialog extends BaseDialog {
 			this.rejectFunc();
 		}
 	}
+
+	openInOtherLanguage(){
+		this.closeModal();
+		this.currentLangNl = !this.currentLangNl;
+		if(this.currentLangNl) {
+			this.switchLanguageText = 'View in English';
+		}
+		else{
+			this.switchLanguageText = 'Bekijk in het Nederlands';
+		}
+		this.openConsentDialog().then(
+			() => {
+				this.sessionService.initiateUnauthenticatedExternalAuth(this.provider)
+			},
+			() => void 0
+		);
+
+	}
+
 
 }
