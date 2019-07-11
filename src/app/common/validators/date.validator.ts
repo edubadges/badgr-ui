@@ -7,7 +7,7 @@ export type ValidationResult = null | {
 
 function checkSelectedDate(date){
 
-	let selected_day = date.day()
+	let selected_day = date.date()
 	let selected_month = date.month() //January is 0!
 	let selected_year = date.year()
 
