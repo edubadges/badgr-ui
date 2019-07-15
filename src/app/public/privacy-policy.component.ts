@@ -92,7 +92,8 @@ export class PublicPrivacyPolicyComponent{
 	constructor(
 		private configService: SystemConfigService,
 
-	) {
+	)
+	{
 		this.configService = configService;
 		this.currentLangNl = this.currentTheme.dutch_language_codes.includes(this.currentTheme.language_detected);
 

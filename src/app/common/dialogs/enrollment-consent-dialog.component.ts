@@ -78,6 +78,7 @@ export class EnrollmentConsentDialog extends BaseDialog {
 		});
 	}
 
+
 	closeDialog(result: boolean) {
 		this.closeModal();
 
