@@ -10,19 +10,23 @@ import { PublicBadgeAssertionComponent } from "./badge-assertion.component";
 import { PublicApiService } from "./services/public-api.service";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 import { PublicBadgeClassComponent } from "./badgeclass.component";
+import { AcceptStaffMembershipComponent } from "./accept-staff-membership.component"
 import { PublicIssuerComponent } from "./issuer.component";
 import { PublicBadgeCollectionComponent } from "./badge-collection.component";
 import { PublicPrivacyPolicyComponent } from "./privacy-policy.component";
 import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
 import {MarkdownToHtmlModule} from 'markdown-to-html-pipe';
-
+import { IssuerApiService } from 'app/issuer/services/issuer-api.service';
 
 export const routes: Route[] = [
 	{
 		path: "",
 		component: PublicComponent
 	},
-
+	{
+		path: "accept-staff-membership/:code",
+		component: AcceptStaffMembershipComponent
+	},
 	{
 		path: "assertions/:assertionId",
 		component: PublicBadgeAssertionComponent
@@ -67,13 +71,15 @@ export const routes: Route[] = [
 		PublicBadgeClassComponent,
 		PublicIssuerComponent,
 		PublicBadgeCollectionComponent,
-		PublicPrivacyPolicyComponent
+		PublicPrivacyPolicyComponent,
+		AcceptStaffMembershipComponent
 	],
 	exports: [],
 	providers: [
 		PublicApiService,
 		StudentsEnrolledApiService,
 		UserProfileApiService,
+		IssuerApiService,
 	]
 })
 export class PublicModule {}
