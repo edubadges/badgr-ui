@@ -66,13 +66,13 @@ import { SystemConfigService } from "../common/services/config.service";
 export class PublicPrivacyPolicyComponent{
 
 	currentLangNl = true;
-	switchLanguageText = 'Bekijk '
+	switchLanguageText = 'Bekijk in het Nederlands'
 
-	get currentTheme() {
+	get currentTheme():any {
 		return this.configService.currentTheme;
 	}
 
-	get getPrivacyPolicy(){
+	get getPrivacyPolicy(): any{
 		if(this.currentLangNl) {
 			this.switchLanguageText = 'View in English';
 			return this.configService.currentTheme.privacy_statement;
@@ -83,7 +83,7 @@ export class PublicPrivacyPolicyComponent{
 		}
 	}
 
-	get switchLanguage(){
+	get switchLanguage():boolean {
 		this.currentLangNl = !this.currentLangNl
 		return true;
 
