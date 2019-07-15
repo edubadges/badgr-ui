@@ -55,7 +55,7 @@ import { SystemConfigService } from "../common/services/config.service";
   
   <div class="wrap wrap-light l-containerhorizontal" >
     <br><br><br>
-		<button class="button" (click)="switchLanguage()">{{ switchLanguageText }}</button>
+		<button class="button" (click)="switchLanguage">{{ switchLanguageText }}</button>
 		<br><br><br>
 		<div [innerHTML]="getPrivacyPolicy|MarkdownToHtml" id="privacy-policy"></div>
 		<br><br><br>
@@ -68,7 +68,7 @@ export class PublicPrivacyPolicyComponent{
 	currentLangNl = true;
 	switchLanguageText = 'Bekijk in het Nederlands'
 
-	get currentTheme():any {
+	get currentTheme(): any {
 		return this.configService.currentTheme;
 	}
 

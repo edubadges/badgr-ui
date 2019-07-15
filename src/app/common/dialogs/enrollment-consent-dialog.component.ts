@@ -93,7 +93,7 @@ export class EnrollmentConsentDialog extends BaseDialog {
 		}
 	}
 
-	openInOtherLanguage(){
+	openInOtherLanguage(): any{
 		this.closeModal();
 		this.currentLangNl = !this.currentLangNl;
 		if(this.currentLangNl) {
