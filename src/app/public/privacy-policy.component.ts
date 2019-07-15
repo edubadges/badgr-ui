@@ -85,7 +85,7 @@ export class PublicPrivacyPolicyComponent{
 
 	get switchLanguage(){
 		this.currentLangNl = !this.currentLangNl
-
+		return true;
 
 	}
 

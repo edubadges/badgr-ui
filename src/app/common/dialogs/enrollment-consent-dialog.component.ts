@@ -3,6 +3,7 @@ import { Component, ElementRef, Renderer2 } from "@angular/core";
 import { SystemConfigService } from "../services/config.service";
 import { BaseDialog } from './base-dialog';
 import { SessionService } from "../services/session.service";
+import { SocialAccountProviderInfo } from "../model/user-profile-api.model";
 
 @Component({
 	selector: 'enrollment-consent-dialog',
@@ -36,12 +37,14 @@ export class EnrollmentConsentDialog extends BaseDialog {
 		showCloseBox: true,
 		showRejectButton: true
 	};
-	switchLanguageText = ''
+	switchLanguageText = '';
 	currentLangNl = false;
 	options = EnrollmentConsentDialog.defaultOptions;
+	sessionService;
+	provider: SocialAccountProviderInfo;
+	loggedIn: boolean = false;
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-	link_text_dutch()
 	get currentTheme() { return this.configService.currentTheme }
 
 
@@ -51,7 +54,9 @@ export class EnrollmentConsentDialog extends BaseDialog {
 		componentElem: ElementRef,
 		renderer: Renderer2,
 	) {
+
 		super(componentElem, renderer);
+		this.sessionService = sessionService;
 		this.currentLangNl = this.currentTheme.dutch_language_codes.includes(this.currentTheme.language_detected);
 	}
 
@@ -104,6 +109,18 @@ export class EnrollmentConsentDialog extends BaseDialog {
 			() => void 0
 		);
 
+	}
+
+	ngOnInit() {
+		this.loggedIn = this.sessionService.isLoggedIn;
+		this.sessionService.loggedin$.subscribe(
+			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
+		);
+		for (let provider of this.sessionService.enabledExternalAuthProviders) {
+			if (provider.name == 'EduID') {
+				this.provider = provider
+			}
+		}
 	}
 
 
