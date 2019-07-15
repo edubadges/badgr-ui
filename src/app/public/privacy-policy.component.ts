@@ -66,7 +66,7 @@ import { SystemConfigService } from "../common/services/config.service";
 export class PublicPrivacyPolicyComponent{
 
 	currentLangNl = true;
-	switchLanguageText = 'Bekijk '
+	switchLanguageText = 'Bekijk in het Nederlands'
 
 	get currentTheme() {
 		return this.configService.currentTheme;
