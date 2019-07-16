@@ -600,7 +600,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	onSubmit(){
 		const formState = this.issueForm.value;
-		formState.expires_at = formState.expires_at.format('DD/MM/YYYY')  // force remove timezone
+		formState.expires_at = formState.expires_at? formState.expires_at.format('DD/MM/YYYY'): null  // force remove timezone
 		this.awardBadges(formState)
 	}
 
