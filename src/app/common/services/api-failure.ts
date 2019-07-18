@@ -24,6 +24,14 @@ export class BadgrApiFailure {
 	 *
 	 * @returns {any}
 	 */
+
+	get verboseError(): string | null {
+		if (this.payload['response']){
+			return this.payload['response']['_body']? this.payload['response']['_body'] : this.firstMessage;
+		} 
+		return this.firstMessage
+	}
+
 	get firstMessage(): string | null {
 		const overallMessage = this.overallMessage;
 		const fieldMessages = this.fieldMessages;
