@@ -106,6 +106,7 @@ import { ifTrue } from "codelyzer/util/function";
 									<th scope="col">Badge</th>
 									<th class="hidden hidden-is-desktop" scope="col">Created</th>
 									<th class="hidden hidden-is-desktop" scope="col">Recipients</th>
+									<th class="hidden hidden-is-desktop" scope="col">Enrollments</th>
 									<th class="table-x-hidetext hidden hidden-is-tablet" scope="col">Actions</th>
 								</tr>
 							</thead>
@@ -124,6 +125,7 @@ import { ifTrue } from "codelyzer/util/function";
 										<time [date]="badge.createdAt" format="mediumDate"></time>
 									</td>
 									<td class="hidden hidden-is-desktop">{{ badge.recipientCount }}</td>
+									<td class="hidden hidden-is-desktop">{{ badge.enrollmentCount }}</td>
 									<td class="hidden hidden-is-tablet">
 										<div class="confirmswitch"
 										     [class.confirmswitch-is-active]="confirmingBadgeId && confirmingBadgeId == badge.id">
