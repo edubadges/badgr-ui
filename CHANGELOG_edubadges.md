@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.3] - tba
  - shows extensions in public badgeclass page
- - adds expiation date option in award badgeclass page 
+ - adds expiration date option in award badgeclass page 
 
 ## [1.0.2] - 2019-06-11
   - add management dashboard
