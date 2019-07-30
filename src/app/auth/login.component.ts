@@ -29,59 +29,54 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 
 		<div class="l-headeredsection">
 			<div class="l-containerhorizontal wrap">
-				<div class="l-containerhorizontal wrap">
+				<div class="l-gridtwo">
 
-					<div class="l-gridtwo">
-
-						<!-- Student Login -->
-						<div class="card-large" style="width:300px;">
-							<div class="l-auth">
-								<p class="l-formsection-x-legend title title-ruled">
-									Login for students
-								</p>
-								<br>
-								<div class="formfield">
-									<p class="formfield-x-label">Sign In With</p>
-									<div class="l-authbuttons">
-											<button type="button"
-											class="buttonauth buttonauth-{{ providerEduid.slug }}"
-											(click)="sessionService.initiateUnauthenticatedExternalAuth(providerEduid)"
-											>{{ providerEduid.name }}
-											</button>
-									</div>
-								</div>
-								<br>
-								<span class="l-auth-x-text text text-quiet">
-									No eduID account yet? </span>
-								<div style = "display:inline-block; width:100px; text-align:center;">
-									<ul class="menuitem" ><a href= "{{eduidRegistrationUrl}}">Sign Up</a></ul>
+					<!-- Student Login -->
+					<div class="card-large" style="width:300px;">
+						<div class="l-auth">
+							<p class="l-formsection-x-legend title title-ruled">
+								Login for students
+							</p>
+							<br>
+							<div class="formfield">
+								<p class="formfield-x-label">Sign In With</p>
+								<div class="l-authbuttons">
+										<button type="button"
+										class="buttonauth buttonauth-{{ providerEduid.slug }}"
+										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerEduid)"
+										>{{ providerEduid.name }}
+										</button>
 								</div>
 							</div>
-						</div>
-
-						<!-- Staff Login -->
-						<div class="card-large" style="width:300px;">
-							<div class="l-auth">
-								<p class="l-formsection-x-legend title title-ruled">
-									Login for staff
-								</p>
-								<br>
-								<div class="formfield">
-									<p class="formfield-x-label">Sign In With</p>
-									<div class="l-authbuttons">
-											<button type="button"
-											class="buttonauth buttonauth-{{ providerSurfconext.slug }}"
-											(click)="sessionService.initiateUnauthenticatedExternalAuth(providerSurfconext)"
-											>{{ providerSurfconext.name }}
-											</button>
-									</div>
-								</div>
+							<br>
+							<span class="l-auth-x-text text text-quiet">
+								No eduID account yet? </span>
+							<div style = "display:inline-block; width:100px; text-align:center;">
+								<ul class="menuitem" ><a href= "{{eduidRegistrationUrl}}">Sign Up</a></ul>
 							</div>
 						</div>
-
 					</div>
 
-
+					<!-- Staff Login -->
+					<div class="card-large" style="width:300px;">
+						<div class="l-auth">
+							<p class="l-formsection-x-legend title title-ruled">
+								Login for staff
+							</p>
+							<br>
+							<div class="formfield">
+								<p class="formfield-x-label">Sign In With</p>
+								<div class="l-authbuttons">
+										<button type="button"
+										class="buttonauth buttonauth-{{ providerSurfconext.slug }}"
+										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerSurfconext)"
+										>{{ providerSurfconext.name }}
+										</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 				</div>
 			</div>
 		</div>
