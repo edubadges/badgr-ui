@@ -101,9 +101,10 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 			<ul>
 				<!-- Authenticated Menu -->
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-requests']">Badge requests</a></li>
+				<!-- use of userMaySeeIssuers permission for hiding backpack and badge-collections tabs, as this perm is given to all and only teachers -->
+					<li *ngIf="!userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
+					<li *ngIf="!userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
+					<li *ngIf="userIsStudent" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-requests']">Badge requests</a></li>
 					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
@@ -153,7 +154,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	userMaySeeIssuers: boolean = false;
-	userMaySeeEnrollments: boolean = false;
+	userIsStudent: boolean = false;
 	userMaySeeManagement: boolean = false;
 	userMaySeeFaculties: boolean = false;
 	isUnsupportedBrowser: boolean = false;
@@ -325,7 +326,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 			.then(socialAccounts => {
 				for (let account of socialAccounts){
 					if (account['provider'] == 'edu_id'){
-						this.userMaySeeEnrollments = true
+						this.userIsStudent = true
 					}
 				}
 			})

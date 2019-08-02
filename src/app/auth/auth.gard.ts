@@ -80,3 +80,32 @@ export class HasInstitutionScope extends AuthGuard{
 		this.permission = 'has_institution_scope' 
 	}
 }
+
+
+@Injectable()
+export class IsStudentAuthGuard implements CanActivate {
+	
+	answer: boolean;
+  // add the service we need
+  constructor(
+		private router: Router,
+		private profileManager: UserProfileManager,
+		) {}
+
+  canActivate(
+		next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+
+			return this.profileManager.profileService.fetchSocialAccounts()
+			.then(socialAccounts => {
+				for (let account of socialAccounts){
+					if (account['provider'] == 'edu_id'){
+						return true
+					} else {
+						this.router.navigate(['/auth/unauthorized']);
+						return false
+					}
+				}				
+			})
+	}
+}

@@ -21,7 +21,7 @@ import { CommonEntityManagerModule } from "../entity-manager/entity-manager.modu
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 import { UserProfileApiService } from "../common/services/user-profile-api.service"
 import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
-
+import { IsStudentAuthGuard } from 'app/auth/auth.gard';
 
 const routes = [
 	/* Recipient Badges */
@@ -31,29 +31,35 @@ const routes = [
 	},
 	{
 		path: "badges",
-		component: RecipientEarnedBadgeListComponent
+		component: RecipientEarnedBadgeListComponent,
+		canActivate: [IsStudentAuthGuard]
 	},
 	{
 		path: "earned-badge/:badgeSlug",
-		component: RecipientEarnedBadgeDetailComponent
+		component: RecipientEarnedBadgeDetailComponent,
+		canActivate: [IsStudentAuthGuard]
 	},
 	{
 		path: "badge-requests",
-		component: RecipientEnrollmentListComponent
+		component: RecipientEnrollmentListComponent,
+		canActivate: [IsStudentAuthGuard]
 	},
 
 	/* Recipient Badge Collections */
 	{
 		path: "badge-collections",
-		component: RecipientBadgeCollectionListComponent
+		component: RecipientBadgeCollectionListComponent,
+		canActivate: [IsStudentAuthGuard]
 	},
 	{
 		path: "badge-collections/create",
 		component: RecipientBadgeCollectionCreateComponent,
+		canActivate: [IsStudentAuthGuard]
 	},
 	{
 		path: "badge-collections/collection/:collectionSlug",
-		component: RecipientBadgeCollectionDetailComponent
+		component: RecipientBadgeCollectionDetailComponent,
+		canActivate: [IsStudentAuthGuard]
 	},
 	{
 		path: "**",
@@ -88,6 +94,7 @@ const routes = [
 		RecipientBadgeCollectionManager,
 		StudentsEnrolledApiService,
 		UserProfileApiService,
+		IsStudentAuthGuard,
 	],
 	exports: []
 })

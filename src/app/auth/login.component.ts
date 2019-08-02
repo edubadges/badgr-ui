@@ -12,6 +12,7 @@ import { QueryParametersService } from "../common/services/query-parameters.serv
 import { OAuthManager } from "../common/services/oauth-manager.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
+import { UserProfileManager } from "../common/services/user-profile-manager.service";
 
 @Component({
 	selector: 'login',
@@ -103,6 +104,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 		private commonDialogsService: CommonDialogsService,
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
+		private profileManager: UserProfileManager,
 		router: Router,
 		route: ActivatedRoute
 	) {
@@ -156,7 +158,17 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 					return;
 				}
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ 'recipient' ]);
+				this.profileManager.profileService.fetchSocialAccounts()
+				.then(socialAccounts => {
+					for (let account of socialAccounts){
+						if (account['provider'] == 'edu_id'){
+							this.router.navigate(['/recipient/badges']);
+						}
+						else if (account['provider'] == 'surf_conext'){
+							this.router.navigate(['/issuer']);
+						}
+					}				
+				})
 				return;
 			}
 
