@@ -72,6 +72,7 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get recipientEmail(): string { return this.apiModel.recipient_identifier }
 	get badgeClass(): ApiRecipientBadgeClass { return this.apiModel.json.badge }
 	get issueDate(): Date { return this._issueDate ? this._issueDate : (this._issueDate = new Date(this.apiModel.json.issuedOn)) }
+	get expirationDate(): string { return this.apiModel.json.expires }
 	get image(): string { return this.apiModel.image }
 	get imagePreview(): string { return this.apiModel.imagePreview.id }
 	get narrative(): string { return this.apiModel.narrative }
