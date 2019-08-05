@@ -96,7 +96,10 @@ type BadgeDispay = "grid" | "list" ;
 													</div>
 												</a>
 												<div class="card-x-actions">
-													<div><small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time></div>
+													<div>
+														<small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time>
+														<small *ngIf="badgeResult?.badge?.hasExpired" style="color:red;">(expired)</small>
+													</div>
 													<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badgeResult.badge)">Share</button>
 												</div>
 											</article>
@@ -151,6 +154,7 @@ type BadgeDispay = "grid" | "list" ;
 									<thead>
 										<tr>
 											<th scope="col">Badge</th>
+											<th class="hidden hidden-is-desktop" scope="col"></th>
 											<th class="hidden hidden-is-desktop" scope="col">Issuer</th>
 											<th class="hidden hidden-is-desktop" scope="col">Awarded</th>
 											<th class="table-x-hidetext hidden hidden-is-tablet" scope="col">Actions</th>
@@ -180,6 +184,7 @@ type BadgeDispay = "grid" | "list" ;
 													</span>
 												</a>
 											</th>
+											<td> <small *ngIf="badge.hasExpired" style="color:red;">Expired</small> </td>
 											<td class="hidden hidden-is-desktop">{{ badge.badgeClass.issuer.name }}</td>
 											<td class="hidden hidden-is-desktop"><time [date]="badge?.issueDate" format="mediumDate"></time></td>
 											<td class="hidden hidden-is-tablet">
