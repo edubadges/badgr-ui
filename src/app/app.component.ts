@@ -83,7 +83,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
 				<ul>
-					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
+					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://www.surf.nl">Surf</a></li>
 					<li *ngIf="currentTheme.providedBy">
 						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
 					</li>
@@ -91,7 +91,6 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy statement</a></li>
 				</ul>
 				<!--<a href="{{ apiBaseUrl }}/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">API documentation</a>-->
-				<a href="https://support.badgr.io/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">Documentation</a>
 			</div>
 		</footer>
 
