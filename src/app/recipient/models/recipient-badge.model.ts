@@ -15,6 +15,7 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	 * Cached copy of the immutable issueDate for optimization
 	 */
 	_issueDate: Date;
+	_expirationDate: Date;
 
 	/**
 	 * List of collection that we've modified to either include or exclude ourselves from.
@@ -72,7 +73,18 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get recipientEmail(): string { return this.apiModel.recipient_identifier }
 	get badgeClass(): ApiRecipientBadgeClass { return this.apiModel.json.badge }
 	get issueDate(): Date { return this._issueDate ? this._issueDate : (this._issueDate = new Date(this.apiModel.json.issuedOn)) }
-	get expirationDate(): string { return this.apiModel.json.expires }
+	get expirationDate(): Date { if (this.apiModel.json.expires) {
+			return this._expirationDate ? this._expirationDate : (this._expirationDate = new Date(this.apiModel.json.expires)) 
+		} else {
+			return undefined
+		}
+	}
+	get hasExpired(): boolean { if (this.expirationDate){
+					return this.expirationDate.getTime() <= Date.now()
+			} else {
+				return false
+			}
+	 }
 	get image(): string { return this.apiModel.image }
 	get imagePreview(): string { return this.apiModel.imagePreview.id }
 	get narrative(): string { return this.apiModel.narrative }
