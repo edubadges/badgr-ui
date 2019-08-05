@@ -90,7 +90,13 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get narrative(): string { return this.apiModel.narrative }
 	get evidence_items(): any[] { return this.apiModel.evidence_items }
 
-	get shareUrl(): string { return this.apiModel.shareUrl }
+	get shareUrl(): string { 
+		return this.apiModel.shareUrl 
+	}
+
+	get publicUrl(): string {
+		return this.apiModel.json['id']
+	}
 
 	get isNew(): boolean { return this.apiModel.acceptance === "Unaccepted" }
 

@@ -373,7 +373,6 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 		shareUrl: options.shareUrl,
 		shareTitle: options.badgeClassName,
 		imageUrl: options.imageUrl,
-		// shareIdUrl: badge.url,
 		shareIdUrl: options.shareUrl,
 		shareSummary: options.badgeClassDescription,
 		shareEndpoint: "certification",
