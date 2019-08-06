@@ -29,59 +29,54 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 		</header>
 
 		<div class="l-headeredsection">
+			<div style="text-align:center;float:right;margin-right:10%;">
+				<span class="l-auth-x-text text text-quiet">
+				Login for staff members </span>
+				<br><br>
+				<button 
+				style="width:150px;"
+				type="button"
+				class="buttonauth buttonauth-{{ providerSurfconext.slug }}"
+				(click)="sessionService.initiateUnauthenticatedExternalAuth(providerSurfconext)"
+				>{{ providerSurfconext.name }}
+				</button>
+				<p class="title-ruled"></p>
+
+			</div>
+
 			<div class="l-containerhorizontal wrap">
-				<div class="l-gridtwo">
 
-					<!-- Student Login -->
-					<div class="card-large" style="width:300px;">
-						<div class="l-auth">
-							<p class="l-formsection-x-legend title title-ruled">
-								Login for students
-							</p>
+				<div style="text-align:center;">
+					<div class="l-auth">
+						<p class="l-formsection-x-legend title title-ruled">
+							Login for students
+						</p>
+						<br>
+						<div class="formfield" style="display:inline-block;">
+							<p class="formfield-x-label">Sign In With</p>
+						</div>
+						<br>
+						<button 
+							style="width:200px;"
+							type="button"
+							class="buttonauth buttonauth-{{ providerEduid.slug }}"
+							(click)="sessionService.initiateUnauthenticatedExternalAuth(providerEduid)"
+							>{{ providerEduid.name }}
+						</button>
+						<br><br>
+						<span class="l-auth-x-text text text-quiet">
+							No eduID account yet? </span>
 							<br>
-							<div class="formfield">
-								<p class="formfield-x-label">Sign In With</p>
-								<div class="l-authbuttons">
-										<button type="button"
-										class="buttonauth buttonauth-{{ providerEduid.slug }}"
-										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerEduid)"
-										>{{ providerEduid.name }}
-										</button>
-								</div>
-							</div>
-							<br>
-							<span class="l-auth-x-text text text-quiet">
-								No eduID account yet? </span>
-							<div style = "display:inline-block; width:100px; text-align:center;">
-								<ul class="menuitem" ><a href= "{{eduidRegistrationUrl}}">Sign Up</a></ul>
-							</div>
+						<div>
+							<ul class="menuitem"><a href= "{{eduidRegistrationUrl}}">Sign Up Here</a></ul>
 						</div>
 					</div>
-
-					<!-- Staff Login -->
-					<div class="card-large" style="width:300px;">
-						<div class="l-auth">
-							<p class="l-formsection-x-legend title title-ruled">
-								Login for staff
-							</p>
-							<br>
-							<div class="formfield">
-								<p class="formfield-x-label">Sign In With</p>
-								<div class="l-authbuttons">
-										<button type="button"
-										class="buttonauth buttonauth-{{ providerSurfconext.slug }}"
-										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerSurfconext)"
-										>{{ providerSurfconext.name }}
-										</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					
 				</div>
+				
 			</div>
 		</div>
-		
+
+
 	</main>
 	`
 })
