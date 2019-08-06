@@ -576,4 +576,4 @@ export interface ShareSocialDialogEmbedOption {
 	embedRecipientIdentifier?: string;
 }
 
-type ShareSocialDialogTabId = "link" | "social" | "embed";
+type ShareSocialDialogTabId = "link" | "social" | "embed" | "download";
