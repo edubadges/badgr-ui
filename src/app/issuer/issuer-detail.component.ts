@@ -143,6 +143,7 @@ import { ifTrue } from "codelyzer/util/function";
 																(click)="removeBadgeClassFromLMS($event, badge,ltiContextId)"
 																*ngIf="isBadgeInLms(badge)"
 												>Remove badge from this LMS course</button>
+													
 												<button *ngIf="badge.recipient_count == 0"
 												        type="button"
 												        class="button button-primaryghost"

@@ -23,6 +23,8 @@ import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-
 import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 import {badgeShareDialogOptions} from "../recipient/recipient-earned-badge-detail.component";
 import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
+import { LtiApiService } from "../lti-api/services/lti-api.service";
+import { ApiBadgeClassContextId } from "./models/badgeclass-api.model";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -80,6 +82,14 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								(click)="deleteBadge()"
 								*ngIf="issuer.canCreateBadge"
 							>Delete Badge</a>
+                <button class="button button-primaryghost"
+                        (click)="addBadgeClassToLMS($event, badgeClass,ltiContextId)"
+                        *ngIf="issuer.canAwardBadge && ltiContextId && !isBadgeInLms(badgeClass)"
+                >Add badge to this LMS course</button>
+                <button class="button button-primaryghost"
+                        (click)="removeBadgeClassFromLMS($event, badgeClass,ltiContextId)"
+                        *ngIf="isBadgeInLms(badgeClass)"
+                >Remove badge from this LMS course</button>
 							<a
 								*ngIf="badgeClass.criteria_url"
 								class="button button-primaryghost"
@@ -297,6 +307,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	private instanceResults: BadgeInstance[] = [];
 	launchpoints: ApiExternalToolLaunchpoint[];
 
+
 	private _searchQuery: string = "";
 	get searchQuery() { return this._searchQuery; }
 
@@ -312,6 +323,9 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	showAssertionCount: boolean = false;
 	enrollments: object;
 	enrollmentsLoaded: Promise<any>;
+	currentLtiBadges: Array<ApiBadgeClassContextId>;
+	currentContextId: string = "";
+
 
 	get issuerSlug() {
 		return this.route.snapshot.params['issuerSlug'];
@@ -341,10 +355,17 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		route: ActivatedRoute,
 		protected dialogService: CommonDialogsService,
 		private eventService: EventsService,
+		private ltiManager: LtiApiService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, sessionService);
+		ltiManager.currentContextId.then(r => {
+			this.currentContextId = r['lticontext'];
+			ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});
 
+		});
 		this.badgeClassLoaded = badgeManager.badgeByIssuerSlugAndSlug(
 			this.issuerSlug,
 			this.badgeSlug
@@ -509,6 +530,54 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 			recipientIdentifier: badge.recipientIdentifier,
 			recipientType: badge.recipientType
 		});
+	}
+
+	get ltiContextId(): string{
+		return this.currentContextId;
+	}
+
+	addBadgeClassToLMS(ev,badge,ltiContextId){
+		console.log('button clicked');
+
+		let badgeClassContextId = {
+			badgeClassEntityId:badge.slug,
+			contextId: ltiContextId
+		} as ApiBadgeClassContextId;
+		badgeClassContextId.badgeClassEntityId = badge.slug;
+		badgeClassContextId.contextId = ltiContextId;
+		this.ltiManager.addBadgeClassToLMS(badgeClassContextId).then(r => { console.log('succes');
+			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});
+		});
+
+	}
+
+	removeBadgeClassFromLMS(ev,badge,ltiContextId){
+		console.log('button remove clicked');
+
+		let badgeClassContextId = {
+			badgeClassEntityId:badge.slug,
+			contextId: ltiContextId
+		} as ApiBadgeClassContextId;
+		badgeClassContextId.badgeClassEntityId = badge.slug;
+		badgeClassContextId.contextId = ltiContextId;
+		this.ltiManager.removeBadgeClassFromLMS(badgeClassContextId).then(r => { console.log('succes');
+			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});
+		});
+
+	}
+
+	isBadgeInLms(badge:BadgeClass){
+		for(let lmsBadge in this.currentLtiBadges){
+			let entity_id = this.currentLtiBadges[lmsBadge]['badgeClassEntityId']
+			if(badge.slug == this.currentLtiBadges[lmsBadge]['badgeClassEntityId']){
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

@@ -18,7 +18,6 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 	template:`
 		<main>
 			<form-message></form-message>
-
 			<ng-template [bgAwaitPromises]="[badgesLoaded]">
 				
 	
@@ -35,15 +34,19 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 								</tr>
 							</thead>
 							<tbody>
-								
+								 	
 								<tr *ngFor="let badge of currentLtiBadges">
 									<td>
 											<div class="l-childrenhorizontal l-childrenhorizontal-small">
 												<img class="l-childrenhorizontal-x-offset"
 														 src="{{badge.image}}"
 														 width="40">
+												<div *ngIf="badge.requested">requested</div>
+												<div *ngIf="badge.rewarded">rewarded</div>
+												<div *ngIf="badge.revoked">revoked</div>
 												<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.name}}</a>
 											</div>
+											
 									</td>
 									
 									
@@ -88,7 +91,7 @@ export class LtiBadgesComponent extends BaseAuthenticatedRoutableComponent imple
 		this.badgesLoaded = new Promise((resolve, reject) => {
 				ltiManager.currentContextId.then(r => {
 					this.currentContextId = r['lticontext'];
-					ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+					ltiManager.getAllContextIdStudentBadgeClasses(this.currentContextId).then(r => {
 						this.currentLtiBadges = r;
 					});
 					resolve();

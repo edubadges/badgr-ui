@@ -39,6 +39,15 @@ export class LtiApiService extends BaseHttpApiService{
 
 	}
 
+	getAllContextIdStudentBadgeClasses(
+		contextId:string
+	): Promise<ApiBadgeClassContextId[]> {
+		return this.get('/lti_edu/badgeclasslticontextstudent/'+contextId+'/')
+			.then(r => r.json());
+
+	}
+
+
 	addBadgeClassToLMS(
 		badgeClassContextId : ApiBadgeClassContextId
 	):Promise<string>{

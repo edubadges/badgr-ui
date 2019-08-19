@@ -16,54 +16,60 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 @Component({
 	selector: 'lti-badges-staff',
 	template:`
-		<main>
-			<form-message></form-message>
+      <main>
+          <form-message></form-message>
+          <ng-template [bgAwaitPromises]="[badgesLoaded]">
 
-			<ng-template [bgAwaitPromises]="[badgesLoaded]">
-				
-	
-					<!-- Badge Class List =============================================================================================-->
-					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
-						<h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Badges die beschikbaar zijn voor deze cursus</h2>
-					</header>
-					<div class="l-overflowhorizontal" *bgAwaitPromises="[badgesLoaded]">
-						<table class="table" *ngIf="currentLtiBadges?.length">
-							<thead>
-								<tr>
-									<th scope="col">Badge</th>
-									
-								</tr>
-							</thead>
-							<tbody>
-								
-								<tr *ngFor="let badge of currentLtiBadges">
-									<td>
-											<div class="l-childrenhorizontal l-childrenhorizontal-small">
-												<img class="l-childrenhorizontal-x-offset"
-														 src="{{badge.image}}"
-														 width="40">
-												<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.name}}</a>
-											</div>
-									</td>
-									
-									
-								</tr>
-							</tbody>
-						</table>
-	
-						<p class="empty" *ngIf="! currentLtiBadges?.length">
-							There are no badges for this course
-						</p>
-						<div>
-							<p>
-								<a class="button button-primaryghost" [routerLink]="['/issuer/']">Voeg Badge toe aan cursus</a>
-							</p>
-						</div>
-					</div>
-				
-				
-			</ng-template>
-		</main>
+
+              <!-- Badge Class List =============================================================================================-->
+              <header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
+                  <h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Badges die beschikbaar zijn voor deze cursus</h2>
+              </header>
+              <div class="l-overflowhorizontal" *bgAwaitPromises="[badgesLoaded]">
+                  <table class="table" *ngIf="currentLtiBadges?.length">
+                      <thead>
+                      <tr>
+                          <th scope="col">Badge</th>
+
+                      </tr>
+                      </thead>
+                      <tbody>
+
+                      <tr *ngFor="let badge of currentLtiBadges">
+                          <td>
+                              <div class="l-childrenhorizontal l-childrenhorizontal-small">
+                                  <img class="l-childrenhorizontal-x-offset"
+                                       src="{{badge.image}}"
+                                       width="40">
+                                  <a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.name}}</a>
+                                  <button class="button button-primaryghost"
+                                          (click)="removeBadgeClassFromLMS($event, badge,ltiContextId)"
+                                  >Remove badge from this LMS course</button>
+                                  <a class="button button-primaryghost"
+                                     [routerLink]="['/issuer/issuers/', badge.issuer_slug, 'badges', badge.badgeClassEntityId, 'issue']"
+                                  >Award</a>
+                              </div>
+															
+                          </td>
+
+
+                      </tr>
+                      </tbody>
+                  </table>
+
+                  <p class="empty" *ngIf="! currentLtiBadges?.length">
+                      There are no badges for this course
+                  </p>
+                  <div>
+                      <p>
+                          <a class="button button-primaryghost" [routerLink]="['/issuer/']">Voeg Badge toe aan cursus</a>
+                      </p>
+                  </div>
+              </div>
+
+
+          </ng-template>
+      </main>
 	`,
 })
 export class LtiBadgesStaffComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
@@ -109,6 +115,23 @@ export class LtiBadgesStaffComponent extends BaseAuthenticatedRoutableComponent 
 
 	get ltiContextId(): string{
 		return this.currentContextId;
+	}
+
+	removeBadgeClassFromLMS(ev,badge,ltiContextId){
+		console.log('button remove clicked');
+
+		let badgeClassContextId = {
+			badgeClassEntityId:badge.slug,
+			contextId: ltiContextId
+		} as ApiBadgeClassContextId;
+		badgeClassContextId.badgeClassEntityId = badge.badgeClassEntityId;
+		badgeClassContextId.contextId = ltiContextId;
+		this.ltiManager.removeBadgeClassFromLMS(badgeClassContextId).then(r => { console.log('succes');
+			this.ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+				this.currentLtiBadges = r;
+			});
+		});
+
 	}
 
 
