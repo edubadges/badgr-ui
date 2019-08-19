@@ -12,7 +12,7 @@ import { Title } from "@angular/platform-browser";
 		<header class="wrap wrap-light l-containerhorizontal l-heading">
 			<div class="heading">
 				<div class="heading-x-text">
-					<h1>Users <span *ngIf="users">{{ users?.length }} LTI Clients</span></h1>
+					<h1>Users <span *ngIf="users">{{ users?.length }} Users</span></h1>
 				</div>
 			</div>
 		</header>

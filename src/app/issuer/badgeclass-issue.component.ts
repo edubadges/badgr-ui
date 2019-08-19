@@ -59,13 +59,15 @@ import * as sanitizeHtml from "sanitize-html";
 				<!-- Recipient Information -->
 
 				<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-recipientinformation">
-					<h3 class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">Badge Requests</h3>
+					<h3 *ngIf="!issueForm.controls.recipients.controls.length" 
+						class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">No Badge Requests</h3>
+					<h3 *ngIf="issueForm.controls.recipients.controls.length == 1" 
+						class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">1 Badge Request</h3>
+					<h3 *ngIf="issueForm.controls.recipients.controls.length > 1" 
+						class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">{{issueForm.controls.recipients.controls.length}} Badge Requests</h3>
 					<br>
 					<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
 					<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, canceling them can only be done through revokation of a badge.</p>
-					<div *ngIf="!issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
-						<h4 class="title title-bordered">No badge requests.</h4>
-					</div>
 					
 					<div class="l-formsection-x-container">
 

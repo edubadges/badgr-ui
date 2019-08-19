@@ -55,6 +55,8 @@ export interface ApiBadgeClass extends ApiBadgeClassForCreation {
 	slug: BadgeClassSlug
 
 	recipient_count: number
+	
+	enrollment_count: number
 
 	created_at: string
 	created_by: string

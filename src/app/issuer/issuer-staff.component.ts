@@ -248,10 +248,10 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 			formData.staffEmail
 		).then(
 			() => {
-				this.messageService.reportMinorSuccess(`Added ${formData.staffEmail} as ${formData.staffRole}`);
+				this.messageService.setMessage(`Succesfully invited ${formData.staffEmail} to become ${formData.staffRole}`, "success");
 				this.initStaffCreateForm();
 			},
-			error => this.messageService.reportHandledError(`Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`)
+			error => this.messageService.reportHandledError(`Failed to add member: ${BadgrApiFailure.from(error).verboseError}`)
 		);
 	}
 }

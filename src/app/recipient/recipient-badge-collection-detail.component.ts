@@ -75,6 +75,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 						<thead>
 							<tr>
 								<th scope="col">Badge</th>
+								<th class="hidden hidden-is-desktop" scope="col"></th>
 								<th class="hidden hidden-is-desktop" scope="col">Issuer</th>
 								<th class="hidden hidden-is-desktop" scope="col">Awarded</th>
 								<th class="hidden hidden-is-desktop" scope="col"><span class="visuallyhidden">Actions</span></th>
@@ -96,6 +97,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 										</span>
 									</a>
 								</th>
+								<td> <small *ngIf="entry.badge.hasExpired" style="color:red;">Expired</small> </td>
 								<td class="hidden hidden-is-desktop" >{{ entry.badge.badgeClass.issuer.name }}</td>
 								<td class="hidden hidden-is-desktop" ><time [date]="entry.badge.issueDate" format="longDate"></time></td>
 								<td class="hidden hidden-is-desktop">

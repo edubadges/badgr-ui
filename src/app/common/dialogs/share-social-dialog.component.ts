@@ -30,6 +30,13 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 				>
 					<span class="visuallyhidden">Open </span>Link<span class="visuallyhidden"> tab</span>
 				</button>
+				<button *ngIf="options.shareObjectType == 'BadgeInstance'"
+								class="tab"
+				        [class.tab-is-active]="currentTabId == 'download'"
+				        (click)="openTab('download')"
+				>
+					<span class="visuallyhidden">Open </span>Download<span class="visuallyhidden"> tab</span>
+				</button>
 				<button class="tab"
 				        [class.tab-is-active]="currentTabId == 'social'"
 				        (click)="openTab('social')"
@@ -97,6 +104,24 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 				</div>
 				<div class="l-childrenhorizontal l-childrenhorizontal-right">
 					<a class="standaloneanchor" [href]="currentShareUrl" target="_blank">Open in New Window</a>
+				</div>
+			</div>
+
+			<!-- Download Tab-->
+			<div class="l-sharepane l-sharepane-social" tabindex="-1" id="sharelinkdownload" *ngIf="currentTabId == 'download'">
+				<div>
+					<br>
+					<section>
+						<h1>Download your badge as an image.</h1>
+						<a [href]="v2BakedUrl" class="button button-primaryghost" download=true target="_blank">Baked Image</a>
+					</section>
+					<br>
+					<section>
+						<h1>Download a JSON version of you badge.</h1>
+						<a [href]="v2JsonUrl" class="button button-primaryghost">JSON</a>
+					</section>
+				</div>
+				<div class="l-authbuttons">
 				</div>
 			</div>
 
@@ -238,7 +263,7 @@ export class ShareSocialDialog extends BaseDialog {
 		componentElem: ElementRef,
 		renderer: Renderer2,
 		private domSanitizer: DomSanitizer,
-		private sharingService: SharingService
+		private sharingService: SharingService,
 	) {
 		super(componentElem, renderer);
 	}
@@ -316,6 +341,14 @@ export class ShareSocialDialog extends BaseDialog {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Internal API
+
+	get v2JsonUrl() {
+		return addQueryParamsToUrl(this.options.shareUrl+'.json', { v: "2_0" });
+	}
+
+	get v2BakedUrl() {
+		return addQueryParamsToUrl(this.options.shareUrl+'/baked', { v: "2_0" })
+	}
 
 	get currentShareUrl() {
 		let versioned_url = this.selectedVersion
@@ -543,4 +576,4 @@ export interface ShareSocialDialogEmbedOption {
 	embedRecipientIdentifier?: string;
 }
 
-type ShareSocialDialogTabId = "link" | "social" | "embed";
+type ShareSocialDialogTabId = "link" | "social" | "embed" | "download";

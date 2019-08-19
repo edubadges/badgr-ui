@@ -83,7 +83,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
 				<ul>
-					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
+					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://www.surf.nl">Surf</a></li>
 					<li *ngIf="currentTheme.providedBy">
 						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
 					</li>
@@ -91,7 +91,6 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy statement</a></li>
 				</ul>
 				<!--<a href="{{ apiBaseUrl }}/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">API documentation</a>-->
-				<a href="https://support.badgr.io/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">Documentation</a>
 			</div>
 		</footer>
 
@@ -101,9 +100,10 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 			<ul>
 				<!-- Authenticated Menu -->
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<li *ngIf="userMaySeeEnrollments" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-requests']">Badge requests</a></li>
+				<!-- use of userMaySeeIssuers permission for hiding backpack and badge-collections tabs, as this perm is given to all and only teachers -->
+					<li *ngIf="!userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
+					<li *ngIf="!userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
+					<li *ngIf="userIsStudent" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-requests']">Badge requests</a></li>
 					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
@@ -153,7 +153,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	userMaySeeIssuers: boolean = false;
-	userMaySeeEnrollments: boolean = false;
+	userIsStudent: boolean = false;
 	userMaySeeManagement: boolean = false;
 	userMaySeeFaculties: boolean = false;
 	isUnsupportedBrowser: boolean = false;
@@ -325,7 +325,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 			.then(socialAccounts => {
 				for (let account of socialAccounts){
 					if (account['provider'] == 'edu_id'){
-						this.userMaySeeEnrollments = true
+						this.userIsStudent = true
 					}
 				}
 			})

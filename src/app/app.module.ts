@@ -48,10 +48,10 @@ const ROUTE_CONFIG: Routes = [
 		path: 'auth',
 		loadChildren: './auth/auth.module#AuthModule'
 	},
-	{
-		path: 'signup',
-		loadChildren: './signup/signup.module#SignupModule'
-	},
+	// {
+	// 	path: 'signup',
+	// 	loadChildren: './signup/signup.module#SignupModule'
+	// },
 	{
 		path: 'recipient',
 		loadChildren: './recipient/recipient.module#RecipientModule',

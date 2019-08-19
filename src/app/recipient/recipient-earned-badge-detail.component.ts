@@ -60,6 +60,12 @@ import { EventsService } from "../common/services/events.service";
 						</a>
 						<p><small>Awarded <time [date]="badge?.issueDate" format="mediumDate"></time> to {{ badge.recipientEmail }}</small></p>
 
+						<p *ngIf="badge?.expirationDate">
+							<small *ngIf="!badge?.hasExpired">Expires at <time [date]="badge?.expirationDate" format="mediumDate"></time></small>
+							<small *ngIf="badge?.hasExpired" style="color:red;">Expired at <time [date]="badge?.expirationDate" format="mediumDate"></time></small>
+						</p>
+						<p *ngIf="!badge?.expirationDate"><small>Has no expiration date</small></p>
+
 						<p style="font-size: 16px">{{ badge.badgeClass.description }}</p>
 
 						<!-- criteria -->
@@ -308,8 +314,6 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 
 	private updateBadge(results){
 		this.badge = results.entityForSlug(this.badgeSlug);
-		// tag test
-		//this.badge.badgeClass.tags = ['qwerty', 'boberty', 'BanannaFanna'];
 		this.badges = results.entities;
 		this.updateData();
 	}
@@ -369,7 +373,6 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 		shareUrl: options.shareUrl,
 		shareTitle: options.badgeClassName,
 		imageUrl: options.imageUrl,
-		// shareIdUrl: badge.url,
 		shareIdUrl: options.shareUrl,
 		shareSummary: options.badgeClassDescription,
 		shareEndpoint: "certification",

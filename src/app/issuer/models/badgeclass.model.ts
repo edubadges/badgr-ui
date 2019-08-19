@@ -47,6 +47,8 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 
 	get recipientCount(): number { return this.apiModel.recipient_count }
 
+	get enrollmentCount(): number { return this.apiModel.enrollment_count }
+
 	get criteria_text(): string { return this.apiModel.criteria_text }
 	set criteria_text(criteria_text: string) {
 		this.apiModel.json.criteria_text = criteria_text;
