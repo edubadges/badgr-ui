@@ -29,7 +29,7 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 						<table class="table" *ngIf="currentLtiBadges?.length">
 							<thead>
 								<tr>
-									<th scope="col">Badge</th>
+									<th scope="row" colspan="3">Badge</th>
 									
 								</tr>
 							</thead>
@@ -40,12 +40,20 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
 											<div class="l-childrenhorizontal l-childrenhorizontal-small">
 												<img class="l-childrenhorizontal-x-offset"
 														 src="{{badge.image}}"
-														 width="40">
-												<div *ngIf="badge.requested">requested</div>
-												<div *ngIf="badge.rewarded">rewarded</div>
-												<div *ngIf="badge.revoked">revoked</div>
+														 width="100">
+											
 												<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.name}}</a>
-											</div>
+                      </div>
+										</td>
+										<td>
+												<div *ngIf="badge.requested"><span class="state state-pill state-is-pending">Requested</span></div>
+													<div *ngIf="badge.rewarded"><span class="state state-pill state-is-success">rewarded</span></div>
+													<div *ngIf="badge.revoked"><span class="state state-pill state-is-error">revoked</span></div>
+													<div *ngIf="!badge.requested && !badge.rewarded && !badge.revoked">
+                              <a class="button button-primaryghost"
+                                 [routerLink]="['/public/badges/', badge.badgeClassEntityId]"
+                              >Request badge</a>
+													</div>
 											
 									</td>
 									

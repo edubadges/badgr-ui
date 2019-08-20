@@ -29,7 +29,7 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
                   <table class="table" *ngIf="currentLtiBadges?.length">
                       <thead>
                       <tr>
-                          <th scope="col">Badge</th>
+                          <th scope="row" colspan="3">Badge</th>
 
                       </tr>
                       </thead>
@@ -40,16 +40,18 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
                               <div class="l-childrenhorizontal l-childrenhorizontal-small">
                                   <img class="l-childrenhorizontal-x-offset"
                                        src="{{badge.image}}"
-                                       width="40">
-                                  <a [routerLink]="['/public/badges/', badge.badgeClassEntityId]">{{badge.name}}</a>
-                                  <button class="button button-primaryghost"
+                                       width="100">
+															
+																<a [routerLink]="['/public/badges/', badge.badgeClassEntityId]"><h1>{{badge.name}}</h1></a>
+                              </div>
+													</td>
+													<td>
+                                  <a class="button button-primaryghost"
                                           (click)="removeBadgeClassFromLMS($event, badge,ltiContextId)"
-                                  >Remove badge from this LMS course</button>
+                                  >Remove badge from this LMS course</a>
                                   <a class="button button-primaryghost"
                                      [routerLink]="['/issuer/issuers/', badge.issuer_slug, 'badges', badge.badgeClassEntityId, 'issue']"
                                   >Award</a>
-                              </div>
-															
                           </td>
 
 

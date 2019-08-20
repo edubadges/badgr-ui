@@ -21,7 +21,7 @@ export class LtiApiService extends BaseHttpApiService{
 
 
 	get currentContextId(): Promise<any>{
-		let url = '/lti_edu/lticontext'
+		let url = '/lti_edu/lticontext';
 		return this.get(url).then(r => this.setCurrentContextId(r));
 
 	}
