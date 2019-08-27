@@ -125,6 +125,8 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
+							<li *ngIf="userMaySignBadges" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+								<a [routerLink]="['/profile/signing']">Signing</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
@@ -153,6 +155,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	userMaySeeIssuers: boolean = false;
+	userMaySignBadges: boolean = false;
 	userIsStudent: boolean = false;
 	userMaySeeManagement: boolean = false;
 	userMaySeeFaculties: boolean = false;
@@ -349,6 +352,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 			current_user_permissions.includes('is_superuser')
 
 		this.userMaySeeManagement = current_user_permissions.includes('view_management_tab');
+
+		this.userMaySignBadges = current_user_permissions.includes('may_sign_assertions');
 
 		this.permissionsChecked = true	
 	}

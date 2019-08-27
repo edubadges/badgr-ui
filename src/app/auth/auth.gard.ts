@@ -83,6 +83,18 @@ export class HasInstitutionScope extends AuthGuard{
 
 
 @Injectable()
+export class UserMaySignBadges extends AuthGuard{
+	constructor(
+		router: Router,
+		profileManager: UserProfileManager,
+		) {
+		super(router, profileManager)
+		this.permission = 'may_sign_assertions' 
+	}
+}
+
+
+@Injectable()
 export class IsStudentAuthGuard implements CanActivate {
 	
 	answer: boolean;
