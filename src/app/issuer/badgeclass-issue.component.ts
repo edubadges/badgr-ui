@@ -1,3 +1,4 @@
+import { UserProfileManager } from './../common/services/user-profile-manager.service';
 import { Component, OnInit } from "@angular/core";
 import {
 	FormBuilder, FormControl, Validators
@@ -318,12 +319,31 @@ import * as sanitizeHtml from "sanitize-html";
 					        [loading-promises]="[ issueBadgeFinished ]"
 					        loading-message="Issuing"
 					>Award</button>
-					
+
 					<button *ngIf="!awardButtonEnabled"
 									class="button"
 					        [disabled]="true"
 									style = 'background:#A09EAF;'
 					>Award</button>
+
+					<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
+						<button
+										*ngIf="awardButtonEnabled && userMaySignBadges"
+										class="button"
+										[disabled]="!! issueBadgeFinished"
+										(click)="onSubmit()"
+										[loading-promises]="[ issueBadgeFinished ]"
+										loading-message="Issuing"
+						>Award Signed</button>
+
+						<button *ngIf="!awardButtonEnabled && userMaySignBadges"
+									class="button"
+					        [disabled]="true"
+									style = 'background:#A09EAF;'
+						>Award Signed</button>
+						
+					</ng-container>
+					
 					
 				</div>
 			</form>
@@ -364,12 +384,16 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	issueBadgeFinished: Promise<any>;
 	issuerLoaded: Promise<any>;
 	badgeClassLoaded: Promise<any>;
+	permissionsLoaded: Promise<any>;
+
+	userMaySignBadges: boolean = false;
 
 	hasDateError = false
 	evidenceEnabled = false;
 	narrativeEnabled = false;
 	enrolledStudents = [];
 	showDeniedEnrollments = false;
+
 
 	constructor(
 		protected title: Title,
@@ -380,6 +404,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		protected badgeInstanceManager: BadgeInstanceManager,
 		protected dialogService: CommonDialogsService,
 		protected studentsEnrolledApiService: StudentsEnrolledApiService,
+		protected userProfileManager: UserProfileManager,
 		sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute
@@ -400,6 +425,14 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 					.then(r => this.addRecipientsFromStudents(r))
 			});
 		});
+
+		this.permissionsLoaded = this.userProfileManager.userProfilePromise
+		.then(profile => {
+			var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
+			this.userMaySignBadges = current_user_permissions.includes('may_sign_assertions');
+		})
+
+
 	}
 
 	get issuerSlug() {

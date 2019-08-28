@@ -1,4 +1,4 @@
-import { SigningApiService } from './../common/services/user-profile-api.service';
+import { SigningApiService } from './../common/services/signing-api.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
