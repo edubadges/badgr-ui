@@ -1,3 +1,4 @@
+import { SigningApiService } from './../common/services/user-profile-api.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
@@ -22,30 +23,31 @@ import { markControlsDirty } from "../common/util/form-util";
 						(ngSubmit)="onSubmit(passwordForm.value)"
 						novalidate
 			>
+				<fieldset role="group" aria-labelledby="heading-badgrsignup2">
+					<bg-formfield-text [control]="passwordForm.controls.password"
+																		[label]="'Password (Must be at least 8 characters)'"
+																		fieldType="password"
+																		[errorMessage]="{ required: 'Please enter a password with your ubikey' }"
+					></bg-formfield-text>
+				</fieldset>
+
+
+
+				<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+					<a [routerLink]="['/']"
+							class="button button-primaryghost"
+							[disabled-when-requesting]="true"
+					>Cancel</a>
+					<button type="submit"
+									class="button"
+									[disabled]="!! addPasswordFinished"
+									(click)="clickSubmit($event)"
+									[loading-promises]="[ addPasswordFinished ]"
+									loading-message="Adding"
+					>Add Yubikey Password</button>
+				</div>
 			</form>
-			<fieldset role="group" aria-labelledby="heading-badgrsignup2">
-				<bg-formfield-text [control]="passwordForm.controls.password"
-																	[label]="'Password (Must be at least 8 characters)'"
-																	fieldType="password"
-																	[errorMessage]="{ required: 'Please enter a password with your ubikey' }"
-				></bg-formfield-text>
-			</fieldset>
 
-
-
-			<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-				<a [routerLink]="['/']"
-						class="button button-primaryghost"
-						[disabled-when-requesting]="true"
-				>Cancel</a>
-				<button type="submit"
-								class="button"
-								[disabled]="!! addPasswordFinished"
-								(click)="clickSubmit($event)"
-								[loading-promises]="[ addPasswordFinished ]"
-								loading-message="Adding"
-				>Add Yubikey Password</button>
-			</div>
 		</div>
 
 	</main>
@@ -62,7 +64,8 @@ export class SigningComponent extends BaseAuthenticatedRoutableComponent impleme
 		router: Router,
 		route: ActivatedRoute,
 		sessionService: SessionService,
-		protected title: Title
+		protected title: Title,
+		private signingApiService: SigningApiService
 	) {
 		super(router, route, sessionService);
 		title.setTitle("Signing - Badgr");
@@ -74,10 +77,11 @@ export class SigningComponent extends BaseAuthenticatedRoutableComponent impleme
 	}
 
 	onSubmit(formState) {
-		console.log('submit')
+		let password = formState.password
+		this.addPasswordFinished = this.signingApiService.addPasswordForSigning(password)
 	}
-
-
+	
+	
 	clickSubmit(ev) {
 		if (!this.passwordForm.valid) {
 			ev.preventDefault();
