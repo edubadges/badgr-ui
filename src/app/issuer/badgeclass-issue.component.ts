@@ -479,7 +479,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			let last_name = recipient['last_name']? recipient['last_name']: ''
 			let name = first_name+' '+last_name
 			let email = recipient['email']
-			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
+			// const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 			let recipientFormGroup = typedGroup()
 			.addControl("recipient_name", name)
 			.addControl("recipient_email", email)
@@ -487,13 +487,13 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
 			.addControl("denied", recipient['denied'])
-			.addControl("extensions", typedGroup()
-				.addControl("extensions:recipientProfile", typedGroup()
-					.addControl("@context", recipientProfileContextUrl)
-					.addControl("type", ["Extension", "extensions:RecipientProfile"])
-					.addControl("name", name)
-				)
-			)
+			// .addControl("extensions", typedGroup()
+			// 	.addControl("extensions:recipientProfile", typedGroup()
+			// 		.addControl("@context", recipientProfileContextUrl)
+			// 		.addControl("type", ["Extension", "extensions:RecipientProfile"])
+			// 		.addControl("name", name)
+			// 	)
+			// )
 			if (!recipient['denied']) {
 				this.issueForm.controls.recipients.push(recipientFormGroup);
 			} else if (recipient['denied']) {
