@@ -41,10 +41,10 @@ export class UserProfileApiService extends BaseHttpApiService {
 				.then(r => r.json())
 	}
 
-	updatePassword(new_password: string, current_password: string): Promise<ApiUserProfile> {
-		return this.put('/v1/user/profile', { 'password': new_password, 'current_password': current_password })
-			.then(r => r.json());
-	}
+	// updatePassword(new_password: string, current_password: string): Promise<ApiUserProfile> {
+	// 	return this.put('/v1/user/profile', { 'password': new_password, 'current_password': current_password })
+	// 		.then(r => r.json());
+	// }
 
 	updateProfile(profile: ApiUserProfile): Promise<ApiUserProfile> {
 		return this.put('/v1/user/profile', profile)

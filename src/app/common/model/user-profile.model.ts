@@ -95,10 +95,10 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 			.then(apiEmail => this.emails.addOrUpdate(apiEmail));
 	}
 
-	updatePassword(newPassword: string, currentPassword: string): Promise<this> {
-		return this.profileService.updatePassword(newPassword, currentPassword)
-			.then(() => this);
-	}
+	// updatePassword(newPassword: string, currentPassword: string): Promise<this> {
+	// 	return this.profileService.updatePassword(newPassword, currentPassword)
+	// 		.then(() => this);
+	// }
 
 	static currentProfileId = "currentUserProfile";
 }
