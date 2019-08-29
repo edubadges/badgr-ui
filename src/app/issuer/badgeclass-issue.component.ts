@@ -644,6 +644,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.then( () => {
 				this.awardBadges(formState)
 			})
+			.catch( error => error)
 		} else {
 			this.awardBadges(formState)
 		}
