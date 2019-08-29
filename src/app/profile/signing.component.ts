@@ -1,3 +1,4 @@
+import { BgAwaitPromises } from './../common/directives/bg-await-promises';
 import { SigningApiService } from './../common/services/signing-api.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from "@angular/core";
@@ -24,28 +25,48 @@ import { markControlsDirty } from "../common/util/form-util";
 						novalidate
 			>
 				<fieldset role="group" aria-labelledby="heading-badgrsignup2">
-					<bg-formfield-text [control]="passwordForm.controls.password"
-																		[label]="'Password (Must be at least 8 characters)'"
-																		fieldType="password"
-																		[errorMessage]="{ required: 'Please enter a password with your ubikey' }"
+					<bg-formfield-text 	*ngIf='symmetricKeyExists'
+															[control]="passwordForm.controls.password"
+															[label]="'Password (Must be at least 8 characters)'"
+															fieldType="password"
+															placeholder='You already have a password set, are you sure you need to change this?'
+															[errorMessage]="{ required: 'Please enter a password with your ubikey' }"
+					></bg-formfield-text>
+					<bg-formfield-text *ngIf='!symmetricKeyExists'
+															[control]="passwordForm.controls.password"
+															[label]="'Password (Must be at least 8 characters)'"
+															fieldType="password"
+															placeholder='Enter password here'
+															[errorMessage]="{ required: 'Please enter a password with your ubikey' }"
 					></bg-formfield-text>
 				</fieldset>
 
 
+				<ng-template [bgAwaitPromises]='[symmetricKeyExistsLoaded]'>
+					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+						<a [routerLink]="['/']"
+								class="button button-primaryghost"
+								[disabled-when-requesting]="true"
+						>Cancel</a>
+						<button *ngIf='!symmetricKeyExists'
+										type="submit"
+										class="button"
+										[disabled]="!! addPasswordFinished"
+										(click)="clickSubmit($event)"
+										[loading-promises]="[ addPasswordFinished ]"
+										loading-message="Adding"
+						>Add Yubikey Password</button>
+						<button *ngIf='symmetricKeyExists'
+										type="submit"
+										class="button"
+										[disabled]="!! addPasswordFinished"
+										(click)="clickSubmit($event)"
+										[loading-promises]="[ addPasswordFinished ]"
+										loading-message="Adding"
+						>Change Yubikey Password</button>
+					</div>
 
-				<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-					<a [routerLink]="['/']"
-							class="button button-primaryghost"
-							[disabled-when-requesting]="true"
-					>Cancel</a>
-					<button type="submit"
-									class="button"
-									[disabled]="!! addPasswordFinished"
-									(click)="clickSubmit($event)"
-									[loading-promises]="[ addPasswordFinished ]"
-									loading-message="Adding"
-					>Add Yubikey Password</button>
-				</div>
+				</ng-template>
 			</form>
 
 		</div>
@@ -57,6 +78,8 @@ export class SigningComponent extends BaseAuthenticatedRoutableComponent impleme
 
 	passwordForm: FormGroup;
 	addPasswordFinished: Promise<any>;
+	symmetricKeyExistsLoaded: Promise<any>;
+	symmetricKeyExists: boolean = false;
 
 
 	constructor(
@@ -70,10 +93,15 @@ export class SigningComponent extends BaseAuthenticatedRoutableComponent impleme
 		super(router, route, sessionService);
 		title.setTitle("Signing - Badgr");
 
-		this.passwordForm = fb.group({
-			'password': [ '', Validators.compose([ Validators.required, passwordValidator ]) ],
-			}, 
-		);
+		this.symmetricKeyExistsLoaded = this.signingApiService.getSymmetricKeyExistance()
+			.then(answer => {
+				this.symmetricKeyExists = answer.length? true : false
+			})
+			this.passwordForm = fb.group({
+				'password': [ '', Validators.compose([ Validators.required, passwordValidator ]) ],
+				}, 
+			);
+
 	}
 
 	onSubmit(formState) {

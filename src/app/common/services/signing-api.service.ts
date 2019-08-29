@@ -7,10 +7,6 @@ import { MessageService } from "./message.service";
 import { EventsService } from "./events.service";
 
 
-export interface SymmetricKey {
-	password_hash: string
-}
-
 @Injectable()
 export class SigningApiService extends BaseHttpApiService {
 	constructor(
@@ -23,9 +19,15 @@ export class SigningApiService extends BaseHttpApiService {
 		super(sessionService, http, configService, messageService);
 	}
 
-	addPasswordForSigning(password: string): Promise<SymmetricKey> {
+	addPasswordForSigning(password: string): Promise<any> {
 		return this.post('/signing/add-password', { 'password': password })
 			.then(r => r.json());
 	}
+
+	getSymmetricKeyExistance(): Promise<any> {
+		return this.get('/signing/password')
+			.then(r => r.json());
+	}
+
 }
 
