@@ -30,6 +30,7 @@ export interface ApiBadgeInstanceForCreation {
 	issuer: IssuerUrl
 	badge_class: BadgeClassUrl
 	issue_signed?: boolean
+	signing_password?: string
 	narrative?: string
 	create_notification?: boolean
 	expires_at?: string

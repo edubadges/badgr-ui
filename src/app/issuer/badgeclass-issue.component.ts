@@ -550,6 +550,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 					badge_class: this.badgeSlug,
 					narrative: this.narrativeEnabled ? formState.narrative : "",
 					issue_signed: formState.issue_signed,
+					signing_password: formState.password,
 					create_notification: formState.notify_earner,
 					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
 					recipients: this.extractRecipients(),
@@ -638,7 +639,14 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	onSubmit(){
 		const formState = this.issueForm.value;
 		formState.expires_at = formState.expires_at? formState.expires_at.format('DD/MM/YYYY'): null  // force remove timezone
-		this.awardBadges(formState)
+		if (this.issueForm.controls.issue_signed.value){
+			this.dialogService.enterPasswordDialog.openDialog(formState)
+			.then( () => {
+				this.awardBadges(formState)
+			})
+		} else {
+			this.awardBadges(formState)
+		}
 	}
 
 	async removeEvidence(i: number) {

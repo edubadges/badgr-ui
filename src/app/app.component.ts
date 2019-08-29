@@ -27,6 +27,7 @@ import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
 import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dialog.component';
+import { EnterPasswordDialog } from './common/dialogs/enter-password-dialog.component';
 import { ThemeApiService } from "../theming/services/theme-api.service";
 import { LtiApiService } from "./lti-api/services/lti-api.service";
 
@@ -79,6 +80,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 		<share-social-dialog #shareSocialDialog></share-social-dialog>
 		<eduid-failure-dialog #eduIDFailureDialog></eduid-failure-dialog>
 		<enrollment-consent-dialog #enrollmentConsentDialog></enrollment-consent-dialog>
+		<enter-password-dialog #enterPasswordDialog></enter-password-dialog>
 
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
@@ -182,6 +184,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("enrollmentConsentDialog")
 	private enrollmentConsentDialog: EnrollmentConsentDialog;
+
+	@ViewChild("enterPasswordDialog")
+	private enterPasswordDialog: EnterPasswordDialog;
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
@@ -288,24 +293,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	// private initAnalytics() {
-	// 	if (this.configService.googleAnalyticsConfig.trackingId) {
-	// 		(function (i, s, o, g, r, a?, m?) {
-	// 			i[ 'GoogleAnalyticsObject' ] = r;
-	// 			i[ r ] = i[ r ] || function () {
-	// 				(i[ r ].q = i[ r ].q || []).push(arguments)
-	// 			}, i[ r ].l = 1 * (new Date() as any);
-	// 			a = s.createElement(o),
-	// 				m = s.getElementsByTagName(o)[ 0 ];
-	// 			a.async = 1;
-	// 			a.src = g;
-	// 			m.parentNode.insertBefore(a, m)
-	// 		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-	// 		window[ "ga" ]('create', this.configService.googleAnalyticsConfig.trackingId, 'auto');
-	// 	}
-	// }
-
 	ngOnInit() {
 		this.loggedIn = this.sessionService.isLoggedIn;
 		this.sessionService.loggedin$.subscribe(
@@ -320,6 +307,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.newTermsDialog,
 			this.eduIDFailureDialog,
 			this.enrollmentConsentDialog,
+			this.enterPasswordDialog,
 		);
 	}	
 

@@ -13,6 +13,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { OAuthAppDetailComponent } from "./oauth-app-detail.component";
 import { UserMaySignBadges } from "../auth/auth.gard";
+import { SigningApiService } from './../common/services/signing-api.service';
 
 
 const routes = [
@@ -68,6 +69,7 @@ const routes = [
 		AppIntegrationApiService,
 		AppIntegrationManager,
 		UserProfileApiService,
+		SigningApiService,
 		UserProfileManager,
 		UserMaySignBadges
 	],
