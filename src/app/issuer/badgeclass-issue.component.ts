@@ -315,7 +315,7 @@ import * as sanitizeHtml from "sanitize-html";
 					<button *ngIf="awardButtonEnabled" type="submit"
 					        class="button"
 					        [disabled]="!! issueBadgeFinished"
-					        (click)="clickSubmit($event)"
+					        (click)="clickSubmit($event, false)"
 					        [loading-promises]="[ issueBadgeFinished ]"
 					        loading-message="Issuing"
 					>Award</button>
@@ -331,7 +331,7 @@ import * as sanitizeHtml from "sanitize-html";
 										*ngIf="awardButtonEnabled && userMaySignBadges"
 										class="button"
 										[disabled]="!! issueBadgeFinished"
-										(click)="onSubmit()"
+										(click)="clickSubmit($event, true)"
 										[loading-promises]="[ issueBadgeFinished ]"
 										loading-message="Issuing"
 						>Award Signed</button>
@@ -358,6 +358,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addControl("notify_earner", true)
 		.addControl("expires_at", undefined)
 		.addControl("does_expire", false)
+		.addControl("issue_signed", false)
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "",[UrlValidator.validUrl])
@@ -548,6 +549,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 					issuer: this.issuerSlug,
 					badge_class: this.badgeSlug,
 					narrative: this.narrativeEnabled ? formState.narrative : "",
+					issue_signed: formState.issue_signed,
 					create_notification: formState.notify_earner,
 					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
 					recipients: this.extractRecipients(),
@@ -653,7 +655,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	}
 
-	clickSubmit(ev: Event) {
+	clickSubmit(ev: Event, signed:boolean) {
+		this.issueForm.untypedControl.patchValue({'issue_signed': signed})
 		if (!this.issueForm.valid) {
 			ev.preventDefault();
 			this.issueForm.markTreeDirty();

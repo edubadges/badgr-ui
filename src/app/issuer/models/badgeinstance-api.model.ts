@@ -29,6 +29,7 @@ export interface ApiBadgeInstanceForBatchCreation {
 export interface ApiBadgeInstanceForCreation {
 	issuer: IssuerUrl
 	badge_class: BadgeClassUrl
+	issue_signed?: boolean
 	narrative?: string
 	create_notification?: boolean
 	expires_at?: string
