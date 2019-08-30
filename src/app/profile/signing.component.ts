@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { SessionService } from "../common/services/session.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { markControlsDirty } from "../common/util/form-util";
+import { MessageService } from '../common/services/message.service';
 
 
 @Component({
@@ -88,6 +89,7 @@ export class SigningComponent extends BaseAuthenticatedRoutableComponent impleme
 		route: ActivatedRoute,
 		sessionService: SessionService,
 		protected title: Title,
+    protected messageService: MessageService,
 		private signingApiService: SigningApiService
 	) {
 		super(router, route, sessionService);
@@ -107,6 +109,12 @@ export class SigningComponent extends BaseAuthenticatedRoutableComponent impleme
 	onSubmit(formState) {
 		let password = formState.password
 		this.addPasswordFinished = this.signingApiService.addPasswordForSigning(password)
+			.then(r => {
+				this.symmetricKeyExists = true
+				this.messageService.reportMajorSuccess(
+          'Password succesfully added', true
+        );
+			})
 	}
 	
 	
