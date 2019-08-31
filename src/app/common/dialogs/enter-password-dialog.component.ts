@@ -113,6 +113,8 @@ export class EnterPasswordDialog extends BaseDialog {
 		if (!this.passwordForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.passwordForm);
+		} else {
+			this.onSubmit(this.passwordForm.value)
 		}
 	}
 
