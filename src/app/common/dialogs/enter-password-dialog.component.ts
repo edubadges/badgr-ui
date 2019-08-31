@@ -24,18 +24,19 @@ import { markControlsDirty } from "../../common/util/form-util";
 							></bg-formfield-text>
 						</fieldset>
 					</div>
-
 					<hr class="rule l-rule">
-					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-						<button class="button button-primaryghost"
-									(click)="closeDialog(false)">{{ options.rejectButtonLabel }}</button>	
-						<button
-								type="submit"
-								class="button"
-								(click)="clickSubmit($event)"
-						>Submit</button>
-					</div>
 				</form>
+				<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+					<button
+						class="button button-primaryghost" 
+						(click)="closeDialog(false)">{{ options.rejectButtonLabel }}
+					</button>	
+					<button
+							type="submit"
+							class="button"
+							(click)="clickSubmit($event)"
+					>Submit</button>
+				</div>
 			</div>
 		</dialog>
 	`,
