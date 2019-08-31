@@ -24,6 +24,11 @@ export class SigningApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
+	updatePasswordForSigning(password: string, old_password: string): Promise<any> {
+		return this.put('/signing/update-password', { 'password': password, 'old_password': old_password })
+			.then(r => r.json());
+	}
+
 	getSymmetricKeyExistance(): Promise<any> {
 		return this.get('/signing/password')
 			.then(r => r.json());
