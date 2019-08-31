@@ -564,7 +564,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				);
 				this.messageService.setMessage("Badge(s) succesfully awarded");
 			}, error => {
-				this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).firstMessage, "error");
+				this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).verboseError, "error");
 			}).then(() => this.issueBadgeFinished = null)
 	}
 
