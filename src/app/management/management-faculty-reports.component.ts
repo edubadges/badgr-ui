@@ -20,6 +20,12 @@ import { preloadImageURL } from "../common/util/file-util";
 					<h1>{{faculty.name}}</h1>
 					<h2>Reports of Issuers belonging to this faculty</h2>
 				</div>
+          <button type="button"
+                  class="button button-primaryghost"
+                  [routerLink]="['/management/reports/']"
+                  [disabled-when-requesting]="true"
+          >Back to overview
+          </button>
 			</div>
 		</header>
 
