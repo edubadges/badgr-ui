@@ -340,7 +340,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addControl("does_expire", false)
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
-			.addControl("evidence_url", "")
+			.addControl("evidence_url", "",[UrlValidator.validUrl])
 		)
 		.addArray("recipients", typedGroup()
 			.addControl("recipient_name", "")
