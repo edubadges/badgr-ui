@@ -3,7 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
+## [1.0.4] - 2019-09-17
+ - url validator on award badge
+ - staff login on home screen
+ - expiration date show
+ - download button in share badge screen
+ - counter for number of users that have enrolled for a certain badge class
+ - fixed a few typos
+ - removed backpack and collections when logged in as teacher.
+ - new privacy statements
+  
 ## [1.0.3] - 2019-07-23
  - shows extensions in public badgeclass page
  - adds expiration date option in award badgeclass page 
