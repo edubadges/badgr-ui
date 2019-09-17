@@ -117,7 +117,7 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					</section>
 					<br>
 					<section>
-						<h1>Download a JSON version of you badge.</h1>
+						<h1>Download a JSON version of your badge.</h1>
 						<a [href]="v2JsonUrl" class="button button-primaryghost">JSON</a>
 					</section>
 				</div>
