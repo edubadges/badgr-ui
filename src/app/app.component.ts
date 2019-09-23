@@ -329,12 +329,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 					}
 				}
 			})
-		var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
+		let current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
 		if (current_user_permissions[0]=="is_superuser" || current_user_permissions[0]=="is_staff"){
 			this.userMaySeeIssuers = true;
 		} else {
 			this.userMaySeeIssuers = current_user_permissions.includes('view_issuer_tab');
-		}	
+		}
+		if (!this.userIsStudent){
+			this.userMaySeeIssuers = true;
+		}
 
 		// Show Validana settings page if user has institution or faculty scope
 		this.userMaySeeValidana = current_user_permissions.includes('has_institution_scope') ||
