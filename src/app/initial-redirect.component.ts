@@ -27,7 +27,7 @@ export class InitialRedirectComponent {
 						router.navigate(['/recipient/badges']);
 					}
 					else if (account['provider'] == 'surf_conext'){
-						router.navigate(['/issuer']);
+						router.navigate(['/profile/profile']);
 					}
 				}				
 			})

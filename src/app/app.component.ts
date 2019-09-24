@@ -101,8 +101,8 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 				<!-- Authenticated Menu -->
 				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 				<!-- use of userMaySeeIssuers permission for hiding backpack and badge-collections tabs, as this perm is given to all and only teachers -->
-					<li *ngIf="!userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
-					<li *ngIf="!userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
+					<li *ngIf="userIsStudent" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
+					<li *ngIf="userIsStudent" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
 					<li *ngIf="userIsStudent" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-requests']">Badge requests</a></li>
 					<li *ngIf="userMaySeeIssuers" class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
