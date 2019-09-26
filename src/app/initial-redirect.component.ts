@@ -22,14 +22,23 @@ export class InitialRedirectComponent {
 		if (sessionService.isLoggedIn) {
 			this.profileManager.profileService.fetchSocialAccounts()
 			.then(socialAccounts => {
-				for (let account of socialAccounts){
-					if (account['provider'] == 'edu_id'){
-						router.navigate(['/recipient/badges']);
-					}
-					else if (account['provider'] == 'surf_conext'){
-						router.navigate(['/issuer']);
-					}
-				}				
+				this.profileManager.userProfilePromise
+					.then(profile => {
+						var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
+
+						for (let account of socialAccounts){
+							if (account['provider'] == 'edu_id'){
+								router.navigate(['/recipient/badges']);
+							}
+							else if (account['provider'] == 'surf_conext'){
+								if (current_user_permissions.includes('view_issuer_tab')) {
+									router.navigate(['/issuer']);
+								} else {
+									router.navigate(['/profile/profile']);
+								}
+							}
+						};		
+					})
 			})
 		} else {
 			router.navigate(['/auth/login']);
