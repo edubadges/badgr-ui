@@ -4,6 +4,7 @@ import { SystemConfigService } from "../services/config.service";
 import { BaseDialog } from './base-dialog';
 import { SessionService } from "../services/session.service";
 import { SocialAccountProviderInfo } from "../model/user-profile-api.model";
+import { ThemeApiService } from "../../../theming/services/theme-api.service";
 
 @Component({
 	selector: 'enrollment-consent-dialog',
@@ -45,7 +46,7 @@ export class EnrollmentConsentDialog extends BaseDialog {
 	loggedIn: boolean = false;
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-	get currentTheme() { return this.configService.currentTheme }
+	get currentTheme() { return this.themeManager.currentTheme }
 
 
 	constructor(
@@ -53,6 +54,7 @@ export class EnrollmentConsentDialog extends BaseDialog {
 		sessionService: SessionService,
 		componentElem: ElementRef,
 		renderer: Renderer2,
+		private themeManager: ThemeApiService,
 	) {
 
 		super(componentElem, renderer);
