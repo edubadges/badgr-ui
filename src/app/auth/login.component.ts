@@ -160,7 +160,8 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 							this.router.navigate(['/recipient/badges']);
 						}
 						else if (account['provider'] == 'surf_conext'){
-							this.router.navigate(['/issuer']);
+
+							this.router.navigate(['/profile/profile']);
 						}
 					}				
 				})
