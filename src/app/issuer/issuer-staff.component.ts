@@ -65,6 +65,7 @@ import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 								<th>Name</th>
 								<th class="hidden hidden-is-tablet">Email</th>
 								<th class="table-staffeditor-x-role">Role</th>
+								<th class="table-staffeditor-x-role">Signer</th>
 								<th class="hidden hidden-is-tablet" *ngIf="isCurrentUserIssuerOwner"><span class="visuallyhidden">Actions</span>
 								</th>
 							</tr>
@@ -92,6 +93,8 @@ import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 									                     [errorMessage]="'Please select a staff role'"
 									></bg-formfield-select>
 								</td>
+
+								<td></td>
 
 								<td class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
@@ -123,12 +126,31 @@ import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 										{{ member.roleInfo.label }}
 									</span>
 								</td>
+
+								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">								
+									<button class="button button-primaryghost"
+													type="button"
+													[disabled-when-requesting]="true"
+													(click)="makeMemberSigner(member)"
+													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false  && !currentSigner && member.mayBecomeSigner"
+									>Make Signer
+									</button>
+									<button class="button button-primaryghost"
+													type="button"
+													[disabled-when-requesting]="true"
+													(click)="enterPassword(member)"
+													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false  && currentSigner && member.mayBecomeSigner"
+									>Make Signer
+									</button>
+									<span *ngIf="member.isSigner">Is signer</span>
+								</td>
+
 								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
 									        type="button"
 									        [disabled-when-requesting]="true"
-									        (click)="removeMember(member)"
-									        *ngIf="member != issuer.currentUserStaffMember"
+													(click)="removeMember(member)"
+													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false"
 									>Remove Member
 									</button>
 								</td>
@@ -150,6 +172,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	profileEmailsLoaded: Promise<UserProfileEmail[]>;
 	profileEmails: UserProfileEmail[] = [];
 	staffCreateForm: FormGroup;
+	currentSigner: IssuerStaffMember;
 
 	constructor(
 		loginService: SessionService,
@@ -167,7 +190,11 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug)
-			.then(issuer => this.issuer = issuer);
+			.then(issuer => {
+				this.currentSigner = this.getCurrentSigner(issuer)
+				this.issuer = issuer
+				return this.issuer
+			});
 
 		this.profileEmailsLoaded = this.profileManager.userProfilePromise
 			.then(profile => profile.emails.loadedPromise)
@@ -188,6 +215,17 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		return this.issuer && this.issuer.currentUserStaffMember && this.issuer.currentUserStaffMember.isOwner
 	}
 
+
+	getCurrentSigner(issuer) {
+		for (let index in issuer.staff.entities as IssuerStaffMember) {
+			let member = issuer.staff.entities[index]
+			if (member.isSigner) {
+				return member
+			}
+		}
+		return null
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Staff Editing
 
@@ -206,6 +244,53 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		);
 	}
 
+
+	makeMemberSigner(member: IssuerStaffMember){
+		member.isSigner = true
+
+		member.save().then(
+			() => {
+				this.currentSigner = member
+				this.messageService.reportMajorSuccess(`${member.nameLabel}'s has been made signer.`);
+				this.initStaffCreateForm();
+			},
+			error => this.messageService.reportHandledError(`Failed to make member signer: ${BadgrApiFailure.from(error).verboseError}`)
+		);
+
+	}
+
+
+	enterPassword(new_member) {
+		this.dialogService.changeSignerPasswordDialog.openDialog(this.currentSigner, new_member)
+			.then( () => {
+				this.changeSigner(new_member)
+			})
+			.catch( error => error)
+	}
+
+	changeSigner(member: IssuerStaffMember) {
+		this.currentSigner.isSigner = false
+
+		this.currentSigner.save().then(
+			() => {
+				this.currentSigner = null
+
+				member.isSigner = true
+				member.save().then(
+					() => {
+						this.currentSigner = member
+						this.messageService.reportMajorSuccess(`Signer role succesfully changed to ${member.nameLabel}`);
+						this.initStaffCreateForm();
+					},
+					error => this.messageService.reportHandledError(`Failed to make member signer: ${BadgrApiFailure.from(error).verboseError}`)
+				);
+				// this.initStaffCreateForm();
+			},
+			error => this.messageService.reportHandledError(`Failed to remove ${this.currentSigner.nameLabel} as signer: ${BadgrApiFailure.from(error).verboseError}`)
+		);
+
+	}
+
 	async removeMember(member: IssuerStaffMember) {
 		if (!await this.dialogService.confirmDialog.openTrueFalseDialog({
 				dialogTitle: `Remove ${member.nameLabel}?`,
@@ -218,7 +303,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 
 		return member.remove().then(
 			() => this.messageService.reportMinorSuccess(`Removed ${member.nameLabel} from ${this.issuer.name}`),
-			error => this.messageService.reportHandledError(`Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`)
+			error => this.messageService.reportHandledError(`Failed to remove member: ${BadgrApiFailure.from(error).verboseError}`)
 		);
 	}
 

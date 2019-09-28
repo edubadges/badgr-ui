@@ -5,6 +5,7 @@ import { NewTermsDialog } from "../dialogs/new-terms-dialog.component";
 import { EduIDFailureDialog } from "../dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from './../dialogs/enrollment-consent-dialog.component';
 import { EnterPasswordDialog } from './../dialogs/enter-password-dialog.component';
+import { ChangeSignerPasswordDialog } from './../dialogs/change-signer-password-dialog.component';
 
 
 @Injectable()
@@ -15,6 +16,7 @@ export class CommonDialogsService {
 	eduIDFailureDialog: EduIDFailureDialog;
 	enrollmentConsentDialog: EnrollmentConsentDialog;
 	enterPasswordDialog: EnterPasswordDialog;
+	changeSignerPasswordDialog: ChangeSignerPasswordDialog;
 
 
 	constructor(){}
@@ -26,6 +28,7 @@ export class CommonDialogsService {
 		eduIDFailureDialog: EduIDFailureDialog,
 		enrollmentConsentDialog: EnrollmentConsentDialog,
 		enterPasswordDialog: EnterPasswordDialog,
+		changeSignerPasswordDialog: ChangeSignerPasswordDialog,
 	) {
 		this.confirmDialog = confirmDialog;
 		this.shareSocialDialog = shareSocialDialog;
@@ -33,5 +36,6 @@ export class CommonDialogsService {
 		this.eduIDFailureDialog = eduIDFailureDialog;
 		this.enrollmentConsentDialog = enrollmentConsentDialog;
 		this.enterPasswordDialog = enterPasswordDialog;
+		this.changeSignerPasswordDialog = changeSignerPasswordDialog;
 	}
 }

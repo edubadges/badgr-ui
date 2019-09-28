@@ -171,6 +171,16 @@ export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaff
 		this.apiModel.role = role;
 	}
 
+	get mayBecomeSigner() {
+		return this.apiModel.may_become_signer
+	}
+	
+	get isSigner() { return this.apiModel.is_signer }
+	
+	set isSigner(b: boolean) {
+		this.apiModel.is_signer = b
+	}
+
 	get isOwner() { return this.roleSlug === "owner" }
 
 
@@ -221,6 +231,7 @@ export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaff
 				action: "modify",
 				email: this.email,
 				role: this.apiModel.role,
+				is_signer: this.apiModel.is_signer	
 			}
 		);
 

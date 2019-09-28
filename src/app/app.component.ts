@@ -28,6 +28,8 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 import {EduIDFailureDialog} from "./common/dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from './common/dialogs/enrollment-consent-dialog.component';
 import { EnterPasswordDialog } from './common/dialogs/enter-password-dialog.component';
+import { ChangeSignerPasswordDialog } from './common/dialogs/change-signer-password-dialog.component';
+
 import { ThemeApiService } from "../theming/services/theme-api.service";
 import { LtiApiService } from "./lti-api/services/lti-api.service";
 
@@ -81,6 +83,9 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 		<eduid-failure-dialog #eduIDFailureDialog></eduid-failure-dialog>
 		<enrollment-consent-dialog #enrollmentConsentDialog></enrollment-consent-dialog>
 		<enter-password-dialog #enterPasswordDialog></enter-password-dialog>
+
+
+		<change-signer-password-dialog #changeSignerPasswordDialog></change-signer-password-dialog>
 
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
@@ -187,6 +192,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("enterPasswordDialog")
 	private enterPasswordDialog: EnterPasswordDialog;
+
+	@ViewChild("changeSignerPasswordDialog")
+	private changeSignerPasswordDialog: ChangeSignerPasswordDialog;
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
@@ -308,6 +316,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.eduIDFailureDialog,
 			this.enrollmentConsentDialog,
 			this.enterPasswordDialog,
+			this.changeSignerPasswordDialog,
 		);
 	}	
 

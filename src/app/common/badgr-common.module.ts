@@ -13,6 +13,7 @@ import { NewTermsDialog } from "./dialogs/new-terms-dialog.component";
 import { EduIDFailureDialog } from "./dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from "./dialogs/enrollment-consent-dialog.component";
 import { EnterPasswordDialog } from "./dialogs/enter-password-dialog.component";
+import { ChangeSignerPasswordDialog } from "./dialogs/change-signer-password-dialog.component";
 import { ConnectedBadgeComponent } from "./components/connected-badge.component";
 import { TruncatedTextComponent } from "./components/truncated-text.component";
 import { TooltipComponent } from "./components/tooltip.component";
@@ -51,6 +52,7 @@ import { ShowMore } from "./components/show-more.component";
 import { QueryParametersService } from "./services/query-parameters.service";
 import { UserProfileManager } from "./services/user-profile-manager.service";
 import { UserProfileApiService } from "./services/user-profile-api.service";
+import { SigningApiService } from './services/signing-api.service';
 import { OAuthApiService } from "./services/oauth-api.service";
 import { OAuthManager } from "./services/oauth-manager.service";
 import { AuthGuard } from "./guards/auth.guard";
@@ -79,6 +81,7 @@ const COMPONENTS = [
 	EduIDFailureDialog,
 	EnrollmentConsentDialog,
 	EnterPasswordDialog,
+	ChangeSignerPasswordDialog,
 	ConnectedBadgeComponent,
 	TruncatedTextComponent,
 	FormMessageComponent,
@@ -113,6 +116,7 @@ const SERVICES = [
 	UserProfileApiService,
 	OAuthManager,
 	OAuthApiService,
+	SigningApiService,
 	EmbedService,
 	InitialLoadingIndicatorService,
 	ExternalToolsApiService,

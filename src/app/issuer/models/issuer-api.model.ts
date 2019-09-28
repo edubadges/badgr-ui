@@ -46,6 +46,8 @@ export interface ApiIssuer {
 export type IssuerStaffRoleSlug = "owner" | "editor" | "staff";
 export interface ApiIssuerStaff {
 	role: IssuerStaffRoleSlug
+	is_signer?: boolean
+	may_become_signer?: boolean
 	user: {
 		first_name: string
 		last_name: string
@@ -60,6 +62,7 @@ export interface ApiIssuerStaffOperation {
 	username?: string;
 	email?: string;
 	role?: IssuerStaffRoleSlug;
+	is_signer?: boolean;
 }
 
 export interface ApiIssuerForCreation {
