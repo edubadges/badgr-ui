@@ -65,7 +65,7 @@ import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 								<th>Name</th>
 								<th class="hidden hidden-is-tablet">Email</th>
 								<th class="table-staffeditor-x-role">Role</th>
-								<th class="table-staffeditor-x-role">Signer</th>
+								<th class="table-staffeditor-x-role"  *ngIf="isCurrentUserIssuerOwner">Signer</th>
 								<th class="hidden hidden-is-tablet" *ngIf="isCurrentUserIssuerOwner"><span class="visuallyhidden">Actions</span>
 								</th>
 							</tr>
@@ -94,7 +94,7 @@ import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 									></bg-formfield-select>
 								</td>
 
-								<td></td>
+								<td  *ngIf="isCurrentUserIssuerOwner" ></td>
 
 								<td class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
