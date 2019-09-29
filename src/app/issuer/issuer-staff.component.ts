@@ -18,6 +18,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
+import { SigningApiService } from '../common/services/signing-api.service';
 
 
 @Component({
@@ -178,6 +179,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
+		private signingApiService: SigningApiService,
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,
@@ -246,17 +248,17 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 
 
 	makeMemberSigner(member: IssuerStaffMember){
-		member.isSigner = true
-
-		member.save().then(
-			() => {
-				this.currentSigner = member
-				this.messageService.reportMajorSuccess(`${member.nameLabel}'s has been made signer.`);
-				this.initStaffCreateForm();
-			},
-			error => this.messageService.reportHandledError(`Failed to make member signer: ${BadgrApiFailure.from(error).verboseError}`)
-		);
-
+		this.signingApiService.setNewSigner(
+			this.issuer,
+			member).then(
+				() => {
+					member.isSigner = true
+					this.currentSigner = member
+					this.messageService.reportMajorSuccess(`${member.nameLabel}'s has been made signer.`);
+					this.initStaffCreateForm();
+				},
+				error => this.messageService.reportHandledError(`Failed to make member signer: ${BadgrApiFailure.from(error).verboseError}`)
+			);
 	}
 
 
@@ -269,7 +271,6 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 				this.messageService.reportMajorSuccess(`Signer role succesfully changed to ${new_member.nameLabel}`);
 
 				this.initStaffCreateForm();
-				// this.changeSigner(new_member)
 			})
 			.catch( error => {
 				this.messageService.reportHandledError(`Failed to change signer: ${BadgrApiFailure.from(error).verboseError}`)

@@ -29,6 +29,11 @@ export class SigningApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
+	setNewSigner(	issuer: Issuer, new_signer: IssuerStaffMember): Promise<any> {
+			return this.put('/signing/set-signer', {'issuer_slug': issuer.slug, 'new_signer_email': new_signer.email})
+			.then(r => r.json());
+		}
+
 	changeSigner(	issuer: Issuer,
 								old_signer_password: string, 
 								old_signer: IssuerStaffMember, 
