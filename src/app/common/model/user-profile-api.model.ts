@@ -6,6 +6,7 @@ import { ApiEntityRef } from "./entity-ref";
 export interface ApiUserProfile {
 	first_name: string
 	last_name: string
+	email?: string
 	agreed_terms_version: number
 	latest_terms_version: number
 	latest_terms_description: string

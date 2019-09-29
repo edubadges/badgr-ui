@@ -9,7 +9,7 @@ import { BaseDialog } from './base-dialog';
 import { SessionService } from "../services/session.service";
 import { SocialAccountProviderInfo } from "../model/user-profile-api.model";
 import { markControlsDirty } from "../../common/util/form-util";
-import { IssuerStaffMember } from "../../issuer/models/issuer.model";
+import { Issuer, IssuerStaffMember } from "../../issuer/models/issuer.model";
 
 @Component({
 	selector: 'change-signer-password-dialog',
@@ -69,6 +69,7 @@ export class ChangeSignerPasswordDialog extends BaseDialog {
 	passwordForm: FormGroup;
 	oldSigner: IssuerStaffMember;
 	newSigner: IssuerStaffMember;
+	issuer: Issuer;
 
 	resolveFunc: () => void;
 	rejectFunc: () => void;
@@ -97,8 +98,9 @@ export class ChangeSignerPasswordDialog extends BaseDialog {
 		})
 	}
 
-	openDialog(oldSigner: IssuerStaffMember, newSigner: IssuerStaffMember): Promise<void> {
+	openDialog(issuer: Issuer, oldSigner: IssuerStaffMember, newSigner: IssuerStaffMember): Promise<void> {
 		let options = { dialogBody: this.currentTheme.consent_apply_badge };
+		this.issuer = issuer
 		this.oldSigner = oldSigner
 		this.newSigner = newSigner
 		this.options = Object.assign(this.options, options);
@@ -124,6 +126,7 @@ export class ChangeSignerPasswordDialog extends BaseDialog {
 
 	onSubmit(formState) {
 		this.signingApiService.changeSigner(
+			this.issuer,
 			formState.old_password, 
 			this.oldSigner, 
 			formState.new_password, 

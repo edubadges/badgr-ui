@@ -17,7 +17,7 @@ import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
 import {BadgeClassManager} from "./services/badgeclass-manager.service";
 import {IssuerManager} from "./services/issuer-manager.service";
 
-import {Issuer} from "./models/issuer.model";
+import {Issuer, IssuerStaffMember} from "./models/issuer.model";
 import {BadgeClass} from "./models/badgeclass.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
@@ -328,7 +328,7 @@ import * as sanitizeHtml from "sanitize-html";
 
 					<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
 						<button
-										*ngIf="awardButtonEnabled && userMaySignBadges"
+										*ngIf="awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
 										class="button"
 										[disabled]="!! issueBadgeFinished"
 										(click)="clickSubmit($event, true)"
@@ -336,7 +336,7 @@ import * as sanitizeHtml from "sanitize-html";
 										loading-message="Issuing"
 						>Award Signed</button>
 
-						<button *ngIf="!awardButtonEnabled && userMaySignBadges"
+						<button *ngIf="!awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
 									class="button"
 					        [disabled]="true"
 									style = 'background:#A09EAF;'
@@ -388,6 +388,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	permissionsLoaded: Promise<any>;
 
 	userMaySignBadges: boolean = false;
+	currentUserIsSigner: boolean = false;
 
 	hasDateError = false
 	evidenceEnabled = false;
@@ -425,13 +426,22 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				this.studentsEnrolledApiService.getEnrolledStudents(this.badgeSlug)
 					.then(r => this.addRecipientsFromStudents(r))
 			});
+
+			this.permissionsLoaded = this.userProfileManager.userProfilePromise
+			.then(profile => {
+				var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
+				this.userMaySignBadges = current_user_permissions.includes('may_sign_assertions');
+				
+				for (let index in issuer.staff.entities) {
+					let member = issuer.staff.entities[index] as IssuerStaffMember
+					if (member.isSigner && profile.email == member.email) {
+						this.currentUserIsSigner = true
+					} 
+				}
+			})
+
 		});
 
-		this.permissionsLoaded = this.userProfileManager.userProfilePromise
-		.then(profile => {
-			var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
-			this.userMaySignBadges = current_user_permissions.includes('may_sign_assertions');
-		})
 
 
 	}

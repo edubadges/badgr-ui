@@ -5,7 +5,7 @@ import { BaseHttpApiService } from "./base-http-api.service";
 import { SessionService } from "./session.service";
 import { MessageService } from "./message.service";
 import { EventsService } from "./events.service";
-import { IssuerStaffMember } from "../../issuer/models/issuer.model";
+import { Issuer, IssuerStaffMember } from "../../issuer/models/issuer.model";
 
 @Injectable()
 export class SigningApiService extends BaseHttpApiService {
@@ -29,12 +29,14 @@ export class SigningApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
-	changeSigner(	old_signer_password: string, 
+	changeSigner(	issuer: Issuer,
+								old_signer_password: string, 
 								old_signer: IssuerStaffMember, 
 								new_signer_password: string, 
 								new_signer: IssuerStaffMember): Promise<any> {
 		return this.post('/signing/change-signer', 
-										{ 'old_signer_password': old_signer_password, 
+										{ 'issuer_slug': issuer.slug,
+											'old_signer_password': old_signer_password, 
 											'old_signer_email': old_signer.email,
 											'new_signer_password': new_signer_password,
 											'new_signer_email': new_signer.email,

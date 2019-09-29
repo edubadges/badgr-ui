@@ -132,14 +132,14 @@ import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 													type="button"
 													[disabled-when-requesting]="true"
 													(click)="makeMemberSigner(member)"
-													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false  && !currentSigner && member.mayBecomeSigner"
+													*ngIf="member.isSigner == false  && !currentSigner && member.mayBecomeSigner"
 									>Make Signer
 									</button>
 									<button class="button button-primaryghost"
 													type="button"
 													[disabled-when-requesting]="true"
 													(click)="enterPassword(member)"
-													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false  && currentSigner && member.mayBecomeSigner"
+													*ngIf="member.isSigner == false  && currentSigner && member.mayBecomeSigner"
 									>Make Signer
 									</button>
 									<span *ngIf="member.isSigner">Is signer</span>
@@ -261,34 +261,19 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 
 
 	enterPassword(new_member) {
-		this.dialogService.changeSignerPasswordDialog.openDialog(this.currentSigner, new_member)
+		this.dialogService.changeSignerPasswordDialog.openDialog(this.issuer, this.currentSigner, new_member)
 			.then( () => {
-				this.changeSigner(new_member)
+				this.currentSigner.isSigner = false
+				new_member.isSigner = true
+				this.currentSigner = new_member
+				this.messageService.reportMajorSuccess(`Signer role succesfully changed to ${new_member.nameLabel}`);
+
+				this.initStaffCreateForm();
+				// this.changeSigner(new_member)
 			})
-			.catch( error => error)
-	}
-
-	changeSigner(member: IssuerStaffMember) {
-		this.currentSigner.isSigner = false
-
-		this.currentSigner.save().then(
-			() => {
-				this.currentSigner = null
-
-				member.isSigner = true
-				member.save().then(
-					() => {
-						this.currentSigner = member
-						this.messageService.reportMajorSuccess(`Signer role succesfully changed to ${member.nameLabel}`);
-						this.initStaffCreateForm();
-					},
-					error => this.messageService.reportHandledError(`Failed to make member signer: ${BadgrApiFailure.from(error).verboseError}`)
-				);
-				// this.initStaffCreateForm();
-			},
-			error => this.messageService.reportHandledError(`Failed to remove ${this.currentSigner.nameLabel} as signer: ${BadgrApiFailure.from(error).verboseError}`)
-		);
-
+			.catch( error => {
+				this.messageService.reportHandledError(`Failed to change signer: ${BadgrApiFailure.from(error).verboseError}`)
+			})
 	}
 
 	async removeMember(member: IssuerStaffMember) {

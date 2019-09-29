@@ -80,6 +80,8 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 	get marketingOptIn() { return this.apiModel.marketing_opt_in; }
 	set marketingOptIn(optedIn: boolean) { this.apiModel.marketing_opt_in = true }
 
+	get email() { return this.apiModel.email }
+
 	save(): Promise<this> {
 		return this.profileService.updateProfile(this.apiModel)
 			.then(m => this.applyApiModel(m));
