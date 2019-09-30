@@ -15,7 +15,7 @@ import { Issuer, IssuerStaffMember } from "../../issuer/models/issuer.model";
 	selector: 'change-signer-password-dialog',
 	template: `
 		<dialog class="dialog dialog-large dialog-confirm">
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
+			<div class="l-containervertical" style="margin: 0px 20px 0px 20px;">
 				<form (ngSubmit)="onSubmit(passwordForm.value)" novalidate>
 					<div class="l-formsection wrap wrap-well" role="group">
 						<fieldset>
