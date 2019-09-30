@@ -8,6 +8,7 @@ import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { DateValidator } from "../common/validators/date.validator";
+import { UrlValidator } from "../common/validators/url.validator";
 import { MdImgValidator } from "../common/validators/md-img.validator";
 
 import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
