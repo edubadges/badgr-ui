@@ -67,7 +67,7 @@ import { SystemConfigService } from '../common/services/config.service';
 								<th>Name</th>
 								<th class="hidden hidden-is-tablet">Email</th>
 								<th class="table-staffeditor-x-role">Role</th>
-								<th class="table-staffeditor-x-role"  *ngIf="signingEnabled && isCurrentUserIssuerOwner">Signer</th>
+								<th class="table-staffeditor-x-role"  *ngIf="signingEnabled">Signer</th>
 								<th class="hidden hidden-is-tablet" *ngIf="isCurrentUserIssuerOwner"><span class="visuallyhidden">Actions</span>
 								</th>
 							</tr>
@@ -96,7 +96,7 @@ import { SystemConfigService } from '../common/services/config.service';
 									></bg-formfield-select>
 								</td>
 
-								<td  *ngIf="signingEnabled && isCurrentUserIssuerOwner" ></td>
+								<td  *ngIf="signingEnabled" ></td>
 
 								<td class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
@@ -129,22 +129,22 @@ import { SystemConfigService } from '../common/services/config.service';
 									</span>
 								</td>
 
-								<td *ngIf="signingEnabled && isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">								
+								<td *ngIf="signingEnabled" class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
 													type="button"
 													[disabled-when-requesting]="true"
 													(click)="makeMemberSigner(member)"
-													*ngIf="member.isSigner == false  && !currentSigner && member.mayBecomeSigner"
+													*ngIf="member.isSigner == false  && !currentSigner && member.mayBecomeSigner && isCurrentUserIssuerOwner"
 									>Make Signer
 									</button>
-									<button class="signingEnabled && button button-primaryghost"
+									<button class="button button-primaryghost"
 													type="button"
 													[disabled-when-requesting]="true"
 													(click)="enterPassword(member)"
-													*ngIf="member.isSigner == false  && currentSigner && member.mayBecomeSigner"
+													*ngIf="member.isSigner == false  && currentSigner && member.mayBecomeSigner && isCurrentUserIssuerOwner"
 									>Make Signer
 									</button>
-									<span *ngIf="signingEnabled && member.isSigner">Is signer</span>
+									<span *ngIf="member.isSigner">Is signer</span>
 								</td>
 
 								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">
