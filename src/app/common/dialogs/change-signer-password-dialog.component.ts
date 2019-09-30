@@ -120,6 +120,7 @@ export class ChangeSignerPasswordDialog extends BaseDialog {
 
 	closeDialog(result: boolean) {
 		this.closeModal();
+		this.passwordForm.reset()
 		if (result) {
 			this.resolveFunc();
 		} else {
