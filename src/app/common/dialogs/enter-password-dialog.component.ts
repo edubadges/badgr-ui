@@ -17,8 +17,8 @@ import { markControlsDirty } from "../../common/util/form-util";
 					<div class="l-formsection wrap wrap-well" role="group">
 						<fieldset>
 							<bg-formfield-text 	[control]="passwordForm.controls.password"
-																	[label]="'Please enter your YubiKey password.'"
-																	[errorMessage]="{required:'Please enter your YubiKey password'}"
+																	[label]="'Please enter your password.'"
+																	[errorMessage]="{required:'Please enter your password'}"
 																	fieldType="password"
 																	[autofocus]="true"
 							></bg-formfield-text>

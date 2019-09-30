@@ -21,7 +21,7 @@ import { Issuer, IssuerStaffMember } from "../../issuer/models/issuer.model";
 						<fieldset>
 							<bg-formfield-text 	[control]="passwordForm.controls.old_password"
 																	[label]="'Please enter the password belonging to the previous signer.'"
-																	[errorMessage]="{required:'Please enter your previous YubiKey password'}"
+																	[errorMessage]="{required:'Please enter your previous password'}"
 																	fieldType="password"
 																	[autofocus]="true"
 							></bg-formfield-text>
@@ -29,7 +29,7 @@ import { Issuer, IssuerStaffMember } from "../../issuer/models/issuer.model";
 						<fieldset>
 							<bg-formfield-text 	[control]="passwordForm.controls.new_password"
 																	[label]="'Please enter the password belonging to the new signer.'"
-																	[errorMessage]="{required:'Please enter your new YubiKey password'}"
+																	[errorMessage]="{required:'Please enter your new password'}"
 																	fieldType="password"
 							></bg-formfield-text>
 						</fieldset>

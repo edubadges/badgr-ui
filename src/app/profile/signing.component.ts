@@ -32,14 +32,14 @@ import { MessageService } from '../common/services/message.service';
 								[label]="'Old password'"
 								fieldType="password"
 								placeholder='Please type in your old password'
-								[errorMessage]="{ required: 'Please enter a password with your Yubikey' }"
+								[errorMessage]="{ required: 'Please enter a password' }"
 						></bg-formfield-text>
 						<bg-formfield-text 
 								[control]="updatePasswordForm.controls.password"
 								[label]="'New password (Must be at least 8 characters)'"
 								fieldType="password"
 								placeholder='Please type in your new password'
-								[errorMessage]="{ required: 'Please enter a password with your Yubikey' }"
+								[errorMessage]="{ required: 'Please enter a password' }"
 						></bg-formfield-text>
 					</fieldset>
 					<a [routerLink]="['/']"
@@ -54,7 +54,7 @@ import { MessageService } from '../common/services/message.service';
 						(click)="clickSubmit($event)"
 						[loading-promises]="[ addPasswordFinished ]"
 						loading-message="Adding"
-						>Change Yubikey Password
+						>Change Password
 					</button>
 				</form>
 
@@ -72,7 +72,7 @@ import { MessageService } from '../common/services/message.service';
 																[label]="'Password (Must be at least 8 characters)'"
 																fieldType="password"
 																placeholder='Enter password here'
-																[errorMessage]="{ required: 'Please enter a password with your Yubikey' }"
+																[errorMessage]="{ required: 'Please enter a password' }"
 						></bg-formfield-text>
 					</fieldset>
 					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
@@ -86,7 +86,7 @@ import { MessageService } from '../common/services/message.service';
 										(click)="clickSubmit($event)"
 										[loading-promises]="[ addPasswordFinished ]"
 										loading-message="Adding"
-						>Add Yubikey Password</button>
+						>Add Password</button>
 					</div>
 				</form>
 			</ng-template>
