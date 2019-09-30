@@ -19,6 +19,7 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
 import { SigningApiService } from '../common/services/signing-api.service';
+import { SystemConfigService } from '../common/services/config.service';
 
 
 @Component({
@@ -66,7 +67,7 @@ import { SigningApiService } from '../common/services/signing-api.service';
 								<th>Name</th>
 								<th class="hidden hidden-is-tablet">Email</th>
 								<th class="table-staffeditor-x-role">Role</th>
-								<th class="table-staffeditor-x-role"  *ngIf="isCurrentUserIssuerOwner">Signer</th>
+								<th class="table-staffeditor-x-role"  *ngIf="signingEnabled && isCurrentUserIssuerOwner">Signer</th>
 								<th class="hidden hidden-is-tablet" *ngIf="isCurrentUserIssuerOwner"><span class="visuallyhidden">Actions</span>
 								</th>
 							</tr>
@@ -95,7 +96,7 @@ import { SigningApiService } from '../common/services/signing-api.service';
 									></bg-formfield-select>
 								</td>
 
-								<td  *ngIf="isCurrentUserIssuerOwner" ></td>
+								<td  *ngIf="signingEnabled && isCurrentUserIssuerOwner" ></td>
 
 								<td class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
@@ -128,7 +129,7 @@ import { SigningApiService } from '../common/services/signing-api.service';
 									</span>
 								</td>
 
-								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">								
+								<td *ngIf="signingEnabled && isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">								
 									<button class="button button-primaryghost"
 													type="button"
 													[disabled-when-requesting]="true"
@@ -136,14 +137,14 @@ import { SigningApiService } from '../common/services/signing-api.service';
 													*ngIf="member.isSigner == false  && !currentSigner && member.mayBecomeSigner"
 									>Make Signer
 									</button>
-									<button class="button button-primaryghost"
+									<button class="signingEnabled && button button-primaryghost"
 													type="button"
 													[disabled-when-requesting]="true"
 													(click)="enterPassword(member)"
 													*ngIf="member.isSigner == false  && currentSigner && member.mayBecomeSigner"
 									>Make Signer
 									</button>
-									<span *ngIf="member.isSigner">Is signer</span>
+									<span *ngIf="signingEnabled && member.isSigner">Is signer</span>
 								</td>
 
 								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">
@@ -175,11 +176,14 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	staffCreateForm: FormGroup;
 	currentSigner: IssuerStaffMember;
 
+	get signingEnabled() { return this.configService.signingEnabled }
+
 	constructor(
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
 		private signingApiService: SigningApiService,
+		private configService: SystemConfigService,
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,

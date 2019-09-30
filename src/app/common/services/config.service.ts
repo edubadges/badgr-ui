@@ -130,7 +130,11 @@ export class SystemConfigService{
 	}
 
 	get currentTheme() {
-
 		return window["badgrTheme"];
 	}
+
+	get signingEnabled() {
+		return this.featuresConfig["signingEnabled"] == true
+	}
+
 }

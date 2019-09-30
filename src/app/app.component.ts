@@ -132,7 +132,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
-							<li *ngIf="userMaySignBadges" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
+							<li *ngIf="signingEnabled && userMaySignBadges" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/signing']">Signing</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
@@ -207,6 +207,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return this.themeManager.currentTheme
 	}
 
+	get signingEnabled() {
+		return this.configService.signingEnabled;
+	}
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;

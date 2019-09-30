@@ -1,16 +1,13 @@
+import { SystemConfigService } from './../common/services/config.service';
 import { UserProfileManager } from './../common/services/user-profile-manager.service';
 import { Component, OnInit } from "@angular/core";
-import {
-	FormBuilder, FormControl, Validators
-} from "@angular/forms";
+import { Validators } from "@angular/forms";
 import {  ActivatedRoute , Router} from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { EmailValidator, ValidationResult } from "../common/validators/email.validator";
 import { DateValidator } from "../common/validators/date.validator";
-import { UrlValidator } from "../common/validators/url.validator";
 import { MdImgValidator } from "../common/validators/md-img.validator";
 
 import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
@@ -22,11 +19,8 @@ import {BadgeClass} from "./models/badgeclass.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { typedGroup } from "../common/util/typed-forms";
-import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
-import { FormFieldTextInputType } from '../common/components/formfield-text';
-import * as sanitizeHtml from "sanitize-html";
 
 @Component({
 	selector: 'badgeclass-issue',
@@ -326,25 +320,23 @@ import * as sanitizeHtml from "sanitize-html";
 									style = 'background:#A09EAF;'
 					>Award</button>
 
-					<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
-						<button
-										*ngIf="awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
+					<ng-container *ngIf="signingEnabled">
+						<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
+							<button
+											*ngIf="awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
+											class="button"
+											[disabled]="!! issueBadgeFinished"
+											(click)="clickSubmit($event, true)"
+											[loading-promises]="[ issueBadgeFinished ]"
+											loading-message="Issuing"
+							>Award Signed</button>
+							<button *ngIf="!awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
 										class="button"
-										[disabled]="!! issueBadgeFinished"
-										(click)="clickSubmit($event, true)"
-										[loading-promises]="[ issueBadgeFinished ]"
-										loading-message="Issuing"
-						>Award Signed</button>
-
-						<button *ngIf="!awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
-									class="button"
-					        [disabled]="true"
-									style = 'background:#A09EAF;'
-						>Award Signed</button>
-						
-					</ng-container>
-					
-					
+										[disabled]="true"
+										style = 'background:#A09EAF;'
+							>Award Signed</button>
+						</ng-container>
+					</ng-container>	
 				</div>
 			</form>
 		</main>
@@ -396,8 +388,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	enrolledStudents = [];
 	showDeniedEnrollments = false;
 
+	get signingEnabled() { return this.configService.signingEnabled }
 
 	constructor(
+		private configService: SystemConfigService,
 		protected title: Title,
 		protected messageService: MessageService,
 		protected eventsService: EventsService,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-// import { AuthService } from '../core/auth.service';
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
+import { SystemConfigService } from 'app/common/services/config.service';
 
 class AuthGuard implements CanActivate {
 	
@@ -121,3 +121,23 @@ export class IsStudentAuthGuard implements CanActivate {
 			})
 	}
 }
+
+
+@Injectable()
+export class SigningEnabled implements CanActivate {
+
+	answer: boolean;
+	// add the service we need
+	constructor(
+		private router: Router,
+		private configService: SystemConfigService
+	) { }
+
+	canActivate(
+		next: ActivatedRouteSnapshot,
+		state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+		return this.configService.signingEnabled
+	}
+}
+
+

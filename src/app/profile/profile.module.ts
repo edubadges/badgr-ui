@@ -12,7 +12,7 @@ import { CommonEntityManagerModule } from "../entity-manager/entity-manager.modu
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileApiService } from "../common/services/user-profile-api.service";
 import { OAuthAppDetailComponent } from "./oauth-app-detail.component";
-import { UserMaySignBadges } from "../auth/auth.gard";
+import { UserMaySignBadges, SigningEnabled } from "../auth/auth.gard";
 import { SigningApiService } from './../common/services/signing-api.service';
 
 
@@ -30,7 +30,7 @@ const routes = [
 	{
 		path: "signing",
 		component: SigningComponent,
-		canActivate: [UserMaySignBadges]
+		canActivate: [UserMaySignBadges, SigningEnabled]
 	},
 	{
 		path: "app-integrations",
@@ -71,7 +71,8 @@ const routes = [
 		UserProfileApiService,
 		SigningApiService,
 		UserProfileManager,
-		UserMaySignBadges
+		UserMaySignBadges,
+		SigningEnabled
 	],
 	exports: []
 })
