@@ -39,11 +39,13 @@ import { Issuer, IssuerStaffMember } from "../../issuer/models/issuer.model";
 				<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 					<button
 						class="button button-primaryghost" 
+						[disabled-when-requesting]="true"
 						(click)="closeDialog(false)">{{ options.rejectButtonLabel }}
 					</button>	
 					<button
 							type="submit"
 							class="button"
+							[loading-promises]="[ updateSignerFinished ]"
 							(click)="clickSubmit($event)"
 					>Submit</button>
 				</div>
@@ -70,6 +72,7 @@ export class ChangeSignerPasswordDialog extends BaseDialog {
 	oldSigner: IssuerStaffMember;
 	newSigner: IssuerStaffMember;
 	issuer: Issuer;
+	updateSignerFinished: Promise<any>;
 
 	resolveFunc: () => void;
 	rejectFunc: () => void;
@@ -125,7 +128,7 @@ export class ChangeSignerPasswordDialog extends BaseDialog {
 	}
 
 	onSubmit(formState) {
-		this.signingApiService.changeSigner(
+		this.updateSignerFinished = this.signingApiService.changeSigner(
 			this.issuer,
 			formState.old_password, 
 			this.oldSigner, 
