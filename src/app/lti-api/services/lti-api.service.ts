@@ -5,6 +5,7 @@ import { SystemConfigService } from "../../common/services/config.service";
 import { MessageService } from "../../common/services/message.service"
 import { BaseHttpApiService } from "../../common/services/base-http-api.service";
 import { ApiBadgeClass, ApiBadgeClassContextId } from "../../issuer/models/badgeclass-api.model";
+import { EmbedService } from "../../common/services/embed.service";
 
 
 @Injectable()
@@ -14,21 +15,26 @@ export class LtiApiService extends BaseHttpApiService{
 		protected sessionService: SessionService,
 		protected http: Http,
 		protected configService: SystemConfigService,
-		protected messageService: MessageService
+		protected messageService: MessageService,
+		private embedService: EmbedService,
 	) {
 		super(sessionService, http, configService, messageService);
 	}
 
 
 	get currentContextId(): Promise<any>{
-		let url = '/lti_edu/lticontext';
-		return this.get(url).then(r => this.setCurrentContextId(r));
+		if(this.embedService.isEmbedded) {
+			let url = '/lti_edu/lticontext';
+			return this.get(url).then(r => this.setCurrentContextId(r));
+		}
+		return null;
 
 	}
 
 	private setCurrentContextId(response){
 		return response.json();
 	}
+
 
 
 	getAllContextIdBadgeClasses(
