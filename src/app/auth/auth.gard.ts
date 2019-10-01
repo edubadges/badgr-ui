@@ -133,10 +133,33 @@ export class SigningEnabled implements CanActivate {
 		private configService: SystemConfigService
 	) { }
 
-	canActivate(
-		next: ActivatedRouteSnapshot,
-		state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-		return this.configService.signingEnabled
+	canActivate() {
+		if (this.configService.signingEnabled) {
+			return true
+		} else {
+			this.router.navigate(['/auth/unauthorized']);
+			return false
+		}
+	}
+}
+
+@Injectable()
+export class EndorsementsEnabled implements CanActivate {
+
+	answer: boolean;
+	// add the service we need
+	constructor(
+		private router: Router,
+		private configService: SystemConfigService
+	) { }
+
+	canActivate(){
+		if (this.configService.endorsementsEnabled) {
+			return true
+		} else {
+			this.router.navigate(['/auth/unauthorized']);
+			return false
+		}
 	}
 }
 

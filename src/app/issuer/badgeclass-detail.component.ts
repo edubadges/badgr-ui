@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
+import { SystemConfigService } from './../common/services/config.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MessageService } from "../common/services/message.service";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
@@ -289,7 +290,7 @@ import { ApiBadgeClassContextId } from "./models/badgeclass-api.model";
 			</div>
 
 			<!-- Show badge class endorsements -->
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
+			<div *ngIf="endorsementsEnabled" class="l-containerhorizontal l-containervertical l-childrenvertical">
 				<endorsements-badgeclass [badgeclass]="badgeClass"></endorsements-badgeclass>
 			</div>
 		</ng-template>
@@ -314,6 +315,10 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	set searchQuery(query) {
 		this._searchQuery = query;
 		this.loadInstances(query);
+	}
+
+	get endorsementsEnabled() {
+		return this.configService.endorsementsEnabled
 	}
 
 	badgeClassLoaded: Promise<any>;
@@ -344,6 +349,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	}
 
 	constructor(
+		private configService: SystemConfigService,
 		protected title: Title,
 		protected messageService: MessageService,
 		protected badgeManager: BadgeClassManager,

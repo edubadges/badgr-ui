@@ -137,4 +137,8 @@ export class SystemConfigService{
 		return this.featuresConfig["signingEnabled"] == true
 	}
 
+	get endorsementsEnabled() {
+		return this.featuresConfig["endorsementsEnabled"] == true
+	}
+
 }

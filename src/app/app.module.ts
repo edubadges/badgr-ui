@@ -14,6 +14,7 @@ import { BadgrRouteReuseStrategy } from "./common/util/route-reuse-strategy";
 import { ProfileModule } from "./profile/profile.module";
 import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from "./common/guards/auth.guard";
+import { EndorsementsEnabled } from "./auth/auth.gard"; 
 import { RecipientBadgeApiService } from "./recipient/services/recipient-badges-api.service";
 
 import { PublicApiService } from './public/services/public-api.service';
@@ -70,7 +71,7 @@ const ROUTE_CONFIG: Routes = [
 	{
 		path: 'validana',
 		loadChildren: './endorsement-api/endorsement-api.module#EndorsementApiModule',
-		canActivate: [AuthGuard]
+		canActivate: [AuthGuard, EndorsementsEnabled]
 	},
 	{
 		path: 'public',
@@ -134,6 +135,7 @@ const ROUTE_CONFIG: Routes = [
 		Angulartics2,
 		Angulartics2GoogleAnalytics,
 		RecipientBadgeApiService,
+		EndorsementsEnabled,
 
 		// Expose the validana blockchain and publicapi service
 		ValidanaBlockchainService,

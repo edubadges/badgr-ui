@@ -1,3 +1,4 @@
+import { SystemConfigService } from './../common/services/config.service';
 import { Component, Injector } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service"
@@ -140,7 +141,7 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 							</section>
 				
 							<!-- Show badge class endorsements -->
-							<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
+							<div *ngIf="endorsementsEnabled" class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-left">
 								<endorsements-badgeclass [badgeclass]="badgeClass" style="width:100%;"></endorsements-badgeclass>
 							</div>
 
@@ -217,8 +218,13 @@ export class PublicBadgeClassComponent {
 	provider: SocialAccountProviderInfo;
 	consent_body: string;
 
+	get endorsementsEnabled() {
+		return this.configService.endorsementsEnabled
+	}
+
 	constructor(
 		private injector: Injector,
+		private configService: SystemConfigService,
 		public embedService: EmbedService,
 		private sessionService: SessionService,
 		private profileManager: UserProfileManager,
