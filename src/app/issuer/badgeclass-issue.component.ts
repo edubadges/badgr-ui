@@ -497,8 +497,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			this.issueForm.untypedControl.valueChanges.subscribe(values => this.onFormChange())
 			this.issueForm.controls.does_expire.untypedControl.valueChanges.subscribe(checked => {
 				if (checked) {
+					this.issueForm.controls.expires_at.untypedControl.enable()
 					this.issueForm.controls.expires_at.untypedControl.setValidators([Validators.required, DateValidator.validDate])
 				} else {
+					this.issueForm.controls.expires_at.untypedControl.disable()
 					this.issueForm.controls.expires_at.untypedControl.setValidators(null)
 				}
 			})
