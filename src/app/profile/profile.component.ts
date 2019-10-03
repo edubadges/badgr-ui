@@ -11,11 +11,6 @@ import { markControlsDirty } from "../common/util/form-util";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { BadgrApiFailure } from "../common/services/api-failure";
-import {
-	SocialAccountProviderInfo, ApiUserProfile, ApiUserProfileEmail,
-	ApiUserProfileSocialAccount,
-	socialAccountProviderInfoForSlug,
-} from "../common/model/user-profile-api.model";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfile, UserProfileEmail } from "../common/model/user-profile.model";
 import { Subscription } from "rxjs/Subscription";
@@ -288,7 +283,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 				emailControl.setErrors(null, { emitEvent: false });
 			},
 			error => {
-				this.messageService.reportHandledError(`Unable to add email: ${BadgrApiFailure.from(error).firstMessage}`);
+				this.messageService.reportHandledError(`Unable to add email: ${BadgrApiFailure.from(error).verboseError}`);
 			}
 		);
 	}
