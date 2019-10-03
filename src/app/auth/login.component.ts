@@ -153,17 +153,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 					return;
 				}
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.profileManager.profileService.fetchSocialAccounts()
-				.then(socialAccounts => {
-					for (let account of socialAccounts){
-						if (account['provider'] == 'edu_id'){
-							this.router.navigate(['/recipient/badges']);
-						}
-						else if (account['provider'] == 'surf_conext'){
-							this.router.navigate(['/initial-redirect']);
-						}
-					}				
-				})
+				this.router.navigate(['/initial-redirect']);
 				return;
 			}
 
