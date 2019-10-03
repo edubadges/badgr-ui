@@ -180,7 +180,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 			// Handle already logged-in case
 			else if (this.sessionService.isLoggedIn) {
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ 'recipient' ]);
+				this.initFinished = this.router.navigate([ '/initial-redirect' ]);
 				return;
 			}
 
