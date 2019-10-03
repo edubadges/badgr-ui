@@ -338,9 +338,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		} else {
 			this.userMaySeeIssuers = current_user_permissions.includes('view_issuer_tab');
 		}
-		if (!this.userIsStudent){
-			this.userMaySeeIssuers = true;
-		}
 
 		// Show Validana settings page if user has institution or faculty scope
 		this.userMaySeeValidana = this.configService.endorsementsEnabled && (current_user_permissions.includes('has_institution_scope') ||
