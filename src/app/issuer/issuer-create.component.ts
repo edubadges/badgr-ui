@@ -10,6 +10,7 @@ import { Title } from "@angular/platform-browser";
 import { ApiIssuerForCreation } from "./models/issuer-api.model";
 import { markControlsDirty } from "../common/util/form-util";
 import { SessionService } from "../common/services/session.service";
+import { BadgrApiFailure } from "../common/services/api-failure";
 import { preloadImageURL } from "../common/util/file-util";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
@@ -284,7 +285,10 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			this.router.navigate([ 'issuer/issuers', new_issuer.slug ]);
 			this.messageService.setMessage("Issuer created successfully.", "success");
 		}, error => {
-			this.messageService.setMessage("Unable to create issuer: " + error, "error");
+				this.messageService.reportAndThrowError(
+					`Unable to create issuer: ${BadgrApiFailure.from(error).verboseError}`,
+					error
+				)
 		}).then(() => this.addIssuerFinished = null);
 	}
 

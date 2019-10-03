@@ -6,6 +6,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
+import { BadgrApiFailure } from './../common/services/api-failure';
 import { IssuerManager } from "./services/issuer-manager.service";
 import { UrlValidator } from "../common/validators/url.validator";
 import { EmailValidator } from "../common/validators/email.validator";
@@ -311,7 +312,10 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 			this.router.navigate([ 'issuer/issuers', new_issuer.slug ]);
 			this.messageService.setMessage("Issuer created successfully.", "success");
 		}, error => {
-			this.messageService.setMessage("Unable to create issuer: " + error, "error");
+				this.messageService.reportAndThrowError(
+					`Unable to update issuer: ${BadgrApiFailure.from(error).verboseError}`,
+					error
+				)
 		}).then(() => this.editIssuerFinished = null);
 	}
 

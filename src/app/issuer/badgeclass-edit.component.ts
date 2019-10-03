@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from "@angular/platform-browser";
 
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
@@ -11,7 +11,6 @@ import { Issuer } from "./models/issuer.model";
 
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
-import { markControlsDirty } from "../common/util/form-util";
 import { BadgeClass } from "./models/badgeclass.model";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { BadgeStudioComponent } from "./badge-studio.component";
@@ -131,7 +130,7 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 					])
 			},
 			error => this.messageService.reportAndThrowError(
-				`Unable to create Badge Class: ${BadgrApiFailure.from(error).firstMessage}`,
+				`Unable to update Badge Class: ${BadgrApiFailure.from(error).verboseError}`,
 				error
 			)
 		);

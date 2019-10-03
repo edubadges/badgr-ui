@@ -88,7 +88,7 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 
 			},
 			error => this.messageService.reportAndThrowError(
-				`Unable to create Badge Class: ${BadgrApiFailure.from(error).firstMessage}`,
+				`Unable to create Badge Class: ${BadgrApiFailure.from(error).verboseError}`,
 				error
 			)
 		);
