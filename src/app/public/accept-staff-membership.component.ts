@@ -1,6 +1,6 @@
 import { Component, Injector } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { IssuerApiService } from 'app/issuer/services/issuer-api.service';
+import { PublicApiService } from './services/public-api.service';
 
 @Component({
 	template: `
@@ -44,7 +44,7 @@ export class AcceptStaffMembershipComponent {
 		private route: ActivatedRoute,
 		private injector: Injector,
 	) {
-		const service: IssuerApiService = injector.get(IssuerApiService);
+		const service: PublicApiService = injector.get(PublicApiService);
 		this.acceptanceLoaded = service.acceptStaffMemberShip(this.code)
 			.then(acceptance => {
 				this.success = true

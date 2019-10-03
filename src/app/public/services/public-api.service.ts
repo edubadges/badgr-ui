@@ -92,4 +92,14 @@ export class PublicApiService extends BaseHttpApiService {
 		return this.get(`/public/collections/${shareHash}.json?v=2_0&expand=badges.badge&expand=badges.badge.issuer`, null,false, false)
 			.then(r => r.json() as PublicApiBadgeCollectionWithBadgeClassAndIssuer);
 	}
+
+	acceptStaffMemberShip(code: string): Promise<any> {
+		console.log(code)
+		return this.get(`/v1/issuer/issuers-staff-confirm/${code}`, null, false, false)
+			.then(r => {
+				console.log(r)
+				r.json()
+			})
+	}
+
 }

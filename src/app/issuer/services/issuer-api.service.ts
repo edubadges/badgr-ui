@@ -58,8 +58,4 @@ export class IssuerApiService extends BaseHttpApiService {
 			.then(r => r.json() as ApiIssuer)
 	}
 
-	acceptStaffMemberShip(code: string): Promise<any> {
-		return this.get(`/v1/issuer/issuers-staff-confirm/${code}`)
-				.then(r => r.json())
-	}
 }
