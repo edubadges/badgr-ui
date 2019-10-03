@@ -10,7 +10,7 @@ import { PublicBadgeAssertionComponent } from "./badge-assertion.component";
 import { PublicApiService } from "./services/public-api.service";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
 import { PublicBadgeClassComponent } from "./badgeclass.component";
-import { AcceptStaffMembershipComponent } from "./accept-staff-membership.component"
+import { GenericVerificationMailAcceptanceComponent } from "./generic-verificationmail-acceptance.component";
 import { PublicIssuerComponent } from "./issuer.component";
 import { PublicBadgeCollectionComponent } from "./badge-collection.component";
 import { PublicPrivacyPolicyComponent } from "./privacy-policy.component";
@@ -25,7 +25,7 @@ export const routes: Route[] = [
 	},
 	{
 		path: "accept-staff-membership/:code",
-		component: AcceptStaffMembershipComponent
+		component: GenericVerificationMailAcceptanceComponent
 	},
 	{
 		path: "assertions/:assertionId",
@@ -72,7 +72,7 @@ export const routes: Route[] = [
 		PublicIssuerComponent,
 		PublicBadgeCollectionComponent,
 		PublicPrivacyPolicyComponent,
-		AcceptStaffMembershipComponent
+		GenericVerificationMailAcceptanceComponent
 	],
 	exports: [],
 	providers: [

@@ -34,7 +34,7 @@ import { PublicApiService } from './services/public-api.service';
 
 	`
 })
-export class AcceptStaffMembershipComponent {
+export class GenericVerificationMailAcceptanceComponent {
 
 	acceptanceLoaded: Promise<any>;
 	message: string;
