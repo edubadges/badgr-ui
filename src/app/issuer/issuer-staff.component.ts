@@ -134,25 +134,27 @@ import { SystemConfigService } from '../common/services/config.service';
 													type="button"
 													[disabled-when-requesting]="true"
 													(click)="makeMemberSigner(member)"
-													*ngIf="member.isSigner == false  && !currentSigner && member.mayBecomeSigner && isCurrentUserIssuerOwner"
-									>Make Signer
-									</button>
-									<button class="button button-primaryghost"
-													type="button"
-													[disabled-when-requesting]="true"
-													(click)="enterPassword(member)"
-													*ngIf="member.isSigner == false  && currentSigner && member.mayBecomeSigner && isCurrentUserIssuerOwner"
+													*ngIf="member.isSigner == false && member.mayBecomeSigner && isCurrentUserIssuerOwner"
 									>Make Signer
 									</button>
 									<span *ngIf="member.isSigner">Is signer</span>
 								</td>
 
-								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">
+
+								<td class="hidden hidden-is-tablet">
+									<button class="button button-primaryghost"
+													type="button"
+													[disabled-when-requesting]="true"
+													(click)="unMakeMemberSigner(member)"
+													*ngIf="member.isSigner == true && isCurrentUserIssuerOwner"
+										>Disable Signing
+									</button>
+
 									<button class="button button-primaryghost"
 									        type="button"
 									        [disabled-when-requesting]="true"
 													(click)="removeMember(member)"
-													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false"
+													*ngIf="isCurrentUserIssuerOwner && member != issuer.currentUserStaffMember && member.isSigner == false"
 									>Remove Member
 									</button>
 								</td>
@@ -174,7 +176,6 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	profileEmailsLoaded: Promise<UserProfileEmail[]>;
 	profileEmails: UserProfileEmail[] = [];
 	staffCreateForm: FormGroup;
-	currentSigner: IssuerStaffMember;
 
 	get signingEnabled() { return this.configService.signingEnabled }
 
@@ -197,7 +198,6 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug)
 			.then(issuer => {
-				this.currentSigner = this.getCurrentSigner(issuer)
 				this.issuer = issuer
 				return this.issuer
 			});
@@ -222,15 +222,6 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	}
 
 
-	getCurrentSigner(issuer) {
-		for (let index in issuer.staff.entities as IssuerStaffMember) {
-			let member = issuer.staff.entities[index]
-			if (member.isSigner) {
-				return member
-			}
-		}
-		return null
-	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Staff Editing
@@ -257,28 +248,24 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 			member).then(
 				() => {
 					member.isSigner = true
-					this.currentSigner = member
-					this.messageService.reportMajorSuccess(`${member.nameLabel}'s has been made signer.`);
+					this.messageService.reportMajorSuccess(`${member.nameLabel} has been made signer.`);
 					this.initStaffCreateForm();
 				},
 				error => this.messageService.reportHandledError(`Failed to make member signer: ${BadgrApiFailure.from(error).verboseError}`)
 			);
 	}
 
-
-	enterPassword(new_member) {
-		this.dialogService.changeSignerPasswordDialog.openDialog(this.issuer, this.currentSigner, new_member)
-			.then( () => {
-				this.currentSigner.isSigner = false
-				new_member.isSigner = true
-				this.currentSigner = new_member
-				this.messageService.reportMajorSuccess(`Signer role succesfully changed to ${new_member.nameLabel}`);
-
-				this.initStaffCreateForm();
-			})
-			.catch( error => {
-				this.messageService.reportHandledError(`Failed to change signer: ${BadgrApiFailure.from(error).verboseError}`)
-			})
+	unMakeMemberSigner(member: IssuerStaffMember){
+		this.signingApiService.unSetSigner(
+			this.issuer,
+			member).then(
+				() => {
+					member.isSigner = false
+					this.messageService.reportMajorSuccess(`${member.nameLabel} is no longer a signer.`);
+					this.initStaffCreateForm();
+				},
+				error => this.messageService.reportHandledError(`Failed to remove member as signer: ${BadgrApiFailure.from(error).verboseError}`)
+			);
 	}
 
 	async removeMember(member: IssuerStaffMember) {

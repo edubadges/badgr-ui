@@ -30,9 +30,14 @@ export class SigningApiService extends BaseHttpApiService {
 	}
 
 	setNewSigner(	issuer: Issuer, new_signer: IssuerStaffMember): Promise<any> {
-			return this.put('/signing/set-signer', {'issuer_slug': issuer.slug, 'new_signer_email': new_signer.email})
+			return this.put('/signing/set-signer', {'issuer_slug': issuer.slug, 'signer_email': new_signer.email, 'action': 'add'})
 			.then(r => r.json());
-		}
+	}
+
+	unSetSigner(issuer: Issuer, signer_to_remove: IssuerStaffMember): Promise<any> {
+		return this.put('/signing/set-signer', { 'issuer_slug': issuer.slug, 'signer_email': signer_to_remove.email, 'action': 'remove'})
+			.then(r => r.json());
+	}
 
 	changeSigner(	issuer: Issuer,
 								old_signer_password: string, 
