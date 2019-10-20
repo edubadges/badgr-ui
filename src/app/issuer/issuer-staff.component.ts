@@ -141,7 +141,7 @@ import { SystemConfigService } from '../common/services/config.service';
 								</td>
 
 
-								<td class="hidden hidden-is-tablet">
+								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">
 									<button class="button button-primaryghost"
 													type="button"
 													[disabled-when-requesting]="true"
@@ -154,7 +154,7 @@ import { SystemConfigService } from '../common/services/config.service';
 									        type="button"
 									        [disabled-when-requesting]="true"
 													(click)="removeMember(member)"
-													*ngIf="isCurrentUserIssuerOwner && member != issuer.currentUserStaffMember && member.isSigner == false"
+													*ngIf="member != issuer.currentUserStaffMember && member.isSigner == false"
 									>Remove Member
 									</button>
 								</td>
