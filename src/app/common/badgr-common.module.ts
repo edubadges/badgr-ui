@@ -13,7 +13,6 @@ import { NewTermsDialog } from "./dialogs/new-terms-dialog.component";
 import { EduIDFailureDialog } from "./dialogs/eduid-failure-dialog.component";
 import { EnrollmentConsentDialog } from "./dialogs/enrollment-consent-dialog.component";
 import { EnterPasswordDialog } from "./dialogs/enter-password-dialog.component";
-import { ChangeSignerPasswordDialog } from "./dialogs/change-signer-password-dialog.component";
 import { ConnectedBadgeComponent } from "./components/connected-badge.component";
 import { TruncatedTextComponent } from "./components/truncated-text.component";
 import { TooltipComponent } from "./components/tooltip.component";
@@ -81,7 +80,6 @@ const COMPONENTS = [
 	EduIDFailureDialog,
 	EnrollmentConsentDialog,
 	EnterPasswordDialog,
-	ChangeSignerPasswordDialog,
 	ConnectedBadgeComponent,
 	TruncatedTextComponent,
 	FormMessageComponent,

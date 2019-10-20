@@ -39,21 +39,6 @@ export class SigningApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
-	changeSigner(	issuer: Issuer,
-								old_signer_password: string, 
-								old_signer: IssuerStaffMember, 
-								new_signer_password: string, 
-								new_signer: IssuerStaffMember): Promise<any> {
-		return this.post('/signing/change-signer', 
-										{ 'issuer_slug': issuer.slug,
-											'old_signer_password': old_signer_password, 
-											'old_signer_email': old_signer.email,
-											'new_signer_password': new_signer_password,
-											'new_signer_email': new_signer.email,
-										 })
-			.then(r => r.json());
-	}
-
 	getSymmetricKeyExistance(): Promise<any> {
 		return this.get('/signing/password')
 			.then(r => r.json());
