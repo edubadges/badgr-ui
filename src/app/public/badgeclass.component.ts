@@ -45,9 +45,16 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 
 		<!-- Regular View -->
 		<main *ngIf="! embedService.isEmbedded || true">
+			
 			<form-message></form-message>
 
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
+          <div *ngIf="embedService.isEmbedded">
+							
+              <a *ngIf="isStudent" class="button button-major" [routerLink]="['/lti-badges']">back to list</a>
+              <a *ngIf="! isStudent" class="button button-major" [routerLink]="['/lti-badges/staff']">back to list</a>
+							<br>
+          </div>
 				<div class="heading">
 					<!-- Badge Assertion Image -->
 					<div class="heading-x-imageLarge">
@@ -215,8 +222,9 @@ export class PublicBadgeClassComponent {
 	studentsEnrolledButtonDisabled: boolean;
 	buttonText: string;
 	profileLoaded: Promise<any>;
-	provider: SocialAccountProviderInfo;
+	provider: SocialAccountProviderInfo = null;
 	consent_body: string;
+	isStudent:boolean = false;
 
 	get endorsementsEnabled() {
 		return this.configService.endorsementsEnabled
@@ -252,7 +260,21 @@ export class PublicBadgeClassComponent {
 					this.profile = profile
 					this.isCurrentUserAlreadyEnrolled()
 				})
+			this.profileManager.profileService.fetchSocialAccounts()
+				.then(socialAccounts => {
+					this.profileManager.userProfilePromise
+						.then(profile => {
+
+							for (let account of socialAccounts){
+								if (account['provider'] == 'edu_id'){
+									this.isStudent = true;
+								}
+
+							};
+						})
+				})
 		}
+
 		if (this.queryParams.queryStringValue("enrollmentStatus", true)) {
 			let enrollmentStatus = this.queryParams.queryStringValue("enrollmentStatus", true)
 			this.handleEnrollmentStatus(enrollmentStatus)
@@ -291,22 +313,26 @@ export class PublicBadgeClassComponent {
 		let eduIDSocialAccount = null
 		for (let account of socialAccounts) {
 			if (account['provider'] == 'edu_id') {
+
 				return account['uid']
+
 			}
 		}
 	}
 
+
+
 	handleEnrollmentStatus(enrollmentStatus) {
 		if (enrollmentStatus == '"enrolled"') {
-			this.buttonText = 'Requested'
+			this.buttonText = 'Requested';
 			this.studentsEnrolledButtonDisabled = true
 		}
 		if (enrollmentStatus == '"alreadyEnrolled"') {
-			this.buttonText = 'Requested'
+			this.buttonText = 'Requested';
 			this.studentsEnrolledButtonDisabled = true
 		}
 		if (enrollmentStatus=='"noEduID"') {
-			this.buttonText = "Can't request"
+			this.buttonText = "Can't request";
 			this.studentsEnrolledButtonDisabled = true
 		}
 	}
@@ -355,6 +381,8 @@ export class PublicBadgeClassComponent {
 		alert("Sorry, we couldn't find your eduID. Please log in with EduID and try again")
 	}
 
+
+
 	ngOnInit() {
 		this.loggedIn = this.sessionService.isLoggedIn;
 		this.sessionService.loggedin$.subscribe(
@@ -366,5 +394,7 @@ export class PublicBadgeClassComponent {
 			}
 		}
 	}
+
+
 
 }

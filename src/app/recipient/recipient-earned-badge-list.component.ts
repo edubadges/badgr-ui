@@ -15,6 +15,7 @@ import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
 import { RecipientBadgeInstance } from "./models/recipient-badge.model";
 import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import { EmbedService } from "../common/services/embed.service";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -25,6 +26,9 @@ type BadgeDispay = "grid" | "list" ;
 			<form-message></form-message>
 
 			<header class="wrap wrap-light l-containerhorizontal l-heading">
+          <div *ngIf="embedService.isEmbedded">
+              <a class="button button-major" [routerLink]="['/lti-badges']">back to list</a>
+          </div>
 				<div class="heading">
 					<div class="heading-x-text">
 						<h1>Backpack <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
@@ -261,7 +265,8 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
-		private profileManager: UserProfileManager
+		private profileManager: UserProfileManager,
+		public embedService: EmbedService
 	) {
 		super(router, route, sessionService);
 
