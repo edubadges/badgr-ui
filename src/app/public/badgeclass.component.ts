@@ -319,7 +319,7 @@ export class PublicBadgeClassComponent {
 				let email = this.profile.apiModel['email']
 				let first_name = this.profile.apiModel['first_name']
 				let last_name = this.profile.apiModel['last_name']
-				this.studentsEnrolledApiService.enrollStudent(eduID, email, first_name, last_name, badgeClassSlug)
+				this.studentsEnrolledApiService.enrollStudent(badgeClassSlug)
 					.then(
 						response => this.handleEnrollmentStatus(response._body),
 						error => this.messageService.reportAndThrowError(`Failed to enroll: ${error.response._body}`, error)
