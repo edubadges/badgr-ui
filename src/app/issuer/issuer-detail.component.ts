@@ -26,6 +26,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 import { LtiApiService } from "../lti-api/services/lti-api.service";
 import { ApiBadgeClassContextId } from "./models/badgeclass-api.model";
 import { ifTrue } from "codelyzer/util/function";
+import { EmbedService } from "../common/services/embed.service";
 
 
 @Component({
@@ -292,17 +293,22 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected profileManager: UserProfileManager,
 		private externalToolsManager: ExternalToolsManager,
 		private ltiManager: LtiApiService,
+		private embedService: EmbedService
 	) {
 		super(router, route, loginService);
 
 		title.setTitle("Issuer Detail - Badgr");
-		ltiManager.currentContextId.then(r => {
-		 	this.currentContextId = r['lticontext'];
-			ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
-				this.currentLtiBadges = r;
-			});
+		if(this.embedService.isEmbedded) {
+			ltiManager.currentContextId.then(r => {
+				this.currentContextId = r['lticontext'];
+				if(this.currentContextId != null) {
+					ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+						this.currentLtiBadges = r;
+					});
+				}
 
-		 });
+			 }
+		});
 
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];

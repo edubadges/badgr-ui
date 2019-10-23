@@ -16,7 +16,7 @@ export class LtiApiService extends BaseHttpApiService{
 		protected http: Http,
 		protected configService: SystemConfigService,
 		protected messageService: MessageService,
-		private embedService: EmbedService,
+		private embedService: EmbedService
 	) {
 		super(sessionService, http, configService, messageService);
 	}
