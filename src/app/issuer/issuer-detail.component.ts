@@ -307,8 +307,8 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 					});
 				}
 
-			 }
-		});
+			 });
+		}
 
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
