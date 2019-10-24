@@ -226,7 +226,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	issuerResults: MatchingIssuerBadges[] = [];
 	badgeClassesByIssuerId: { [issuerUrl: string]: RecipientBadgeInstance[] };
 
-	maxDisplayedResults = 100;
+	maxDisplayedResults = 1000;
 
 	private _badgesDisplay:BadgeDispay = "grid";
 	get badgesDisplay(){return this._badgesDisplay}
