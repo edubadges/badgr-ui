@@ -67,7 +67,7 @@ import { LtiApiService } from "../lti-api/services/lti-api.service";
 										<a class="button button-major" (click)="clickEnrollStudent()" [disabled-when-requesting]="true">{{buttonText}}</a>
 									</div>
 									<div *ngIf="studentsEnrolledButtonDisabled" class="heading-x-actions">
-										<a class="button button-major button-is-disabled" style='background-color:#78768D;'>{{buttonText}}</a>
+										<a class="button button-major button-is-disabled button-grey">{{buttonText}}</a>
 									</div>
 								</div>
 							</ng-template>
