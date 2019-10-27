@@ -32,6 +32,7 @@ export interface ApiRecipientBadgeInstance {
 	recipient_identifier: string;
 	acceptance: RecipientBadgeAcceptance;
 	narrative: string;
+	public: boolean;
 	evidence_items: any[];
 	alignment: any[];
 	imagePreview: {

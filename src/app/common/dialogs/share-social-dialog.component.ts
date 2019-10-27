@@ -54,6 +54,9 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 
 			<!-- Link Tab -->
 			<div class="l-sharepane" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
+				<div *ngIf="options.badgeIsPublic == false" class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded">
+					<p class="text text-small"><strong>Your badge is set to private. This link will not be accesible. Set you badge to public before sharing it by link</strong></p>
+				</div>
 				<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
 					<p class="label-formfield">Badge Options</p>
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
@@ -506,6 +509,8 @@ export interface ShareSocialDialogOptions {
 	shareTitle: string;
 	shareSummary: string;
 	shareEndpoint: ShareEndPoint;
+	badgeIsPublic?: boolean,
+
 
 	versionOptions?: ShareSocialDialogVersionOption[];
 	versionInfoTitle?: string;

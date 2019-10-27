@@ -89,7 +89,8 @@ export function buildTestRecipientBadges() {
 			"id": "http://localhost:8000/v1/earner/badges/37f14cf1-7473-4501-a2d1-7849b4fc0b5d/image?type=png"
 		},
 		"recipient_identifier": "yona@concentricsky.com",
-		"acceptance": "Accepted"
+		"acceptance": "Accepted",
+		"public": false
 	};
 	const apiBadge2: ApiRecipientBadgeInstance = {
 		"id": 5,
@@ -134,7 +135,8 @@ export function buildTestRecipientBadges() {
 			"id": "http://localhost:8000/v1/earner/issuer/big-image-issuer/image?type=png"
 		},
 		"recipient_identifier": "yona@concentricsky.com",
-		"acceptance": "Accepted"
+		"acceptance": "Accepted",
+		"public": false
 	};
 	const apiBadge3: ApiRecipientBadgeInstance = {
 		"id": 19,
@@ -180,7 +182,8 @@ export function buildTestRecipientBadges() {
 			"id": "http://localhost:8000/v1/earner/issuer/big-image-issuer/image?type=png"
 		},
 		"recipient_identifier": "yona@concentricsky.com",
-		"acceptance": "Accepted"
+		"acceptance": "Accepted",
+		"public": false
 	};
 
 	return {

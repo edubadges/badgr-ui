@@ -68,6 +68,15 @@ import { EventsService } from "../common/services/events.service";
 
 						<p style="font-size: 16px">{{ badge.badgeClass.description }}</p>
 
+						<!-- Privacy -->
+						<section>
+							<h1>Privacy</h1>
+							<p *ngIf="badge.isPublic"><small> This badge is publicly accessible </small></p>
+							<p *ngIf="!badge.isPublic"><small> This badge is not publicly accessbile </small></p>
+							<button *ngIf="!badge.isPublic" class="button button-primaryghost" type="button" (click)="markBadgePublic()">Make badge public</button>
+							<button *ngIf="badge.isPublic" class="button button-primaryghost" type="button" (click)="markBadgePrivate()">Make badge private</button>
+						</section>
+
 						<!-- criteria -->
 						<section>
 							<h1 *ngIf="badge.badgeClass.criteria_url || badge.badgeClass.criteria_text || badge.badgeClass.criteria">Criteria</h1>
@@ -291,6 +300,14 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		);
 	}
 
+	markBadgePrivate() {
+		this.badge.changePublicity(false)
+	}
+
+	markBadgePublic() {
+		this.badge.changePublicity(true)
+	}
+
 	manageCollections() {
 		this.collectionSelectionDialog.openDialog({
 			dialogId: "recipient-badge-collec",
@@ -351,7 +368,8 @@ export function badgeShareDialogOptionsFor(badge: RecipientBadgeInstance): Share
 		badgeClassDescription: badge.badgeClass.description,
 		issueDate: badge.issueDate,
 		recipientName: badge.getExtension('extensions:recipientProfile', {'name': undefined}).name,
-		recipientIdentifier: badge.recipientEmail
+		recipientIdentifier: badge.recipientEmail,
+		badgeIsPublic: badge.isPublic
 	});
 }
 
@@ -364,6 +382,7 @@ interface BadgeShareOptions {
 	recipientName?: string;
 	recipientIdentifier?: string;
 	recipientType?: string;
+	badgeIsPublic?: boolean;
 }
 
 export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialDialogOptions {
@@ -376,6 +395,7 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 		shareIdUrl: options.shareUrl,
 		shareSummary: options.badgeClassDescription,
 		shareEndpoint: "certification",
+		badgeIsPublic: options.badgeIsPublic,
 
 		showRecipientOptions: true,
 		recipientIdentifier: options.recipientIdentifier,

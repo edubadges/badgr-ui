@@ -100,6 +100,8 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 
 	get isNew(): boolean { return this.apiModel.acceptance === "Unaccepted" }
 
+	get isPublic(): boolean { return this.apiModel.public }
+
 	markAccepted(): Promise<this> {
 		if (this.isNew) {
 			this.apiModel.acceptance = "Accepted";
@@ -111,6 +113,14 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 			return Promise.resolve(this);
 		}
 	}
+
+	changePublicity(isPublic: boolean): Promise<this> {
+		this.apiModel.public = isPublic;
+		return this.recipientBadgeManager.recipientBadgeApiService
+			.saveInstance(this.apiModel)
+			.then(newModel => this.applyApiModel(newModel));
+	}
+	
 
 	get issuerId(): string {
 		return this.apiModel.json.badge.issuer.id;
