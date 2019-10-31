@@ -11,6 +11,7 @@ import { ExternalToolsManager } from "app/externaltools/services/externaltools-m
 import { LtiApiService } from "./services/lti-api.service";
 import { BadgeClass } from "../issuer/models/badgeclass.model";
 import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
+import { EmbedService } from "../common/services/embed.service";
 
 
 @Component({
@@ -96,20 +97,23 @@ export class LtiBadgesComponent extends BaseAuthenticatedRoutableComponent imple
 		protected profileManager: UserProfileManager,
 		private externalToolsManager: ExternalToolsManager,
 		private ltiManager: LtiApiService,
+		private embedService: EmbedService
 	) {
 		super(router, route, loginService);
 
 		title.setTitle("Issuer Detail - Badgr");
-		this.badgesLoaded = new Promise((resolve, reject) => {
-				ltiManager.currentContextId.then(r => {
-					this.currentContextId = r['lticontext'];
-					ltiManager.getAllContextIdStudentBadgeClasses(this.currentContextId).then(r => {
-						this.currentLtiBadges = r;
+		if(this.embedService.isEmbedded) {
+			this.badgesLoaded = new Promise((resolve, reject) => {
+					ltiManager.currentContextId.then(r => {
+						this.currentContextId = r['lticontext'];
+						ltiManager.getAllContextIdStudentBadgeClasses(this.currentContextId).then(r => {
+							this.currentLtiBadges = r;
+						});
+						resolve();
 					});
-					resolve();
-				});
-			}
-		);
+				}
+			);
+		}
 
 	}
 

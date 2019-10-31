@@ -26,6 +26,7 @@ import {badgeShareDialogOptions} from "../recipient/recipient-earned-badge-detai
 import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
 import { LtiApiService } from "../lti-api/services/lti-api.service";
 import { ApiBadgeClassContextId } from "./models/badgeclass-api.model";
+import { EmbedService } from "../common/services/embed.service";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -362,16 +363,19 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		protected dialogService: CommonDialogsService,
 		private eventService: EventsService,
 		private ltiManager: LtiApiService,
-		private externalToolsManager: ExternalToolsManager
+		private externalToolsManager: ExternalToolsManager,
+		private embedService: EmbedService
 	) {
 		super(router, route, sessionService);
-		ltiManager.currentContextId.then(r => {
-			this.currentContextId = r['lticontext'];
-			ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
-				this.currentLtiBadges = r;
-			});
+		if(this.embedService.isEmbedded) {
+			ltiManager.currentContextId.then(r => {
+				this.currentContextId = r['lticontext'];
+				ltiManager.getAllContextIdBadgeClasses(this.currentContextId).then(r => {
+					this.currentLtiBadges = r;
+				});
 
-		});
+			});
+		}
 		this.badgeClassLoaded = badgeManager.badgeByIssuerSlugAndSlug(
 			this.issuerSlug,
 			this.badgeSlug

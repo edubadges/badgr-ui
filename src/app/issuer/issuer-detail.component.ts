@@ -315,7 +315,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 		this.externalToolsManager.getToolLaunchpoints("issuer_external_launch").then(launchpoints => {
 			this.launchpoints = launchpoints.filter(lp => Boolean(lp));
-		})
+		});
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
 			(issuer) => {
