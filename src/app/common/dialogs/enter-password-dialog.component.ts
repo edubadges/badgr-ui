@@ -56,10 +56,8 @@ export class EnterPasswordDialog extends BaseDialog {
 	sessionService;
 	provider: SocialAccountProviderInfo;
 	loggedIn: boolean = false;
-	parentComponentFormState: object;
 	passwordForm: FormGroup;
 
-	resolveFunc: () => void;
 	rejectFunc: () => void;
 	get currentTheme() { return this.configService.currentTheme }
 
@@ -80,10 +78,9 @@ export class EnterPasswordDialog extends BaseDialog {
 		})
 	}
 
-	openDialog(parentComponentFormState): Promise<void> {
+	openDialog(): Promise<void> {
 		let options = {dialogBody: this.currentTheme.consent_apply_badge};
 		this.options = Object.assign(this.options, options);
-		this.parentComponentFormState = parentComponentFormState
 
 		if (this.isOpen)
 			return Promise.reject(new Error("Cannot open dialog, because it is already open."));
@@ -97,16 +94,20 @@ export class EnterPasswordDialog extends BaseDialog {
 
 	closeDialog(result: boolean) {
 		this.closeModal();
+		let password = this.passwordForm.controls.password.value
 		this.passwordForm.reset()
 		if (result) {
-			this.resolveFunc();
+			this.resolveFunc(password);
 		} else {
 			this.rejectFunc();
 		}
 	}
 
-	onSubmit(formState) {
-		this.parentComponentFormState['password'] = formState.password
+	resolveFunc(a) {
+		return a
+	}
+
+	onSubmit() {
 		this.closeDialog(true)
 	}
 	
@@ -115,7 +116,7 @@ export class EnterPasswordDialog extends BaseDialog {
 			ev.preventDefault();
 			markControlsDirty(this.passwordForm);
 		} else {
-			this.onSubmit(this.passwordForm.value)
+			this.onSubmit()
 		}
 	}
 
