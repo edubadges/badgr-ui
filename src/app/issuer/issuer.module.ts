@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-// import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 
 import { BadgrCommonModule, COMMON_IMPORTS } from "../common/badgr-common.module";
@@ -14,6 +13,7 @@ import { BadgeClassIssueComponent } from "./badgeclass-issue.component";
 import { BadgeClassIssueBulkAwardComponent } from "./badgeclass-issue-bulk-award.component";
 import { BadgeClassIssueBulkAwardPreviewComponent } from "./badgeclass-issue-bulk-award-preview.component";
 import { BadgeclassIssueBulkAwardConformation } from "./badgeclass-issue-bulk-award-conformation.component";
+import { BadgeClassIssueBulkSignComponent } from "./badgeclass-issue-bulk-sign.component";
 import { BadgeclassIssueBulkAwardError } from "./badgeclass-issue-bulk-award-error.component";
 import { PathwayCreateComponent } from "./pathway-create.component";
 import { PathwayDetailComponent } from "./pathway-detail.component";
@@ -45,7 +45,7 @@ import { IssuerStaffComponent } from "./issuer-staff.component";
 import { ProfileModule } from "../profile/profile.module";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
-import { ViewIssuerAuthGuard, AddIssuerAuthGuard } from "../auth/auth.gard";
+import { ViewIssuerAuthGuard, AddIssuerAuthGuard, UserMaySignBadges } from "../auth/auth.gard";
 import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
 
 
@@ -60,6 +60,11 @@ const routes = [
 		path: "create",
 		component: IssuerCreateComponent,
 		canActivate: [AddIssuerAuthGuard]
+	},
+	{
+		path: "bulk-sign",
+		component: BadgeClassIssueBulkSignComponent,
+		canActivate: [ViewIssuerAuthGuard, UserMaySignBadges]
 	},
 	{
 		path: "issuers/:issuerSlug",
@@ -158,6 +163,7 @@ const routes = [
 		BadgeClassIssueBulkAwardPreviewComponent,
 		BadgeclassIssueBulkAwardError,
 		BadgeclassIssueBulkAwardConformation,
+		BadgeClassIssueBulkSignComponent,
 
 		BadgeClassDetailComponent,
 		BadgeClassIssueComponent,
@@ -199,6 +205,7 @@ const routes = [
 		StudentsEnrolledApiService,
 		AddIssuerAuthGuard,
 		ViewIssuerAuthGuard,
+		UserMaySignBadges
 	]
 })
 export class IssuerModule {}

@@ -643,18 +643,24 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		return result
 	}
 
-	onSubmit(){
+	// onSubmit(){
+	// 	const formState = this.issueForm.value;
+	// 	formState.expires_at = formState.expires_at? formState.expires_at.format('DD/MM/YYYY'): null  // force remove timezone
+	// 	if (this.issueForm.controls.issue_signed.value){
+	// 		this.dialogService.enterPasswordDialog.openDialog(formState)
+	// 		.then( () => {
+	// 			this.awardBadges(formState)
+	// 		})
+	// 		.catch( error => error)
+	// 	} else {
+	// 		this.awardBadges(formState)
+	// 	}
+	// }
+	
+	onSubmit() {
 		const formState = this.issueForm.value;
-		formState.expires_at = formState.expires_at? formState.expires_at.format('DD/MM/YYYY'): null  // force remove timezone
-		if (this.issueForm.controls.issue_signed.value){
-			this.dialogService.enterPasswordDialog.openDialog(formState)
-			.then( () => {
-				this.awardBadges(formState)
-			})
-			.catch( error => error)
-		} else {
-			this.awardBadges(formState)
-		}
+		formState.expires_at = formState.expires_at ? formState.expires_at.format('DD/MM/YYYY') : null  // force remove timezone
+		this.awardBadges(formState)
 	}
 
 	async removeEvidence(i: number) {

@@ -71,6 +71,11 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 			.then(r => r.json());
 	}
 
+	signBadgeInstanceBatched(batchSignInstances, password): Promise<any[]> {
+		return this.post(`/v1/issuer/batchSign`, {badge_instances: batchSignInstances, password: password})
+			.then(r => r.json());
+	}
+
 	private handleAssertionResult = (r) => {
 			let resultset = new BadgeInstanceResultSet();
 			if (r.headers && r.headers.has('link')) {
@@ -86,6 +91,12 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 		if (query) {
 			url += `&recipient=${query}`
 		}
+		return this.get(url).then(this.handleAssertionResult);
+	}
+
+	listBadgeInstancesForSigning(): Promise<BadgeInstanceResultSet> {
+		let url = `/v1/issuer/timestampedAssertions`;
+		// return this.get(url).then(r => r.json());
 		return this.get(url).then(this.handleAssertionResult);
 	}
 
