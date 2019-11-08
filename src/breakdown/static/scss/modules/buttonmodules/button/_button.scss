@@ -242,6 +242,41 @@
 
 }
 
+
+.button-quaternary {
+  background-color: $color-quinary;
+  color: $color-light1;
+  width: 200px;
+  height: 80px;
+  white-space: normal;
+  margin: 3px;
+  
+  &:not(.button-is-disabled):active:focus {
+    background-color: $color-quinary-light;
+    box-shadow: 0 1px 3px 0 rgba($color-dark5, .5) inset;
+  }
+
+  &:not(.button-is-disabled):hover {
+    background-color: $color-quinary-light;
+    border-color: transparent;
+  }
+
+  &:not(.button-is-disabled):focus {
+    background-color: $color-quinary-light;
+    box-shadow: 0 0 0 1px $color-light1 inset, 0 0 4px 1px map-get($states, error);
+  }
+
+
+  .button-x-loading {
+      &::after {
+        border-color: $color-dark2;
+        border-right-color: transparent;
+      }
+    }
+}
+
+
+
 // TODO Not sure what is going on here - maybe should be a separate module
 
 .button-close-x {

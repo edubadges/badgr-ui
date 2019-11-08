@@ -31,6 +31,13 @@
       margin-bottom: $gridspacing * 2;
     }
 
+    .l-formsection-x-badge-create {
+      width:49%; 
+      display:inline-block; 
+      text-align:center;
+      padding: 0%, 10%, 0%, 10%;
+    }
+
   }
 
   .l-formsection-x-inputoffset:not(:last-child) {

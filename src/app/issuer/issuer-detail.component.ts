@@ -81,20 +81,39 @@ import { EmbedService } from "../common/services/embed.service";
 
 
 				<div class="wrap l-containerhorizontal ">
-					
-					<!-- Manage Pathway Button ================================================================================================-->
-					<div class="l-childrenhorizontal l-childrenhorizontal-right l-marginBottom l-marginBottom-5x l-marginTop l-marginTop-5x ">
-						
-						<div class="l-childrenhorizontal">
-							<a [routerLink]="['badges/create']" class="button"
-							*ngIf="issuer.canCreateBadge">
-								<span class="hidden hidden-is-tablet">Create</span> Badge
-							</a>
-							<div *ngIf="launchpoints?.length">
-								<a class="button" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
+
+					<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-basicinformation">
+						<div class="l-formsection-x-container">
+							<div class="l-formsection-x-inputs">
+
+								<div class="l-formsection-x-badge-create">
+									<span>NON FORMAL</span><br><span>MICRO-CREDENTIAL</span>
+									<a [routerLink]="['badges/create']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
+									Create Badgeclass For non-Formal Learning
+									</a>
+								</div>
+
+								<div class="l-formsection-x-badge-create">
+									<span>FORMAL</span><br><span>MICRO-CREDENTIAL</span>
+									<a [routerLink]="['badges/create']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
+									Create Badgeclass For Formal Learning
+									</a>
+								</div>
+
+							</div>
+							<div class="l-formsection-x-help">
+								<h4 class="title title-bordered" id="heading-badgebasics">What is the difference?</h4>
+								<p class="text text-small">Badgeclasses can be created for formal accredited learning and for skills recognition. 
+											The mandatory metedata is different.</p>
+								<a class="button button-tertiaryghost"
+									href="https://www.surfnet.nl"
+									aria-labelledby="heading-badgebasics"
+									target="_blank"
+								>Learn More</a>
 							</div>
 						</div>
 					</div>
+					
 	
 					<!-- Badge Class List =============================================================================================-->
 					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
