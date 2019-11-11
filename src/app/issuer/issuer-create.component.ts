@@ -54,10 +54,22 @@ import {SystemConfigService} from "../common/services/config.service";
 			                            [control]="issuerForm.controls.issuer_image">
 							</bg-formfield-image><br>
 
+							<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
+			                           [label]="'Faculty or unit'"
+																 [placeholder]="'No faculty selected'"
+																 [options]="facultiesOptions"
+			        ></bg-formfield-select><br>
+
 			        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
-			                           [label]="'Name'"
+			                           [label]="'Name of organisational unit that issues badges'"
 			                           [errorMessage]="{required:'Please enter an issuer name'}"
 			                           [autofocus]="true"
+							></bg-formfield-text><br>
+							
+			        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
+			                           [label]="'A short description of the organisational unit that issues badges'"
+			                           [errorMessage]="{ required: 'Please enter a description'}"
+			                           [multiline]="true"
 			        ></bg-formfield-text><br>
 
 			        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
@@ -66,86 +78,22 @@ import {SystemConfigService} from "../common/services/config.service";
 																 [urlField]="true"
 																 type="url"
 			        ></bg-formfield-text><br>
-
-							<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
-			                           [label]="'Faculty'"
-																 [placeholder]="'No faculty selected'"
-																 [options]="facultiesOptions"
-			        ></bg-formfield-select><br>
 									   
 							<bg-formfield-text 	[control]="issuerForm.controls.issuer_email"
 																	[label]="'Contact Email'"
 			                		        [errorMessage]="{required:'Please enter a valid email address'}"
-			        ></bg-formfield-text><br>
+							></bg-formfield-text><br>
+								
+							<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.institutionIdentifier" 
+																	label="institution Identifier (brin code or iau code)" 
+							></bg-formfield-text><br>
 
-			        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
-			                           [label]="'Description'"
-			                           [errorMessage]="{ required: 'Please enter a description'}"
-			                           [multiline]="true"
-			        ></bg-formfield-text><br>
+							<bg-formfield-text 	[urlField]="true" 
+																	[control]="issuerForm.controls.issuer_extensions.controls.gradingTable" 
+																	label="Grading Table url (optional)" 
+							></bg-formfield-text><br>
+
 			      </fieldset>
-					</div>
-
-					<!-- Extensions -->
-
-					<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-extension" *ngIf="extensionsEnabled">
-						<h3 class="l-formsection-x-legend title title-ruled" id="heading-extension"> Extensions <span>(optional)</span></h3>
-						<div class="l-formsection-x-container">
-							<div class="l-formsection-x-help">
-								<h4 class="title title-bordered" id="heading-whatsextension">What's an extension?</h4>
-								<p class="text text-small"> Extensions are optional extra values you can add to your badgeclass.</p>
-								<a class="button button-tertiaryghost" href="http://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/extensions/index.html" aria-labelledby="heading-whatsextension" target="_blank">Learn More</a>
-							</div>
-							<div class="l-formsection-x-inputs">
-								<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of issuer_extensions.controls">
-
-									<div *ngIf="extension.controls.GradingTableExtension">
-										<bg-formfield-text [urlField]="true" [control]="extension.controls.GradingTableExtension.controls.gradingTable" label="Please Type in the URL to the Grading Table" ></bg-formfield-text>
-										<button class="l-formsectionnested-x-remove formsectionremove"
-														(click)="removeExtension(extension)"
-														type="button"
-										>Remove</button>
-									</div>
-
-									<div *ngIf="extension.controls.InstitutionIdentifierExtension">
-										<bg-formfield-text [control]="extension.controls.InstitutionIdentifierExtension.controls.institutionIdentifier" label="Please Type in the institution Identifier" ></bg-formfield-text>
-										<button class="l-formsectionnested-x-remove formsectionremove"
-														(click)="removeExtension(extension)"
-														type="button"
-										>Remove</button>
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Extension Adder Buttons -->
-
-					<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
-						<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Extensions</h3>
-						<div class="l-formsection-x-container">
-							<div class="l-formsection-x-inputs">
-								<div class="l-squareiconcards">
-									<button class="squareiconcard squareiconcard-extension"
-													type="button"
-													(click)="addExtension('GradingTableExtension')"
-													[disabled]="GradingTableExtensionEnabled"
-									>
-										<span class="squareiconcard-x-container">grading Table</span>
-									</button>
-
-									<button class="squareiconcard squareiconcard-extension"
-													type="button"
-													(click)="addExtension('InstitutionIdentifierExtension')"
-													[disabled]="InstitutionIdentifierExtensionEnabled"
-									>
-										<span class="squareiconcard-x-container">institution Identifier</span>
-									</button>
-
-								</div>
-							</div>
-						</div>
 					</div>
 
 				<!-- Footer -->
@@ -230,7 +178,10 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			],
 			'issuer_faculty': [ '' ],
 			'issuer_image': [ '' ],
-			'issuer_extensions' : formBuilder.array([])
+			'issuer_extensions': this.formBuilder.group({
+						'gradingTable': ['', UrlValidator.validUrl],
+						'institutionIdentifier': ['', Validators.required]
+				})
 		});
 
 		this.emailsLoaded = this.profileManager.userProfilePromise
@@ -255,7 +206,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 					}
 				});
 			});
-			this.issuer_extensions = this.issuerForm.controls["issuer_extensions"]
 
 	}
 
@@ -269,9 +219,14 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
 			'url': formState.issuer_url,
-			'extensions': this.extensionsEnabled ? formState.issuer_extensions : []
+			'extensions': {}
 		};
-
+		if (formState.issuer_extensions.institutionIdentifier) {
+			issuer['extensions'] = {'institutionIdentifier' : formState.issuer_extensions.institutionIdentifier}
+		}
+		if (formState.issuer_extensions.gradingTable) {
+			issuer['extensions'] = { 'gradingTable': formState.issuer_extensions.gradingTable }
+		} 
 		if (formState.issuer_faculty){
 			issuer['faculty'] = JSON.parse(formState.issuer_faculty)
 		}
@@ -302,56 +257,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	urlBlurred(ev) {
 		var control: FormControl = <FormControl>this.issuerForm.controls[ 'issuer_url' ];
 		UrlValidator.addMissingHttpToControl(control);
-	}
-
-	get extensions() {
-		return this.issuerForm.controls["issuer_extensions"] as FormArray;
-	}
-
-	extensionsEnabled = false
-	GradingTableExtensionEnabled = false
-	InstitutionIdentifierExtensionEnabled = false
-
-	disableExtension(extension: FormGroup){
-		let extensionName = Object.keys(extension.controls)[0]
-		this[extensionName+'Enabled']=false
-	}
-
-	enableExtension(extension: FormGroup){
-		let extensionName = Object.keys(extension.controls)[0]
-		this.extensionsEnabled = true
-		this[extensionName+'Enabled']=true
-	}
-
-	async removeExtension(extension: FormGroup) {
-		this.extensions.removeAt(this.extensions.controls.indexOf(extension));
-		this.disableExtension(extension)
-		if (this.extensions.length == 0){
-			this.extensionsEnabled = false;
-		}
-	}
-
-	makeFormGroup(extensionName: string){
-		if (extensionName=='GradingTableExtension'){
-			return this.formBuilder.group({
-				GradingTableExtension: this.formBuilder.group({
-					gradingTable: ['', Validators.compose([Validators.required, UrlValidator.validUrl])]
-				})
-			})
-		}
-		if (extensionName=='InstitutionIdentifierExtension'){
-			return this.formBuilder.group({
-				InstitutionIdentifierExtension: this.formBuilder.group({
-					institutionIdentifier: ['', Validators.required]
-				})
-			})
-		}
-	}
-
-	addExtension(extensionName: string){
-	 let extension = this.makeFormGroup(extensionName)
-	 this.extensions.push(extension);
-	 this.enableExtension(extension)
 	}
 
 }
