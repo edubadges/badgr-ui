@@ -72,7 +72,7 @@ import { EventsService } from "../common/services/events.service";
 						<section>
 							<h1>Privacy</h1>
 							<p *ngIf="badge.isPublic"><small> This badge is publicly accessible </small></p>
-							<p *ngIf="!badge.isPublic"><small> This badge is not publicly accessbile </small></p>
+							<p *ngIf="!badge.isPublic"><small> This badge is not publicly accessible </small></p>
 							<button *ngIf="!badge.isPublic" class="button button-primaryghost" type="button" (click)="markBadgePublic()">Make badge public</button>
 							<button *ngIf="badge.isPublic" class="button button-primaryghost" type="button" (click)="markBadgePrivate()">Make badge private</button>
 						</section>
