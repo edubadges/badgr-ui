@@ -46,54 +46,143 @@ import {SystemConfigService} from "../common/services/config.service";
 		    <form (ngSubmit)="onSubmit(issuerForm.value)" novalidate>
 
 					<div class="l-formsection wrap wrap-well" role="group">
-			      <fieldset>
-			        <bg-formfield-image #imageField
-			                            label="Image (Optional)"
-			                            imageLoaderName="issuer"
-			                            [placeholderImage]="issuerImagePlacholderUrl"
-			                            [control]="issuerForm.controls.issuer_image">
-							</bg-formfield-image><br>
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+									<div>
+										<h4 class="title title-bordered" id="heading-badgebasics">What is an Issuer?</h4>
+										<p class="text text-small">An issuer is an organiztional unit that awards badges to earners. This can be a faculaty or any other educational unit.</p>
+										<a class="button button-tertiaryghost"
+											href="https://www.surfnet.nl"
+											aria-labelledby="heading-badgebasics"
+											target="_blank"
+										>Learn More</a>
+									</div>
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-image #imageField
+																			label="Image (Optional)"
+																			imageLoaderName="issuer"
+																			[placeholderImage]="issuerImagePlacholderUrl"
+																			[control]="issuerForm.controls.issuer_image">
+									</bg-formfield-image><br>
+								</div>
+							</div>
+						</fieldset>
 
-							<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
-			                           [label]="'Faculty or unit'"
-																 [placeholder]="'No faculty selected'"
-																 [options]="facultiesOptions"
-			        ></bg-formfield-select><br>
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+									<div class="formfield">
+										<p class="formfield-x-label label-secondary">Select a Faculty orEducational Unit that this Issuer belongs to.</p>
+									</div>
+								</div>
+								<div class="l-formsection-x-inputs">
+																		<bg-formfield-select [control]="issuerForm.controls.issuer_faculty"
+																		[label]="'Faculty or unit'"
+																		[placeholder]="'No faculty selected'"
+																		[options]="facultiesOptions"
+									></bg-formfield-select><br>
+								</div>
+							</div>
+						</fieldset>
 
-			        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
-			                           [label]="'Name of organisational unit that issues badges'"
-			                           [errorMessage]="{required:'Please enter an issuer name'}"
-			                           [autofocus]="true"
-							></bg-formfield-text><br>
-							
-			        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
-			                           [label]="'A short description of the organisational unit that issues badges'"
-			                           [errorMessage]="{ required: 'Please enter a description'}"
-			                           [multiline]="true"
-			        ></bg-formfield-text><br>
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-text [control]="issuerForm.controls.issuer_name"
+																		[label]="'Name of organisational unit that issues badges'"
+																		[errorMessage]="{required:'Please enter an issuer name'}"
+																		[autofocus]="true"
+									></bg-formfield-text><br>
+								</div>
+							</div>
+						</fieldset>
 
-			        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
-			                           [label]="'Website URL'"
-			                           [errorMessage]="'Please enter a valid URL'"
-																 [urlField]="true"
-																 type="url"
-			        ></bg-formfield-text><br>
-									   
-							<bg-formfield-text 	[control]="issuerForm.controls.issuer_email"
-																	[label]="'Contact Email'"
-			                		        [errorMessage]="{required:'Please enter a valid email address'}"
-							></bg-formfield-text><br>
-								
-							<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.institutionIdentifier" 
-																	label="institution Identifier (brin code or iau code)" 
-							></bg-formfield-text><br>
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-text [control]="issuerForm.controls.issuer_description"
+																		[label]="'A short description of the organisational unit that issues badges'"
+																		[errorMessage]="{ required: 'Please enter a description'}"
+																		[multiline]="true"
+									></bg-formfield-text><br>
+								</div>
+							</div>
+						</fieldset>
 
-							<bg-formfield-text 	[urlField]="true" 
-																	[control]="issuerForm.controls.issuer_extensions.controls.gradingTable" 
-																	label="Grading Table url (optional)" 
-							></bg-formfield-text><br>
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+									<div class="formfield">
+										<p class="formfield-x-label label-secondary">This website URL will be displayed in the badge.</p>
+									</div>
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-text [control]="issuerForm.controls.issuer_url"
+																		[label]="'Website URL'"
+																		[errorMessage]="'Please enter a valid URL'"
+																		[urlField]="true"
+																		type="url"
+									></bg-formfield-text><br>
+								</div>
+							</div>
+						</fieldset>
 
-			      </fieldset>
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+									<div class="formfield">
+										<p class="formfield-x-label label-secondary">This email address wil be visible in the email sent to the earner and in the badge.</p>
+									</div>
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-text 	[control]="issuerForm.controls.issuer_email"
+																			[label]="'Contact Email'"
+																			[errorMessage]="{required:'Please enter a valid email address'}"
+									></bg-formfield-text><br>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+									<div class="formfield">
+										<p class="label-secondary">
+											<a href="https://duo.nl/open_onderwijsdata">BRIN: basisregister instellingen</a>
+											<a href="https://www.iau-aiu.net">IAU: International Association of Universities</a>
+										</p>
+									</div>
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.institutionIdentifier" 
+																			label="institution Identifier (brin code or iau code)" 
+									></bg-formfield-text><br>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset>
+							<div class="l-formsection-x-container">
+								<div class="l-formsection-x-help">
+									<div class="formfield">
+										<p class="label-secondary">This should be a persistent URL.</p>
+									</div>
+								</div>
+								<div class="l-formsection-x-inputs">
+									<bg-formfield-text 	[urlField]="true" 
+																			[control]="issuerForm.controls.issuer_extensions.controls.gradingTable" 
+																			label="Grading Table url (optional)" 
+									></bg-formfield-text><br>
+								</div>
+							</div>
+						</fieldset>
+
 					</div>
 
 				<!-- Footer -->
