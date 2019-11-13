@@ -27,8 +27,17 @@ import { markControlsDirty } from "../common/util/form-util";
 				</div>
 			</header>
 		</header>
+		<br><br>
 		<div class="wrap l-containerhorizontal ">
 			<div class="l-overflowhorizontal" *bgAwaitPromises="[badgeInstancesLoaded]">
+				<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
+					<h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Badges</h2>
+				</header>
+				<div *ngIf="! badgeInstances?.length">
+					<p class="empty" *ngIf="! badges?.length">
+						No Badges to sign
+					</p>
+				</div>
 				<table class="table" *ngIf="badgeInstances?.length">
 					<thead>
 						<tr>
