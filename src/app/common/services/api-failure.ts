@@ -27,7 +27,7 @@ export class BadgrApiFailure {
 
 	get verboseError(): string | null {
 		if (this.payload['response']){
-			return this.payload['response']['_body']? this.payload['response']['_body'].slice(0, 120) : this.firstMessage;
+			return this.payload['response']['_body']? this.payload['response']['_body'].slice(0, 170) : this.firstMessage;
 		} 
 		return this.firstMessage
 	}

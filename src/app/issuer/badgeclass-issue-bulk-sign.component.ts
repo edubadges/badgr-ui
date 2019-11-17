@@ -44,6 +44,7 @@ import { markControlsDirty } from "../common/util/form-util";
 							<th scope="col">Badgeclass</th>
 							<th scope="col">EduID</th>
 							<th scope="col">Issue Date</th>
+							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -67,6 +68,14 @@ import { markControlsDirty } from "../common/util/form-util";
 								<label class="table-x-badge">
 									{{instance.created_at.split('T')[0]}}
 								</label>
+							</td>
+							<td>
+								<button class="button button-primaryghost"
+													type="button"
+													[disabled-when-requesting]="true"
+													(click)="denyAssertion(instance)"
+									>Delete
+									</button>
 							</td>
 						</tr>
 					</tbody>
@@ -99,6 +108,7 @@ export class BadgeClassIssueBulkSignComponent extends BaseAuthenticatedRoutableC
 	
 	signPromise: Promise<any> | null = null;
 	badgeInstancesLoaded: Promise<any>;
+	assertionDenialLoaded: Promise<any>;
 	badgeInstances: ApiBadgeInstance[];
 	badgeInstanceForm: FormArray;
 
@@ -125,9 +135,30 @@ export class BadgeClassIssueBulkSignComponent extends BaseAuthenticatedRoutableC
 			})
 	}
 
+
+	denyAssertion(assertion) {
+		this.assertionDenialLoaded = this.badgeInstanceApiService.denyBadgeInstancesForSigning(assertion.slug)
+			.then(r => {
+				this.popAssertionFromForm(assertion.slug)
+			})
+			.catch(error => {
+				this.messageService.reportHandledError(`Unable to deny signing: ${BadgrApiFailure.from(error).verboseError}`)
+			})
+	}
+
+	popAssertionFromForm(assertionSlug) {
+		let index = this.badgeInstanceForm.value.findIndex(assertion => assertion.slug == assertionSlug)
+		this.badgeInstances.splice(index, 1)
+		this.badgeInstanceForm.removeAt(index)
+	}
+
 	signBadges(formState, password){
 		this.signPromise = this.badgeInstanceApiService.signBadgeInstanceBatched(formState, password)
-			.then(r => r)
+			.then(result => {
+				for (let assertion in result) {
+					this.popAssertionFromForm(assertion['slug'])
+				}
+			})
 			.catch(error => {
 				this.messageService.reportHandledError(`Unable to sign badges: ${BadgrApiFailure.from(error).verboseError}`)
 			})

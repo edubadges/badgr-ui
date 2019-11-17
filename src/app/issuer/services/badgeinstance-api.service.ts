@@ -102,9 +102,16 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 		return this.get(url).then(this.handleAssertionResult);
 	}
 
+	denyBadgeInstancesForSigning(badgeInstanceSlug: string): Promise<any> {
+		return this.delete(`/v1/issuer/timestamped-assertions`, { badge_instance_slug: badgeInstanceSlug })
+			.then(r => r.json());
+	}
+
 	getBadgeInstancePage(paginationUrl: string):Promise<BadgeInstanceResultSet> {
 		return this.get(paginationUrl).then(this.handleAssertionResult);
 	}
+
+
 
 	revokeBadgeInstance(
 		issuerSlug: string,
