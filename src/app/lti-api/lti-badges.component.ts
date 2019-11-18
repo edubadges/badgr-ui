@@ -48,9 +48,10 @@ import { EmbedService } from "../common/services/embed.service";
 										</td>
 										<td>
 												<div *ngIf="badge.requested"><span class="state state-pill state-is-pending">Requested</span></div>
-													<div *ngIf="badge.rewarded"><span class="state state-pill state-is-success">rewarded</span></div>
-													<div *ngIf="badge.revoked"><span class="state state-pill state-is-error">revoked</span></div>
-													<div *ngIf="!badge.requested && !badge.rewarded && !badge.revoked">
+													<div *ngIf="badge.rewarded"><span class="state state-pill state-is-success">Awarded</span></div>
+													<div *ngIf="badge.revoked"><span class="state state-pill state-is-error">Revoked</span></div>
+													<div *ngIf="badge.denied"><span class="state state-pill state-is-error">Denied</span></div>
+													<div *ngIf="!badge.requested && !badge.rewarded && !badge.revoked && !badge.denied">
                               <a class="button button-primaryghost"
                                  [routerLink]="['/public/badges/', badge.badgeClassEntityId]"
                               >Request badge</a>
