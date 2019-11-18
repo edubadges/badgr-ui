@@ -42,10 +42,9 @@ import { PathwayGroupSubscriptionComponent } from "./pathway-group-subscription.
 import { BadgeClassIssueBulkAwardImportComponent } from "./badgeclass-issue-bulk-award-import.component";
 import { CommonEntityManagerModule } from "../entity-manager/entity-manager.module";
 import { IssuerStaffComponent } from "./issuer-staff.component";
-import { ProfileModule } from "../profile/profile.module";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
 import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-api.service";
-import { ViewIssuerAuthGuard, AddIssuerAuthGuard, UserMaySignBadges } from "../auth/auth.gard";
+import { ViewIssuerAuthGuard, AddIssuerAuthGuard, UserMaySignBadges, SigningEnabled } from "../auth/auth.gard";
 import { EndorsementApiModule } from 'app/endorsement-api/endorsement-api.module';
 
 
@@ -64,7 +63,7 @@ const routes = [
 	{
 		path: "bulk-sign",
 		component: BadgeClassIssueBulkSignComponent,
-		canActivate: [ViewIssuerAuthGuard, UserMaySignBadges]
+		canActivate: [ViewIssuerAuthGuard, UserMaySignBadges, SigningEnabled]
 	},
 	{
 		path: "issuers/:issuerSlug",
