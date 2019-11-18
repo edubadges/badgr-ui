@@ -194,7 +194,7 @@ import { saveAs } from "file-saver";
 						
 					</div>
 				</header>
-				<div class="l-containerhorizontal l-headeredsection">
+				<div class="l-containerhorizontal l-headeredsection" *ngIf="endorsementsEnabled">
 					<endorsements-badge [badge]="assertion"></endorsements-badge>
 				</div>
 			</main>
@@ -274,6 +274,10 @@ export class PublicBadgeAssertionComponent {
 
 	get rawBakedUrl() {
 		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}/baked`;
+	}
+
+	get endorsementsEnabled() {
+		return this.configService.endorsementsEnabled
 	}
 
 	get v1BakedUrl() {

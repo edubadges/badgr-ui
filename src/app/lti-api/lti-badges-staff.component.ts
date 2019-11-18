@@ -46,10 +46,10 @@ import { ApiBadgeClassContextId } from "../issuer/models/badgeclass-api.model";
                               </div>
 													</td>
 													<td>
-                                  <a class="button button-primaryghost"
+                                  <a class="button button-primaryghost" *ngIf="badge.can_award"
                                           (click)="removeBadgeClassFromLMS($event, badge,ltiContextId)"
                                   >Remove badge from this LMS course</a>
-                                  <a class="button button-primaryghost"
+                                  <a class="button button-primaryghost"  *ngIf="badge.can_award"
                                      [routerLink]="['/issuer/issuers/', badge.issuer_slug, 'badges', badge.badgeClassEntityId, 'issue']"
                                   >Award</a>
                           </td>

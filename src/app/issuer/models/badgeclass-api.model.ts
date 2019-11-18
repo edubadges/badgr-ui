@@ -12,6 +12,7 @@ export interface ApiBadgeClassContextId {
 	name: string
 	image: string
 	issuer_slug: string
+	can_award: boolean
 }
 
 export interface ApiBadgeClassJsonld {

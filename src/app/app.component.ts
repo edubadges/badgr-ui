@@ -338,13 +338,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 			current_user_permissions.includes('is_staff'));
 
 		this.userMaySeeFaculties = current_user_permissions.includes('has_institution_scope') ||
-			current_user_permissions.includes('is_superuser')
+			current_user_permissions.includes('is_superuser');
 
 		this.userMaySeeManagement = current_user_permissions.includes('view_management_tab');
 
 		this.userMaySignBadges = current_user_permissions.includes('may_sign_assertions');
 
-		this.permissionsChecked = true	
+		this.permissionsChecked = true;
 	}
 
 	permissionsChecked=false
