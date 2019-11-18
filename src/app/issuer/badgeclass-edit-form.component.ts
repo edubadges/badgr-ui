@@ -247,51 +247,6 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				>Remove</button>
 			</div>
 
-			<!-- Tags Panel -->
-			<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-tags" *ngIf="tagsEnabled">
-				<h3 class="l-formsection-x-legend title title-ruled" id="heading-tags">Tags</h3>
-				<div class="l-formsection-x-container">
-					<div class="l-formsection-x-help">
-						<h4 class="title title-bordered" id="heading-whataretags">What are Tags?</h4>
-						<p class="text text-small">
-							Tags are optional ways to describe a type of achievement. When you use tags, you help people who are
-							interested in your topic find your Badge.
-						</p>
-						<a class="button button-tertiaryghost"
-						   href="https://support.badgr.io/pages/viewpage.action?pageId=327768"
-						   aria-labelledby="heading-whataretags"
-						   target="_blank"
-						>Learn More</a>
-					</div>
-					<div class="l-formsection-x-inputs">
-						<ul class="l-tags">
-							<li *ngFor="let tag of tags">
-								<div class="tag">
-									<span class="tag-x-text">{{ tag }}</span>
-									<button type="button" (click)="removeTag(tag)">Remove {{ tag }} tag</button>
-								</div>
-							</li>
-						</ul>
-						<div class="l-formsection-x-maxwidthinput formfield">
-							<label for="formfield">Add a Tag</label>
-							<div class="formaddinput">
-								<label class="visuallyhidden" for="addtag" id="formaddinput-addtag">Tag</label>
-								<input type="text" name="addtag" id="addtag" (keypress)="handleTagInputKeyPress($event)" #newTagInput>
-								<button aria-labelledby="formaddinput-addtag"
-								        type="button"
-								        (click)="addTag()"
-								>Add</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<button class="l-formsection-x-remove formsectionremove"
-				        aria-labelledby="heading-tags"
-				        type="button"
-				        (click)="disableTags()"
-				>Remove</button>
-			</div>
-
 			<!-- Footer -->
 			<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
 				<!-- Optional Detail Enable Panel -->
@@ -305,13 +260,6 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 											[disabled]="alignmentsEnabled"
 							>
 								<span class="squareiconcard-x-container">Alignment</span>
-							</button>
-							<button class="squareiconcard squareiconcard-tags"
-											type="button"
-											(click)="enableTags()"
-											[disabled]="tagsEnabled"
-							>
-								<span class="squareiconcard-x-container">Tags</span>
 							</button>
 						</div>
 					</div>
@@ -491,9 +439,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	@ViewChild("imageField")
 	imageField: BgFormFieldImageComponent;
 
-	@ViewChild("newTagInput")
-	newTagInput: ElementRef;
-
 	existingBadgeClass: BadgeClass | null = null;
 
 	@Output()
@@ -609,10 +554,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			validator: this.criteriaRequired
 		});
 
-		this.tags = new Set();
-		this.badgeClass.tags.forEach(t => this.tags.add(t));
-
-		this.tagsEnabled = this.tags.size > 0;
 		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
 	}
 
@@ -630,40 +571,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		if (!this.listener_is_on){
 			this.badgeClassForm.valueChanges.subscribe(x => this.onLangChange(x['extensions']))
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Tags
-	tagsEnabled = false;
-	tags = new Set<string>();
-
-	enableTags() {
-		this.tagsEnabled = true;
-	}
-
-	disableTags() {
-		this.tagsEnabled = false;
-	}
-
-	addTag() {
-		const newTag = ((this.newTagInput.nativeElement as HTMLInputElement).value || "").trim().toLowerCase();
-
-		if (newTag.length > 0) {
-			this.tags.add(newTag);
-			(this.newTagInput.nativeElement as HTMLInputElement).value = "";
-		}
-	}
-
-	handleTagInputKeyPress(event: KeyboardEvent) {
-		if (event.keyCode == 13 /* Enter */) {
-			this.addTag();
-			(this.newTagInput.nativeElement as HTMLInputElement).focus();
-			event.preventDefault();
-		}
-	}
-
-	removeTag(tag: string) {
-		this.tags.delete(tag);
 	}
 
 
