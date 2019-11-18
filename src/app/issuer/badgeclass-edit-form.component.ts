@@ -807,7 +807,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
 			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
 			this.existingBadgeClass.extensions = this.extensionsEnabled ? formState.extensions : [];
-			this.existingBadgeClass.tags = this.tagsEnabled ? Array.from(this.tags) : [];
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
 			const badgeClassData = {
@@ -816,7 +815,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				image: formState.badge_image,
 				criteria_text: formState.badge_criteria_text,
 				criteria_url: formState.badge_criteria_url,
-				tags: this.tagsEnabled ? Array.from(this.tags) : [],
 				alignment: this.alignmentsEnabled ? formState.alignments : [],
 				extensions:this.extensionsEnabled ? formState.extensions : []
 			} as ApiBadgeClassForCreation;

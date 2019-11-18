@@ -88,14 +88,14 @@ import { EmbedService } from "../common/services/embed.service";
 
 								<div class="l-formsection-x-badge-create">
 									<span>NON FORMAL</span><br><span>MICRO-CREDENTIAL</span>
-									<a [routerLink]="['badges/create']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
+									<a [routerLink]="['badges/create-non-formal']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
 									Create Badgeclass For non-Formal Learning
 									</a>
 								</div>
 
 								<div class="l-formsection-x-badge-create">
 									<span>FORMAL</span><br><span>MICRO-CREDENTIAL</span>
-									<a [routerLink]="['badges/create']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
+									<a [routerLink]="['badges/create-formal']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
 									Create Badgeclass For Formal Learning
 									</a>
 								</div>
