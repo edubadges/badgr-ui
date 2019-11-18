@@ -70,6 +70,13 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 						<div>
 							<ul class="menuitem"><a href= "{{eduidRegistrationUrl}}">Sign Up Here</a></ul>
 						</div>
+						<button
+										style="width:200px;"
+										type="button"
+										class="buttonauth buttonauth-{{ providerEduid.slug }}"
+										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerAla)"
+						>{{ providerAla.name }}
+						</button>
 					</div>
 				</div>
 				
@@ -84,6 +91,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 	providerEduid: object;
 	eduidRegistrationUrl: String;
 	providerSurfconext: object;
+	providerAla: object;
   providerName: string;
 	initFinished: Promise<any> = new Promise(() => {});
 	loginFinished: Promise<any>;
@@ -113,18 +121,21 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 	ngOnInit() {
 		super.ngOnInit();
 				
+
 		for (let provider of this.sessionService.enabledExternalAuthProviders){
-			for (let provider of this.sessionService.enabledExternalAuthProviders){
-				if (provider.name == 'EduID') {
-					this.providerEduid = provider
-					let eduIDUrl = this.configService.featuresConfig["socialAccountProviderUrls"]['edu_id']
-					this.eduidRegistrationUrl = eduIDUrl+"/portal/register"
-				}
-				if (provider.name == 'SURFconext') {
-					this.providerSurfconext = provider
-				}
-			}  
+			if (provider.name == 'EduID') {
+				this.providerEduid = provider
+				let eduIDUrl = this.configService.featuresConfig["socialAccountProviderUrls"]['edu_id']
+				this.eduidRegistrationUrl = eduIDUrl+"/portal/register"
+			}
+			if (provider.name == 'SURFconext') {
+				this.providerSurfconext = provider
+			}
+			if (provider.name == "Ala"){
+				this.providerAla = provider
+			}
 		}
+
 		
 	}
 
