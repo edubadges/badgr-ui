@@ -147,6 +147,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							label="URL"
 							[urlField]="true"
 							fieldType="url"
+              [errorMessage]="'Please enter a valid URL'"
 							errorMessage="URL to the Badge Criteria Page"
 						></bg-formfield-text>
 					</div>
