@@ -38,6 +38,17 @@
       padding: 0%, 10%, 0%, 10%;
     }
 
+    .l-formsection-col {
+      display: inline-block;
+      margin: 0px 5px 0px 5px;
+      max-width: 45%;
+    }
+
+    .l-formsection-col-top {
+      vertical-align: top;
+    }
+    
+
   }
 
   .l-formsection-x-inputoffset:not(:last-child) {

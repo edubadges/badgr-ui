@@ -41,7 +41,7 @@ import {SystemConfigService} from "../common/services/config.service";
 
 		  </header>
 
-		  <div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
+		  <div *bgAwaitPromises="[facultiesLoaded]" class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
 
 		    <form (ngSubmit)="onSubmit(issuerForm.value)" novalidate>
 
@@ -60,12 +60,20 @@ import {SystemConfigService} from "../common/services/config.service";
 									</div>
 								</div>
 								<div class="l-formsection-x-inputs">
-									<bg-formfield-image #imageField
-																			label="Image (Optional)"
-																			imageLoaderName="issuer"
-																			[placeholderImage]="issuerImagePlacholderUrl"
-																			[control]="issuerForm.controls.issuer_image">
-									</bg-formfield-image><br>
+									<div class="l-formsection-col">
+										<bg-formfield-image #imageField
+																				label="Image (Optional)"
+																				imageLoaderName="issuer"
+																				[placeholderImage]="issuerImagePlacholderUrl"
+																				[control]="issuerForm.controls.issuer_image">
+										</bg-formfield-image>
+									</div>
+									<div class=" formfield l-formsection-col l-formsection-col-top">
+										<bg-formfield-text [control]="issuerForm.controls.institution_name"
+																			[label]="'Institution Name'"
+																			[autofill]="true"
+										></bg-formfield-text>
+									</div>
 								</div>
 							</div>
 						</fieldset>
@@ -82,7 +90,7 @@ import {SystemConfigService} from "../common/services/config.service";
 																		[label]="'Faculty or unit'"
 																		[placeholder]="'No faculty selected'"
 																		[options]="facultiesOptions"
-									></bg-formfield-select><br>
+									></bg-formfield-select>
 								</div>
 							</div>
 						</fieldset>
@@ -96,7 +104,7 @@ import {SystemConfigService} from "../common/services/config.service";
 																		[label]="'Name of organisational unit that issues badges'"
 																		[errorMessage]="{required:'Please enter an issuer name'}"
 																		[autofocus]="true"
-									></bg-formfield-text><br>
+									></bg-formfield-text>
 								</div>
 							</div>
 						</fieldset>
@@ -110,7 +118,7 @@ import {SystemConfigService} from "../common/services/config.service";
 																		[label]="'A short description of the organisational unit that issues badges'"
 																		[errorMessage]="{ required: 'Please enter a description'}"
 																		[multiline]="true"
-									></bg-formfield-text><br>
+									></bg-formfield-text>
 								</div>
 							</div>
 						</fieldset>
@@ -128,7 +136,7 @@ import {SystemConfigService} from "../common/services/config.service";
 																		[errorMessage]="'Please enter a valid URL'"
 																		[urlField]="true"
 																		type="url"
-									></bg-formfield-text><br>
+									></bg-formfield-text>
 								</div>
 							</div>
 						</fieldset>
@@ -144,7 +152,7 @@ import {SystemConfigService} from "../common/services/config.service";
 									<bg-formfield-text 	[control]="issuerForm.controls.issuer_email"
 																			[label]="'Contact Email'"
 																			[errorMessage]="{required:'Please enter a valid email address'}"
-									></bg-formfield-text><br>
+									></bg-formfield-text>
 								</div>
 							</div>
 						</fieldset>
@@ -162,7 +170,7 @@ import {SystemConfigService} from "../common/services/config.service";
 								<div class="l-formsection-x-inputs">
 									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.institutionIdentifier" 
 																			label="institution Identifier (brin code or iau code)" 
-									></bg-formfield-text><br>
+									></bg-formfield-text>
 								</div>
 							</div>
 						</fieldset>
@@ -178,7 +186,7 @@ import {SystemConfigService} from "../common/services/config.service";
 									<bg-formfield-text 	[urlField]="true" 
 																			[control]="issuerForm.controls.issuer_extensions.controls.gradingTable" 
 																			label="Grading Table url (optional)" 
-									></bg-formfield-text><br>
+									></bg-formfield-text>
 								</div>
 							</div>
 						</fieldset>
@@ -218,6 +226,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	emailsLoaded: Promise<any>;
 	facultiesLoaded: Promise<any>;
 	issuer_extensions: Object;
+	userInstitutionName: String = '';
 
 	get currentTheme() { return this.configService.currentTheme }
 
@@ -237,6 +246,13 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 
 		this.issuerForm = formBuilder.group({
 			'issuer_name': [
+				'',
+				Validators.compose([
+					Validators.required,
+					Validators.maxLength(1024)
+				])
+			],
+			'institution_name': [
 				'',
 				Validators.compose([
 					Validators.required,
@@ -286,16 +302,19 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			});
 
 		this.facultiesLoaded = this.profileManager.userProfilePromise
-			.then(profile => profile.faculties.loadedPromise)
-			.then(faculties => {
-				this.facultiesOptions = faculties.entities.map((f) => {
-					return {
-						label: f.name,
-						value: JSON.stringify({'id': f.numericId, 'name': f.name})
-					}
-				});
+			.then(profile => {
+				this.userInstitutionName = profile.institution['name']
+				this.issuerForm.controls.institution_name.setValue(this.userInstitutionName)
+				profile.faculties.loadedPromise
+					.then(faculties => {
+						this.facultiesOptions = faculties.entities.map((f) => {
+							return {
+								label: f.name,
+								value: JSON.stringify({ 'id': f.numericId, 'name': f.name })
+							}
+						});
+					})
 			});
-
 	}
 
 	ngOnInit() {
