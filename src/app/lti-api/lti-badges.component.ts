@@ -57,7 +57,7 @@ import { EmbedService } from "../common/services/embed.service";
                               >Request badge</a>
 													</div>
 											
-									</td>
+										</td>
 									
 									
 								</tr>
