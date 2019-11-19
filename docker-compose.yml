@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  site:
+    restart: unless-stopped
+    container_name: edubadges-ui
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SERVER_NAME: <YOUR SERVER HOSTNAME>
+      SERVER_PROTOCOL: "https://"
