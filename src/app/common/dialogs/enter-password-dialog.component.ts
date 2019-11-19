@@ -59,6 +59,7 @@ export class EnterPasswordDialog extends BaseDialog {
 	passwordForm: FormGroup;
 
 	rejectFunc: () => void;
+	resolveFunc: () => void;
 	get currentTheme() { return this.configService.currentTheme }
 
 	constructor(
@@ -97,15 +98,16 @@ export class EnterPasswordDialog extends BaseDialog {
 		let password = this.passwordForm.controls.password.value
 		this.passwordForm.reset()
 		if (result) {
-			this.resolveFunc(password);
+			//this.resolveFunc(password);
+			console.log(password)
 		} else {
 			this.rejectFunc();
 		}
 	}
 
-	resolveFunc(a) {
-		return a
-	}
+	// resolveFunc(a) {
+	// 	return a
+	// }
 
 	onSubmit() {
 		this.closeDialog(true)
