@@ -18,52 +18,90 @@ Read more on [edubadges.nl](https://www.surf.nl/en/edubadges-national-approach-t
 Example directory structure to build the eduBadges UI (frontend) Docker container:
 
 /var/docker/edubadges
+
 ├── config
+
 │   ├── edubadges
+
 │   └── nginx
+
 ├── docker-compose.yml
+
 ├── Dockerfile
+
 ├── edubadges
+
 │   └── badgr-ui
+
 ├── entrypoint
+
 │   └── supervisord.conf
+
 └── update_code.sh
+
 
 # The config directory layout
 Create a directory to store the local config files. I.e.:
 
 /var/docker/edubadges/config
+
 ├── edubadges
+
 │   └── config.local.js
+
 └── nginx
+
     ├── certs
+	
     │   ├── <yourhost>.pem
+	
     │   └── <yourhost>.key
+	
     └── nginx.conf
+	
 	
 # config.local.js
 Create a config.local.js in the /config/edubadges directory:
 
 const queryParams = location.search.substr(1).split("&")
+
     .filter(function(p) { return p.length > 0 })
+	
     .map(function(p) { return p.split('=').map(decodeURIComponent) })
+	
     .reduce(function(o, p) { o[p[0]]=p[1]; return o; }, {});
+	
 
 window.config = {
+
     api: {
+	
         baseUrl: "https://<yourhost.edubadges-backend.url>",
+		
         integrationEndpoints: ['/v1/badgebook/integrations']
+		
     },
+	
     help: {
+	
         email: "<your email>"
+		
     },
+	
     features: {
+	
         pathwayGraph: true,
+		
         alternateLandingRedirect: false,
+		
         socialAccountProviders: ["surf_conext", "edu_id"],
+		
         socialAccountProviderUrls: {"edu_id": "https://<yourhost.edubadges-frontend.url>"}
+		
     },
+	
 };
+
 	
 # nginx.conf
 Edit the enclosed nginx.conf and change the local hosts. 
@@ -72,11 +110,17 @@ Edit the enclosed nginx.conf and change the local hosts.
 Example build routine using the included Dockerfile and docker-compose.yml:
 
 $ cd /var/docker/edubadges-ui/edubadges/
+
 $ git clone --single-branch -b master https://github.com/edubadges/badgr-ui
+
 $ cp /var/docker/edubadges-ui/config/edubadges/config.local.js /var/docker/edubadges-ui/edubadges/badgr-ui/src/config.js
+
 $ cd /var/docker/edubadges-ui
+
 $ docker-compose build
+
 $ docker-compose up -d
+
 
 ## Install Instructions (for developers - Original tekst from Badgr)
 
