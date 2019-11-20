@@ -75,7 +75,7 @@ Create a config.local.js in the /config/edubadges directory:
 
 	
 # nginx.conf
-Edit the enclosed nginx.conf and change the local hosts. 
+Edit the enclosed nginx.conf.sample and change to your situation. 
 	
 # Build the Docker container
 Example build routine using the included Dockerfile and docker-compose.yml:
