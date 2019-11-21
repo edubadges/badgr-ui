@@ -124,6 +124,7 @@ import { EmbedService } from "../common/services/embed.service";
 							<thead>
 								<tr>
 									<th scope="col">Badge</th>
+									<th class="hidden hidden-is-desktop" scope="col">Type</th>
 									<th class="hidden hidden-is-desktop" scope="col">Created</th>
 									<th class="hidden hidden-is-desktop" scope="col">Recipients</th>
 									<th class="hidden hidden-is-desktop" scope="col">Enrollments</th>
@@ -141,6 +142,7 @@ import { EmbedService } from "../common/services/embed.service";
 											<a [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
 										</div>
 									</th>
+									<td>{{badge.type}}</td>
 									<td class="hidden hidden-is-desktop">
 										<time [date]="badge.createdAt" format="mediumDate"></time>
 									</td>
