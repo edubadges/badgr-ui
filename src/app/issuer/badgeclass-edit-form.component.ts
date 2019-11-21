@@ -6,15 +6,13 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
-import { Issuer } from "./models/issuer.model";
 
-import { ApiBadgeClassAlignment, ApiBadgeClassForCreation } from "./models/badgeclass-api.model"; // , ApiBadgeClassExtension
+import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, BadgeClassType } from "./models/badgeclass-api.model";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
 import { BadgeStudioComponent } from "./badge-studio.component";
 import { BgFormFieldImageComponent } from "../common/components/formfield-image";
-import { BadgrApiFailure } from "../common/services/api-failure";
 import { UrlValidator } from "../common/validators/url.validator";
 import { NumericValidator } from "../common/validators/numeric.validator";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
@@ -61,6 +59,8 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 		      (ngSubmit)="onSubmit(badgeClassForm.value)"
 		      novalidate
 		>
+
+
 			<!-- General Details Panel -->
 			<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-basicinformation">
 				<h3 class="l-formsection-x-legend title title-ruled" id="heading-basicinformation">Basic Information</h3>
@@ -69,37 +69,34 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						<h4 class="title title-bordered" id="heading-badgebasics">Badge Basics</h4>
 						<p class="text text-small">Badge images can be either PNGs or SVGs. <strong>All fields are required.</strong></p>
 						<a class="button button-tertiaryghost"
-						   href="https://support.badgr.io/pages/viewpage.action?pageId=327763"
-						   aria-labelledby="heading-badgebasics"
-						   target="_blank"
+							href="https://support.badgr.io/pages/viewpage.action?pageId=327763"
+							aria-labelledby="heading-badgebasics"
+							target="_blank"
 						>Learn More</a>
 					</div>
 					<div class="l-formsection-x-inputs">
 						<div class="l-formimageupload">
 							<bg-formfield-image
-								#imageField
-								label="Image"
-								imageLoaderName="badge"
-								[newDropZone]="true"
-								class="l-formimageupload-x-upload"
-								[placeholderImage]="badgeClassPlaceholderImageUrl"
-								[control]="badgeClassForm.controls.badge_image"
-							>
+									#imageField
+									label="Image"
+									imageLoaderName="badge"
+									[newDropZone]="true"
+									class="l-formimageupload-x-upload"
+									[placeholderImage]="badgeClassPlaceholderImageUrl"
+									[control]="badgeClassForm.controls.badge_image"
+								>
 								<span label-additions>
 									<span>(<button type="button" (click)="generateRandomImage()">generate random<span class="visuallyhidden"> badge image</span></button>)</span>
 								</span>
 							</bg-formfield-image>
-
 							<div class="l-formimageupload-x-inputs">
 								<badge-studio #badgeStudio [hidden]="true"></badge-studio>
-
 								<bg-formfield-text
 									[control]="badgeClassForm.controls.badge_name"
 									label="Name"
 									[errorMessage]="{ required: 'Please enter a badge name' }"
 									[autofocus]="true"
 								></bg-formfield-text>
-
 								<bg-formfield-text
 									[control]="badgeClassForm.controls.badge_description"
 									label="Short Description"
@@ -111,25 +108,77 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						</div>
 					</div>
 				</div>
-			</div>
-
-			<!-- Criteria Panel -->
-			<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-criteria">
-				<h3 class="l-formsection-x-legend title title-ruled" id="heading-criteria">Criteria</h3>
-				<div class="l-formsection-x-container">
+				<div *ngIf="badgeClassType == 'formal'"class="l-formsection-x-container">
+					<div class="l-formsection-x-inputs">
+						<bg-formfield-select
+							label="Education Program Identifier"
+							[control]="badgeClassForm.controls.extensions.controls.EducationProgramIdentifierExtension.controls.identifierType"
+							[options]="educationProgramIdentifierOptions"
+							[placeholder]="'No type selected'"
+						></bg-formfield-select>
+						<bg-formfield-text
+							[control]="badgeClassForm.controls.extensions.controls.EducationProgramIdentifierExtension.controls.identifierValue"
+						></bg-formfield-text>
+					</div>
+					<div class="l-formsection-x-inputs">
+						<bg-formfield-text 
+							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.EQF" 
+							label="Please Type in the EQF" >
+						</bg-formfield-text>
+					</div>
 					<div class="l-formsection-x-help">
-						<h4 class="title title-bordered" id="heading-whatscriteria">What are Criteria?</h4>
-						<p class="text text-small">
-							The criteria field describes exactly what must be done to earn this badge. Some issuers choose a URL on
-							their website as a promotional page that explains this badge opportunity and how to earn it.
-							<strong>At least one field is required.</strong>
-						</p>
+						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register. https://www.nlqf.nl/nlqf-niveaus</p>
+					</div>
+				</div>
+				<div *ngIf="badgeClassType == 'formal'"class="l-formsection-x-container">
+					<div class="l-formsection-x-inputs">
+						<bg-formfield-text 
+							[control]="badgeClassForm.controls.extensions.controls.ECTSExtension.controls.ECTS" 
+							label="Please Type in the ECTS" >
+						</bg-formfield-text>
+					</div>
+					<div class="l-formsection-x-help">
+						<p class="text text-small">European Credit Transfer System Points Eeropean Credit system for Vocational Education and Training.</p>
+					</div>
+				</div>
+				<div class="l-formsection-x-container">
+					<div class="l-formsection-x-inputs">
+						<bg-formfield-text 
+							(change)="autoFillLanguage()" 
+							[control]="badgeClassForm.controls.extensions.controls.LanguageExtension.controls.typedLanguage" 
+							label="Please Type in the Language" >
+						</bg-formfield-text>
+					</div>
+					<div class="l-formsection-x-help">
+						<div>
+							<div *ngIf="currentLangList[0].label != '' ">
+									<div id="selected_langbox" class= "formfield-x-label"> {{ currentLangList[0].label }} </div>
+							</div>
+							<div *ngIf="currentLangList[0].label == '' ">
+									<div id="selected_langbox"> No Language Selected </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="l-formsection-x-container">
+					<div class="l-formsection-x-inputs">
+						<bg-formfield-markdown
+							[control]="badgeClassForm.controls.extensions.controls.LearningOutcomeExtension.controls.learningOutcome"
+							label="Please Type in the learning Outcome" 
+							class="l-formsection-x-inputoffset"
+						></bg-formfield-markdown>
+					</div>
+					<div class="l-formsection-x-help">
+						<h4 class="title title-bordered" id="heading-badgebasics">What is Learning Outcome?</h4>
+						<p class="text text-small">See TUNING methodology</p>
 						<a class="button button-tertiaryghost"
-						   href="https://support.badgr.io/pages/viewpage.action?pageId=327768"
-						   aria-labelledby="heading-whatscriteria"
-						   target="_blank"
+							href="http://tuningacademy.org/methodology/"
+							aria-labelledby="heading-badgebasics"
+							target="_blank"
 						>Learn More</a>
 					</div>
+				</div>
+				<div class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<p
 							[hidden]="!alignmentFieldDirty || !badgeClassForm.hasError('criteriaRequired')"
@@ -137,19 +186,28 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 						<bg-formfield-markdown
 							[control]="badgeClassForm.controls.badge_criteria_text"
-							label="How is this Badge Earned?"
+							label="Criteria Description: How is this Badge Earned?"
 							class="l-formsection-x-inputoffset"
 							[errorMessage]="''"
 						></bg-formfield-markdown>
 
 						<bg-formfield-text
 							[control]="badgeClassForm.controls.badge_criteria_url"
-							label="URL"
+							label="or: Criteria URL"
 							[urlField]="true"
 							fieldType="url"
-              [errorMessage]="'Please enter a valid URL'"
+							[errorMessage]="'Please enter a valid URL'"
 							errorMessage="URL to the Badge Criteria Page"
 						></bg-formfield-text>
+					</div>
+					<div class="l-formsection-x-help">
+						<h4 class="title title-bordered" id="heading-badgebasics">What are Criteria?</h4>
+						<p class="text text-small">The criteria field describes exactly what must be doen to earn this badge. Some issuers choose a URL on their website as a promotional page that explains this badge opportunity and how to earn it.<strong>At least one field is required</strong></p>
+						<a class="button button-tertiaryghost"
+							href="http://tuningacademy.org/methodology/"
+							aria-labelledby="heading-badgebasics"
+							target="_blank"
+						>Learn More</a>
 					</div>
 				</div>
 			</div>
@@ -267,145 +325,6 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 			</div>
 
-			<!-- Extensions -->
-
-			<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-extension" *ngIf="extensionsEnabled">
-				<h3 class="l-formsection-x-legend title title-ruled" id="heading-extension"> Extensions <span>(optional)</span></h3>
-				<div class="l-formsection-x-container">
-					<div class="l-formsection-x-help">
-						<h4 class="title title-bordered" id="heading-whatsextension">What's an extension?</h4>
-						<p class="text text-small"> Extensions are optional extra values you can add to your badgeclass.</p>
-						<a class="button button-tertiaryghost" href="http://www.imsglobal.org/sites/default/files/Badges/OBv2p0Final/extensions/index.html" aria-labelledby="heading-whatsextension" target="_blank">Learn More</a>
-					</div>
-
-					<div class="l-formsection-x-inputs">
-						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let extension of badgeclassExtensions.controls">
-
-							<div *ngIf="extension.controls.LanguageExtension">
-								<div>
-									<span id=selectLangHeader class="l-formsection-x-legend title title-ruled"> Selected Language:</span>
-									<div *ngIf="currentLangList[0].label != '' ">
-											<div id="selected_langbox" class= "formfield-x-label"> {{ currentLangList[0].label }} </div>
-									</div>
-									<div *ngIf="currentLangList[0].label == '' ">
-											<div id="selected_langbox"> No Language Selected </div>
-									</div>
-								</div><br>
-								<bg-formfield-text (change)="autoFillLanguage()" [control]="extension.controls.LanguageExtension.controls.typedLanguage" label="Please Type in the Language" ></bg-formfield-text>
-								<button class="l-formsectionnested-x-remove formsectionremove"
-								        (click)="removeExtension(extension)"
-								        type="button"
-								>Remove</button>
-							</div>
-
-							<div *ngIf="extension.controls.ECTSExtension">
-								<bg-formfield-text [control]="extension.controls.ECTSExtension.controls.ECTS" label="Please Type in the ECTS" ></bg-formfield-text>
-								<button class="l-formsectionnested-x-remove formsectionremove"
-								        (click)="removeExtension(extension)"
-								        type="button"
-								>Remove</button>
-							</div>
-
-							<div *ngIf="extension.controls.NiveauExtension">
-								<bg-formfield-text [control]="extension.controls.NiveauExtension.controls.EQF" label="Please Type in the EQF" ></bg-formfield-text>
-								<button class="l-formsectionnested-x-remove formsectionremove"
-												(click)="removeExtension(extension)"
-												type="button"
-								>Remove</button>
-							</div>
-
-							<div *ngIf="extension.controls.LearningOutcomeExtension">
-								
-								<bg-formfield-markdown
-								[control]="extension.controls.LearningOutcomeExtension.controls.learningOutcome"
-								label="Please Type in the learning Outcome" 
-								class="l-formsection-x-inputoffset"
-						></bg-formfield-markdown>
-
-
-								<button class="l-formsectionnested-x-remove formsectionremove"
-												(click)="removeExtension(extension)"
-												type="button"
-								>Remove</button>
-							</div>
-
-							<div *ngIf="extension.controls.EducationProgramIdentifierExtension">
-								<bg-formfield-select
-									label="Education Program Identifier"
-									[control]="extension.controls.EducationProgramIdentifierExtension.controls.identifierType"
-									[options]="educationProgramIdentifierOptions"
-									[placeholder]="'No type selected'"
-								></bg-formfield-select>
-
-								<bg-formfield-text
-									[control]="extension.controls.EducationProgramIdentifierExtension.controls.identifierValue"
-								></bg-formfield-text>
-
-								<button class="l-formsectionnested-x-remove formsectionremove"
-												(click)="removeExtension(extension)"
-												type="button"
-								>Remove</button>
-							</div>
-
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-			<!-- Extensions Adder Buttons -->
-
-			<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
-				<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Extensions</h3>
-					<div class="l-formsection-x-container">
-						<div class="l-formsection-x-inputs">
-							<div class="l-squareiconcards">
-
-								<button class="squareiconcard squareiconcard-extension"
-								        type="button"
-								        (click)="addExtension('LanguageExtension')"
-								        [disabled]="LanguageExtensionEnabled"
-								>
-									<span class="squareiconcard-x-container">Language</span>
-								</button>
-
-								<button class="squareiconcard squareiconcard-extension"
-								        type="button"
-								        (click)="addExtension('ECTSExtension')"
-								        [disabled]="ECTSExtensionEnabled"
-								>
-									<span class="squareiconcard-x-container">ECTS</span>
-								</button>
-
-								<button class="squareiconcard squareiconcard-extension"
-								        type="button"
-								        (click)="addExtension('NiveauExtension')"
-								        [disabled]="NiveauExtensionEnabled"
-								>
-									<span class="squareiconcard-x-container">EQF</span>
-								</button>
-
-								<button class="squareiconcard squareiconcard-extension"
-								        type="button"
-								        (click)="addExtension('LearningOutcomeExtension')"
-								        [disabled]="LearningOutcomeExtensionEnabled"
-								>
-									<span class="squareiconcard-x-container">learning outcome</span>
-								</button>
-
-								<button class="squareiconcard squareiconcard-extension"
-								        type="button"
-								        (click)="addExtension('EducationProgramIdentifierExtension')"
-								        [disabled]="EducationProgramIdentifierExtensionEnabled"
-								>
-									<span class="squareiconcard-x-container">edu program identifier</span>
-								</button>
-
-							</div>
-						</div>
-					</div>
-			</div>
-
 			<hr class="rule l-rule">
 			<div class="l-childrenhorizontal l-childrenhorizontal-right">
 				<button
@@ -432,6 +351,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	savePromise: Promise<BadgeClass> | null = null;
 	badgeClassForm: FormGroup;
 	badgeclassExtensions: Object;
+	educationProgramIdentifierOptions: FormFieldSelectOption[];
 
 	@ViewChild("badgeStudio")
 	badgeStudio: BadgeStudioComponent;
@@ -440,6 +360,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	imageField: BgFormFieldImageComponent;
 
 	existingBadgeClass: BadgeClass | null = null;
+	_badgeClassType: BadgeClassType | null = null;
 
 	@Output()
 	save = new EventEmitter<Promise<BadgeClass>>();
@@ -452,6 +373,18 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	@Input()
 	submitText: string;
+
+	@Input()
+	set badgeClassType(badgeClassType: BadgeClassType) {
+		if (this._badgeClassType != badgeClassType){
+			this._badgeClassType = badgeClassType
+			this.initEmptyForm()
+		}
+	}
+
+	get badgeClassType() {
+		return this._badgeClassType
+	}
 
 	@Input()
 	submittingText: string;
@@ -484,30 +417,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		super(router, route, sessionService);
 		title.setTitle("Create Badge Class - Badgr");
 
-		this.badgeClassForm = fb.group({
-			badge_name: [
-				'',
-				Validators.compose([
-					Validators.required,
-					Validators.maxLength(255)
-				])
-			],
-			badge_image: [ '', Validators.required ],
-			badge_description: [
-				 '', 
-				 Validators.compose([
-					Validators.required,
-					Validators.maxLength(6000)
-				]),
-			],
-			badge_criteria_url: [ '' , UrlValidator.validUrl],
-			badge_criteria_text: [ '' , Validators.maxLength(6000)],
-			alignments: fb.array([]),
-			extensions: fb.array([])
-		} as BasicBadgeForm<any[], FormArray, FormArray> , {
-			validator: this.criteriaRequired
-		});
-
 		let langs = RFC5646LanguageTags.langs
 		this.languageOptions = langs.map((l) => {
 			return {
@@ -523,8 +432,61 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				value: i.type
 			};
 		});
-		this.badgeclassExtensions = this.badgeClassForm.controls["extensions"]
+	}
 
+	initEmptyForm() {
+		this.badgeClassForm = this.fb.group({
+			badge_name: [
+				'',
+				Validators.compose([
+					Validators.required,
+					Validators.maxLength(255)
+				])
+			],
+			badge_image: ['', Validators.required],
+			badge_description: [
+				'',
+				Validators.compose([
+					Validators.required,
+					Validators.maxLength(6000)
+				]),
+			],
+			badge_criteria_url: ['', UrlValidator.validUrl],
+			badge_criteria_text: ['', Validators.maxLength(6000)],
+			alignments: this.fb.array([]),
+
+			extensions: this.badgeClassType == 'formal' ? this.fb.group({
+				LanguageExtension: this.fb.group({
+					language: ['', Validators.required],
+					typedLanguage: ['', Validators.required],
+				}),
+				EducationProgramIdentifierExtension: this.fb.group({
+					identifierType: ['', Validators.required],
+					identifierValue: ['', Validators.required]
+				}),
+				NiveauExtension: this.fb.group({
+					EQF: ['', Validators.required]
+				}),
+				ECTSExtension: this.fb.group({
+					ECTS: ['', Validators.compose([Validators.required, NumericValidator.validNumber])]
+				}),
+				LearningOutcomeExtension: this.fb.group({
+					learningOutcome: ['', Validators.required]
+				})
+			}) : this.fb.group({
+				LanguageExtension: this.fb.group({
+					language: ['', Validators.required],
+					typedLanguage: ['', Validators.required],
+				}),
+				LearningOutcomeExtension: this.fb.group({
+					learningOutcome: ['', Validators.required]
+				})
+			})
+
+		} as BasicBadgeForm<any[], FormArray, FormGroup>, {
+			validator: this.criteriaRequired
+		});
+		this.badgeclassExtensions = this.badgeClassForm.controls["extensions"]
 	}
 
 	initFormFromExisting() {
@@ -542,7 +504,26 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_description: [ badgeClass.description, Validators.required ],
 			badge_criteria_url: [ badgeClass.criteria_url , UrlValidator.validUrl],
 			badge_criteria_text: [ badgeClass.criteria_text ],
-			extensions: this.fb.array(Object.keys(this.badgeClass.extensions).map(extension => this.initExtensionFromExisting(extension))),
+			extensions: this.fb.group({
+				LanguageExtension: this.fb.group({
+					language: [badgeClass.extensions['LanguageExtension'] ? badgeClass.extensions['LanguageExtension']['language']: '' ],
+					typedLanguage: [ '' ],
+					// typedLanguage: [badgeClass.extensions['LanguageExtension'] ? this.badgeClass.extensions['LanguageExtension']['typedLanguage'] : '' ],
+				}),
+				EducationProgramIdentifierExtension: this.fb.group({
+					identifierType: [badgeClass.extensions['EducationProgramIdentifierExtension'] ? badgeClass.extensions['EducationProgramIdentifierExtension']['identifierType']: ''],
+					identifierValue: [badgeClass.extensions['EducationProgramIdentifierExtension'] ? badgeClass.extensions['EducationProgramIdentifierExtension']['identifierValue']: '']
+				}),
+				NiveauExtension: this.fb.group({
+					EQF: [badgeClass.extensions['NiveauExtension'] ? badgeClass.extensions['NiveauExtension']['EQF']: '']
+				}),
+				ECTSExtension: this.fb.group({
+					ECTS: [badgeClass.extensions['ECTSExtension'] ? badgeClass.extensions['ECTSExtension']['ECTS']: '' ]
+				}),
+				LearningOutcomeExtension: this.fb.group({
+					learningOutcome: [badgeClass.extensions['LearningOutcomeExtension'] ? badgeClass.extensions['LearningOutcomeExtension']['learningOutcome']: '' ]
+				}),
+			}),
 			alignments: this.fb.array(this.badgeClass.alignments.map(alignment => this.fb.group({
 				target_name: [ alignment.target_name, Validators.required ],
 				target_url: [ alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl]) ],
@@ -550,11 +531,12 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				target_framework: [ alignment.target_framework ],
 				target_code: [ alignment.target_code ],
 			} as AlignmentFormGroup<any[]>)))
-		} as BasicBadgeForm<any[], FormArray, FormArray> , {
+		} as BasicBadgeForm<any[], FormArray, FormGroup> , {
 			validator: this.criteriaRequired
 		});
-
 		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
+		this._badgeClassType = this.badgeClass.type
+		this.initializeTypedLanguage()
 	}
 
 	ngOnInit() {
@@ -574,142 +556,41 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Extensions
 
-	extensionsEnabled = false;
-	LanguageExtensionEnabled = false;
-	ECTSExtensionEnabled = false
-	NiveauExtensionEnabled = false
-	LearningOutcomeExtensionEnabled = false
-	EducationProgramIdentifierExtensionEnabled = false
-	educationProgramIdentifierOptions: FormFieldSelectOption[];
-
-	autoFillLanguage(){
-		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
-			if (extension.controls.LanguageExtension) {
-				let currentLanguage = this.currentLangList[0].label
-				extension.controls.LanguageExtension.controls.typedLanguage.patchValue(currentLanguage)
-			}
-		}
-	}
-
-	get extensions() {
-		return this.badgeClassForm.controls["extensions"] as FormArray;
-	}
-
-	initExtensionFromExisting(extensionName: string){
-		let extension = this.makeFormGroup(extensionName)
-		this.enableExtension(extension)
-		return extension
-	}
-
-	disableExtension(extension: FormGroup){
-		let extensionName = Object.keys(extension.controls)[0]
-		this[extensionName+'Enabled']=false
-	}
-
-	enableExtension(extension: FormGroup){
-		let extensionName = Object.keys(extension.controls)[0]
-		this.extensionsEnabled = true
-		this.enableFormListener()
-		this[extensionName+'Enabled']=true
-	}
-
-	async removeExtension(extension: FormGroup) {
-		this.extensions.removeAt(this.extensions.controls.indexOf(extension));
-		this.disableExtension(extension)
-		if (this.extensions.length == 0){
-			this.extensionsEnabled = false;
-		}
-	}
-
-	makeFormGroup(extensionName: string){
-		if (extensionName=='LanguageExtension'){
-			let typedLanguage = ''
-			let language = (this.badgeClass && this.badgeClass.extensions['LanguageExtension']) ? this.badgeClass.extensions['LanguageExtension']['language'] : ''
-			if (language) { // if language is already there, fill typedLanguage with corresponding label
-				let langForPreset = this.languageOptions.filter(lang => lang.value == language)
-				typedLanguage = langForPreset[0]['label']
-			}
-			return this.fb.group({
-					LanguageExtension: this.fb.group({
-						language: [language],
-						typedLanguage: [typedLanguage, Validators.required],
-					})
-				})
-		}
-		if (extensionName=='ECTSExtension'){
-			let ects = (this.badgeClass && this.badgeClass.extensions['ECTSExtension']) ? this.badgeClass.extensions['ECTSExtension']['ECTS'] : ''
-			return this.fb.group({
-				ECTSExtension: this.fb.group({
-					ECTS: [ects, Validators.compose([Validators.required, NumericValidator.validNumber])]
-				})
-			})
-		}
-		if (extensionName=='NiveauExtension'){
-			let eqf = (this.badgeClass && this.badgeClass.extensions['NiveauExtension']) ? this.badgeClass.extensions['NiveauExtension']['EQF'] : ''
-			return this.fb.group({
-				NiveauExtension: this.fb.group({
-					EQF: [eqf, Validators.required]
-				})
-			})
-		}
-		if (extensionName=='LearningOutcomeExtension'){
-			let learningOutcome = (this.badgeClass && this.badgeClass.extensions['LearningOutcomeExtension']) ? this.badgeClass.extensions['LearningOutcomeExtension']['learningOutcome'] : ''
-			return this.fb.group({
-				LearningOutcomeExtension: this.fb.group({
-					learningOutcome: [learningOutcome, Validators.required]
-				})
-			})
-		}
-		if (extensionName=='EducationProgramIdentifierExtension'){
-			let identifierType = (this.badgeClass && this.badgeClass.extensions['EducationProgramIdentifierExtension']) ? this.badgeClass.extensions['EducationProgramIdentifierExtension']['identifierType'] : ''
-			let identifierValue = (this.badgeClass && this.badgeClass.extensions['EducationProgramIdentifierExtension']) ? this.badgeClass.extensions['EducationProgramIdentifierExtension']['identifierValue'] : ''
-			return this.fb.group({
-				EducationProgramIdentifierExtension: this.fb.group({
-					identifierType: [identifierType, Validators.required],
-					identifierValue: [identifierValue, Validators.required]
-				})
-			})
-		}
-	}
-
-
-	addExtension(extensionName: string){
-	 let extension = this.makeFormGroup(extensionName)
-	 this.extensions.push(extension);
-	 this.enableExtension(extension)
-	}
 	////// language dropdown ///////////////
 	languageOptions : Array<any>;
 	currentLangList = [{label: '', value: ''}];
 
-	getCurrentTypedLanguage(extensions){
-		for (let extension of extensions){
-			if (Object.keys(extension)[0]=='LanguageExtension'){
-				if (extension['LanguageExtension']['typedLanguage']){
-					return extension['LanguageExtension']['typedLanguage']
-				}
+	getCurrentTypedLanguage() {
+		let value = this.badgeClassForm.controls.extensions['controls'].LanguageExtension ? this.badgeClassForm.controls.extensions['controls'].LanguageExtension.controls['typedLanguage']['value'] : ''
+		return value
+	}
+
+	initializeTypedLanguage() {
+		let currentLanguage = this.badgeClassForm.controls.extensions['controls'].LanguageExtension.controls['language']['value']
+		for (let lang of this.languageOptions) {
+			if (lang['value'] == currentLanguage) {
+				this.badgeClassForm.controls.extensions['controls'].LanguageExtension.controls.typedLanguage.patchValue(lang['label'])
+				this.currentLangList = [lang]
 			}
 		}
-		return ''
+	}
+
+	autoFillLanguage() {
+		let currentLanguage = this.currentLangList[0].label
+		this.badgeClassForm.controls.extensions['controls'].LanguageExtension.controls.typedLanguage.patchValue(currentLanguage)
 	}
 
 	setLanguage(language) {
-		for (let extension of this.badgeClassForm.controls['extensions']['controls']){
-			if (extension.controls.LanguageExtension) {
-				let currentLanguage = extension.controls.LanguageExtension.controls.language.value
-				if (currentLanguage!=language){
-					extension.controls.LanguageExtension.controls.language.patchValue(language)
-				}
+		let currentLanguage = this.badgeClassForm.controls.extensions.value['LanguageExtension']['language']
+			if (currentLanguage!=language){
+				this.badgeClassForm.controls.extensions['controls'].LanguageExtension.controls.language.patchValue(language)
 			}
-		}
 	}
 
 	onLangChange(extensions) {
 		if (extensions) {
-			let currentValue = this.getCurrentTypedLanguage(extensions)
+			let currentValue = this.getCurrentTypedLanguage()
 			let currentLanguageList = this.languageOptions
 				.filter(lang => {
 			 	return lang.label.toLowerCase().includes(currentValue.toLowerCase())
@@ -798,6 +679,21 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		return this.formControls.badge_criteria_text.dirty || this.formControls.badge_criteria_url.dirty;
 	}
 
+	removeEmptyExtensions(extensions) {
+		for (let key in extensions){
+			let values_empty = true
+			for (let k in extensions[key]) {
+				if (Boolean(extensions[key][k])) {
+					values_empty = false
+				}
+			}
+			if (values_empty) {
+				delete extensions[key]
+			}
+		}
+		return extensions
+	}
+
 	async onSubmit(formState: BasicBadgeForm<string, ApiBadgeClassAlignment[], Object[]>) {
 		if (this.existingBadgeClass) {
 			this.existingBadgeClass.name = formState.badge_name;
@@ -806,7 +702,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.criteria_text = formState.badge_criteria_text;
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
 			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
-			this.existingBadgeClass.extensions = this.extensionsEnabled ? formState.extensions : [];
+			this.existingBadgeClass.extensions = this.removeEmptyExtensions(formState.extensions);
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
 			const badgeClassData = {
@@ -816,7 +712,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_text: formState.badge_criteria_text,
 				criteria_url: formState.badge_criteria_url,
 				alignment: this.alignmentsEnabled ? formState.alignments : [],
-				extensions:this.extensionsEnabled ? formState.extensions : []
+				extensions: this.removeEmptyExtensions(formState.extensions),
+				type: this.badgeClassType
 			} as ApiBadgeClassForCreation;
 
 			this.savePromise = this.badgeClassManager.createBadgeClass(this.issuerSlug, badgeClassData);

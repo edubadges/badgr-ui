@@ -25,8 +25,9 @@ export class BadgeClassManager extends BaseHttpApiService {
 	badgesList = new StandaloneEntitySet<BadgeClass, ApiBadgeClass>(
 		apiModel => new BadgeClass(this.commonEntityManager),
 		apiModel => apiModel.json.id,
-		() =>
-			this.badgeClassApi.getAllUserBadgeClasses()
+		() => {
+			return this.badgeClassApi.getAllUserBadgeClasses()
+		}
 	);
 	badgesByIssuerUrl = new ManagedEntityGrouping<BadgeClass>(
 		this.badgesList,

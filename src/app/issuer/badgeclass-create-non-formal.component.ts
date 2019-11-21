@@ -1,20 +1,14 @@
 import { BadgeClassCreateComponent } from './badgeclass-create.component';
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
-import { Issuer } from "./models/issuer.model";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgrApiFailure } from "../common/services/api-failure";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BadgeClass } from "./models/badgeclass.model";
-import { ValidanaBlockchainService } from 'app/endorsement-api/validana/validanaBlockchain.service';
 
 @Component({
 	selector: 'badgeclass-create-formal',
@@ -29,13 +23,13 @@ import { ValidanaBlockchainService } from 'app/endorsement-api/validana/validana
 					<ul class="breadcrumb">
 						<li><a [routerLink]="['/issuer']">Issuers</a></li>
 						<li><a [routerLink]="['/issuer/issuers/', issuerSlug]">{{issuer.name}}</a></li>
-						<li class="breadcrumb-x-current">Add Badge Class</li>
+						<li class="breadcrumb-x-current">Add Badge Class for Non-Fromal Learning</li>
 					</ul>
 				</nav>
 
 				<header class="heading">
 					<div class="heading-x-text">
-						<h1 id="heading" id="heading-addbadgeclass">Add Badge Class</h1>
+						<h1 id="heading" id="heading-addbadgeclass">Add Badge Class for Non-Fromal Learning</h1>
 					</div>
 				</header>
 			</header>
@@ -44,7 +38,8 @@ import { ValidanaBlockchainService } from 'app/endorsement-api/validana/validana
 			                      (cancel)="creationCanceled($event)"
 			                      [issuerSlug]="issuerSlug"
 			                      submitText="Create Badge"
-			                      submittingText="Creating Badge..."
+														submittingText="Creating Badge..."
+														[badgeClassType]="'non-formal'"
 			></badgeclass-edit-form>
 		</main>
 	`,
