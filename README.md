@@ -13,11 +13,11 @@ Read more on [edubadges.nl](https://www.surf.nl/en/edubadges-national-approach-t
 ### About the Badgr Project
 [Badgr](https://badgr.org) was developed by Concentric Sky, starting in 2015 to serve as an open source reference implementation of the Open Badges Specification. It provides functionality to issue portable, verifiable Open Badges as well as to allow users to manage badges they have been awarded by any issuer that uses this open data standard. Since 2015, Badgr has grown to be used by hundreds of educational institutions and other people and organizations worldwide.
 
-## Install Instructions (Docker on CentOS 7)
+# EduBadges Install Instructions (Docker on CentOS 7)
 
 Example directory structure to build the eduBadges UI (frontend) Docker container:
 
-/var/docker/edubadges
+    /var/docker/edubadges/
 
     ├── config
     │   ├── edubadges
@@ -31,10 +31,10 @@ Example directory structure to build the eduBadges UI (frontend) Docker containe
     └── update_code.sh
 
 
-# The config directory layout
+## The config directory layout
 Create a directory to store the local config files. I.e.:
 
-/var/docker/edubadges/config
+    /var/docker/edubadges/config/
 
       ├── edubadges
       │   └── config.local.js
@@ -45,7 +45,7 @@ Create a directory to store the local config files. I.e.:
           └── nginx.conf
 	
 	
-# config.local.js
+## config.local.js
 Create a config.local.js in the /config/edubadges directory:
 
     const queryParams = location.search.substr(1).split("&")
@@ -74,10 +74,10 @@ Create a config.local.js in the /config/edubadges directory:
     };
 
 	
-# nginx.conf
+## nginx.conf
 Edit the enclosed nginx.conf.sample and change to your situation. 
 	
-# Build the Docker container
+## Build the Docker container
 Example build routine using the included Dockerfile and docker-compose.yml:
 
     $ cd /var/docker/edubadges-ui/edubadges/
@@ -88,7 +88,7 @@ Example build routine using the included Dockerfile and docker-compose.yml:
     $ docker-compose up -d
 
 
-## Install Instructions (for developers - Original tekst from Badgr)
+# Install Instructions (for developers - Original tekst from Badgr)
 
 ## System-wide prerequisites (OS X):
 * node and npm: see [Installing Node](https://docs.npmjs.com/getting-started/installing-node)
