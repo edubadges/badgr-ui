@@ -28,7 +28,7 @@ Example directory structure to build the edubadges UI (frontend) Docker containe
     │   └── badgr-ui
     ├── entrypoint
     │   └── supervisord.conf
-    └── update_code.sh
+    └── example-build-script.sh
 
 
 ## The config directory layout
