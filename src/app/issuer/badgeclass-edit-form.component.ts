@@ -122,8 +122,8 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
-							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.EQF" 
-							label="Please Type in the EQF" >
+							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.NLQF" 
+							label="Please Type in the NLQF" >
 						</bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
@@ -465,7 +465,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					identifierValue: ['', Validators.required]
 				}),
 				NiveauExtension: this.fb.group({
-					EQF: ['', Validators.required]
+					NLQF: ['', Validators.required]
 				}),
 				ECTSExtension: this.fb.group({
 					ECTS: ['', Validators.compose([Validators.required, NumericValidator.validNumber])]
@@ -515,7 +515,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					identifierValue: [badgeClass.extensions['EducationProgramIdentifierExtension'] ? badgeClass.extensions['EducationProgramIdentifierExtension']['identifierValue']: '']
 				}),
 				NiveauExtension: this.fb.group({
-					EQF: [badgeClass.extensions['NiveauExtension'] ? badgeClass.extensions['NiveauExtension']['EQF']: '']
+					NLQF: [badgeClass.extensions['NiveauExtension'] ? badgeClass.extensions['NiveauExtension']['NLQF']: '']
 				}),
 				ECTSExtension: this.fb.group({
 					ECTS: [badgeClass.extensions['ECTSExtension'] ? badgeClass.extensions['ECTSExtension']['ECTS']: '' ]
