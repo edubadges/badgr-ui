@@ -123,7 +123,10 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
 							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.NLQF" 
-							label="Please Type in the NLQF" >
+							label="Please Type in the NLQF" 
+							[placeholder]="'1-2-3-4-5-6-7 or 8'"
+							[errorMessage]="{invalidNumber:'Please enter a value between 1 and 8'}"
+							>
 						</bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
@@ -133,7 +136,9 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				<div *ngIf="badgeClassType == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
-							[control]="badgeClassForm.controls.extensions.controls.ECTSExtension.controls.ECTS" 
+							[control]="badgeClassForm.controls.extensions.controls.ECTSExtension.controls.ECTS"
+							[placeholder]="'MINIMUM 3'"
+							[errorMessage]="{invalidNumber:'Please enter a 3 or higher'}"
 							label="Please Type in the ECTS" >
 						</bg-formfield-text>
 					</div>
@@ -465,10 +470,10 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					identifierValue: ['', Validators.required]
 				}),
 				NiveauExtension: this.fb.group({
-					NLQF: ['', Validators.required]
+					NLQF: ['', Validators.compose([Validators.required, NumericValidator.validNLQF])]
 				}),
 				ECTSExtension: this.fb.group({
-					ECTS: ['', Validators.compose([Validators.required, NumericValidator.validNumber])]
+					ECTS: ['', Validators.compose([Validators.required, NumericValidator.validECTS])]
 				}),
 				LearningOutcomeExtension: this.fb.group({
 					learningOutcome: ['', Validators.required]
