@@ -243,14 +243,14 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 							<bg-formfield-text
 								[control]="alignment.controls.target_name"
-								label="Name"
+								label="Alignment Name"
 								[errorMessage]="{required:'Please enter an alignment name'}"
 								id="alignment_name_{{ i }}"
 							></bg-formfield-text>
 
 							<bg-formfield-text
 								[control]="alignment.controls.target_url"
-								label="URL"
+								label="Alignment URL"
 								[errorMessage]="{required:'Please enter an alignment URL'}"
 								[urlField]="true"
 								id="alignment_url_{{ i }}"
@@ -258,7 +258,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 
 							<bg-formfield-text
 								[control]="alignment.controls.target_description"
-								label="Short Description"
+								label="Alignment Description"
 								[multiline]="true"
 								id="alignment_description_{{ i }}"
 							></bg-formfield-text>
