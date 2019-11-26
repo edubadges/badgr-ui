@@ -87,6 +87,7 @@ type BadgeDispay = "grid" | "list" ;
 											<article class="card card-largeimage">
 												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
 													<p class="card-x-label" *ngIf="badgeResult.badge.isNew">New</p>
+													<p *ngIf="badgeResult.badge.badgeClass.category != 'formal'" class="card-x-label card-x-label-right">{{badgeResult.badge.badgeClass.category}}</p>
 													<div class="card-x-image">
 														<img [loaded-src]="badgeResult.badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
@@ -101,7 +102,7 @@ type BadgeDispay = "grid" | "list" ;
 												</a>
 												<div class="card-x-actions">
 													<div>
-														<small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time><small>  -  {{ badgeResult.badge.badgeClass.category }}</small>
+														<small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time>
 														<small *ngIf="badgeResult?.badge?.hasExpired" style="color:red;">(expired)</small>
 													</div>
 													<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badgeResult.badge)">Share</button>

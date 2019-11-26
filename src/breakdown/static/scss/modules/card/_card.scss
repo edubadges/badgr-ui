@@ -61,6 +61,14 @@
 
   }
 
+  .card-x-label-right {
+    left: auto;
+    right: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    background-color: $color-dark3;
+  }
+
   .card-x-image {
     flex: 0 0 40px;
     margin-right: $gridspacing * 2;
