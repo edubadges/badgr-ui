@@ -141,4 +141,8 @@ export class SystemConfigService{
 		return this.featuresConfig["endorsementsEnabled"] == true
 	}
 
+	get splitBadgesCategoryEnabled() {
+		return this.featuresConfig["splitBadgesCategoryEnabled"] == true
+	}
+
 }

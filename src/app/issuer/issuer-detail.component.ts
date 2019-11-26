@@ -1,3 +1,4 @@
+import { SystemConfigService } from './../common/services/config.service';
 import { Component, forwardRef, Inject, OnInit } from "@angular/core";
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -81,8 +82,19 @@ import { EmbedService } from "../common/services/embed.service";
 
 
 				<div class="wrap l-containerhorizontal ">
+					<div *ngIf="!splitBadgesCategoryEnabled" class="l-childrenhorizontal l-childrenhorizontal-right l-marginBottom l-marginBottom-5x l-marginTop l-marginTop-5x ">						
+						<div class="l-childrenhorizontal">
+							<a [routerLink]="['badges/create-formal']" class="button"
+							*ngIf="issuer.canCreateBadge">
+								<span class="hidden hidden-is-tablet">Create</span> Badge
+							</a>
+							<div *ngIf="launchpoints?.length">
+								<a class="button" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
+							</div>
+						</div>
+					</div>
 
-					<div class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-basicinformation">
+					<div *ngIf="splitBadgesCategoryEnabled" class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-basicinformation">
 						<div class="l-formsection-x-container">
 							<div class="l-formsection-x-inputs">
 
@@ -306,6 +318,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		router: Router,
 		route: ActivatedRoute,
 		protected messageService: MessageService,
+		private configService: SystemConfigService,
 		protected title: Title,
 		protected issuerManager: IssuerManager,
 		protected pathwayManager: PathwayManager,
@@ -380,6 +393,10 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	ngOnInit() {
 		super.ngOnInit();
+	}
+
+	get splitBadgesCategoryEnabled() {
+		return this.configService.splitBadgesCategoryEnabled;
 	}
 
 	get legacyPathwaysVisible(): boolean {
