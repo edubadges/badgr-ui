@@ -101,7 +101,7 @@ type BadgeDispay = "grid" | "list" ;
 												</a>
 												<div class="card-x-actions">
 													<div>
-														<small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time>
+														<small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time><small>  -  {{ badgeResult.badge.badgeClass.category }}</small>
 														<small *ngIf="badgeResult?.badge?.hasExpired" style="color:red;">(expired)</small>
 													</div>
 													<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badgeResult.badge)">Share</button>
