@@ -42,6 +42,7 @@ import { markControlsDirty } from "../common/util/form-util";
 					<thead>
 						<tr>
 							<th scope="col">Badgeclass</th>
+							<th scope="col">Recipient</th>
 							<th scope="col">EduID</th>
 							<th scope="col">Issue Date</th>
 							<th scope="col">Action</th>
@@ -59,6 +60,11 @@ import { markControlsDirty } from "../common/util/form-util";
 								</div>
 								
 							</th>
+							<td>
+								<label class="table-x-badge">
+									{{instance.extensions['extensions:recipientProfile']? instance.extensions['extensions:recipientProfile']['name']: 'No name found' }}
+								</label>
+							</td>
 							<td>
 								<label class="table-x-badge">
 									{{instance.recipient_identifier}}
