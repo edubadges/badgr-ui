@@ -213,7 +213,8 @@ const routes = [
 		StudentsEnrolledApiService,
 		AddIssuerAuthGuard,
 		ViewIssuerAuthGuard,
-		UserMaySignBadges
+		UserMaySignBadges,
+		SigningEnabled
 	]
 })
 export class IssuerModule {}
