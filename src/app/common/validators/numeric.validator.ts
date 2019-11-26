@@ -22,7 +22,7 @@ export class NumericValidator {
 			: { 'invalidNumber': true };
 	}
 
-	static validNLQF(control: FormControl): ValidationResult {
+	static validEQF(control: FormControl): ValidationResult {
 		return validNumber(control.value) && +Number(control.value) < 9 && Number(control.value) > 0 && isInteger(control.value)
 			? null
 			: { 'invalidNumber': true };

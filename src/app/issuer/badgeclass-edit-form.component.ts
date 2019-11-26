@@ -110,19 +110,14 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				</div>
 				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
-						<bg-formfield-select
-							label="Education Program Identifier - Croho/Crebo"
-							[control]="badgeClassForm.controls.extensions.controls.EducationProgramIdentifierExtension.controls.identifierType"
-							[options]="educationProgramIdentifierOptions"
-							[placeholder]="'No type selected'"
-						></bg-formfield-select>
 						<bg-formfield-text
+							label="Education Program Identifier - Croho/Crebo"
 							[control]="badgeClassForm.controls.extensions.controls.EducationProgramIdentifierExtension.controls.identifierValue"
 						></bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
-							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.NLQF" 
+							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.EQF" 
 							label="NLQF LEVEL" 
 							[placeholder]="'1-2-3-4-5-6-7 or 8'"
 							[errorMessage]="{invalidNumber:'Please enter a value between 1 and 8'}"
@@ -356,7 +351,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	savePromise: Promise<BadgeClass> | null = null;
 	badgeClassForm: FormGroup;
 	badgeclassExtensions: Object;
-	educationProgramIdentifierOptions: FormFieldSelectOption[];
 
 	@ViewChild("badgeStudio")
 	badgeStudio: BadgeStudioComponent;
@@ -429,14 +423,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				value: l.value
 			};
 		});
-
-		let program_ids = [{'type': 'ISAT'}]
-		this.educationProgramIdentifierOptions = program_ids.map((i) => {
-			return {
-				label: i.type,
-				value: i.type
-			};
-		});
 	}
 
 	initEmptyForm() {
@@ -466,11 +452,11 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					typedLanguage: ['', Validators.required],
 				}),
 				EducationProgramIdentifierExtension: this.fb.group({
-					identifierType: ['', Validators.required],
+					identifierType: ['ISAT', Validators.required],
 					identifierValue: ['', Validators.required]
 				}),
 				NiveauExtension: this.fb.group({
-					NLQF: ['', Validators.compose([Validators.required, NumericValidator.validNLQF])]
+					EQF: ['', Validators.compose([Validators.required, NumericValidator.validEQF])]
 				}),
 				ECTSExtension: this.fb.group({
 					ECTS: ['', Validators.compose([Validators.required, NumericValidator.validECTS])]
@@ -520,7 +506,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					identifierValue: [badgeClass.extensions['EducationProgramIdentifierExtension'] ? badgeClass.extensions['EducationProgramIdentifierExtension']['identifierValue']: '']
 				}),
 				NiveauExtension: this.fb.group({
-					NLQF: [badgeClass.extensions['NiveauExtension'] ? badgeClass.extensions['NiveauExtension']['NLQF']: '']
+					EQF: [badgeClass.extensions['NiveauExtension'] ? badgeClass.extensions['NiveauExtension']['EQF']: '']
 				}),
 				ECTSExtension: this.fb.group({
 					ECTS: [badgeClass.extensions['ECTSExtension'] ? badgeClass.extensions['ECTSExtension']['ECTS']: '' ]
