@@ -39,7 +39,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 			                      [issuerSlug]="issuerSlug"
 			                      submitText="Create Badge"
 														submittingText="Creating Badge..."
-														[badgeClassType]="'non-formal'"
+														[badgeClassCategory]="'non-formal'"
 			></badgeclass-edit-form>
 		</main>
 	`,

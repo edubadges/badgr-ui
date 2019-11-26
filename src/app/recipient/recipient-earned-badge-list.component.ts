@@ -159,6 +159,7 @@ type BadgeDispay = "grid" | "list" ;
 										<tr>
 											<th scope="col">Badge</th>
 											<th class="hidden hidden-is-desktop" scope="col"></th>
+											<th class="hidden hidden-is-desktop" scope="col">Category</th>
 											<th class="hidden hidden-is-desktop" scope="col">Issuer</th>
 											<th class="hidden hidden-is-desktop" scope="col">Awarded</th>
 											<th class="table-x-hidetext hidden hidden-is-tablet" scope="col">Actions</th>
@@ -189,6 +190,7 @@ type BadgeDispay = "grid" | "list" ;
 												</a>
 											</th>
 											<td> <small *ngIf="badge.hasExpired" style="color:red;">Expired</small> </td>
+											<td class="hidden hidden-is-desktop">{{ badge.badgeClass.category }}</td>
 											<td class="hidden hidden-is-desktop">{{ badge.badgeClass.issuer.name }}</td>
 											<td class="hidden hidden-is-desktop"><time [date]="badge?.issueDate" format="mediumDate"></time></td>
 											<td class="hidden hidden-is-tablet">

@@ -29,7 +29,7 @@ export interface ApiBadgeClassJsonld {
 	extensions: string
 }
 
-export type BadgeClassType = "formal" | "non-formal"
+export type BadgeClassCategory = "formal" | "non-formal"
 
 export interface ApiBadgeClassForCreation {
 	name: string
@@ -37,7 +37,7 @@ export interface ApiBadgeClassForCreation {
 	description: string
 	criteria_url: string
 	criteria_text: string
-	type: BadgeClassType
+	category: BadgeClassCategory
 
 	tags?: string[];
 	alignment?: ApiBadgeClassAlignment[];

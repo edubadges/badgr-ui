@@ -40,7 +40,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 			                      [issuerSlug]="issuerSlug"
 			                      submitText="Create Badge"
 														submittingText="Creating Badge..."
-														[badgeClassType]="'formal'"
+														[badgeClassCategory]="'formal'"
 			></badgeclass-edit-form>
 		</main>
 	`,

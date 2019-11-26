@@ -7,7 +7,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 
-import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, BadgeClassType } from "./models/badgeclass-api.model";
+import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, BadgeClassCategory } from "./models/badgeclass-api.model";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
@@ -108,7 +108,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						</div>
 					</div>
 				</div>
-				<div *ngIf="badgeClassType == 'formal'"class="l-formsection-x-container">
+				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-select
 							label="Education Program Identifier - Croho/Crebo"
@@ -133,7 +133,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register. https://www.nlqf.nl/nlqf-niveaus</p>
 					</div>
 				</div>
-				<div *ngIf="badgeClassType == 'formal'"class="l-formsection-x-container">
+				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
 							[control]="badgeClassForm.controls.extensions.controls.ECTSExtension.controls.ECTS"
@@ -365,7 +365,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	imageField: BgFormFieldImageComponent;
 
 	existingBadgeClass: BadgeClass | null = null;
-	_badgeClassType: BadgeClassType | null = null;
+	_badgeClassCategory: BadgeClassCategory | null = null;
 
 	@Output()
 	save = new EventEmitter<Promise<BadgeClass>>();
@@ -380,15 +380,15 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	submitText: string;
 
 	@Input()
-	set badgeClassType(badgeClassType: BadgeClassType) {
-		if (this._badgeClassType != badgeClassType){
-			this._badgeClassType = badgeClassType
+	set badgeClassCategory(badgeClassCategory: BadgeClassCategory) {
+		if (this._badgeClassCategory != badgeClassCategory){
+			this._badgeClassCategory = badgeClassCategory
 			this.initEmptyForm()
 		}
 	}
 
-	get badgeClassType() {
-		return this._badgeClassType
+	get badgeClassCategory() {
+		return this._badgeClassCategory
 	}
 
 	@Input()
@@ -460,7 +460,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_criteria_text: ['', Validators.maxLength(6000)],
 			alignments: this.fb.array([]),
 
-			extensions: this.badgeClassType == 'formal' ? this.fb.group({
+			extensions: this.badgeClassCategory == 'formal' ? this.fb.group({
 				LanguageExtension: this.fb.group({
 					language: ['', Validators.required],
 					typedLanguage: ['', Validators.required],
@@ -540,7 +540,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			validator: this.criteriaRequired
 		});
 		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
-		this._badgeClassType = this.badgeClass.type
+		this._badgeClassCategory = this.badgeClass.category
 		this.initializeTypedLanguage()
 	}
 
@@ -718,7 +718,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_url: formState.badge_criteria_url,
 				alignment: this.alignmentsEnabled ? formState.alignments : [],
 				extensions: this.removeEmptyExtensions(formState.extensions),
-				type: this.badgeClassType
+				category: this.badgeClassCategory
 			} as ApiBadgeClassForCreation;
 
 			this.savePromise = this.badgeClassManager.createBadgeClass(this.issuerSlug, badgeClassData);

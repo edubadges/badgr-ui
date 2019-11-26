@@ -527,7 +527,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
 			.addControl("denied", recipient['denied'])
-			if (this.badge_class.type == 'non-formal'){
+			if (this.badge_class.category == 'non-formal'){
 				const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 				recipientFormGroup.addControl("extensions", typedGroup()
 				.addControl("extensions:recipientProfile", typedGroup()
