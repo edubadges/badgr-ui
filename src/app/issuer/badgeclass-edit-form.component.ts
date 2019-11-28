@@ -69,7 +69,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						<h4 class="title title-bordered" id="heading-badgebasics">Badge Basics</h4>
 						<p class="text text-small">Badge images can be either PNGs or SVGs. <strong>All fields are required.</strong></p>
 						<a class="button button-tertiaryghost"
-							href="https://support.badgr.io/pages/viewpage.action?pageId=327763"
+							href="https://wiki.surfnet.nl/display/OB/FAQ"
 							aria-labelledby="heading-badgebasics"
 							target="_blank"
 						>Learn More</a>
@@ -170,9 +170,11 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 					<div class="l-formsection-x-help">
 						<h4 class="title title-bordered" id="heading-badgebasics">What is Learning Outcome?</h4>
-						<p class="text text-small">See TUNING methodology</p>
+						<p class="text text-small">See 
+							<a href="http://tuningacademy.org/methodology/">TUNING</a>methodology.</p>
+
 						<a class="button button-tertiaryghost"
-							href="http://tuningacademy.org/methodology/"
+							href="https://wiki.surfnet.nl/display/OB/FAQ"
 							aria-labelledby="heading-badgebasics"
 							target="_blank"
 						>Learn More</a>
@@ -204,7 +206,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						<h4 class="title title-bordered" id="heading-badgebasics">What are Criteria?</h4>
 						<p class="text text-small">The criteria field describes exactly what must be doen to earn this badge. Some issuers choose a URL on their website as a promotional page that explains this badge opportunity and how to earn it.<strong>At least one field is required</strong></p>
 						<a class="button button-tertiaryghost"
-							href="http://tuningacademy.org/methodology/"
+							href="https://wiki.surfnet.nl/display/OB/FAQ"
 							aria-labelledby="heading-badgebasics"
 							target="_blank"
 						>Learn More</a>
@@ -232,7 +234,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							deciding whether to apply for the badge.
 						</p>
 						<a class="button button-tertiaryghost"
-						   href="https://support.badgr.io/pages/viewpage.action?pageId=327768"
+						   href="https://wiki.surfnet.nl/display/OB/FAQ"
 						   aria-labelledby="heading-whatsalignment"
 						   target="_blank"
 						>Learn More</a>
