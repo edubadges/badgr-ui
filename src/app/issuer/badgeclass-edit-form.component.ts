@@ -112,26 +112,28 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text
 							label="Education Program Identifier - Croho/Crebo"
-							[control]="badgeClassForm.controls.extensions.controls.EducationProgramIdentifierExtension.controls.identifierValue"
+							[control]="badgeClassForm.controls.extensions['controls'].EducationProgramIdentifierExtension.controls.identifierValue"
 						></bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
-							[control]="badgeClassForm.controls.extensions.controls.NiveauExtension.controls.EQF" 
+							[control]="badgeClassForm.controls.extensions['controls'].NiveauExtension.controls.EQF" 
 							label="NLQF LEVEL" 
 							[placeholder]="'1-2-3-4-5-6-7 or 8'"
 							[errorMessage]="{invalidNumber:'Please enter a value between 1 and 8'}"
 							>
 						</bg-formfield-text>
 					</div>
-					<div class="l-formsection-x-help">
-						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register. https://www.nlqf.nl/nlqf-niveaus</p>
+					<div class="l-formsection-x-help">"
+						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register. 
+							<a href="https://www.nlqf.nl/nlqf-niveaus">https://www.nlqf.nl/nlqf-niveaus</a>
+						</p>
 					</div>
 				</div>
 				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
-							[control]="badgeClassForm.controls.extensions.controls.ECTSExtension.controls.ECTS"
+							[control]="badgeClassForm.controls.extensions['controls'].ECTSExtension.controls.ECTS"
 							[placeholder]="'MINIMUM 3'"
 							[errorMessage]="{invalidNumber:'Please enter a 3 or higher'}"
 							label="How many credit points (ects or ecvet) does this badgeclass represent?" >
@@ -145,7 +147,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
 							(change)="autoFillLanguage()" 
-							[control]="badgeClassForm.controls.extensions.controls.LanguageExtension.controls.typedLanguage" 
+							[control]="badgeClassForm.controls.extensions['controls'].LanguageExtension.controls.typedLanguage" 
 							label="Main language of instruction" >
 						</bg-formfield-text>
 					</div>
@@ -163,7 +165,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				<div class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-markdown
-							[control]="badgeClassForm.controls.extensions.controls.LearningOutcomeExtension.controls.learningOutcome"
+							[control]="badgeClassForm.controls.extensions['controls'].LearningOutcomeExtension.controls.learningOutcome"
 							label="Shortlist of main learning Outcomes" 
 							class="l-formsection-x-inputoffset"
 						></bg-formfield-markdown>
