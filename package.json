@@ -113,7 +113,7 @@
 		"tiny-sha256": "1.0.2",
 		"tslib": "^1.7.0",
 		"typeforce": "^1.12.0",
-		"validana-client": "git+https://github.com/Coinversable/validana-client.git",
+		"validana-client": "git://github.com/Coinversable/validana-client.git#e10bc7dee7e8f56594982ba9557d841ac30bd588",
 		"validator": "^9.0.0",
 		"zone.js": "^0.8.14"
 	},
