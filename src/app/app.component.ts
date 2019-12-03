@@ -329,7 +329,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.userProfileApiService.fetchSocialAccounts()
 			.then(socialAccounts => {
 				for (let account of socialAccounts){
-					if (account['provider'] == 'edu_id'){
+					if (account['provider'] == 'edu_id' || account['provider'] == 'surfconext_ala'){
 						this.userIsStudent = true
 					}
 				}

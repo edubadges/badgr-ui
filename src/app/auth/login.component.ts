@@ -131,7 +131,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit {
 			if (provider.name == 'SURFconext') {
 				this.providerSurfconext = provider
 			}
-			if (provider.name == "Ala"){
+			if (provider.name == "SurfConext Ala"){
 				this.providerAla = provider
 			}
 		}
