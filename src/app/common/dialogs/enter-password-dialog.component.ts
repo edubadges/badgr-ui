@@ -13,7 +13,7 @@ import { markControlsDirty } from "../../common/util/form-util";
 	template: `
 		<dialog class="dialog dialog-large dialog-confirm">
 			<div class="l-containervertical" style="margin: 0px 20px 0px 20px;">
-				<form (ngSubmit)="onSubmit(passwordForm.value)" novalidate>
+				<form (ngSubmit)="onSubmit()" novalidate>
 					<div class="l-formsection wrap wrap-well" role="group">
 						<fieldset>
 							<bg-formfield-text 	[control]="passwordForm.controls.password"

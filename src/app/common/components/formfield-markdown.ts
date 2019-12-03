@@ -107,7 +107,9 @@ import { CustomValidatorMessages, messagesForValidationError } from "./formfield
 			</div>
 
 
-		</div> `
+		</div> 
+		<p class="formfield-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
+		`
 })
 export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 	@Input() control: FormControl;

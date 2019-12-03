@@ -42,6 +42,7 @@ import { markControlsDirty } from "../common/util/form-util";
 					<thead>
 						<tr>
 							<th scope="col">Badgeclass</th>
+							<th scope="col">Recipient</th>
 							<th scope="col">EduID</th>
 							<th scope="col">Issue Date</th>
 							<th scope="col">Action</th>
@@ -51,21 +52,23 @@ import { markControlsDirty } from "../common/util/form-util";
 						<tr *ngFor="let instance of badgeInstances">
 							<th scope="row">
 								<div class="l-childrenhorizontal l-childrenhorizontal-small">
-								
 									<a href="{{instance.badge_class}}">
 										<img [src]="instance.image" width="40" height="40" alt="{{ instance.badge_class }}" />
 									</a>
-
 								</div>
-								
 							</th>
 							<td>
-								<label class="table-x-badge">
+								<label>
+									{{instance.extensions['extensions:recipientProfile']? instance.extensions['extensions:recipientProfile']['name']: 'No name found' }}
+								</label>
+							</td>
+							<td>
+								<label class="eduid-label">
 									{{instance.recipient_identifier}}
 								</label>
 							</td>
 							<td>
-								<label class="table-x-badge">
+								<label>
 									{{instance.created_at.split('T')[0]}}
 								</label>
 							</td>

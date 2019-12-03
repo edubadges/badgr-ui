@@ -23,6 +23,19 @@
 
   }
 
+  .label-secondary {
+    @include label-formfield;
+    text-transform: capitalize;
+    padding-top: 40px;
+
+    a{
+      color: $color-dark2;
+      text-decoration: underline;
+    }
+
+
+  }
+
   .formfield-x-action > input,
   > input:not([type='checkbox']),
   > select,

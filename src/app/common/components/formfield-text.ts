@@ -27,7 +27,19 @@ import { CommonDialogsService } from "../services/common-dialogs.service";
         <p class="formfield-x-description" *ngIf="description">{{ description }}</p>
 
         <input [type]="fieldType"
-               *ngIf="! multiline"
+               *ngIf="! multiline && autofill"
+               [name]="inputName"
+               [id]="inputId"
+               [formControl]="control"
+               [placeholder]="placeholder || ''"
+               (change)="postProcessInput()"
+               (focus)="cacheControlState()"
+               (keypress)="handleKeyPress($event)"
+							 #textInput
+							 disabled
+							 />
+				<input [type]="fieldType"
+               *ngIf="! multiline && ! autofill"
                [name]="inputName"
                [id]="inputId"
                [formControl]="control"
@@ -61,6 +73,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() formFieldAside:string; //Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
 	@Input() multiline: boolean = false;
+	@Input() autofill: boolean = false;
 	@Input() monospaced: boolean = false;
 	@Input() description: string;
 	@Input() placeholder: string;

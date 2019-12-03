@@ -1,4 +1,4 @@
-import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment} from "./badgeclass-api.model"; //, ApiBadgeClassExtension
+import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, BadgeClassCategory} from "./badgeclass-api.model"; //, ApiBadgeClassExtension
 import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -68,6 +68,14 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 		this.apiModel.tags = tags;
 	}
 
+	get category(): BadgeClassCategory {
+		return this.apiModel.category
+	}
+
+	set category(category: BadgeClassCategory) {
+		this.apiModel.category = category;
+	}
+
 	get issuerSlug(): string {
 		return BadgeClass.issuerSlugFromUrl(this.issuerUrl);
 	}
@@ -83,7 +91,7 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 		return this.apiModel['extensions'];
 	}
 
-	set extensions(extensions: Object[]) {
+	set extensions(extensions: Object) {
 		this.apiModel.extensions = extensions;
 	}
 

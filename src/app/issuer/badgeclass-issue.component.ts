@@ -306,22 +306,26 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					   class="button button-primaryghost"
 					   [disabled-when-requesting]="true"
 					>Cancel</a>
+					<ng-container *ngIf="badge_class.category=='formal'">
 					
-					<button *ngIf="awardButtonEnabled" type="submit"
-					        class="button"
-					        [disabled]="!! issueBadgeFinished"
-					        (click)="clickSubmit($event, false)"
-					        [loading-promises]="[ issueBadgeFinished ]"
-					        loading-message="Issuing"
-					>Award</button>
+					
+						<button *ngIf="awardButtonEnabled" type="submit"
+										class="button"
+										[disabled]="!! issueBadgeFinished"
+										(click)="clickSubmit($event, false)"
+										[loading-promises]="[ issueBadgeFinished ]"
+										loading-message="Issuing"
+						>Award</button>
 
-					<button *ngIf="!awardButtonEnabled"
-									class="button"
-					        [disabled]="true"
-									style = 'background:#A09EAF;'
-					>Award</button>
-
-					<ng-container *ngIf="signingEnabled">
+						<button *ngIf="!awardButtonEnabled"
+										class="button"
+										[disabled]="true"
+										style = 'background:#A09EAF;'
+						>Award</button>
+					</ng-container>
+					
+					
+					<ng-container *ngIf="badge_class.category=='non-formal' && signingEnabled">
 						<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
 							<button
 											*ngIf="awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
@@ -337,6 +341,13 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 										style = 'background:#A09EAF;'
 							>Award Signed</button>
 						</ng-container>
+					</ng-container>	
+					<ng-container *ngIf="badge_class.category=='non-formal' && (!userMaySignBadges || !currentUserIsSigner || !signingEnabled)">	
+							<button
+									class="button"
+									[disabled]="true"
+									style = 'background:#A09EAF;'
+							>Cannot Award Signed</button>
 					</ng-container>	
 				</div>
 			</form>
@@ -520,7 +531,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			let last_name = recipient['last_name']? recipient['last_name']: ''
 			let name = first_name+' '+last_name
 			let email = recipient['email']
-			// const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 			let recipientFormGroup = typedGroup()
 			.addControl("recipient_name", name)
 			.addControl("recipient_email", email)
@@ -528,13 +538,16 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
 			.addControl("selected", false)
 			.addControl("denied", recipient['denied'])
-			// .addControl("extensions", typedGroup()
-			// 	.addControl("extensions:recipientProfile", typedGroup()
-			// 		.addControl("@context", recipientProfileContextUrl)
-			// 		.addControl("type", ["Extension", "extensions:RecipientProfile"])
-			// 		.addControl("name", name)
-			// 	)
-			// )
+			if (this.badge_class.category == 'non-formal'){
+				const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
+				recipientFormGroup.addControl("extensions", typedGroup()
+				.addControl("extensions:recipientProfile", typedGroup()
+					.addControl("@context", recipientProfileContextUrl)
+					.addControl("type", ["Extension", "extensions:RecipientProfile"])
+					.addControl("name", name)
+				)
+			)
+			}
 			if (!recipient['denied']) {
 				this.issueForm.controls.recipients.push(recipientFormGroup);
 			} else if (recipient['denied']) {

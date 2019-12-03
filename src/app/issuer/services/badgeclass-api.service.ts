@@ -26,7 +26,9 @@ export class BadgeClassApiService extends BaseHttpApiService {
 
 	getAllUserBadgeClasses(): Promise<ApiBadgeClass[]> {
 		return this.get('/v1/issuer/all-badges')
-			.then(r => r.json());
+			.then(r => {
+				return r.json()
+			});
 	}
 
 
@@ -44,7 +46,9 @@ export class BadgeClassApiService extends BaseHttpApiService {
 		badgeSlug: BadgeClassSlug
 	): Promise<ApiBadgeClass> {
 		return this.get('/v1/issuer/issuers/' + issuerSlug + '/badges/' + badgeSlug)
-			.then(r => r.json());
+			.then(r => {
+				return r.json()
+			});
 	}
 
 	deleteBadgeClass(

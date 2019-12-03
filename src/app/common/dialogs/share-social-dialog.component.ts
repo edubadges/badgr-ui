@@ -119,9 +119,13 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 						<a [href]="v2BakedUrl" class="button button-primaryghost" download=true target="_blank">Baked Image</a>
 					</section>
 					<br>
-					<section>
+					<section *ngIf="options.badgeClassCategory=='formal'">
 						<h1>Download a JSON version of your badge.</h1>
 						<a [href]="v2JsonUrl" class="button button-primaryghost">JSON</a>
+					</section>
+					<section  *ngIf="options.badgeClassCategory=='non-formal'">
+						<h1>Download the signature of your badge.</h1>
+						<a [href]="v2JsonUrl" class="button button-primaryghost">Signature</a>
 					</section>
 				</div>
 				<div class="l-authbuttons">
@@ -501,6 +505,7 @@ export class ShareSocialDialog extends BaseDialog {
 }
 
 export interface ShareSocialDialogOptions {
+	badgeClassCategory?: string;
 	title: string;
 	shareObjectType: SharedObjectType;
 	imageUrl?: string;

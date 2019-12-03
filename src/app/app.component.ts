@@ -128,8 +128,6 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 						<ul>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/profile/profile']">Profile</a></li>
-							<li *ngIf="signingEnabled && userMaySignBadges" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/signing']">Signing</a></li>
 							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
 						</ul>
@@ -146,6 +144,18 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 							<li *ngIf="userMaySeeValidana" class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
 								<a [routerLink]="['/validana/settings']">Endorsement</a></li>
 						</ul>
+					</li>
+					<li *ngIf="userMaySeeIssuers && signingEnabled && userMaySignBadges" class="menuitem" routerLinkActive="menuitem-is-active">
+						<button>Signing</button>
+						<ul>
+							<li>
+								<a [routerLink]="['/profile/signing']">Password</a>
+							</li>
+							<li>
+								<a [routerLink]="['/issuer/bulk-sign']">Badges</a>
+							</li>
+						</ul>
+
 					</li>
 					
 					
@@ -349,15 +359,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	permissionsChecked=false
 	ngAfterViewChecked(){
-		// only in this lifecyclehook the user is actually logged in after logging in
+		console.log('ngAfterViewChecked')
+		// only in th'is lifecyclehook the user is actually logged in after logging in
 		if (this.sessionService.isLoggedIn) {
 			if (!this.permissionsChecked){ // only check once when being logged in
-				setTimeout(() => {
 				this.currentPermissionLoaded = this.profileManager.userProfilePromise
 				.then(profile => this.hasPermission(profile))
 				.catch(e => this.permissionsChecked=true)
 				this.permissionsChecked=true
-				})
 			}		
 		}
 	}

@@ -68,6 +68,8 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 	get lastName() { return this.apiModel.last_name }
 	set lastName(lastName: string) { this.apiModel.last_name = lastName }
 
+	get institution() { return this.apiModel.institution }
+
 	get agreedTermsVersion() { return this.apiModel.agreed_terms_version; }
 	get latestTermsVersion() { return this.apiModel.latest_terms_version; }
 	agreeToLatestTerms() {
