@@ -27,7 +27,7 @@ export class InitialRedirectComponent {
 						var current_user_permissions = JSON.parse(profile.apiModel['user_permissions'])
 
 						for (let account of socialAccounts){
-							if (account['provider'] == 'edu_id'){
+							if (account['provider'] == 'edu_id' || account['provider'] == 'surfconext_ala'){
 								router.navigate(['/recipient/badges']);
 							}
 							else if (account['provider'] == 'surf_conext'){

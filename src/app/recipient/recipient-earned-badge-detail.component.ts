@@ -158,7 +158,7 @@ import { EventsService } from "../common/services/events.service";
 						<section *ngIf="badge.hasExtension('LearningOutcomeExtension');">
 							<h1>Learning outcome</h1>
 							<show-more>
-								<p>{{ badge.getExtension('LearningOutcomeExtension','').learningOutcome }}</p>
+									<markdown-display [value]="badge.getExtension('LearningOutcomeExtension','').learningOutcome"></markdown-display>
 							</show-more>
 						</section>
 						<section *ngIf="badge.hasExtensions()">
