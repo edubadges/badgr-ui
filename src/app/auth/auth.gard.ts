@@ -111,7 +111,7 @@ export class IsStudentAuthGuard implements CanActivate {
 			return this.profileManager.profileService.fetchSocialAccounts()
 			.then(socialAccounts => {
 				for (let account of socialAccounts){
-					if (account['provider'] == 'edu_id'){
+					if (account['provider'] == 'edu_id' || account['provider'] == 'surfconext_ala'){
 						return true
 					} else {
 						this.router.navigate(['/auth/unauthorized']);

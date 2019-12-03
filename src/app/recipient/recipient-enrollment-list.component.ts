@@ -126,7 +126,7 @@ export class RecipientEnrollmentListComponent extends BaseAuthenticatedRoutableC
     this.userProfileApiService.fetchSocialAccounts()
       .then(socialAccounts => {
 				for (let account of socialAccounts){
-					if (account['provider']=='edu_id') {
+					if (account['provider']=='edu_id' || account['provider']=='surfconext_ala') {
 						let eduID = account['uid']
 						this.getEnrollments(eduID)
 				}	else {
