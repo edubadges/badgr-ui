@@ -57,7 +57,6 @@ export class LtiApiService extends BaseHttpApiService{
 	addBadgeClassToLMS(
 		badgeClassContextId : ApiBadgeClassContextId
 	):Promise<string>{
-		console.log('in function addBadgeClassToLMS');
 		return this.post(`/lti_edu/addbadgeclasslticontext`, badgeClassContextId)
 			.then(r => r.json() as string);
 	}
@@ -65,7 +64,6 @@ export class LtiApiService extends BaseHttpApiService{
 	removeBadgeClassFromLMS(
 		badgeClassContextId : ApiBadgeClassContextId
 	):Promise<string>{
-		console.log('in function removeBadgeClassFromLMS');
 		return this.delete(`/lti_edu/addbadgeclasslticontext`, badgeClassContextId)
 			.then(r => r.json() as string);
 	}

@@ -120,8 +120,6 @@ export class LtiBadgesStaffComponent extends BaseAuthenticatedRoutableComponent 
 	}
 
 	removeBadgeClassFromLMS(ev,badge,ltiContextId){
-		console.log('button remove clicked');
-
 		let badgeClassContextId = {
 			badgeClassEntityId:badge.slug,
 			contextId: ltiContextId

@@ -359,7 +359,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	permissionsChecked=false
 	ngAfterViewChecked(){
-		console.log('ngAfterViewChecked')
 		// only in th'is lifecyclehook the user is actually logged in after logging in
 		if (this.sessionService.isLoggedIn) {
 			if (!this.permissionsChecked){ // only check once when being logged in

@@ -547,8 +547,6 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	}
 
 	addBadgeClassToLMS(ev,badge,ltiContextId){
-		console.log('button clicked');
-
 		let badgeClassContextId = {
 			badgeClassEntityId:badge.slug,
 			contextId: ltiContextId
@@ -564,8 +562,6 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	}
 
 	removeBadgeClassFromLMS(ev,badge,ltiContextId){
-		console.log('button remove clicked');
-
 		let badgeClassContextId = {
 			badgeClassEntityId:badge.slug,
 			contextId: ltiContextId

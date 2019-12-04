@@ -94,7 +94,6 @@ export class PublicApiService extends BaseHttpApiService {
 	}
 
 	acceptStaffMemberShip(code: string): Promise<any> {
-		console.log(code)
 		return this.get(`/v1/issuer/issuers-staff-confirm/${code}`, null, false, false)
 			.then(r => {
 				return r.json()
