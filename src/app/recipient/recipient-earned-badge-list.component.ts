@@ -88,6 +88,7 @@ type BadgeDispay = "grid" | "list" ;
 												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
 													<p class="card-x-label" *ngIf="badgeResult.badge.isNew">New</p>
 													<p *ngIf="badgeResult.badge.badgeClass.category != 'formal'" class="card-x-label card-x-label-right">{{badgeResult.badge.badgeClass.category}}</p>
+													<p *ngIf="badgeResult.badge.isPublic == false" class="card-x-label card-x-label-top-right">private</p>
 													<div class="card-x-image">
 														<img [loaded-src]="badgeResult.badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
@@ -125,6 +126,8 @@ type BadgeDispay = "grid" | "list" ;
 												<article class="card card-largeimage">
 													<a class="card-x-main" [routerLink]="['../earned-badge', badge.slug]">
 														<p class="card-x-label" *ngIf="badge.isNew">New</p>
+														<p *ngIf="badge.badgeClass.category != 'formal'" class="card-x-label card-x-label-right">{{badge.badgeClass.category}}</p>
+														<p *ngIf="badge.isPublic == false" class="card-x-label card-x-label-top-right">private</p>
 														<div class="card-x-image">
 															<div class="badge badge-flat">
 																<img [loaded-src]="badge.image"
@@ -160,6 +163,7 @@ type BadgeDispay = "grid" | "list" ;
 										<tr>
 											<th scope="col">Badge</th>
 											<th class="hidden hidden-is-desktop" scope="col"></th>
+											<th class="hidden hidden-is-desktop" scope="col">Access</th>
 											<th class="hidden hidden-is-desktop" scope="col">Category</th>
 											<th class="hidden hidden-is-desktop" scope="col">Issuer</th>
 											<th class="hidden hidden-is-desktop" scope="col">Awarded</th>
@@ -191,6 +195,8 @@ type BadgeDispay = "grid" | "list" ;
 												</a>
 											</th>
 											<td> <small *ngIf="badge.hasExpired" style="color:red;">Expired</small> </td>
+											<td *ngIf="badge.isPublic == false" class="hidden hidden-is-desktop">private</td>
+											<td *ngIf="badge.isPublic == true" class="hidden hidden-is-desktop">public</td>
 											<td class="hidden hidden-is-desktop">{{ badge.badgeClass.category }}</td>
 											<td class="hidden hidden-is-desktop">{{ badge.badgeClass.issuer.name }}</td>
 											<td class="hidden hidden-is-desktop"><time [date]="badge?.issueDate" format="mediumDate"></time></td>
