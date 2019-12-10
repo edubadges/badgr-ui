@@ -129,10 +129,30 @@ export class RecipientBadgeCollectionListComponent extends BaseAuthenticatedRout
 		collection.published = ! collection.published;
 
 		if (collection.published) {
-			collection.save().then(
-				success => this.messageService.reportMinorSuccess(`Published collection ${collection.name} successfully`),
-				failure => this.messageService.reportHandledError(`Failed to publish collection ${collection.name}`, failure)
-			);
+			let collectionHasPrivateBadge = false;
+			for (let entry of collection.badgeEntries) {
+				if (entry.badge.isPublic == false) {
+					collectionHasPrivateBadge = true
+				}
+			}
+			if (collectionHasPrivateBadge) {
+				this.dialogService.confirmDialog.openResolveRejectDialog({
+					dialogTitle: "Confirm Access",
+					dialogBody: `You have private badges in your collection. Setting this collection to public will make the badges public as well.`,
+					rejectButtonLabel: "Cancel",
+					resolveButtonLabel: "Make Public"
+				}).then(() => {
+					collection.save().then(
+						success => this.messageService.reportMinorSuccess(`Published collection ${collection.name} successfully`),
+						failure => this.messageService.reportHandledError(`Failed to publish collection ${collection.name}`, failure)
+					);
+				})
+			} else {
+				collection.save().then(
+					success => this.messageService.reportMinorSuccess(`Published collection ${collection.name} successfully`),
+					failure => this.messageService.reportHandledError(`Failed to publish collection ${collection.name}`, failure)
+				);
+			}
 		} else {
 			collection.save().then(
 				success => this.messageService.reportMinorSuccess(`Unpublished collection ${collection.name} successfully`),

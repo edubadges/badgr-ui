@@ -76,6 +76,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 							<tr>
 								<th scope="col">Badge</th>
 								<th class="hidden hidden-is-desktop" scope="col"></th>
+								<th class="hidden hidden-is-desktop" scope="col">Access</th>
 								<th class="hidden hidden-is-desktop" scope="col">Issuer</th>
 								<th class="hidden hidden-is-desktop" scope="col">Awarded</th>
 								<th class="hidden hidden-is-desktop" scope="col"><span class="visuallyhidden">Actions</span></th>
@@ -98,6 +99,8 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 									</a>
 								</th>
 								<td> <small *ngIf="entry.badge.hasExpired" style="color:red;">Expired</small> </td>
+								<td *ngIf="entry.badge.isPublic == false" class="hidden hidden-is-desktop">private</td>
+								<td *ngIf="entry.badge.isPublic == true" class="hidden hidden-is-desktop">public</td>
 								<td class="hidden hidden-is-desktop" >{{ entry.badge.badgeClass.issuer.name }}</td>
 								<td class="hidden hidden-is-desktop" ><time [date]="entry.badge.issueDate" format="longDate"></time></td>
 								<td class="hidden hidden-is-desktop">
@@ -225,7 +228,32 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 
 	set collectionPublished(published: boolean) {
 		this.collection.published = published;
+		let collectionHasPrivateBadge = false;
+		if (published) {
+			for (let entry of this.collection.badgeEntries){
+					if (entry.badge.isPublic == false){
+						collectionHasPrivateBadge = true
+					}
+				}
+			if (collectionHasPrivateBadge){
+				this.dialogService.confirmDialog.openResolveRejectDialog({
+					dialogTitle: "Confirm Access",
+					dialogBody: `You have private badges in your collection. Setting this collection to public will make the badges public as well.`,
+					rejectButtonLabel: "Cancel",
+					resolveButtonLabel: "Make Public"
+				}).then( () => {
+					this.setCollectionPublished(published)
+				})
+			} else {
+				this.setCollectionPublished(published)
+			}
+		} else {
+			this.setCollectionPublished(published)
+		}
 
+	}
+
+	setCollectionPublished(published: boolean){
 		if (published) {
 			this.collection.save().then(
 				success => this.messageService.reportMinorSuccess(`Published collection ${this.collection.name} successfully`),
