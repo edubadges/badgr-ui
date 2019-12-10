@@ -62,7 +62,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 
 		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
 		     [class.formmessage-is-active]="isUnsupportedBrowser">
-		    <p>The Browser you are using isn’t fully supported. Badgr may not display correctly and some features may not be accessible or function properly.</p>
+		    <p>The Browser you are using isn’t fully supported. Edubadges may not display correctly and some features may not be accessible or function properly.</p>
 		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
 		</div>
 
@@ -86,7 +86,7 @@ import { LtiApiService } from "./lti-api/services/lti-api.service";
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
 				<ul>
-					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://www.surf.nl">Surf</a></li>
+					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://www.surf.nl">SURF</a></li>
 					<li *ngIf="currentTheme.providedBy">
 						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
 					</li>
