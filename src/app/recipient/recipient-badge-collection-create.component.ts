@@ -60,7 +60,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 							   [disabled-when-requesting]="true"
 							>Cancel</a>
 							<button type="submit"
-							        class="button"
+							        class="button button-green"
 							        [disabled]="!! createCollectionPromise"
 							        (click)="clickSubmit($event)"
 							        [loading-promises]="[ createCollectionPromise ]"

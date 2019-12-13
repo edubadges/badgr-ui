@@ -25,7 +25,7 @@ import { shareCollectionDialogOptionsFor } from "./recipient-badge-collection-de
 		            <h1>Collections <span>{{ badgeCollections?.length }} Collections</span></h1>
 		        </div>
 						<div class="heading-x-actions">
-							<a class="button button-major"
+							<a class="button button-major button-green"
 							   [routerLink]="['/recipient/badge-collections/create']"
 							   [disabled-when-requesting]="true"
 							>Add Collection</a>

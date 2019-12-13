@@ -113,7 +113,7 @@ type dialog_view_states = "upload" | "url" | "json";
 						        (click)="closeDialog()"
 						        [disabled-when-requesting]="true">Cancel
 						</button>
-						<button class="button" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
+						<button class="button button-green" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
 							Add Badge
 						</button>
 					</div>

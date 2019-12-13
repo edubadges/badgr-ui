@@ -84,7 +84,7 @@ import { UserProfileApiService } from "../common/services/user-profile-api.servi
 								<div class="table-x-td">
 									<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 										<button type="submit"
-										        class="button"
+										        class="button button-green"
 										        (click)="clickAddEmail($event)"
 										        [disabled-when-requesting]="true">
 											Add Email

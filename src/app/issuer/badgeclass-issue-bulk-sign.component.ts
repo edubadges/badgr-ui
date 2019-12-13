@@ -90,14 +90,18 @@ import { markControlsDirty } from "../common/util/form-util";
 								novalidate
 					>
 				<div class="l-childrenhorizontal l-childrenhorizontal-right">
-					<button
+					<button *ngIf="badgeInstances.length"
 						type="submit"
-						class="button"
+						class="button button-green"
 						[disabled]="!! signPromise"
 						[loading-promises]="[ signPromise ]"
 						loading-message="signing"
 						(click)="clickSubmit($event)"
 					>Sign All</button>
+					<button *ngIf="!badgeInstances.length"
+								class="button button-disabled"
+								[disabled]="true"
+					>Award</button>
 				</div>
 			</form>
 

@@ -49,7 +49,7 @@ import { MessageService } from '../common/services/message.service';
 					</a>
 					<button
 						type="submit"
-						class="button"
+						class="button button-green"
 						[disabled]="!! addPasswordFinished"
 						(click)="clickSubmit($event)"
 						[loading-promises]="[ addPasswordFinished ]"

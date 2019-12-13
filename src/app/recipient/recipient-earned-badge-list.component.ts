@@ -34,7 +34,7 @@ type BadgeDispay = "grid" | "list" ;
 						<h1>Backpack <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
 					</div>
 					<div class="heading-x-actions">
-						<a class="button button-major" (click)="addBadge()" [disabled-when-requesting]="true">Add Badge</a>
+						<a class="button button-major button-green" (click)="addBadge()" [disabled-when-requesting]="true">Add Badge</a>
 					</div>
 				</div>
 			</header>
