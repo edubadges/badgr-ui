@@ -95,19 +95,19 @@ import { EmbedService } from "../common/services/embed.service";
 					</div>
 
 					<div *ngIf="splitBadgesCategoryEnabled" class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-basicinformation">
-						<div class="l-formsection-x-container">
+						<div class="l-formsection-x-container" *ngIf="issuer.canCreateBadge">
 							<div class="l-formsection-x-inputs">
 
 								<div class="l-formsection-x-badge-create">
 									<span>NON FORMAL</span><br><span>MICRO-CREDENTIAL</span>
-									<a [routerLink]="['badges/create-non-formal']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
+									<a [routerLink]="['badges/create-non-formal']" class="button button-quaternary">
 									Create Badgeclass For non-Formal Learning
 									</a>
 								</div>
 
 								<div class="l-formsection-x-badge-create">
 									<span>FORMAL</span><br><span>MICRO-CREDENTIAL</span>
-									<a [routerLink]="['badges/create-formal']" class="button button-quaternary" *ngIf="issuer.canCreateBadge">
+									<a [routerLink]="['badges/create-formal']" class="button button-quaternary">
 									Create Badgeclass For Formal Learning
 									</a>
 								</div>
