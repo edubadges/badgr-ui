@@ -23,13 +23,13 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 					<ul class="breadcrumb">
 						<li><a [routerLink]="['/issuer']">Issuers</a></li>
 						<li><a [routerLink]="['/issuer/issuers/', issuerSlug]">{{issuer.name}}</a></li>
-						<li class="breadcrumb-x-current">Add Badge Class for Non-Fromal Learning</li>
+						<li class="breadcrumb-x-current">Add Badge Class for Non-Formal Learning</li>
 					</ul>
 				</nav>
 
 				<header class="heading">
 					<div class="heading-x-text">
-						<h1 id="heading" id="heading-addbadgeclass">Add Badge Class for Non-Fromal Learning</h1>
+						<h1 id="heading" id="heading-addbadgeclass">Add Badge Class for Non-Formal Learning</h1>
 					</div>
 				</header>
 			</header>
