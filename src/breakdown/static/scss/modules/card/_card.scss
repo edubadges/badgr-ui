@@ -69,6 +69,14 @@
     background-color: $color-dark3;
   }
 
+  .card-x-label-top-right {
+    left: auto;
+    right: 0;
+    top: 0;
+    bottom: unset;
+    background-color: $color-primary;
+  }
+
   .card-x-image {
     flex: 0 0 40px;
     margin-right: $gridspacing * 2;

@@ -318,9 +318,8 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 						>Award</button>
 
 						<button *ngIf="!awardButtonEnabled"
-										class="button"
+										class="button button-disabled"
 										[disabled]="true"
-										style = 'background:#A09EAF;'
 						>Award</button>
 					</ng-container>
 					
@@ -336,17 +335,15 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 											loading-message="Issuing"
 							>Award Signed</button>
 							<button *ngIf="!awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
-										class="button"
+										class="button button-disabled"
 										[disabled]="true"
-										style = 'background:#A09EAF;'
 							>Award Signed</button>
 						</ng-container>
 					</ng-container>	
 					<ng-container *ngIf="badge_class.category=='non-formal' && (!userMaySignBadges || !currentUserIsSigner || !signingEnabled)">	
 							<button
-									class="button"
+									class="button button-disabled"
 									[disabled]="true"
-									style = 'background:#A09EAF;'
 							>Cannot Award Signed</button>
 					</ng-container>	
 				</div>

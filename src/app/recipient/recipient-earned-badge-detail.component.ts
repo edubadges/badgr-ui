@@ -1,3 +1,4 @@
+import { SystemConfigService } from 'app/common/services/config.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
@@ -148,17 +149,6 @@ import { EventsService } from "../common/services/events.service";
 						</div>
 						</section>
 						<!-- extentions -->
-						
-						<section *ngIf="badge.hasExtension('ECTSExtension');">
-							<h1>ECTS</h1>
-							<show-more>
-								<p>{{ badge.getExtension('ECTSExtension','').ECTS }}</p>
-							</show-more>
-						</section>
-						<section *ngIf="badge.hasExtension('LearningOutcomeExtension');">
-							<h1>Learning outcome</h1>
-								<markdown-display [value]="badge.getExtension('LearningOutcomeExtension','').learningOutcome"></markdown-display>
-						</section>
 						<section *ngIf="badge.hasExtensions()">
 							<a
 								class="button button-primaryghost"
@@ -166,6 +156,16 @@ import { EventsService } from "../common/services/events.service";
 							>Extensions</a>
 						</section>
 						<section *ngIf="show_extensions">
+							<section *ngIf="badge.hasExtension('ECTSExtension');">
+								<h1>ECTS</h1>
+								<show-more>
+									<p>{{ badge.getExtension('ECTSExtension','').ECTS }}</p>
+								</show-more>
+							</section>
+							<section *ngIf="badge.hasExtension('LearningOutcomeExtension');">
+								<h1>Learning outcome</h1>
+									<markdown-display [value]="badge.getExtension('LearningOutcomeExtension','').learningOutcome"></markdown-display>
+							</section>
 							<section *ngIf="badge.hasExtension('LanguageExtension');">
 								<h1>Language</h1>
 								<show-more>
@@ -218,7 +218,7 @@ import { EventsService } from "../common/services/events.service";
 
 			</header>
 
-			<div class="l-containerhorizontal l-headeredsection">
+			<div  *ngIf="endorsementsEnabled" class="l-containerhorizontal l-headeredsection">
 
 				<endorsements-badge [badge]="badge"></endorsements-badge>
 
@@ -245,7 +245,9 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 
 	get badgeSlug(): string { return this.route.snapshot.params['badgeSlug']; }
 	get recipientBadgeInstances() { return this.recipientBadgeManager.recipientBadgeList }
-
+	get endorsementsEnabled() {
+		return this.configService.endorsementsEnabled
+	}
 	constructor(
 		router: Router,
 		route: ActivatedRoute,
@@ -255,7 +257,8 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		private messageService: MessageService,
 		private eventService: EventsService,
 		private dialogService: CommonDialogsService,
-		private externalToolsManager: ExternalToolsManager
+		private externalToolsManager: ExternalToolsManager,
+		private configService: SystemConfigService
 	) {
 		super(router, route, loginService);
 		this.show_extensions = false;

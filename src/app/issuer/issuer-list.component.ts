@@ -25,7 +25,7 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 		      </div>
 		      <div *ngIf='userMayCreateIssuers' class="heading-x-actions">
 		        <a [routerLink]="['/issuer/create']"
-		           class="button button-major"
+		           class="button button-major button-green"
 		           [disabled-when-requesting]="true">Create Issuer</a>
 		      </div>
 		    </div>

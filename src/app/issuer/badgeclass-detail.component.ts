@@ -200,7 +200,7 @@ import { EmbedService } from "../common/services/embed.service";
 					
 					<div style="text-align:center;">
 						<div class="heading-x-actions">
-							<a class="button button-major"
+							<a class="button button-major button-green"
 								[routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"
 								[disabled-when-requesting]="true"
 								*ngIf="issuer.canAwardBadge"

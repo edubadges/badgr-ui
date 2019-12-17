@@ -86,6 +86,20 @@
   padding-top: $gridspacing * 2;
 }
 
+.button-green {
+  background-color: $color-senary;
+}
+
+.button-green:hover {
+  background-color: $color-senary-light !important;
+}
+
+.button-disabled {
+  background-color: $color-dark3 !important;
+  cursor: default;
+}
+
+
 .button-primaryghost {
   background-color: transparent;
   border-color: transparent;

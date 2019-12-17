@@ -339,7 +339,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				>Cancel</button>
 				<button
 					type="submit"
-					class="button"
+					class="button button-green"
 					[disabled]="!! savePromise"
 					[loading-promises]="[ savePromise ]"
 					loading-message="{{ submittingText }}"
