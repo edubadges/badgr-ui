@@ -125,6 +125,8 @@ export class BadgeInstance extends ManagedEntity<ApiBadgeInstance, BadgeInstance
 
 	get recipientEmail(): string { return this.apiModel.recipient_email }
 
+	get recipientName(): string { return this.apiModel.recipient_name }
+
 	get recipientType(): string { return this.apiModel.recipient_type }
 
 	get image(): string { return this.apiModel.image }

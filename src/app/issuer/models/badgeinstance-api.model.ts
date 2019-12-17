@@ -56,6 +56,7 @@ export interface ApiBadgeInstance {
 	image: string
 	recipient_identifier: string
 	recipient_email: string
+	recipient_name: string
 	recipient_type?: string
 	revoked: boolean
 	revocation_reason?: string
