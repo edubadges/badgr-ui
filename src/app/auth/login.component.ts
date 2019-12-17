@@ -70,13 +70,13 @@ import { UserProfileManager } from "../common/services/user-profile-manager.serv
 						<div>
 							<ul class="menuitem"><a href= "{{eduidRegistrationUrl}}">Sign Up Here</a></ul>
 						</div>
-						<button
-										style="width:200px;"
-										type="button"
-										class="buttonauth buttonauth-{{ providerEduid.slug }}"
-										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerAla)"
-						>{{ providerAla.name }}
-						</button>
+<!--						<button-->
+<!--										style="width:200px;"-->
+<!--										type="button"-->
+<!--										class="buttonauth buttonauth-{{ providerEduid.slug }}"-->
+<!--										(click)="sessionService.initiateUnauthenticatedExternalAuth(providerAla)"-->
+<!--						>{{ providerAla.name }}-->
+<!--						</button>-->
 					</div>
 				</div>
 				
