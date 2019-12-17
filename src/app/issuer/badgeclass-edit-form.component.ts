@@ -108,6 +108,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						</div>
 					</div>
 				</div>
+				
 				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text
@@ -115,6 +116,11 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							[control]="badgeClassForm.controls.extensions['controls'].EducationProgramIdentifierExtension.controls.identifierValue"
 						></bg-formfield-text>
 					</div>
+					<div class="l-formsection-x-help">
+						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register.</p>
+					</div>
+				</div>
+				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
 							[control]="badgeClassForm.controls.extensions['controls'].NiveauExtension.controls.EQF" 
@@ -125,9 +131,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						</bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
-						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register. 
-							<a href="https://www.nlqf.nl/nlqf-niveaus">https://www.nlqf.nl/nlqf-niveaus</a>
-						</p>
+						<a href="https://www.nlqf.nl/nlqf-niveaus">https://www.nlqf.nl/nlqf-niveaus</a>
 					</div>
 				</div>
 				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
