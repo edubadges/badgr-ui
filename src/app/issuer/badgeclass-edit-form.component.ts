@@ -124,7 +124,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							>
 						</bg-formfield-text>
 					</div>
-					<div class="l-formsection-x-help">"
+					<div class="l-formsection-x-help">
 						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register. 
 							<a href="https://www.nlqf.nl/nlqf-niveaus">https://www.nlqf.nl/nlqf-niveaus</a>
 						</p>
@@ -140,7 +140,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						</bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
-						<p class="text text-small">European Credit Transfer System Points Eeropean Credit system for Vocational Education and Training.</p>
+						<p class="text text-small">European Credit Transfer System Points European Credit system for Vocational Education and Training.</p>
 					</div>
 				</div>
 				<div class="l-formsection-x-container">
@@ -206,7 +206,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 					<div class="l-formsection-x-help">
 						<h4 class="title title-bordered" id="heading-badgebasics">What are Criteria?</h4>
-						<p class="text text-small">The criteria field describes exactly what must be doen to earn this badge. Some issuers choose a URL on their website as a promotional page that explains this badge opportunity and how to earn it.<strong>At least one field is required</strong></p>
+						<p class="text text-small">The criteria field describes exactly what must be doen to earn this badge. Some issuers choose a URL on their website as a promotional page that explains this badge opportunity and how to earn it. <strong>Fill in at least a description or the criteria url</strong></p>
 						<a class="button button-tertiaryghost"
 							href="https://wiki.surfnet.nl/display/OB/FAQ"
 							aria-labelledby="heading-badgebasics"
