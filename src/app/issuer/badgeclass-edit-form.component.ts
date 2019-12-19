@@ -678,7 +678,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		return this.formControls.badge_criteria_text.dirty || this.formControls.badge_criteria_url.dirty;
 	}
 
-	removeEmptyExtensions(extensions) {
+	filterExtensions(extensions) {
+		// removes empty extensions and the typedLanguage key-value pair
 		for (let key in extensions){
 			let values_empty = true
 			for (let k in extensions[key]) {
@@ -690,6 +691,11 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				delete extensions[key]
 			}
 		}
+
+		if ('LanguageExtension' in extensions){
+			delete extensions['LanguageExtension']['typedLanguage']
+		}
+
 		return extensions
 	}
 
@@ -701,7 +707,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.criteria_text = formState.badge_criteria_text;
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
 			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
-			this.existingBadgeClass.extensions = this.removeEmptyExtensions(formState.extensions);
+			this.existingBadgeClass.extensions = this.filterExtensions(formState.extensions);
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
 			const badgeClassData = {
@@ -711,7 +717,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_text: formState.badge_criteria_text,
 				criteria_url: formState.badge_criteria_url,
 				alignment: this.alignmentsEnabled ? formState.alignments : [],
-				extensions: this.removeEmptyExtensions(formState.extensions),
+				extensions: this.filterExtensions(formState.extensions),
 				category: this.badgeClassCategory
 			} as ApiBadgeClassForCreation;
 
