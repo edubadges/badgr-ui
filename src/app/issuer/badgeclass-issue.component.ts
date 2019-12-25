@@ -95,7 +95,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 								>Deny All</button>
 							</div><br>
 							<label [style.display]="issueForm.controls.recipients.controls.length?'inline-block':'none'" class="formcheckbox">
-								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
+								<input name="form-checkbox3" id="form-checkbox3" type="checkbox" (change)="selectAllStudents()">
 								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Select All for Awarding</span>
 							</label>
 							<div *ngIf="issueForm.controls.recipients.controls.length">
@@ -104,7 +104,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 								>
 									<div>
 										<label class="formcheckbox" style="display:inline-block;">
-											<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
+											<input name="form-checkbox4" type="checkbox" [formControl]="recipient.untypedControls.selected">
 											<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Award Badge to this Student</span>
 										</label>
 										<button type="button"
@@ -242,6 +242,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addControl("issue_signed", false)
 		.addArray("recipients", typedGroup()
 			.addControl("recipient_name", "")
+			.addControl("enrollment_slug", "")
 			.addControl("recipient_email", "")
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
@@ -250,6 +251,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		)
 		.addArray("deniedRecipients", typedGroup()
 			.addControl("recipient_name", "")
+			.addControl("enrollment_slug", "")
 			.addControl("recipient_email", "")
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
@@ -321,8 +323,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 		});
 
-
-
 	}
 
 	get issuerSlug() {
@@ -390,54 +390,56 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		}
 
-	addRecipient(recipient) {
-		if (!recipient['assertion_slug']){
-			let first_name = recipient['first_name']? recipient['first_name']: ''
-			let last_name = recipient['last_name']? recipient['last_name']: ''
-			let name = first_name+' '+last_name
-			let email = recipient['email']
-			let recipientFormGroup = typedGroup()
-			.addControl("recipient_name", name)
-			.addControl("recipient_email", email)
-			.addControl("recipient_type", 'id')
-			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
-			.addControl("selected", false)
-			.addControl("denied", recipient['denied'])
-			if (this.badge_class.category == 'non-formal'){
-				const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
-				recipientFormGroup.addControl("extensions", typedGroup()
-				.addControl("extensions:recipientProfile", typedGroup()
-					.addControl("@context", recipientProfileContextUrl)
-					.addControl("type", ["Extension", "extensions:RecipientProfile"])
-					.addControl("name", name)
-				)
+	addRecipient(enrollment) {
+		let enrollment_slug = enrollment['slug']
+		let first_name = enrollment['first_name'] ? enrollment['first_name']: ''
+		let last_name = enrollment['last_name'] ? enrollment['last_name']: ''
+		let name = first_name+' '+last_name
+		let email = enrollment['email']
+		let recipientFormGroup = typedGroup()
+		.addControl("enrollment_slug", enrollment_slug)
+		.addControl("recipient_name", name)
+		.addControl("recipient_email", email)
+		.addControl("recipient_type", 'id')
+			.addControl("recipient_identifier", enrollment['edu_id'], [ Validators.required ])
+		.addControl("selected", false)
+			.addControl("denied", enrollment['denied'])
+		if (this.badge_class.category == 'non-formal'){
+			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
+			recipientFormGroup.addControl("extensions", typedGroup()
+			.addControl("extensions:recipientProfile", typedGroup()
+				.addControl("@context", recipientProfileContextUrl)
+				.addControl("type", ["Extension", "extensions:RecipientProfile"])
+				.addControl("name", name)
 			)
-			}
-			if (!recipient['denied']) {
-				this.issueForm.controls.recipients.push(recipientFormGroup);
-			} else if (recipient['denied']) {
-				this.issueForm.controls.deniedRecipients.push(recipientFormGroup);
-			}
+		)
+		}
+		if (!enrollment['denied']) {
+			this.issueForm.controls.recipients.push(recipientFormGroup);
+		} else if (enrollment['denied']) {
+			this.issueForm.controls.deniedRecipients.push(recipientFormGroup);
 		}
 	}
 
 	awardBadges(formState){
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
-			this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
+		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstanceBatched(
 				this.issuerSlug,
 				this.badgeSlug,
 				{
 					issuer: this.issuerSlug,
 					badge_class: this.badgeSlug,
+					create_notification: formState.notify_earner,
+					recipients: this.extractRecipients(),
+					expires_at: formState.does_expire ? formState.expires_at : "",
 					narrative: this.narrativeEnabled ? formState.narrative : "",
 					issue_signed: formState.issue_signed,
 					signing_password: formState.password,
-					create_notification: formState.notify_earner,
 					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-					recipients: this.extractRecipients(),
-					expires_at: formState.does_expire ? formState.expires_at : ""
 				}
-			).then(() => this.badge_class.update())
+			).then(() => {
+				this.badge_class.update()
+			})
 				.then(() => {
 				this.eventsService.recipientBadgesStale.next([]);
 				this.router.navigate(
@@ -512,7 +514,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			for (let controlKey of Object.keys(recipient.controls)){
 				recipientObject[controlKey] = recipient.controls[controlKey]['value']
 			}
-			result.push(recipientObject)
+		if (recipientObject['selected'] === true){
+				delete recipientObject['selected']
+				result.push(recipientObject)
+			}
 		}
 		return result
 	}
