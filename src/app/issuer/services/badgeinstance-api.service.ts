@@ -53,15 +53,6 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 		super(loginService, http, configService, messageService);
 	}
 
-	// createBadgeInstance(
-	// 	issuerSlug: IssuerSlug,
-	// 	badgeSlug: BadgeClassSlug,
-	// 	creationInstance: ApiBadgeInstanceForCreation
-	// ): Promise<ApiBadgeInstance> {
-	// 	return this.post(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions`, creationInstance)
-	// 		.then(r => r.json() as ApiBadgeInstance);
-	// }
-
 	createBadgeInstanceBatched(
 		issuerSlug: IssuerSlug,
 		badgeSlug: BadgeClassSlug,

@@ -36,17 +36,6 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 		);
 	}
 
-	// createBadgeInstance(
-	// 	initialBadgeInstance: ApiBadgeInstanceForCreation
-	// ): Promise<BadgeInstance>
-	// {
-	// 	return this.badgeInstanceManager.badgeInstanceApiService
-	// 		.createBadgeInstance(this.issuerSlug, this.badgeClassSlug, initialBadgeInstance)
-	// 		.then((newApiInstance) => {
-	// 			this.addOrUpdate(newApiInstance);
-	// 			return this.entityForSlug(newApiInstance.slug)
-	// 		});
-	// }
 
 	createBadgeInstanceBatched(
 		badgeInstanceBatch: ApiBadgeInstanceForBatchCreation

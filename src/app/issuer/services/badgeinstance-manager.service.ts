@@ -37,16 +37,4 @@ export class BadgeInstanceManager {
 	}
 
 
-	// createBadgeInstance(
-	// 	issuerSlug: string,
-	// 	badgeClassSlug: string,
-	// 	initialBadgeInstance: ApiBadgeInstanceForCreation
-	// ): Promise<BadgeInstance> {
-
-	// 	return this
-	// 		.instancesForBadgeClass(issuerSlug, badgeClassSlug)
-	// 		.then(instances => instances.createBadgeInstance(initialBadgeInstance));
-
-	// }
-
 }

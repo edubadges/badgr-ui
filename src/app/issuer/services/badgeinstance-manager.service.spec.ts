@@ -77,44 +77,6 @@ describe('BadgeInstanceManager', () => {
 		)
 	);
 
-	// it('should handle issuing new badge',
-	// 	inject(
-	// 		[ BadgeInstanceManager, SessionService, MockBackend ],
-	// 		(badgeInstanceManager: BadgeInstanceManager, loginService: SessionService, mockBackend: MockBackend) => {
-	// 			const badgeClassSlug = testSlugForName(randomBadgeName());
-	// 			const email = randomEmail();
-	// 			const newApiInstance = generateTestBadgeInstance({
-	// 				issuerSlug: defaultIssuerSlug,
-	// 				badgeClassSlug: badgeClassSlug,
-	// 				recipientIdentifier: email,
-	// 			});
-
-	// 			return Promise.all([
-	// 				expectBadgeInstanceListRequest(mockBackend, defaultIssuerSlug, badgeClassSlug, []),
-	// 				expectRequestAndRespondWith(
-	// 					mockBackend,
-	// 					RequestMethod.Post,
-	// 					`/v1/issuer/issuers/${defaultIssuerSlug}/badges/${badgeClassSlug}/assertions`,
-	// 					newApiInstance
-	// 				),
-	// 				badgeInstanceManager.createBadgeInstance(
-	// 					defaultIssuerSlug,
-	// 					badgeClassSlug,
-	// 					{
-	// 						issuer: defaultIssuerSlug,
-	// 						badge_class: badgeClassSlug,
-	// 						// recipient_type: "email",
-	// 						// recipient_identifier: email
-	// 					}
-	// 				).then(instance => {
-	// 					verifyBadgeInstance(instance, newApiInstance)
-	// 				})
-
-	// 			]);
-	// 		}
-	// 	)
-	// );
-
 	it('should handle revoking badge',
 		inject(
 			[ BadgeInstanceManager, SessionService, MockBackend ],
