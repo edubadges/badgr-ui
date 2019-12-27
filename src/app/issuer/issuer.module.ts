@@ -12,11 +12,11 @@ import { BadgeClassCreateNonFormalComponent } from "./badgeclass-create-non-form
 import { BadgeClassEditComponent } from "./badgeclass-edit.component";
 import { BadgeClassDetailComponent } from "./badgeclass-detail.component";
 import { BadgeClassIssueComponent } from "./badgeclass-issue.component";
-import { BadgeClassIssueBulkAwardComponent } from "./badgeclass-issue-bulk-award.component";
-import { BadgeClassIssueBulkAwardPreviewComponent } from "./badgeclass-issue-bulk-award-preview.component";
-import { BadgeclassIssueBulkAwardConformation } from "./badgeclass-issue-bulk-award-conformation.component";
+// import { BadgeClassIssueBulkAwardComponent } from "./badgeclass-issue-bulk-award.component";
+// import { BadgeClassIssueBulkAwardPreviewComponent } from "./badgeclass-issue-bulk-award-preview.component";
+// import { BadgeclassIssueBulkAwardConformation } from "./badgeclass-issue-bulk-award-conformation.component";
+// import { BadgeclassIssueBulkAwardError } from "./badgeclass-issue-bulk-award-error.component";
 import { BadgeClassIssueBulkSignComponent } from "./badgeclass-issue-bulk-sign.component";
-import { BadgeclassIssueBulkAwardError } from "./badgeclass-issue-bulk-award-error.component";
 import { PathwayCreateComponent } from "./pathway-create.component";
 import { PathwayDetailComponent } from "./pathway-detail.component";
 import { RecipientGroupCreateComponent } from "./recipientgroup-create.component";
@@ -41,7 +41,7 @@ import { RecipientGroupEditForm } from "./recipientgroup-edit-form.component";
 import { RecipientSelectionDialog } from "./recipient-selection-dialog.component";
 import { BadgeStudioComponent } from "./badge-studio.component";
 import { PathwayGroupSubscriptionComponent } from "./pathway-group-subscription.component";
-import { BadgeClassIssueBulkAwardImportComponent } from "./badgeclass-issue-bulk-award-import.component";
+// import { BadgeClassIssueBulkAwardImportComponent } from "./badgeclass-issue-bulk-award-import.component";
 import { CommonEntityManagerModule } from "../entity-manager/entity-manager.module";
 import { IssuerStaffComponent } from "./issuer-staff.component";
 import { BadgeClassEditFormComponent } from "./badgeclass-edit-form.component";
@@ -107,11 +107,11 @@ const routes = [
 		component: BadgeClassIssueComponent,
 		canActivate: [ViewIssuerAuthGuard]
 	},
-	{
-		path: "issuers/:issuerSlug/badges/:badgeSlug/bulk-import",
-		component: BadgeClassIssueBulkAwardComponent,
-		canActivate: [ViewIssuerAuthGuard]
-	},
+	// {
+	// 	path: "issuers/:issuerSlug/badges/:badgeSlug/bulk-import",
+	// 	component: BadgeClassIssueBulkAwardComponent,
+	// 	canActivate: [ViewIssuerAuthGuard]
+	// },
 	{
 		path: "issuers/:issuerSlug/pathways/create",
 		component: PathwayCreateComponent,
@@ -166,11 +166,11 @@ const routes = [
 		BadgeClassDetailComponent,
 		BadgeClassIssueComponent,
 
-		BadgeClassIssueBulkAwardComponent,
-		BadgeClassIssueBulkAwardImportComponent,
-		BadgeClassIssueBulkAwardPreviewComponent,
-		BadgeclassIssueBulkAwardError,
-		BadgeclassIssueBulkAwardConformation,
+		// BadgeClassIssueBulkAwardComponent,
+		// BadgeClassIssueBulkAwardImportComponent,
+		// BadgeClassIssueBulkAwardPreviewComponent,
+		// BadgeclassIssueBulkAwardError,
+		// BadgeclassIssueBulkAwardConformation,
 		BadgeClassIssueBulkSignComponent,
 
 		BadgeClassDetailComponent,
