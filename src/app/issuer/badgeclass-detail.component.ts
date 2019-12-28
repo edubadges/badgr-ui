@@ -245,7 +245,7 @@ import { EmbedService } from "../common/services/embed.service";
 									<th scope="row" class="l-wordwrap">
 									<div class="formfield">
 										<label>
-											Name: {{ instance.apiModel.extensions['extensions:recipientProfile']? instance.apiModel.extensions['extensions:recipientProfile']['name'] : "" }}
+											Name: {{ instance.recipientName }}
 										</label>
 										<label>
 											Email: {{ instance.recipientEmail }}

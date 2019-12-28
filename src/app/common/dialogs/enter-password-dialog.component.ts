@@ -107,7 +107,7 @@ export class EnterPasswordDialog extends BaseDialog {
 		return a
 	}
 
-	onSubmit() {
+	onSubmit(formState) {
 		this.closeDialog(true)
 	}
 	
@@ -116,7 +116,7 @@ export class EnterPasswordDialog extends BaseDialog {
 			ev.preventDefault();
 			markControlsDirty(this.passwordForm);
 		} else {
-			this.onSubmit()
+			this.onSubmit(this.passwordForm.value)
 		}
 	}
 
