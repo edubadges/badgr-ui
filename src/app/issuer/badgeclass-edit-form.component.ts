@@ -140,11 +140,11 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 							[control]="badgeClassForm.controls.extensions['controls'].ECTSExtension.controls.ECTS"
 							[placeholder]="'MINIMUM 3'"
 							[errorMessage]="{invalidNumber:'Please enter a 3 or higher'}"
-							label="How many credit points (ects or ecvet) does this badgeclass represent?" >
+							label="How many credit points (ects) does this badgeclass represent?" >
 						</bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
-						<p class="text text-small">European Credit Transfer System Points European Credit system for Vocational Education and Training.</p>
+						<p class="text text-small">European Credit Transfer System Points (ECTS) = European Credit system for Vocational Education and Training.</p>
 					</div>
 				</div>
 				<div class="l-formsection-x-container">
@@ -177,7 +177,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					<div class="l-formsection-x-help">
 						<h4 class="title title-bordered" id="heading-badgebasics">What is Learning Outcome?</h4>
 						<p class="text text-small">See 
-							<a href="http://tuningacademy.org/methodology/">TUNING</a>methodology.</p>
+							<a href="http://tuningacademy.org/methodology/">TUNING</a> methodology.</p>
 
 						<a class="button button-tertiaryghost"
 							href="https://wiki.surfnet.nl/display/OB/FAQ"
@@ -210,7 +210,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 					<div class="l-formsection-x-help">
 						<h4 class="title title-bordered" id="heading-badgebasics">What are Criteria?</h4>
-						<p class="text text-small">The criteria field describes exactly what must be doen to earn this badge. Some issuers choose a URL on their website as a promotional page that explains this badge opportunity and how to earn it. <strong>Fill in at least a description or the criteria url</strong></p>
+						<p class="text text-small">The criteria field describes exactly what must be doen to earn this badge. Some issuers choose a URL on their website as a promotional page that explains this badge opportunity and how to earn it. <strong>Fill in at least a description or the criteria url.</strong></p>
 						<a class="button button-tertiaryghost"
 							href="https://wiki.surfnet.nl/display/OB/FAQ"
 							aria-labelledby="heading-badgebasics"
