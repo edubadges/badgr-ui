@@ -53,7 +53,7 @@ import {SystemConfigService} from "../common/services/config.service";
 										<h4 class="title title-bordered" id="heading-badgebasics">What is an Issuer?</h4>
 										<p class="text text-small">An issuer is an organiztional unit that awards badges to earners. This can be a faculaty or any other educational unit.</p>
 										<a class="button button-tertiaryghost"
-											href="https://www.surfnet.nl"
+											href="https://wiki.surfnet.nl/display/OB/FAQ"
 											aria-labelledby="heading-badgebasics"
 											target="_blank"
 										>Learn More</a>

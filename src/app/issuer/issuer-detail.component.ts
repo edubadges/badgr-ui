@@ -118,7 +118,7 @@ import { EmbedService } from "../common/services/embed.service";
 								<p class="text text-small">Badgeclasses can be created for formal accredited learning and for skills recognition. 
 											The mandatory metedata is different.</p>
 								<a class="button button-tertiaryghost"
-									href="https://www.surfnet.nl"
+									href="https://wiki.surfnet.nl/display/OB/FAQ"
 									aria-labelledby="heading-badgebasics"
 									target="_blank"
 								>Learn More</a>
