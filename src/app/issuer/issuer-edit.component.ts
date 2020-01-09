@@ -164,7 +164,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 							 [disabled-when-requesting]="true"
 						>Cancel</a>
 						<button type="submit"
-										class="button"
+										class="button button-green"
 										[disabled]="!! editIssuerFinished"
 										(click)="clickSubmit($event)"
 										[loading-promises]="[ editIssuerFinished ]"

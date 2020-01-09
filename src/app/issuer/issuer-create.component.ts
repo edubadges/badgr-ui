@@ -202,7 +202,7 @@ import {SystemConfigService} from "../common/services/config.service";
 						 [disabled-when-requesting]="true"
 					>Cancel</a>
 					<button type="submit"
-									class="button"
+									class="button button-green"
 									[disabled]="!! addIssuerFinished"
 									(click)="clickSubmit($event)"
 									[loading-promises]="[ addIssuerFinished ]"
