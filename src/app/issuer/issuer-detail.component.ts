@@ -116,7 +116,7 @@ import { EmbedService } from "../common/services/embed.service";
 							<div class="l-formsection-x-help">
 								<h4 class="title title-bordered" id="heading-badgebasics">What is the difference?</h4>
 								<p class="text text-small">Badgeclasses can be created for formal accredited learning and for skills recognition. 
-											The mandatory metedata is different.</p>
+											The mandatory metadata is different.</p>
 								<a class="button button-tertiaryghost"
 									href="https://wiki.surfnet.nl/display/OB/FAQ"
 									aria-labelledby="heading-badgebasics"

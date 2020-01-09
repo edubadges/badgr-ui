@@ -33,7 +33,7 @@ import { RecipientBadgeCollection } from "./models/recipient-badge-collection.mo
 						   (click)="cancelEditing()"
 						>Cancel</a>
 						<button type="submit"
-						        class="button"
+						        class="button button-green"
 						        [disabled]="!! savePromise"
 						        (click)="validateForm($event)"
 						        [loading-promises]="[ savePromise ]"
