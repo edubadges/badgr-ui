@@ -310,7 +310,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					
 					
 						<button *ngIf="awardButtonEnabled" type="submit"
-										class="button"
+										class="button button-green"
 										[disabled]="!! issueBadgeFinished"
 										(click)="clickSubmit($event, false)"
 										[loading-promises]="[ issueBadgeFinished ]"
@@ -328,7 +328,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 						<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
 							<button
 											*ngIf="awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
-											class="button"
+											class="button button-green"
 											[disabled]="!! issueBadgeFinished"
 											(click)="clickSubmit($event, true)"
 											[loading-promises]="[ issueBadgeFinished ]"
