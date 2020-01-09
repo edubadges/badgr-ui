@@ -51,7 +51,7 @@ import {SystemConfigService} from "../common/services/config.service";
 								<div class="l-formsection-x-help">
 									<div>
 										<h4 class="title title-bordered" id="heading-badgebasics">What is an Issuer?</h4>
-										<p class="text text-small">An issuer is an organiztional unit that awards badges to earners. This can be a faculaty or any other educational unit.</p>
+										<p class="text text-small">An issuer is an organiztional unit that awards badges to earners. This can be a faculty or any other educational unit.</p>
 										<a class="button button-tertiaryghost"
 											href="https://wiki.surfnet.nl/display/OB/FAQ"
 											aria-labelledby="heading-badgebasics"
@@ -82,7 +82,7 @@ import {SystemConfigService} from "../common/services/config.service";
 							<div class="l-formsection-x-container">
 								<div class="l-formsection-x-help">
 									<div class="formfield">
-										<p class="formfield-x-label label-secondary">Select a Faculty orEducational Unit that this Issuer belongs to.</p>
+										<p class="formfield-x-label label-secondary">Select a Faculty or Educational Unit that this Issuer belongs to.</p>
 									</div>
 								</div>
 								<div class="l-formsection-x-inputs">
