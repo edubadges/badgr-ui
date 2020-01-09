@@ -54,7 +54,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 					<div class="l-formsection wrap wrap-well" role="group">
 			      <fieldset>
 			        <bg-formfield-image #imageField
-			                            label="Image (Optional)"
+			                            label="Logo of issuer"
 			                            imageLoaderName="issuer"
 			                            [placeholderImage]="issuerImagePlacholderUrl"
 			                            [control]="issuerForm.controls.issuer_image">
@@ -239,7 +239,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 				])
 			],
 			'issuer_faculty': [ '' ],
-			'issuer_image': [ '' ],
+			'issuer_image': ['', Validators.required],
 			'issuer_extensions' : formBuilder.array([])
 		} as issuerForm<any[], FormArray>);
 

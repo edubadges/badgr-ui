@@ -62,7 +62,7 @@ import {SystemConfigService} from "../common/services/config.service";
 								<div class="l-formsection-x-inputs">
 									<div class="l-formsection-col">
 										<bg-formfield-image #imageField
-																				label="Image (Optional)"
+																				label="Logo of issuer"
 																				imageLoaderName="issuer"
 																				[placeholderImage]="issuerImagePlacholderUrl"
 																				[control]="issuerForm.controls.issuer_image">
@@ -282,7 +282,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 				])
 			],
 			'issuer_faculty': [ '' ],
-			'issuer_image': [ '' ],
+			'issuer_image': ['', Validators.required],
 			'issuer_extensions': this.formBuilder.group({
 						'gradingTable': ['', UrlValidator.validUrl],
 						'institutionIdentifier': ['', Validators.required]
