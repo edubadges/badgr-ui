@@ -66,7 +66,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				<h3 class="l-formsection-x-legend title title-ruled" id="heading-basicinformation">Basic Information</h3>
 				<div class="l-formsection-x-container">
 					<div class="l-formsection-x-help">
-						<h4 class="title title-bordered" id="heading-badgebasics">Badge Basics</h4>
+						<h4 class="title title-bordered" id="heading-badgebasics">Badge Class Basics</h4>
 						<p class="text text-small">Badge images can be either PNGs or SVGs. <strong>All fields are required.</strong></p>
 						<a class="button button-tertiaryghost"
 							href="https://wiki.surfnet.nl/display/OB/FAQ"
