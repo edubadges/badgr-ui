@@ -88,7 +88,7 @@ type BadgeDispay = "grid" | "list" ;
 												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
 													<p class="card-x-label" *ngIf="badgeResult.badge.isNew">New</p>
 													<p *ngIf="badgeResult.badge.badgeClass.category != 'formal'" class="card-x-label card-x-label-right">{{badgeResult.badge.badgeClass.category}}</p>
-													<p *ngIf="badgeResult.badge.isPublic == false" class="card-x-label card-x-label-top-right">private</p>
+													<p *ngIf="badgeResult.badge.isPublic == false" class="card-x-label card-x-label-top-left">private</p>
 													<div class="card-x-image">
 														<img [loaded-src]="badgeResult.badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
@@ -127,7 +127,7 @@ type BadgeDispay = "grid" | "list" ;
 													<a class="card-x-main" [routerLink]="['../earned-badge', badge.slug]">
 														<p class="card-x-label" *ngIf="badge.isNew">New</p>
 														<p *ngIf="badge.badgeClass.category != 'formal'" class="card-x-label card-x-label-right">{{badge.badgeClass.category}}</p>
-														<p *ngIf="badge.isPublic == false" class="card-x-label card-x-label-top-right">private</p>
+														<p *ngIf="badge.isPublic == false" class="card-x-label card-x-label-top-left">private</p>
 														<div class="card-x-image">
 															<div class="badge badge-flat">
 																<img [loaded-src]="badge.image"
