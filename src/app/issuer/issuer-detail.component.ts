@@ -136,7 +136,7 @@ import { EmbedService } from "../common/services/embed.service";
 							<thead>
 								<tr>
 									<th scope="col">Badge</th>
-									<th class="hidden hidden-is-desktop" scope="col">Category</th>
+									<th class="hidden hidden-is-desktop" scope="col">Type</th>
 									<th class="hidden hidden-is-desktop" scope="col">Created</th>
 									<th class="hidden hidden-is-desktop" scope="col">Recipients</th>
 									<th class="hidden hidden-is-desktop" scope="col">Enrollments</th>
