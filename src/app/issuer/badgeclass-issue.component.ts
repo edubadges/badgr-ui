@@ -178,125 +178,6 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					</div>
 				</div>
 
-				<!-- Narrative -->
-				<div class="l-formsection wrap wrap-well"
-				     role="group"
-				     aria-labelledby="heading-narrative"
-				     *ngIf="narrativeEnabled"
-				>
-					<h3 class="l-formsection-x-legend title title-ruled" id="heading-narrative">Narrative</h3>
-					<div class="l-formsection-x-container">
-						<div class="l-formsection-x-help">
-							<h4 class="title title-bordered" id="heading-narrativehelp">Narrative</h4>
-							<p class="text text-small">
-								The narrative is an overall description of the achievement related to the badge.
-							</p>
-							<a class="button button-tertiaryghost"
-							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918"
-							   aria-labelledby="heading-narrativehelp"
-							   target="_blank"
-							>Learn More</a>
-						</div>
-						<div class="l-formsection-x-inputs">
-							<bg-formfield-markdown
-								class="l-formsection-x-inputoffset"
-								[control]="issueForm.untypedControls.narrative"
-								label="How did the recipients earn this badge?"
-							></bg-formfield-markdown>
-						</div>
-					</div>
-					<button class="l-formsection-x-remove formsectionremove"
-					        type="button"
-					        aria-labelledby="formsection"
-					        (click)="narrativeEnabled = false"
-					>Remove</button>
-				</div>
-
-				<!-- Evidence -->
-				<div class="l-formsection wrap wrap-well"
-				     role="group"
-				     aria-labelledby="heading-evidence"
-				     *ngIf="evidenceEnabled"
-				>
-					<h3 class="l-formsection-x-legend title title-ruled" id="heading-evidence">Evidence</h3>
-					<div class="l-formsection-x-container">
-						<div class="l-formsection-x-help">
-							<h4 class="title title-bordered" id="heading-whatsevidence">What's Evidence?</h4>
-							<p class="text text-small">
-								Evidence is submitted proof that an earner meets the criteria for a badge they are applying for. This
-								can be in the form of a narrative that describes the evidence and process of achievement, and/or a URL
-								of a web page presenting the evidence of achievement.
-							</p>
-							<a class="button button-tertiaryghost"
-							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918"
-							   aria-labelledby="heading-whatsevidence"
-							   target="_blank"
-							>Learn More</a>
-						</div>
-						<div class="l-formsection-x-inputs">
-							<div class="l-formsectionnested wrap wrap-welldark"
-							     *ngFor="let evidence of issueForm.controls.evidence_items.controls; let i=index"
-							>
-								<h5 class="visuallyhidden" id="heading-nestedevidence"></h5>
-								<bg-formfield-markdown
-									[control]="evidence.untypedControls.narrative"
-									label="How is this badge earned?"
-								></bg-formfield-markdown>
-
-								<bg-formfield-text
-									class="l-marginTop-4x"
-									[control]="evidence.untypedControls.evidence_url"
-									label="URL to Evidence Page"
-									fieldType="url"
-									[urlField]="true"
-									errorMessage="Please enter a valid URL"
-								></bg-formfield-text>
-
-								<button class="l-formsectionnested-x-remove formsectionremove"
-								        type="button"
-								        aria-labelledby="heading-nestedevidence"
-								        *ngIf="issueForm.controls.evidence_items.length > 1"
-								        (click)="removeEvidence(i)"
-								>Remove</button>
-							</div>
-							<button class="buttonicon buttonicon-add"
-							        type="button"
-							        (click)="addEvidence()"
-							>
-								Add Additional Evidence
-							</button>
-						</div>
-					</div>
-					<button class="l-formsection-x-remove formsectionremove"
-					        type="button"
-					        aria-labelledby="heading-evidence"
-					        (click)="evidenceEnabled = false"
-					>Remove</button>
-				</div>
-
-				<!-- Add Optional Details -->
-				<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
-					<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Optional Details</h3>
-					<div class="l-formsection-x-container">
-						<div class="l-formsection-x-inputs">
-							<div class="l-squareiconcards">
-								<button class="squareiconcard squareiconcard-narrative"
-								        type="button"
-								        [disabled]="narrativeEnabled"
-								        (click)="narrativeEnabled = true">
-									<span class="squareiconcard-x-container">Narrative</span>
-								</button>
-								<button class="squareiconcard squareiconcard-evidence"
-								        type="button"
-								        [disabled]="evidenceEnabled"
-								        (click)="enableEvidence()">
-									<span class="squareiconcard-x-container">Evidence</span>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
 				<hr class="rule l-rule" />
 
 				<!-- Buttons -->
@@ -355,15 +236,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	issuer: Issuer;
 	issueForm = typedGroup()
-		.addControl("narrative", "", MdImgValidator.imageTest)
 		.addControl("notify_earner", true)
 		.addControl("expires_at", undefined)
 		.addControl("does_expire", false)
 		.addControl("issue_signed", false)
-		.addArray("evidence_items", typedGroup()
-			.addControl("narrative", "")
-			.addControl("evidence_url", "",[UrlValidator.validUrl])
-		)
 		.addArray("recipients", typedGroup()
 			.addControl("recipient_name", "")
 			.addControl("recipient_email", "")
@@ -462,14 +338,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		this.enableFormListener()
 	}
 
-	enableEvidence() {
-		this.evidenceEnabled = true;
-
-		if (this.issueForm.controls.evidence_items.length < 1) {
-			this.addEvidence();
-		}
-	}
-
 	allStudentsSelected = false
 	selectAllStudents(){
 		this.allStudentsSelected = this.allStudentsSelected? false: true
@@ -551,10 +419,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				this.issueForm.controls.deniedRecipients.push(recipientFormGroup);
 			}
 		}
-	}
-
-	addEvidence() {
-		this.issueForm.controls.evidence_items.addFromTemplate();
 	}
 
 	awardBadges(formState){
@@ -657,20 +521,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		const formState = this.issueForm.value;
 		formState.expires_at = formState.expires_at ? formState.expires_at.format('DD/MM/YYYY') : null  // force remove timezone
 		this.awardBadges(formState)
-	}
-
-	async removeEvidence(i: number) {
-		const evidence = this.issueForm.controls.evidence_items.value[i];
-
-		if ((evidence.narrative.length == 0 && evidence.evidence_url.length == 0)
-			|| await this.dialogService.confirmDialog.openTrueFalseDialog({
-				dialogTitle: `Delete Evidence?`,
-				dialogBody: `Are you sure you want to delete this evidence?`,
-				resolveButtonLabel: `Delete Evidence`,
-				rejectButtonLabel: "Cancel"
-			})) {
-			this.issueForm.controls.evidence_items.removeAt(i);
-		}
 	}
 
 	clickSubmit(ev: Event, signed:boolean) {
