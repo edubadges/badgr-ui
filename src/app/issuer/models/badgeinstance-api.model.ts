@@ -20,9 +20,13 @@ export interface ApiBadgeInstanceJsonld {
 
 export interface ApiBadgeInstanceForBatchCreation {
 	issuer: IssuerUrl
-	badge_class: BadgeClassUrl
 	create_notification?: boolean
-	assertions: BadgeInstanceBatchAssertion[]
+	badge_class: BadgeClassUrl
+	recipients: BadgeInstanceBatchAssertion[]
+	expires_at?: string
+	narrative?: string
+	issue_signed: boolean
+	signing_password?: string
 	evidence_items?: ApiBadgeInstanceEvidenceItem[]
 }
 
@@ -42,7 +46,6 @@ export interface ApiBadgeInstanceForCreation {
 export interface ApiBadgeInstanceRecipient {
 	recipient_type: string;
 	recipient_name?: string
-	selected: boolean
 	recipient_identifier: string
 }
 

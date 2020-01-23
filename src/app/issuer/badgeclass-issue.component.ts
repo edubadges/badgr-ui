@@ -8,8 +8,6 @@ import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { DateValidator } from "../common/validators/date.validator";
-import { UrlValidator } from "../common/validators/url.validator";
-import { MdImgValidator } from "../common/validators/md-img.validator";
 
 import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
 import {BadgeClassManager} from "./services/badgeclass-manager.service";
@@ -62,29 +60,69 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					<h3 *ngIf="issueForm.controls.recipients.controls.length > 1" 
 						class="l-formsection-x-legend title title-ruled" id="heading-recipientinformation">{{issueForm.controls.recipients.controls.length}} Badge Requests</h3>
 					<br>
-					<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
-					<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, canceling them can only be done through revokation of a badge.</p>
-					
+
+
+					<div style="display: inline-block; width:65%;">
+						<!-- expiry -->
+						<div style="display: inline-block; width:50%;">
+							<div class="formcheckbox">
+								<label>
+									<input 
+											name="form-checkbox1" 
+											id="form-checkbox1" 
+											type="checkbox" 
+											[formControl]="issueForm.controls.does_expire.untypedControl">
+									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Set an Expiration Date per Badge</span>
+								</label>
+								<span class="formcheckbox-x-subtext" >The expiration date will only be set for the badges that you will award. The Issued Badge will only be valid until this expiration date. The Issued Badge will only be valid until this expiration date.</span>
+							</div>
+						</div>
+						<div style="display: inline-block;" *ngIf="issueForm.controls.does_expire.untypedControl.value">
+							<br><br>
+							<dp-date-picker
+								[formControl]="issueForm.controls.expires_at.untypedControl"
+							></dp-date-picker>
+							<span *ngIf="hasDateError" class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Date must be set in the future.</span>
+						</div>
+						<!-- personal note -->
+						<div style="width:50%;">
+							<div class="formcheckbox">
+								<label>
+									<input 
+											name="form-checkbox2" 
+											id="form-checkbox2" 
+											type="checkbox" 
+											[formControl]="issueForm.controls.narrative_enabled.untypedControl">
+									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Enable Personal Note per Badge</span>
+								</label>
+								<span class="formcheckbox-x-subtext" >You can add a personal note for the badges you will award.</span>
+							</div>
+						</div>
+						<!-- evidence -->
+						<div style="width:50%;">
+							<div class="formcheckbox">
+								<label>
+									<input 
+											name="form-checkbox3" 
+											id="form-checkbox3" 
+											type="checkbox" 
+											[formControl]="issueForm.controls.evidence_enabled.untypedControl">
+									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Enable Evidence per Badge</span>
+								</label>
+								<span class="formcheckbox-x-subtext" >You can add evidence for the badges that you will award. Evidence is submitted proof that an earner meets the criteria for a badge they are applying for.</span>
+							</div>
+						</div>
+					</div>
+					<div style="display: inline-block; width:32%;">
+						<h4 class="title title-bordered" id="heading-badgeawarding">Badge Awarding</h4>
+						<p class="text text-small">You can award badges by selecting students and clicking on award below. Double check your selection before awarding, canceling them can only be done through revokation of a badge.</p>
+					</div>
+
 					<div class="l-formsection-x-container">
 
 					<!-- Enrollments -->
 						<div *ngIf="issueForm.controls.recipients.controls.length" class="l-formsection-x-inputs">
-							<label class="formcheckbox">
-								<input 
-										name="form-checkbox2" 
-										id="form-checkbox2" 
-										type="checkbox" 
-										[formControl]="issueForm.controls.does_expire.untypedControl">
-								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Set an expiration date.</span>
-							</label>
-							<div *ngIf="issueForm.controls.does_expire.untypedControl.value">
-								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">The expiration date will only be set for the badges that you will award next.</span>
-								<br><br>
-								<dp-date-picker
-									[formControl]="issueForm.controls.expires_at.untypedControl"
-								></dp-date-picker>
-								<span *ngIf="hasDateError" class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:red;">Date must be set in the future.</span>
-							</div>
+
 
 							<div *ngIf="issueForm.controls.recipients.controls.length">
 								<hr class="rule l-rule">
@@ -95,7 +133,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 								>Deny All</button>
 							</div><br>
 							<label [style.display]="issueForm.controls.recipients.controls.length?'inline-block':'none'" class="formcheckbox">
-								<input name="form-checkbox2" id="form-checkbox2" type="checkbox" (change)="selectAllStudents()">
+								<input name="form-checkbox4" id="form-checkbox4" type="checkbox" (change)="selectAllStudents()">
 								<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Select All for Awarding</span>
 							</label>
 							<div *ngIf="issueForm.controls.recipients.controls.length">
@@ -104,7 +142,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 								>
 									<div>
 										<label class="formcheckbox" style="display:inline-block;">
-											<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [formControl]="recipient.untypedControls.selected">
+											<input name="form-checkbox5" type="checkbox" [formControl]="recipient.untypedControls.selected">
 											<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Award Badge to this Student</span>
 										</label>
 										<button type="button"
@@ -123,6 +161,85 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 									<div class="formfield">
 										<label>EduID: {{recipient.untypedControls.recipient_identifier.value}}</label>
 									</div>
+									<!-- personal note aka narrative -->
+									<div class="l-formsection wrap wrap-well"
+											role="group"
+											aria-labelledby="heading-narrative"
+											*ngIf="narrativeEnabled"
+									>
+										<div class="l-formsection-x-container">
+											<div class="l-formsection-x-help">
+												<h4 class="title title-bordered" id="heading-narrativehelp">A Personal note?</h4>
+												<p class="text text-small">
+													A personal note can be added to the eraner of this badge.
+												</p>
+												<a class="button button-tertiaryghost"
+													href="https://wiki.surfnet.nl/display/OB/FAQ"
+													aria-labelledby="heading-narrativehelp"
+													target="_blank"
+												>Learn More</a>
+											</div>
+											<div class="l-formsection-x-inputs">
+												<bg-formfield-markdown
+													class="l-formsection-x-inputoffset"
+													[control]="recipient.untypedControls.narrative"
+													label="personal note"
+												></bg-formfield-markdown>
+											</div>
+										</div>
+									</div>
+									<!-- evidence -->
+									<div class="l-formsection wrap wrap-well"
+											role="group"
+											aria-labelledby="heading-evidence"
+											*ngIf="evidenceEnabled"
+									>
+										<div>
+											<div>
+												<h4 class="title title-bordered" id="heading-whatsevidence">What's Evidence?</h4>
+												<p class="text text-small">
+													Evidence is submitted proof that an earner meets the criteria for a badge they are applying for. This
+													can be in the form of a narrative that describes the evidence and process of achievement, and/or a URL
+													of a web page presenting the evidence of achievement.
+												</p>
+												<a class="button button-tertiaryghost"
+													href="https://wiki.surfnet.nl/display/OB/FAQ"
+													aria-labelledby="heading-whatsevidence"
+													target="_blank"
+												>Learn More</a>
+											</div><br>
+											<!-- evidence array -->
+											<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let evidence of recipient.untypedControls.evidence_items.controls; let i = index">
+												<h5 class="visuallyhidden" id="heading-nestedevidence"></h5>
+												<bg-formfield-markdown
+													[control]="evidence.controls.narrative"
+													label="evidence"
+													placeholder="Which proof of meeting the badge criteria was submitted by the badge applicant?"
+												></bg-formfield-markdown>
+												<bg-formfield-text
+													class="l-marginTop-4x"
+													[control]="evidence.controls.evidence_url"
+													label="URL to Evidence Page"
+													fieldType="url"
+													[urlField]="true"
+													errorMessage="Please enter a valid URL"
+												></bg-formfield-text>
+												<button class="l-formsectionnested-x-remove formsectionremove"
+																type="button"
+																aria-labelledby="heading-nestedevidence"
+																(click)="removeEvidence(recipient, i)"
+													>Remove
+												</button>
+											</div><br>
+										</div><br>
+										<button class="buttonicon buttonicon-add"
+														type="button"
+														(click)="addEvidence(recipient)"
+												>
+												Add Additional Evidence
+										</button>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -239,9 +356,12 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addControl("notify_earner", true)
 		.addControl("expires_at", undefined)
 		.addControl("does_expire", false)
+		.addControl("narrative_enabled", false)
+		.addControl("evidence_enabled", false)
 		.addControl("issue_signed", false)
 		.addArray("recipients", typedGroup()
 			.addControl("recipient_name", "")
+			.addControl("enrollment_slug", "")
 			.addControl("recipient_email", "")
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
@@ -250,6 +370,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		)
 		.addArray("deniedRecipients", typedGroup()
 			.addControl("recipient_name", "")
+			.addControl("enrollment_slug", "")
 			.addControl("recipient_email", "")
 			.addControl("recipient_type", "id")
 			.addControl("recipient_identifier", "", [ Validators.required ])
@@ -266,14 +387,15 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	userMaySignBadges: boolean = false;
 	currentUserIsSigner: boolean = false;
+	evidenceAlreadyEnabledOnce: boolean = false;
 
 	hasDateError = false
-	evidenceEnabled = false;
-	narrativeEnabled = false;
 	enrolledStudents = [];
 	showDeniedEnrollments = false;
 
 	get signingEnabled() { return this.configService.signingEnabled }
+	get narrativeEnabled() { return this.issueForm.controls.narrative_enabled.value }
+	get evidenceEnabled() { return this.issueForm.controls.evidence_enabled.value }
 
 	constructor(
 		private configService: SystemConfigService,
@@ -321,8 +443,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 		});
 
-
-
 	}
 
 	get issuerSlug() {
@@ -366,6 +486,17 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			} else {
 				this.awardButtonEnabled = false
 			}
+		if (this.issueForm.controls.evidence_enabled.value){
+			if (!this.evidenceAlreadyEnabledOnce) {
+				this.evidenceAlreadyEnabledOnce = true
+			let emptyEvidence = typedGroup()
+				.addControl("narrative", '')
+				.addControl("evidence_url", '')
+				for (let recipient of this.issueForm.controls.recipients.controls){
+					this.addEvidence(recipient)
+				}
+			}
+		}
 	}	
 	
 	enableFormListener(){
@@ -390,54 +521,59 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		}
 
-	addRecipient(recipient) {
-		if (!recipient['assertion_slug']){
-			let first_name = recipient['first_name']? recipient['first_name']: ''
-			let last_name = recipient['last_name']? recipient['last_name']: ''
-			let name = first_name+' '+last_name
-			let email = recipient['email']
-			let recipientFormGroup = typedGroup()
-			.addControl("recipient_name", name)
-			.addControl("recipient_email", email)
-			.addControl("recipient_type", 'id')
-			.addControl("recipient_identifier", recipient['edu_id'], [ Validators.required ])
-			.addControl("selected", false)
-			.addControl("denied", recipient['denied'])
-			if (this.badge_class.category == 'non-formal'){
-				const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
-				recipientFormGroup.addControl("extensions", typedGroup()
-				.addControl("extensions:recipientProfile", typedGroup()
-					.addControl("@context", recipientProfileContextUrl)
-					.addControl("type", ["Extension", "extensions:RecipientProfile"])
-					.addControl("name", name)
-				)
+	addRecipient(enrollment) {
+		let enrollment_slug = enrollment['slug']
+		let first_name = enrollment['first_name'] ? enrollment['first_name']: ''
+		let last_name = enrollment['last_name'] ? enrollment['last_name']: ''
+		let name = first_name+' '+last_name
+		let email = enrollment['email']
+		let recipientFormGroup = typedGroup()
+		.addControl("enrollment_slug", enrollment_slug)
+		.addControl("recipient_name", name)
+		.addControl("recipient_email", email)
+		.addControl("recipient_type", 'id')
+		.addControl("recipient_identifier", enrollment['edu_id'], [ Validators.required ])
+		.addControl("narrative", '')
+		.addArray("evidence_items", typedGroup()
+			.addControl("narrative", '')
+			.addControl("evidence_url", '')
+		)
+		.addControl("selected", false)
+			.addControl("denied", enrollment['denied'])
+		if (this.badge_class.category == 'non-formal'){
+			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
+			recipientFormGroup.addControl("extensions", typedGroup()
+			.addControl("extensions:recipientProfile", typedGroup()
+				.addControl("@context", recipientProfileContextUrl)
+				.addControl("type", ["Extension", "extensions:RecipientProfile"])
+				.addControl("name", name)
 			)
-			}
-			if (!recipient['denied']) {
-				this.issueForm.controls.recipients.push(recipientFormGroup);
-			} else if (recipient['denied']) {
-				this.issueForm.controls.deniedRecipients.push(recipientFormGroup);
-			}
+		)
+		}
+		if (!enrollment['denied']) {
+			this.issueForm.controls.recipients.push(recipientFormGroup);
+		} else if (enrollment['denied']) {
+			this.issueForm.controls.deniedRecipients.push(recipientFormGroup);
 		}
 	}
 
+
 	awardBadges(formState){
-		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
-			this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
+		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstanceBatched(
 				this.issuerSlug,
 				this.badgeSlug,
 				{
 					issuer: this.issuerSlug,
 					badge_class: this.badgeSlug,
-					narrative: this.narrativeEnabled ? formState.narrative : "",
+					create_notification: formState.notify_earner,
+					recipients: this.filterRecipients(),
+					expires_at: formState.does_expire ? formState.expires_at : "",
 					issue_signed: formState.issue_signed,
 					signing_password: formState.password,
-					create_notification: formState.notify_earner,
-					evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-					recipients: this.extractRecipients(),
-					expires_at: formState.does_expire ? formState.expires_at : ""
 				}
-			).then(() => this.badge_class.update())
+			).then(() => {
+				this.badge_class.update()
+			})
 				.then(() => {
 				this.eventsService.recipientBadgesStale.next([]);
 				this.router.navigate(
@@ -503,7 +639,32 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		})
 	}
 
-	extractRecipients(){
+	filterNarrativeFromRecipient(recipient){
+		if (recipient['narrative'] != undefined) {
+			if (!this.narrativeEnabled){
+				delete recipient['narrative']
+			} else {
+				!recipient['narrative'] ? delete recipient['narrative']: {}
+			}
+		}
+	}
+
+	filterEvidenceFromRecipient(recipient){
+		if (recipient['evidence_items']) {
+			if (!this.evidenceEnabled){
+				delete recipient['evidence_items']
+			} else {
+				for (let index of recipient['evidence_items'].keys()){
+					let evidence = recipient['evidence_items'][index]
+					if (evidence.narrative.length == 0 && evidence.evidence_url.length == 0){
+						recipient['evidence_items'].splice(index, 1)
+					}
+				}
+			}
+		}
+	}
+
+	filterRecipients(){
 		// extract recipients manually, because issueForm.value is not updated properly when calling controls.push
 		let result = []
 		let recipients = this.issueForm.controls.recipients.controls
@@ -512,15 +673,31 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			for (let controlKey of Object.keys(recipient.controls)){
 				recipientObject[controlKey] = recipient.controls[controlKey]['value']
 			}
-			result.push(recipientObject)
+		if (recipientObject['selected'] === true){
+				delete recipientObject['selected']
+				this.filterEvidenceFromRecipient(recipientObject)
+				this.filterNarrativeFromRecipient(recipientObject)
+				result.push(recipientObject)
+			}
 		}
 		return result
 	}
-	
+
 	onSubmit() {
 		const formState = this.issueForm.value;
 		formState.expires_at = formState.expires_at ? formState.expires_at.format('DD/MM/YYYY') : null  // force remove timezone
 		this.awardBadges(formState)
+	}
+
+	addEvidence(recipient) {
+		let emptyEvidence = typedGroup()
+			.addControl("narrative", '')
+			.addControl("evidence_url", '')
+		recipient.controls.evidence_items.push(emptyEvidence)
+	}
+
+	removeEvidence(recipient, index) {
+		recipient.controls.evidence_items.removeAt(index)
 	}
 
 	clickSubmit(ev: Event, signed:boolean) {

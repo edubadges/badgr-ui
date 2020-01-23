@@ -28,7 +28,7 @@ export class ThemeApiService extends BaseHttpApiService{
 			return window[ "badgrTheme" ]
 		}
 
-		let url = '/v2/theme/'+domain;
+		let url = '/v1/theme/'+domain;
 		this.get(url).then(r => this.updateTheme(r));
 		window['current_theme_set'] = true;
 		return window[ "badgrTheme" ];
