@@ -304,8 +304,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					   class="button button-primaryghost"
 					   [disabled-when-requesting]="true"
 					>Cancel</a>
-					<ng-container *ngIf="badge_class.category=='formal'">
-					
+					<ng-container *ngIf="badge_class.category=='formal' || (badge_class.category=='non-formal' && !signingEnabled)">
 					
 						<button *ngIf="awardButtonEnabled" type="submit"
 										class="button button-green"
@@ -338,7 +337,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 							>Award Signed</button>
 						</ng-container>
 					</ng-container>	
-					<ng-container *ngIf="badge_class.category=='non-formal' && (!userMaySignBadges || !currentUserIsSigner || !signingEnabled)">	
+					<ng-container *ngIf="badge_class.category=='non-formal' && (!userMaySignBadges || !currentUserIsSigner)">	
 							<button
 									class="button button-disabled"
 									[disabled]="true"
