@@ -74,7 +74,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 											[formControl]="issueForm.controls.does_expire.untypedControl">
 									<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge" style="color:green;">Set an Expiration Date per Badge</span>
 								</label>
-								<span class="formcheckbox-x-subtext" >The expiration date will only be set for the badges that you will award. The Issued Badge will only be valid until this expiration date. The Issued Badge will only be valid until this expiration date.</span>
+								<span class="formcheckbox-x-subtext" >The expiration date will only be set for the badges that you will award. The Issued Badge will only be valid until this expiration date.</span>
 							</div>
 						</div>
 						<div style="display: inline-block;" *ngIf="issueForm.controls.does_expire.untypedControl.value">

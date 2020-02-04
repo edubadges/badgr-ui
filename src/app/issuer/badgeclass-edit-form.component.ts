@@ -144,7 +144,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						</bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
-						<p class="text text-small">European Credit Transfer System Points (ECTS) = European Credit system for Vocational Education and Training.</p>
+						<p class="text text-small">ECTS = European Credit Transfer System (Points)</p>
 					</div>
 				</div>
 				<div class="l-formsection-x-container">
