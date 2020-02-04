@@ -63,7 +63,6 @@ export interface ApiRecipientBadgeClass {
 	criteria_url?: string
 	tags: string[]
 	issuer: ApiRecipientBadgeIssuer
-	category?: string;
 }
 
 export interface ApiRecipientBadgeInstanceJson {

@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
 import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
+import { FormControl, FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { UrlValidator } from "../common/validators/url.validator";
 import { JsonValidator } from "../common/validators/json.validator";
 import { MessageService } from "../common/services/message.service";

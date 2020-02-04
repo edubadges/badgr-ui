@@ -7,8 +7,6 @@ import { IssuerCreateComponent } from "./issuer-create.component";
 import { IssuerDetailComponent } from "./issuer-detail.component";
 import { IssuerEditComponent } from "./issuer-edit.component";
 import { BadgeClassCreateComponent } from "./badgeclass-create.component";
-import { BadgeClassCreateFormalComponent } from "./badgeclass-create-formal.component";
-import { BadgeClassCreateNonFormalComponent } from "./badgeclass-create-non-formal.component";
 import { BadgeClassEditComponent } from "./badgeclass-edit.component";
 import { BadgeClassDetailComponent } from "./badgeclass-detail.component";
 import { BadgeClassIssueComponent } from "./badgeclass-issue.component";
@@ -78,13 +76,8 @@ const routes = [
 		canActivate: [ViewIssuerAuthGuard]
 	},
 	{
-		path: "issuers/:issuerSlug/badges/create-formal",
-		component: BadgeClassCreateFormalComponent,
-		canActivate: [ViewIssuerAuthGuard]
-	},
-	{
-		path: "issuers/:issuerSlug/badges/create-non-formal",
-		component: BadgeClassCreateNonFormalComponent,
+		path: "issuers/:issuerSlug/badges/create",
+		component: BadgeClassCreateComponent,
 		canActivate: [ViewIssuerAuthGuard]
 	},
 	{
@@ -149,8 +142,6 @@ const routes = [
 	],
 	declarations: [
 		BadgeClassCreateComponent,
-		BadgeClassCreateFormalComponent,
-		BadgeClassCreateNonFormalComponent,
 		BadgeClassEditComponent,
 		BadgeClassEditFormComponent,
 		BadgeClassDetailComponent,

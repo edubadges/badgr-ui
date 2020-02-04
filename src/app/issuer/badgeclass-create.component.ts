@@ -17,7 +17,37 @@ import { ValidanaBlockchainService } from 'app/endorsement-api/validana/validana
 
 
 @Component({
-	template: ``
+	selector: 'badgeclass-create',
+	template: `
+		<main *bgAwaitPromises="[issuerLoaded]">
+
+			<form-message></form-message>
+
+			<header class="wrap wrap-light l-containerhorizontal l-heading ">
+				<nav>
+					<h2 class="visuallyhidden">Breadcrumbs</h2>
+					<ul class="breadcrumb">
+						<li><a [routerLink]="['/issuer']">Issuers</a></li>
+						<li><a [routerLink]="['/issuer/issuers/', issuerSlug]">{{issuer.name}}</a></li>
+						<li class="breadcrumb-x-current">Create new Badge Class</li>
+					</ul>
+				</nav>
+
+				<header class="heading">
+					<div class="heading-x-text">
+						<h1 id="heading" id="heading-addbadgeclass">Create Badge Class</h1>
+					</div>
+				</header>
+			</header>
+			
+			<badgeclass-edit-form (save)="badgeClassCreated($event)"
+			                      (cancel)="creationCanceled($event)"
+			                      [issuerSlug]="issuerSlug"
+			                      submitText="Create Badge"
+														submittingText="Creating Badge..."
+			></badgeclass-edit-form>
+		</main>
+	`,
 })
 export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	issuerSlug: string;

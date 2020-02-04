@@ -82,9 +82,9 @@ import { EmbedService } from "../common/services/embed.service";
 
 
 				<div class="wrap l-containerhorizontal ">
-					<div *ngIf="!splitBadgesCategoryEnabled" class="l-childrenhorizontal l-childrenhorizontal-right l-marginBottom l-marginBottom-5x l-marginTop l-marginTop-5x ">						
+					<div class="l-childrenhorizontal l-childrenhorizontal-right l-marginBottom l-marginBottom-5x l-marginTop l-marginTop-5x ">						
 						<div class="l-childrenhorizontal">
-							<a [routerLink]="['badges/create-formal']" class="button"
+							<a [routerLink]="['badges/create']" class="button"
 							*ngIf="issuer.canCreateBadge">
 								<span class="hidden hidden-is-tablet">Create</span> Badge
 							</a>
@@ -93,39 +93,6 @@ import { EmbedService } from "../common/services/embed.service";
 							</div>
 						</div>
 					</div>
-
-					<div *ngIf="splitBadgesCategoryEnabled" class="l-formsection wrap wrap-well" role="group" aria-labelledby="heading-basicinformation">
-						<div class="l-formsection-x-container" *ngIf="issuer.canCreateBadge">
-							<div class="l-formsection-x-inputs">
-
-								<div class="l-formsection-x-badge-create">
-									<span>NON FORMAL</span><br><span>MICRO-CREDENTIAL</span>
-									<a [routerLink]="['badges/create-non-formal']" class="button button-quaternary">
-									Create Badgeclass For non-Formal Learning
-									</a>
-								</div>
-
-								<div class="l-formsection-x-badge-create">
-									<span>FORMAL</span><br><span>MICRO-CREDENTIAL</span>
-									<a [routerLink]="['badges/create-formal']" class="button button-quaternary">
-									Create Badgeclass For Formal Learning
-									</a>
-								</div>
-
-							</div>
-							<div class="l-formsection-x-help">
-								<h4 class="title title-bordered" id="heading-badgebasics">What is the difference?</h4>
-								<p class="text text-small">Badgeclasses can be created for formal accredited learning and for skills recognition. 
-											The mandatory metadata is different.</p>
-								<a class="button button-tertiaryghost"
-									href="https://wiki.surfnet.nl/display/OB/FAQ"
-									aria-labelledby="heading-badgebasics"
-									target="_blank"
-								>Learn More</a>
-							</div>
-						</div>
-					</div>
-					
 	
 					<!-- Badge Class List =============================================================================================-->
 					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
@@ -136,7 +103,7 @@ import { EmbedService } from "../common/services/embed.service";
 							<thead>
 								<tr>
 									<th scope="col">Badge</th>
-									<th class="hidden hidden-is-desktop" scope="col">Type</th>
+									<th class="hidden hidden-is-desktop" scope="col">ECTS</th>
 									<th class="hidden hidden-is-desktop" scope="col">Created</th>
 									<th class="hidden hidden-is-desktop" scope="col">Recipients</th>
 									<th class="hidden hidden-is-desktop" scope="col">Enrollments</th>
@@ -154,7 +121,7 @@ import { EmbedService } from "../common/services/embed.service";
 											<a [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
 										</div>
 									</th>
-									<td>{{badge.category}}</td>
+									<td>{{ badge.ects }}</td>
 									<td class="hidden hidden-is-desktop">
 										<time [date]="badge.createdAt" format="mediumDate"></time>
 									</td>
@@ -393,10 +360,6 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	ngOnInit() {
 		super.ngOnInit();
-	}
-
-	get splitBadgesCategoryEnabled() {
-		return this.configService.splitBadgesCategoryEnabled;
 	}
 
 	get legacyPathwaysVisible(): boolean {

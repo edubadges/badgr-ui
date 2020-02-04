@@ -23,14 +23,22 @@ export class NumericValidator {
 	}
 
 	static validEQF(control: FormControl): ValidationResult {
-		return validNumber(control.value) && +Number(control.value) < 9 && Number(control.value) > 0 && isInteger(control.value)
-			? null
-			: { 'invalidNumber': true };
+		if (control.value) {
+			return validNumber(control.value) && +Number(control.value) < 9 && Number(control.value) > 0 && isInteger(control.value)
+				? null
+				: { 'invalidNumber': true };
+		} else {
+			return null
+		}
 	}
 
 	static validECTS(control: FormControl): ValidationResult {
-		return validNumber(control.value) && +Number(control.value) >= 3
-			? null
-			: { 'invalidNumber': true };
-	}
+		if (control.value) {
+			return validNumber(control.value) && +Number(control.value) >= 3
+				? null
+				: { 'invalidNumber': true };
+			} else {
+				return null
+			}
+		}
 }

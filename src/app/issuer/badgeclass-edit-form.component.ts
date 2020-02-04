@@ -7,7 +7,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 
-import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, BadgeClassCategory } from "./models/badgeclass-api.model";
+import { ApiBadgeClassAlignment, ApiBadgeClassForCreation } from "./models/badgeclass-api.model";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
@@ -109,7 +109,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 					</div>
 				</div>
 				
-				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
+				<div class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text
 							label="Education Program Identifier - Croho/Crebo"
@@ -120,7 +120,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register.</p>
 					</div>
 				</div>
-				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
+				<div class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
 							[control]="badgeClassForm.controls.extensions['controls'].NiveauExtension.controls.EQF" 
@@ -134,7 +134,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						<a href="https://www.nlqf.nl/nlqf-niveaus">https://www.nlqf.nl/nlqf-niveaus</a>
 					</div>
 				</div>
-				<div *ngIf="badgeClassCategory == 'formal'"class="l-formsection-x-container">
+				<div class="l-formsection-x-container">
 					<div class="l-formsection-x-inputs">
 						<bg-formfield-text 
 							[control]="badgeClassForm.controls.extensions['controls'].ECTSExtension.controls.ECTS"
@@ -255,7 +255,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	imageField: BgFormFieldImageComponent;
 
 	existingBadgeClass: BadgeClass | null = null;
-	_badgeClassCategory: BadgeClassCategory | null = null;
 
 	@Output()
 	save = new EventEmitter<Promise<BadgeClass>>();
@@ -268,18 +267,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	@Input()
 	submitText: string;
-
-	@Input()
-	set badgeClassCategory(badgeClassCategory: BadgeClassCategory) {
-		if (this._badgeClassCategory != badgeClassCategory){
-			this._badgeClassCategory = badgeClassCategory
-			this.initEmptyForm()
-		}
-	}
-
-	get badgeClassCategory() {
-		return this._badgeClassCategory
-	}
 
 	@Input()
 	submittingText: string;
@@ -312,6 +299,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		super(router, route, sessionService);
 		title.setTitle("Create Badge Class - Badgr");
 
+		this.initEmptyForm()
+
 		let langs = RFC5646LanguageTags.langs
 		this.languageOptions = langs.map((l) => {
 			return {
@@ -342,31 +331,23 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_criteria_text: ['', Validators.maxLength(6000)],
 			alignments: this.fb.array([]),
 
-			extensions: this.badgeClassCategory == 'formal' ? this.fb.group({
+			extensions: this.fb.group({
 				LanguageExtension: this.fb.group({
-					language: ['', Validators.required],
-					typedLanguage: ['', Validators.required],
+					language: [''],
+					typedLanguage: [''],
 				}),
 				EducationProgramIdentifierExtension: this.fb.group({
-					identifierType: ['ISAT', Validators.required],
-					identifierValue: ['', Validators.required]
+					identifierType: ['ISAT'],
+					identifierValue: ['']
 				}),
 				NiveauExtension: this.fb.group({
-					EQF: ['', Validators.compose([Validators.required, NumericValidator.validEQF])]
+					EQF: ['', Validators.compose([NumericValidator.validEQF])]
 				}),
 				ECTSExtension: this.fb.group({
-					ECTS: ['', Validators.compose([Validators.required, NumericValidator.validECTS])]
+					ECTS: ['', Validators.compose([NumericValidator.validECTS])]
 				}),
 				LearningOutcomeExtension: this.fb.group({
-					learningOutcome: ['', Validators.required]
-				})
-			}) : this.fb.group({
-				LanguageExtension: this.fb.group({
-					language: ['', Validators.required],
-					typedLanguage: ['', Validators.required],
-				}),
-				LearningOutcomeExtension: this.fb.group({
-					learningOutcome: ['', Validators.required]
+					learningOutcome: ['']
 				})
 			})
 
@@ -414,7 +395,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			validator: this.criteriaRequired
 		});
 		// this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
-		this._badgeClassCategory = this.badgeClass.category
 		this.initializeTypedLanguage()
 	}
 
@@ -483,69 +463,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Alignments
-	// alignmentsEnabled = false;
-	// savedAlignments: AbstractControl[] = null;
-
-
-	// get alignments() {
-	// 	return this.badgeClassForm.controls["alignments"] as FormArray;
-	// }
-
-	// enableAlignments() {
-	// 	this.alignmentsEnabled = true;
-	// 	if (this.savedAlignments) {
-	// 		this.savedAlignments.forEach(a => this.alignments.push(a));
-	// 		this.savedAlignments = null;
-	// 	}
-	// 	if (this.alignments.length == 0) {
-	// 		this.addAlignment();
-	// 	}
-	// }
-
-	// addAlignment() {
-	// 	const group = this.fb.group({
-	// 		target_name: [ '', Validators.required ],
-	// 		target_url: [ '', Validators.compose([Validators.required, UrlValidator.validUrl]) ],
-	// 		target_description: [ '' ],
-	// 		target_framework: [ '' ],
-	// 		target_code: [ '' ],
-	// 	} as AlignmentFormGroup<any[]>);
-
-	// 	this.alignments.push(group);
-	// }
-
-	// disableAlignments() {
-	// 	this.alignmentsEnabled = false;
-
-	// 	// Save the alignments so that they aren't validated after being removed, but can be restored if the user chooses to enable alignments again
-	// 	this.savedAlignments = this.alignments.controls.slice();
-	// 	while (this.alignments.length > 0)
-	// 		this.alignments.removeAt(0);
-	// }
-
-	// async removeAlignment(alignment: FormGroup) {
-	// 	const controls: AlignmentFormGroup<FormControl> = alignment.controls as any;
-
-	// 	if (controls.target_name.value.trim().length > 0
-	// 	 || controls.target_url.value.trim().length > 0
-	// 	 || controls.target_description.value.trim().length > 0
-	// 	 || controls.target_framework.value.trim().length > 0
-	// 	 || controls.target_code.value.trim().length > 0
-	// 	) {
-	// 		if (! await this.dialogService.confirmDialog.openTrueFalseDialog({
-	// 				dialogTitle: "Remove Alignment?",
-	// 				dialogBody: "Are you sure you want to remove this alignment? This action cannot be undone.",
-	// 				resolveButtonLabel: "Remove Alignment",
-	// 				rejectButtonLabel: "Cancel"
-	// 		})) return;
-	// 	}
-
-	// 	this.alignments.removeAt(this.alignments.controls.indexOf(alignment));
-	// }
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	criteriaRequired(formGroup: FormGroup): {[id: string]: boolean} | null {
 		const controls: BasicBadgeForm<FormControl, FormArray, FormArray> = formGroup.controls as any;
@@ -598,7 +515,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_url: formState.badge_criteria_url,
 				// alignment: this.alignmentsEnabled ? formState.alignments : [],
 				extensions: this.filterExtensions(formState.extensions),
-				category: this.badgeClassCategory
 			} as ApiBadgeClassForCreation;
 
 			this.savePromise = this.badgeClassManager.createBadgeClass(this.issuerSlug, badgeClassData);
@@ -629,20 +545,11 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 }
 
-// interface AlignmentFormGroup<T> {
-// 	target_name: T;
-// 	target_url: T;
-// 	target_description: T;
-// 	target_framework: T;
-// 	target_code: T;
-// }
-
 interface BasicBadgeForm<BasicType, AlignmentsType, ExtensionsType> {
 	badge_name: BasicType;
 	badge_image: BasicType;
 	badge_description: BasicType;
 	badge_criteria_url: BasicType;
 	badge_criteria_text: BasicType;
-	// alignments: AlignmentsType;
 	extensions: ExtensionsType;
 }

@@ -304,7 +304,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 					   class="button button-primaryghost"
 					   [disabled-when-requesting]="true"
 					>Cancel</a>
-					<ng-container *ngIf="badge_class.category=='formal' || (badge_class.category=='non-formal' && !signingEnabled)">
+					<ng-container>
 					
 						<button *ngIf="awardButtonEnabled" type="submit"
 										class="button button-green"
@@ -319,30 +319,6 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 										[disabled]="true"
 						>Award</button>
 					</ng-container>
-					
-					
-					<ng-container *ngIf="badge_class.category=='non-formal' && signingEnabled">
-						<ng-container  *bgAwaitPromises='[permissionsLoaded]'>
-							<button
-											*ngIf="awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
-											class="button button-green"
-											[disabled]="!! issueBadgeFinished"
-											(click)="clickSubmit($event, true)"
-											[loading-promises]="[ issueBadgeFinished ]"
-											loading-message="Issuing"
-							>Award Signed</button>
-							<button *ngIf="!awardButtonEnabled && userMaySignBadges && currentUserIsSigner"
-										class="button button-disabled"
-										[disabled]="true"
-							>Award Signed</button>
-						</ng-container>
-					</ng-container>	
-					<ng-container *ngIf="badge_class.category=='non-formal' && (!userMaySignBadges || !currentUserIsSigner)">	
-							<button
-									class="button button-disabled"
-									[disabled]="true"
-							>Cannot Award Signed</button>
-					</ng-container>	
 				</div>
 			</form>
 		</main>
@@ -539,16 +515,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		)
 		.addControl("selected", false)
 			.addControl("denied", enrollment['denied'])
-		if (this.badge_class.category == 'non-formal'){
-			const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
-			recipientFormGroup.addControl("extensions", typedGroup()
-			.addControl("extensions:recipientProfile", typedGroup()
-				.addControl("@context", recipientProfileContextUrl)
-				.addControl("type", ["Extension", "extensions:RecipientProfile"])
-				.addControl("name", name)
-			)
-		)
-		}
 		if (!enrollment['denied']) {
 			this.issueForm.controls.recipients.push(recipientFormGroup);
 		} else if (enrollment['denied']) {
