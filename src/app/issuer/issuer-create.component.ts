@@ -168,7 +168,7 @@ import {SystemConfigService} from "../common/services/config.service";
 									</div>
 								</div>
 								<div class="l-formsection-x-inputs">
-									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.institutionIdentifier" 
+									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.InstitutionIdentifierExtension" 
 																			label="institution Identifier (brin code or iau code)" 
 									></bg-formfield-text>
 								</div>
@@ -184,7 +184,7 @@ import {SystemConfigService} from "../common/services/config.service";
 								</div>
 								<div class="l-formsection-x-inputs">
 									<bg-formfield-text 	[urlField]="true" 
-																			[control]="issuerForm.controls.issuer_extensions.controls.gradingTable" 
+																			[control]="issuerForm.controls.issuer_extensions.controls.GradingTableExtension" 
 																			label="Grading Table url (optional)" 
 									></bg-formfield-text>
 								</div>
@@ -284,8 +284,8 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			'issuer_faculty': [ '' ],
 			'issuer_image': ['', Validators.required],
 			'issuer_extensions': this.formBuilder.group({
-						'gradingTable': ['', UrlValidator.validUrl],
-						'institutionIdentifier': ['', Validators.required]
+						'GradingTableExtension': ['', UrlValidator.validUrl],
+						'InstitutionIdentifierExtension': ['', Validators.required]
 				})
 		});
 
@@ -329,11 +329,11 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			'url': formState.issuer_url,
 			'extensions': {}
 		};
-		if (formState.issuer_extensions.institutionIdentifier) {
-			issuer['extensions'] = {'institutionIdentifier' : formState.issuer_extensions.institutionIdentifier}
+		if (formState.issuer_extensions.InstitutionIdentifierExtension) {
+			issuer['extensions']['InstitutionIdentifierExtension'] = formState.issuer_extensions.InstitutionIdentifierExtension
 		}
-		if (formState.issuer_extensions.gradingTable) {
-			issuer['extensions'] = { 'gradingTable': formState.issuer_extensions.gradingTable }
+		if (formState.issuer_extensions.GradingTableExtension) {
+			issuer['extensions']['GradingTableExtension'] = formState.issuer_extensions.GradingTableExtension
 		} 
 		if (formState.issuer_faculty){
 			issuer['faculty'] = JSON.parse(formState.issuer_faculty)
