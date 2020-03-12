@@ -178,7 +178,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 									</div>
 								</div>
 								<div class="l-formsection-x-inputs">
-									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.InstitutionIdentifierExtension" 
+									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions['controls'].InstitutionIdentifierExtension" 
 																			label="institution Identifier (brin code or iau code)" 
 									></bg-formfield-text>
 								</div>
@@ -194,7 +194,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 								</div>
 								<div class="l-formsection-x-inputs">
 									<bg-formfield-text 	[urlField]="true" 
-																			[control]="issuerForm.controls.issuer_extensions.controls.GradingTableExtension" 
+																			[control]="issuerForm.controls.issuer_extensions['controls'].GradingTableExtension" 
 																			label="Grading Table url (optional)" 
 									></bg-formfield-text>
 								</div>
@@ -316,8 +316,8 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 					delete this.issuer.faculty['slug']
 					this.editControls.issuer_faculty.setValue(JSON.stringify(this.issuer.faculty), { emitEvent: false });
 				}
-				this.editControls.issuer_extensions.controls['GradingTableExtension'].setValue(this.issuer.extensions['GradingTableExtension'], { emitEvent: false });
-				this.editControls.issuer_extensions.controls['InstitutionIdentifierExtension'].setValue(this.issuer.extensions['InstitutionIdentifierExtension'], { emitEvent: false });
+				this.editControls.issuer_extensions['controls']['GradingTableExtension'].setValue(this.issuer.extensions['GradingTableExtension'], { emitEvent: false });
+				this.editControls.issuer_extensions['controls']['InstitutionIdentifierExtension'].setValue(this.issuer.extensions['InstitutionIdentifierExtension'], { emitEvent: false });
 
 
 				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");

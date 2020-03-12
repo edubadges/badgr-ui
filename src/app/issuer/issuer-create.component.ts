@@ -168,7 +168,7 @@ import {SystemConfigService} from "../common/services/config.service";
 									</div>
 								</div>
 								<div class="l-formsection-x-inputs">
-									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions.controls.InstitutionIdentifierExtension" 
+									<bg-formfield-text 	[control]="issuerForm.controls.issuer_extensions['controls'].InstitutionIdentifierExtension" 
 																			label="institution Identifier (brin code or iau code)" 
 									></bg-formfield-text>
 								</div>
@@ -184,7 +184,7 @@ import {SystemConfigService} from "../common/services/config.service";
 								</div>
 								<div class="l-formsection-x-inputs">
 									<bg-formfield-text 	[urlField]="true" 
-																			[control]="issuerForm.controls.issuer_extensions.controls.GradingTableExtension" 
+																			[control]="issuerForm.controls.issuer_extensions['controls'].GradingTableExtension" 
 																			label="Grading Table url (optional)" 
 									></bg-formfield-text>
 								</div>
