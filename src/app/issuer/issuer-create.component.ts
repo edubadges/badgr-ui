@@ -193,22 +193,22 @@ import {SystemConfigService} from "../common/services/config.service";
 
 					</div>
 
-				<!-- Footer -->
+					<!-- Footer -->
 
-				<hr class="rule l-rule">
-				<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-					<a [routerLink]="['/issuer']"
-						 class="button button-primaryghost"
-						 [disabled-when-requesting]="true"
-					>Cancel</a>
-					<button type="submit"
-									class="button button-green"
-									[disabled]="!! addIssuerFinished"
-									(click)="clickSubmit($event)"
-									[loading-promises]="[ addIssuerFinished ]"
-									loading-message="Adding"
-					>Add Issuer</button>
-				</div>
+					<hr class="rule l-rule">
+					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+						<a [routerLink]="['/issuer']"
+							class="button button-primaryghost"
+							[disabled-when-requesting]="true"
+						>Cancel</a>
+						<button type="submit"
+										class="button button-green"
+										[disabled]="!! addIssuerFinished"
+										(click)="clickSubmit($event)"
+										[loading-promises]="[ addIssuerFinished ]"
+										loading-message="Adding"
+						>Add Issuer</button>
+					</div>
 
 		    </form>
 		  </div>
