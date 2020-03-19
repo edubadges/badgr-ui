@@ -171,7 +171,7 @@ import { StudentsEnrolledApiService } from "../issuer/services/studentsenrolled-
 											<div class="l-formsection-x-help">
 												<h4 class="title title-bordered" id="heading-narrativehelp">A Personal note?</h4>
 												<p class="text text-small">
-													A personal note can be added to the eraner of this badge.
+													A personal note can be added to the earner of this badge.
 												</p>
 												<a class="button button-tertiaryghost"
 													href="https://wiki.surfnet.nl/display/OB/FAQ"
