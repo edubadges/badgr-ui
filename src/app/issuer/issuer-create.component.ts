@@ -162,8 +162,8 @@ import {SystemConfigService} from "../common/services/config.service";
 								<div class="l-formsection-x-help">
 									<div class="formfield">
 										<p class="label-secondary">
-											<a href="https://duo.nl/open_onderwijsdata">BRIN: basisregister instellingen</a>
-											<a href="https://www.iau-aiu.net">IAU: International Association of Universities</a>
+											<a target="_blank" href="https://duo.nl/open_onderwijsdata">BRIN: basisregister instellingen</a>
+											<a target="_blank" href="https://www.iau-aiu.net">IAU: International Association of Universities</a>
 										</p>
 									</div>
 								</div>
