@@ -128,12 +128,17 @@ import { EventsService } from "../common/services/events.service";
 						</div>
 						</section>
 
+						<!-- narrative -->
+						<section *ngIf="badge.narrative">
+							<h1 *ngIf="badge.evidence_items?.length>0 || badge.narrative">Narrative</h1>
+							<show-more>
+								<markdown-display [value]="badge.narrative"></markdown-display>
+						</show-more>
+						</section>
+
 						<!-- evidence -->
 						<section>
 						<h1 *ngIf="badge.evidence_items?.length>0 || badge.narrative">Evidence</h1>
-						<show-more *ngIf="badge.narrative">
-							<markdown-display [value]="badge.narrative"></markdown-display>
-						</show-more>
 						<div class="bordered l-padding-2x l-marginBottom-2x"
 						     *ngFor="let evidence of badge.evidence_items; let i=index">
 							<show-more *ngIf="evidence.narrative">
