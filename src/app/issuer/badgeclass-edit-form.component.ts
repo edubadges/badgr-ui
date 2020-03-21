@@ -220,7 +220,114 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 				</div>
 			</div>
 
+			<!-- Alignments Panel -->
+			<div class="l-formsection wrap wrap-well"
+			     role="group"
+			     aria-labelledby="heading-alignment"
+			     *ngIf="alignmentsEnabled"
+			>
+				<h3 class="l-formsection-x-legend title title-ruled"
+				    id="heading-alignment"
+				>
+					Alignment <span>(optional)</span>
+				</h3>
+				<div class="l-formsection-x-container">
+					<div class="l-formsection-x-help">
+						<h4 class="title title-bordered" id="heading-whatsalignment">What's Alignment?</h4>
+						<p class="text text-small">
+							An Open Badge can optionally align to an educational standard. Alignment
+							information may be relevant to people viewing an earner's awarded badges, or to a potential earner
+							deciding whether to apply for the badge.
+						</p>
+						<a class="button button-tertiaryghost"
+						   href="https://wiki.surfnet.nl/display/OB/FAQ"
+						   aria-labelledby="heading-whatsalignment"
+						   target="_blank"
+						>Learn More</a>
+					</div>
+					<div class="l-formsection-x-inputs">
+						<div class="l-formsectionnested wrap wrap-welldark" *ngFor="let alignment of alignments.controls; let i = index">
+							<h5 class="visuallyhidden" id="heading-alignmentsubsection">{{ alignment.controls.target_name.value }}</h5>
+							<bg-formfield-text
+								[control]="alignment.controls.target_name"
+								label="Alignment Name"
+								[errorMessage]="{required:'Please enter an alignment name'}"
+								id="alignment_name_{{ i }}"
+							></bg-formfield-text>
+							<bg-formfield-text
+								[control]="alignment.controls.target_url"
+								label="Alignment URL"
+								[errorMessage]="{required:'Please enter an alignment URL'}"
+								[urlField]="true"
+								id="alignment_url_{{ i }}"
+							></bg-formfield-text>
+							<bg-formfield-text
+								[control]="alignment.controls.target_description"
+								label="Alignment Description"
+								[multiline]="true"
+								id="alignment_description_{{ i }}"
+							></bg-formfield-text>
+							<div class="l-formsectiontoggle">
+								<input class="l-formsectiontoggle-x-toggle formsectiontoggle visuallyhidden"
+								       type="checkbox"
+								       id="alignmentAdvancedToggle_{{ i }}"
+								       name="alignmentAdvancedToggle_{{ i }}"
+								/>
+								<label for="alignmentAdvancedToggle_{{ i }}">
+									<span class="formsectiontoggle-x-showtext">Show</span>
+									<span class="formsectiontoggle-x-hidetext">Hide</span>
+									Advanced Options
+								</label>
+								<div class="l-formsectiontoggle-x-hidden">
+									<bg-formfield-text
+										[control]="alignment.controls.target_framework"
+										label="Framework"
+										id="alignment_target_framework_{{ i }}"
+									></bg-formfield-text>
+									<bg-formfield-text
+										[control]="alignment.controls.target_code"
+										label="Code"
+										id="alignment_target_code_{{ i }}"
+									></bg-formfield-text>
+								</div>
+							</div>
+							<button class="l-formsectionnested-x-remove formsectionremove"
+							        aria-labelledby="heading-alignmentsubsection"
+							        (click)="removeAlignment(alignment)"
+							        *ngIf="alignments.length > 1"
+							        type="button"
+							>Remove</button>
+						</div>
+						<button class="buttonicon buttonicon-add" type="button" (click)="addAlignment()">Add Another</button>
+					</div>
+				</div>
+				<button class="l-formsection-x-remove formsectionremove"
+				        aria-labelledby="heading-alignment"
+				        (click)="disableAlignments()"
+				        type="button"
+				>Remove</button>
+			</div>
+
 			<!-- Footer -->
+			<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
+				<!-- Optional Detail Enable Panel -->
+				<h3 class="l-formsection-x-legend title title-ruled title-ruledadd" id="heading-addoptionaldetails">Add Optional Details</h3>
+				<div class="l-formsection-x-container">
+					<div class="l-formsection-x-inputs">
+						<div class="l-squareiconcards">
+							<button class="squareiconcard squareiconcard-alignment"
+											type="button"
+											(click)="enableAlignments()"
+											[disabled]="alignmentsEnabled"
+							>
+								<span class="squareiconcard-x-container">Alignment</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
 			<hr class="rule l-rule">
 			<div class="l-childrenhorizontal l-childrenhorizontal-right">
 				<button
@@ -391,10 +498,17 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 					learningOutcome: [badgeClass.extensions['LearningOutcomeExtension'] ? badgeClass.extensions['LearningOutcomeExtension']['learningOutcome']: '' ]
 				}),
 			}),
+			alignments: this.fb.array(badgeClass.alignments.map(alignment => this.fb.group({
+				target_name: [alignment.target_name, Validators.required],
+				target_url: [alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl])],
+				target_description: [alignment.target_description],
+				target_framework: [alignment.target_framework],
+				target_code: [alignment.target_code],
+			} as AlignmentFormGroup<any[]>)))
 		} as BasicBadgeForm<any[], FormArray, FormGroup> , {
 			validator: this.criteriaRequired
 		});
-		// this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
+		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
 		this.initializeTypedLanguage()
 	}
 
@@ -463,6 +577,69 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Alignments
+	alignmentsEnabled = false;
+	savedAlignments: AbstractControl[] = null;
+
+
+	get alignments() {
+		return this.badgeClassForm.controls["alignments"] as FormArray;
+	}
+
+	enableAlignments() {
+		this.alignmentsEnabled = true;
+		if (this.savedAlignments) {
+			this.savedAlignments.forEach(a => this.alignments.push(a));
+			this.savedAlignments = null;
+		}
+		if (this.alignments.length == 0) {
+			this.addAlignment();
+		}
+	}
+
+	addAlignment() {
+		const group = this.fb.group({
+			target_name: ['', Validators.required],
+			target_url: ['', Validators.compose([Validators.required, UrlValidator.validUrl])],
+			target_description: [''],
+			target_framework: [''],
+			target_code: [''],
+		} as AlignmentFormGroup<any[]>);
+
+		this.alignments.push(group);
+	}
+
+	disableAlignments() {
+		this.alignmentsEnabled = false;
+
+		// Save the alignments so that they aren't validated after being removed, but can be restored if the user chooses to enable alignments again
+		this.savedAlignments = this.alignments.controls.slice();
+		while (this.alignments.length > 0)
+			this.alignments.removeAt(0);
+	}
+
+	async removeAlignment(alignment: FormGroup) {
+		const controls: AlignmentFormGroup<FormControl> = alignment.controls as any;
+
+		if (controls.target_name.value.trim().length > 0
+			|| controls.target_url.value.trim().length > 0
+			|| controls.target_description.value.trim().length > 0
+			|| controls.target_framework.value.trim().length > 0
+			|| controls.target_code.value.trim().length > 0
+		) {
+			if (! await this.dialogService.confirmDialog.openTrueFalseDialog({
+				dialogTitle: "Remove Alignment?",
+				dialogBody: "Are you sure you want to remove this alignment? This action cannot be undone.",
+				resolveButtonLabel: "Remove Alignment",
+				rejectButtonLabel: "Cancel"
+			})) return;
+		}
+
+		this.alignments.removeAt(this.alignments.controls.indexOf(alignment));
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	criteriaRequired(formGroup: FormGroup): {[id: string]: boolean} | null {
 		const controls: BasicBadgeForm<FormControl, FormArray, FormArray> = formGroup.controls as any;
@@ -503,7 +680,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.image = formState.badge_image;
 			this.existingBadgeClass.criteria_text = formState.badge_criteria_text;
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
-			// this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
+			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
 			this.existingBadgeClass.extensions = this.filterExtensions(formState.extensions);
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
@@ -513,7 +690,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				image: formState.badge_image,
 				criteria_text: formState.badge_criteria_text,
 				criteria_url: formState.badge_criteria_url,
-				// alignment: this.alignmentsEnabled ? formState.alignments : [],
+				alignment: this.alignmentsEnabled ? formState.alignments : [],
 				extensions: this.filterExtensions(formState.extensions),
 			} as ApiBadgeClassForCreation;
 
@@ -545,11 +722,20 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 }
 
+interface AlignmentFormGroup<T> {
+	target_name: T;
+	target_url: T;
+	target_description: T;
+	target_framework: T;
+	target_code: T;
+}
+
 interface BasicBadgeForm<BasicType, AlignmentsType, ExtensionsType> {
 	badge_name: BasicType;
 	badge_image: BasicType;
 	badge_description: BasicType;
 	badge_criteria_url: BasicType;
 	badge_criteria_text: BasicType;
+	alignments: AlignmentsType;
 	extensions: ExtensionsType;
 }
