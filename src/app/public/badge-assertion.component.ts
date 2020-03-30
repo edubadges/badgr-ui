@@ -148,10 +148,11 @@ import { saveAs } from "file-saver";
 	
 							<!-- evidence -->
 							<section>
-								<h1 *ngIf="assertion.evidence?.length>0 || assertion.narrative">Evidence</h1>
+								<h1 *ngIf="assertion.narrative">Personal Note</h1>
 								<show-more *ngIf="assertion.narrative">
 									<markdown-display [value]="assertion.narrative"></markdown-display>
 								</show-more>
+								<h1 *ngIf="assertion.evidence?.length>0">Evidence</h1>
 								<div class="bordered l-padding-2x l-marginBottom-2x"
 								     *ngFor="let evidence of assertion.evidence; let i=index">
 									<show-more *ngIf="evidence.narrative">
