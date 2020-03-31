@@ -316,8 +316,8 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 					delete this.issuer.faculty['slug']
 					this.editControls.issuer_faculty.setValue(JSON.stringify(this.issuer.faculty), { emitEvent: false });
 				}
-				this.editControls.issuer_extensions['controls']['GradingTableExtension'].setValue(this.issuer.extensions['GradingTableExtension'], { emitEvent: false });
-				this.editControls.issuer_extensions['controls']['InstitutionIdentifierExtension'].setValue(this.issuer.extensions['InstitutionIdentifierExtension'], { emitEvent: false });
+				this.editControls.issuer_extensions['controls']['GradingTableExtension'].setValue(this.issuer.extensions['GradingTableExtension']['gradingTable'], { emitEvent: false });
+				this.editControls.issuer_extensions['controls']['InstitutionIdentifierExtension'].setValue(this.issuer.extensions['InstitutionIdentifierExtension']['value'], { emitEvent: false });
 
 
 				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");
@@ -370,12 +370,17 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		}
 
 		if (formState.issuer_extensions.InstitutionIdentifierExtension) {
-			issuer['extensions']['InstitutionIdentifierExtension'] = formState.issuer_extensions.InstitutionIdentifierExtension
+			issuer['extensions']['InstitutionIdentifierExtension'] = {
+				"identifier_type": 'brin',
+				'value': formState.issuer_extensions.InstitutionIdentifierExtension
+			}
 		} else {
 			delete issuer['extensions']['InstitutionIdentifierExtension']
 		}
 		if (formState.issuer_extensions.GradingTableExtension) {
-			issuer['extensions']['GradingTableExtension'] = formState.issuer_extensions.GradingTableExtension
+			issuer['extensions']['GradingTableExtension'] = {
+				'gradingTable': formState.issuer_extensions.GradingTableExtension
+			}
 		} else {
 			delete issuer['extensions']['GradingTableExtension']
 		}
