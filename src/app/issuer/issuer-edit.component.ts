@@ -317,7 +317,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 					this.editControls.issuer_faculty.setValue(JSON.stringify(this.issuer.faculty), { emitEvent: false });
 				}
 				this.editControls.issuer_extensions['controls']['GradingTableExtension'].setValue(this.issuer.extensions['GradingTableExtension']['gradingTable'], { emitEvent: false });
-				this.editControls.issuer_extensions['controls']['InstitutionIdentifierExtension'].setValue(this.issuer.extensions['InstitutionIdentifierExtension']['value'], { emitEvent: false });
+				this.editControls.issuer_extensions['controls']['InstitutionIdentifierExtension'].setValue(this.issuer.extensions['InstitutionIdentifierExtension']['institutionIdentifier'], { emitEvent: false });
 
 
 				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");
@@ -371,8 +371,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 
 		if (formState.issuer_extensions.InstitutionIdentifierExtension) {
 			issuer['extensions']['InstitutionIdentifierExtension'] = {
-				"identifier_type": 'brin',
-				'value': formState.issuer_extensions.InstitutionIdentifierExtension
+				'institutionIdentifier': formState.issuer_extensions.InstitutionIdentifierExtension
 			}
 		} else {
 			delete issuer['extensions']['InstitutionIdentifierExtension']

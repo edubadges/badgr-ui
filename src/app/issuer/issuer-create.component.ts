@@ -331,8 +331,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		};
 		if (formState.issuer_extensions.InstitutionIdentifierExtension) {
 			issuer['extensions']['InstitutionIdentifierExtension'] = {
-				"identifier_type": 'brin',
-				'value' : formState.issuer_extensions.InstitutionIdentifierExtension
+				'institutionIdentifier' : formState.issuer_extensions.InstitutionIdentifierExtension
 			}
 		}
 		if (formState.issuer_extensions.GradingTableExtension) {
