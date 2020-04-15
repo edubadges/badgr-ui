@@ -117,7 +117,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 						></bg-formfield-text>
 					</div>
 					<div class="l-formsection-x-help">
-						<p class="text text-small">Consult DUO CROHO OR SBB CREBO register.</p>
+						<p class="text text-small"><a href="https://apps.duo.nl/MCROHO/pages/zoeken.jsf">Consult DUO CROHO </a> OR SBB CREBO register.</p>
 					</div>
 				</div>
 				<div class="l-formsection-x-container">
