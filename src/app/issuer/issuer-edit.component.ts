@@ -172,7 +172,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 								<div class="l-formsection-x-help">
 									<div class="formfield">
 										<p class="label-secondary">
-											<a target="_blank" href="https://duo.nl/open_onderwijsdata">BRIN: basisregister instellingen</a>
+											<a target="_blank" href="https://apps.duo.nl/MCROHO/pages/zoeken.jsf">BRIN: basisregister instellingen</a>
 											<a target="_blank" href="https://www.iau-aiu.net">IAU: International Association of Universities</a>
 										</p>
 									</div>
