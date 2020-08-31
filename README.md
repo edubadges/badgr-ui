@@ -1,3 +1,10 @@
+🚨 Warning
+
+## This repository is DEPRECATED and not maintained anymore. Fork and use at your own risk.
+
+It is superseded by edubadges-ui. See https://github.com/edubadges/edubadges-ui.
+
+
 ![Edubadges](logo.png)
 # Edubadges UI (Frontend)
 An Angular 2 based front end for the edubadges-server. Uses TypeScript with ES6 style module loading and a webpack-based build process. This is the browser UI for [edubadges-server](https://github.com/edubadges/badgr-server).
